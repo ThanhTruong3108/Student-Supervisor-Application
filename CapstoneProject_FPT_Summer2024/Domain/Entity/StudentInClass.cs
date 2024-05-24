@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Domain.Entity;
+
+public partial class StudentInClass
+{
+    public int StudentInClassId { get; set; }
+
+    public int ClassId { get; set; }
+
+    public int StudentId { get; set; }
+
+    public DateTime EnrollDate { get; set; }
+
+    public bool IsSupervisor { get; set; }
+
+    public string Status { get; set; } = null!;
+
+    public virtual ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new List<AttendanceRecord>();
+
+    public virtual Class Class { get; set; } = null!;
+
+    public virtual Student Student { get; set; } = null!;
+
+    public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
+}
