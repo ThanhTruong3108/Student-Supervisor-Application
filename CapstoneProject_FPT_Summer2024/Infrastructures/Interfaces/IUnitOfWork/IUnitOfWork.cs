@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentSupervisorService.Interfaces.IUnitOfWork
+namespace Infrastructures.Interfaces.IUnitOfWork
 {
     public interface IUnitOfWork
     {

@@ -16,8 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infrastructures\Infrastructures.csproj" />
     <ProjectReference Include="..\StudentSupervisorService\StudentSupervisorService.csproj" />
   </ItemGroup>
 
