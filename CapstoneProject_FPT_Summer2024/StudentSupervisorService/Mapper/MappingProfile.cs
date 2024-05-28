@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructures.Mapper
+namespace StudentSupervisorService.Mapper
 {
-    public class MappingProfile : Profile
+    public class MappingProfile
     {
     }
 }

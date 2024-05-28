@@ -15,8 +15,4 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\StudentSupervisorService\StudentSupervisorService.csproj" />
-  </ItemGroup>
-
 </Project>
