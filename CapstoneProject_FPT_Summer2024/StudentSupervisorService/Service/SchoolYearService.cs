@@ -1,0 +1,20 @@
+﻿using StudentSupervisorService.Models.Request.SchoolYearRequest;
+using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.SchoolYearResponse;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StudentSupervisorService.Service
+{
+    public interface SchoolYearService
+    {
+        Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears();
+        Task<DataResponse<ResponseOfSchoolYear>> GetSchoolYearById(int id);
+        Task<DataResponse<ResponseOfSchoolYear>> CreateSchoolYear(RequestCreateSchoolYear request);
+        Task DeleteSchoolYear(int tennantId);
+        Task<DataResponse<ResponseOfSchoolYear>> UpdateSchoolYear(int id, RequestCreateSchoolYear request);
+    }
+}
