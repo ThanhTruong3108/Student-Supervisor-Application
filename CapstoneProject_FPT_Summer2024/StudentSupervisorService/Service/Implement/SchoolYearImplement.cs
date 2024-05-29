@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Azure;
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Authentication;
 using StudentSupervisorService.Authentication.Implement;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
@@ -61,17 +63,34 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears()
+        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(int page, int pageSize, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfSchoolYear>>();
 
             try
             {
-                var schoolYears = _unitOfWork.SchoolYear.GetAll().ToList();
+                var schoolYears = await _unitOfWork.SchoolYear.GetAllSchoolYears();
                 if (schoolYears is null)
                 {
-                    throw new Exception("The schoolyears list is empty");
+                    response.Message = "The SchoolYear list is empty";
+                    response.Success = true;
                 }
+
+                // Sắp xếp danh sách năm học theo yêu cầu
+                var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                if (sortOrder == "desc")
+                {
+                    schoolYearDTO = schoolYearDTO.OrderByDescending(r => r.Year).ToList();
+                }
+                else
+                {
+                    schoolYearDTO = schoolYearDTO.OrderBy(r => r.Year).ToList();
+                }
+
+                // Thực hiện phân trang
+                var startIndex = (page - 1) * pageSize;
+                var pagedProducts = schoolYearDTO.Skip(startIndex).Take(pageSize).ToList();
+
                 response.Data = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
                 response.Message = "List schoolYears";
                 response.Success = true;

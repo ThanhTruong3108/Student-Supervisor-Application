@@ -24,5 +24,32 @@ namespace Infrastructures.Repository
         {
             return _context.HighSchools.FirstOrDefault(r => r.SchoolId == id);
         }
+
+        public async Task<List<HighSchool>> SearchHighSchools(string? code, string? name, string? address, string? phone)
+        {
+            var query = _context.HighSchools.AsQueryable();
+
+            if (!string.IsNullOrEmpty(code))
+            {
+                query = query.Where(p => p.Code.Contains(code));
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(address))
+            {
+                query = query.Where(p => p.Address.Contains(address));
+            }
+
+            if (!string.IsNullOrEmpty(phone))
+            {
+                query = query.Where(p => p.Phone.Contains(phone));
+            }
+            
+            return await query.ToListAsync();
+        }
     }
 }

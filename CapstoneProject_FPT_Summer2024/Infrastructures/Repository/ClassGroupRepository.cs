@@ -11,7 +11,7 @@ namespace Infrastructures.Repository
 {
     public class ClassGroupRepository : GenericRepository<ClassGroup>, IClassGroupRepository
     {
-        public ClassRepository(SchoolRulesContext context) : base(context) { }
+        public ClassGroupRepository(SchoolRulesContext context) : base(context) { }
 
 
     }

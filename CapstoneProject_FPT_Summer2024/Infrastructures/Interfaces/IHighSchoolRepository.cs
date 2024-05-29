@@ -12,5 +12,6 @@ namespace Infrastructures.Interfaces
     {
         Task<List<HighSchool>> GetAllHighSchools();
         Task<HighSchool> GetHighSchoolById(int id);
+        Task<List<HighSchool>> SearchHighSchools(string? code, string? name, string? address, string? phone);
     }
 }

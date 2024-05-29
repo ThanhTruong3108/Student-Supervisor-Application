@@ -20,17 +20,35 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
         }
 
-        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools()
+        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(int page, int pageSize, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfHighSchool>>();
 
             try
             {
-                var highSchools = _unitOfWork.HighSchool.GetAll().ToList();
+                var highSchools = await _unitOfWork.HighSchool.GetAllHighSchools();
                 if (highSchools is null)
                 {
-                    throw new Exception("The highSchool list is empty");
+                    response.Message = "The HighSchool list is empty";
+                    response.Success = true;
                 }
+
+                // Sắp xếp danh sách trường học theo yêu cầu
+                var highSchoolDTO = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
+                if (sortOrder == "desc")
+                {
+                    highSchoolDTO = highSchoolDTO.OrderByDescending(r => r.Code).ToList();
+                }
+                else
+                {
+                    highSchoolDTO = highSchoolDTO.OrderBy(r => r.Code).ToList();
+                }
+
+                // Thực hiện phân trang
+                var startIndex = (page - 1) * pageSize;
+                var pagedProducts = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
+
+
                 response.Data = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
                 response.Message = "List highSchools";
                 response.Success = true;
@@ -62,6 +80,46 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? address, string? phone, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfHighSchool>>();
+
+            try
+            {
+                var highSchools = await _unitOfWork.HighSchool.SearchHighSchools(code, name, address, phone);
+                if (highSchools is null || highSchools.Count == 0)
+                {
+                    response.Message = "No HighSchools found matching the criteria";
+                    response.Success = true;
+                }
+                else
+                {
+                    var highSchoolDTO = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
+
+                    // Thực hiện sắp xếp
+                    if (sortOrder == "desc")
+                    {
+                        highSchoolDTO = highSchoolDTO.OrderByDescending(p => p.Code).ToList();
+                    }
+                    else
+                    {
+                        highSchoolDTO = highSchoolDTO.OrderBy(p => p.Code).ToList();
+                    }
+
+                    response.Data = highSchoolDTO;
+                    response.Message = "HighSchool found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
 

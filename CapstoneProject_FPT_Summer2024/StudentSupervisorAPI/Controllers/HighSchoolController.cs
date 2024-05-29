@@ -16,11 +16,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools()
+        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools(int page = 1, int pageSize = 5, string sortOrder = "asc")
         {
             try
             {
-                var highSchools = await _service.GetAllHighSchools();
+                var highSchools = await _service.GetAllHighSchools(page, pageSize, sortOrder);
                 return Ok(highSchools);
             }
             catch (Exception ex)
@@ -40,6 +40,19 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchProducts(string? code = null, string? name = null, string? address = null, string? phone = null, string sortOrder = "asc")
+        {
+            try
+            {
+                var highSchools = await _service.SearchHighSchools(code, name, address, phone, sortOrder);
+                return Ok(highSchools);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }
