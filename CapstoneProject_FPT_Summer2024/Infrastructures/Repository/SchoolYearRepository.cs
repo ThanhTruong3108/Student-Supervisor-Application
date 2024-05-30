@@ -28,5 +28,27 @@ namespace Infrastructures.Repository
                .Include(c => c.School)
                .FirstOrDefault(s => s.SchoolYearId == id);
         }
+
+        public async Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate)
+        {
+            var query = _context.SchoolYears.AsQueryable();
+
+            if (year.HasValue)
+            {
+                query = query.Where(p => p.Year == year.Value);
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(p => p.StartDate >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(p => p.EndDate <= endDate.Value);
+            }
+
+            return await query.Include(c => c.School).ToListAsync();
+        }
     }
 }

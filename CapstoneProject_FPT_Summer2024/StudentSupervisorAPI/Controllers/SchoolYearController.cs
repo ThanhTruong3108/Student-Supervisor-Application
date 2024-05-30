@@ -42,6 +42,21 @@ namespace StudentSupervisorAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchSchoolYears(short? year = null, DateTime? startDate = null, DateTime? enddate = null, string sortOrder = "asc")
+        {
+            try
+            {
+                var schoolYears = await _service.SearchSchoolYears(year, startDate, enddate, sortOrder);
+                return Ok(schoolYears);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfSchoolYear>>> CreateSchoolYear(RequestCreateSchoolYear request)
         {

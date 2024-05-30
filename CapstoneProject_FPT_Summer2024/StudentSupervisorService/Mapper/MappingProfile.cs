@@ -17,19 +17,20 @@ namespace StudentSupervisorService.Mapper
         {
             CreateMap<HighSchool, ResponseOfHighSchool>();
 
+            
+            
+            
+            
+            
+     //-------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
-                .ForMember(re => re.SchoolYearId, act => act.MapFrom(src => src.SchoolYearId))
-                .ForMember(re => re.Year, act => act.MapFrom(src => src.Year))
-                .ForMember(re => re.StartDate, act => act.MapFrom(src => src.StartDate))
-                .ForMember(re => re.EndDate, act => act.MapFrom(src => src.EndDate))
-                .ForMember(re => re.SchoolId, act => act.MapFrom(src => src.SchoolId))
-                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
+               .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 
-            CreateMap<RequestCreateSchoolYear, SchoolYear>()
-               .ForMember(re => re.SchoolId, act => act.MapFrom(src => src.SchoolId))
-               .ForMember(re => re.Year, act => act.MapFrom(src => src.Year))
-               .ForMember(re => re.StartDate, act => act.MapFrom(src => src.StartDate))
-               .ForMember(re => re.EndDate, act => act.MapFrom(src => src.EndDate));
+            CreateMap<RequestCreateSchoolYear, SchoolYear>();
+    //--------------------------------------------------------------------------------------------------------------
+
+
+
         }
     }
 }

@@ -128,6 +128,46 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfSchoolYear>>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfSchoolYear>>();
+
+            try
+            {
+                var schoolYears = await _unitOfWork.SchoolYear.SearchSchoolYears(year, startDate, endDate);
+                if (schoolYears is null || schoolYears.Count == 0)
+                {   
+                    response.Message = "No SchoolYears found matching the criteria";
+                    response.Success = true;
+                }
+                else
+                {
+                    var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+
+                    // Thực hiện sắp xếp
+                    if (sortOrder == "desc")
+                    {
+                        schoolYearDTO = schoolYearDTO.OrderByDescending(p => p.Year).ToList();
+                    }
+                    else
+                    {
+                        schoolYearDTO = schoolYearDTO.OrderBy(p => p.Year).ToList();
+                    }
+
+                    response.Data = schoolYearDTO;
+                    response.Message = "SchoolYears found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfSchoolYear>> UpdateSchoolYear(int id, RequestCreateSchoolYear request)
         {
             var response = new DataResponse<ResponseOfSchoolYear>();
