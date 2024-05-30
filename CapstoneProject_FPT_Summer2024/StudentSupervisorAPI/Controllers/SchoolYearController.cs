@@ -6,7 +6,7 @@ using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/schoolyears")]
+    [Route("api/school-years")]
     [ApiController]
     public class SchoolYearController : ControllerBase
     {
