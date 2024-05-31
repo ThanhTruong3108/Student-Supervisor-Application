@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IViolationConfigRepository : IGenericRepository<ViolationConfig>
     {
+        Task<List<ViolationConfig>> GetAllViolationConfigs();
+        Task<ViolationConfig> GetViolationConfigById(int id);
+        Task<List<ViolationConfig>> SearchViolationConfigs(int? evaluationId, int? vioTypeId ,string? code, string? name);
     }
 }

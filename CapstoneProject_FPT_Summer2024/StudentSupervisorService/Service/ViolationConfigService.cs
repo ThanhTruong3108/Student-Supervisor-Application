@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.ViolationConfigResponse;
+using StudentSupervisorService.Models.Request.ViolationConfigRequest;
 
 namespace StudentSupervisorService.Service
 {
     public interface ViolationConfigService
     {
+        Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs(int page, int pageSize, string sortOrder);
+        Task<DataResponse<ViolationConfigResponse>> GetViolationConfigById(int id);
+        Task<DataResponse<ViolationConfigResponse>> CreateViolationConfig(RequestOfViolationConfig request);
+        Task DeleteViolationConfig(int id);
+        Task<DataResponse<ViolationConfigResponse>> UpdateViolationConfig(int id, RequestOfViolationConfig request);
+        Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? evaluationId, int? vioTypeId, string? code, string? name, string sortOrder);
     }
 }
