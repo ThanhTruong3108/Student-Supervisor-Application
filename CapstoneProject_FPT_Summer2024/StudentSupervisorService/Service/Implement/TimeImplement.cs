@@ -75,9 +75,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Thực hiện phân trang
                 var startIndex = (page - 1) * pageSize;
-                var pagedProducts = timeDTO.Skip(startIndex).Take(pageSize).ToList();
+                var pagedTimes = timeDTO.Skip(startIndex).Take(pageSize).ToList();
 
-                response.Data = _mapper.Map<List<ResponseOfTime>>(times);
+                response.Data = pagedTimes;
                 response.Message = "List TimeS";
                 response.Success = true;
             }

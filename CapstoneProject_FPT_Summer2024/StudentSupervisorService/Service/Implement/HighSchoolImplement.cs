@@ -46,10 +46,10 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Thực hiện phân trang
                 var startIndex = (page - 1) * pageSize;
-                var pagedProducts = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
+                var pagedHighSchools = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
 
 
-                response.Data = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
+                response.Data = pagedHighSchools;
                 response.Message = "List highSchools";
                 response.Success = true;
             }

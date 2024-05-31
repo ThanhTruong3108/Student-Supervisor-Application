@@ -89,9 +89,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Thực hiện phân trang
                 var startIndex = (page - 1) * pageSize;
-                var pagedProducts = schoolYearDTO.Skip(startIndex).Take(pageSize).ToList();
+                var pageSchoolYears = schoolYearDTO.Skip(startIndex).Take(pageSize).ToList();
 
-                response.Data = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                response.Data = pageSchoolYears;
                 response.Message = "List schoolYears";
                 response.Success = true;
             }
