@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<List<User>> GetAllUsers();
+        Task<User> GetUserById(int id);
+        Task<List<User>> SearchUsers(int? role ,string? code, string? name, string? phone);
     }
 }
