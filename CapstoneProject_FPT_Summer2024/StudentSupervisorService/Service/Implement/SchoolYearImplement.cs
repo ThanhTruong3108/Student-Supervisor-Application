@@ -50,15 +50,15 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteSchoolYear(int tennantId)
+        public async Task DeleteSchoolYear(int id)
         {
-            var schoolYear = _unitOfWork.SchoolYear.GetById(tennantId);
+            var schoolYear = _unitOfWork.SchoolYear.GetById(id);
             if (schoolYear is null)
             {
-                throw new Exception("Can not found by" + tennantId);
+                throw new Exception("Can not found by" + id);
             }
             schoolYear.Status = SchoolYearEnum.INACTIVE.ToString();
-            //schoolYear.Status = 0;
+
             _unitOfWork.SchoolYear.Update(schoolYear);
             _unitOfWork.Save();
         }
