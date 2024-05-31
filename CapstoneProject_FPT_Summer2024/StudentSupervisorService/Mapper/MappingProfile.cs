@@ -4,10 +4,12 @@ using StudentSupervisorService.Models.Request.HighSchoolRequest;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Request.TimeRequest;
 using StudentSupervisorService.Models.Request.UserRequest;
+using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.TimeResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +45,15 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.RoleName, act => act.MapFrom(src => src.Role.RoleName));
 
             CreateMap<RequestOfUser, User>();
+
+
+            CreateMap<Violation, ResponseOfViolation>()
+               .ForMember(re => re.ClassName, act => act.MapFrom(src => src.Class.Name))
+               .ForMember(re => re.VioTypeName, act => act.MapFrom(src => src.ViolationType.Name))
+               .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name));
+
+            CreateMap<RequestOfViolation, Violation>()
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
             //--------------------------------------------------------------------------------------------------------------
 
 
