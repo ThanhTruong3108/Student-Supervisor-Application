@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IClassReposirory : IGenericRepository<Class>
     {
+        Task<List<Class>> GetAllClasses();
+        Task<Class> GetClassById(int id);
+        Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? room, string? name, int? totalPoint);
+        Task<Class> CreateClass(Class classEntity);
+        Task<Class> UpdateClass(Class classEntity);
+        Task DeleteClass(int id);
     }
 }

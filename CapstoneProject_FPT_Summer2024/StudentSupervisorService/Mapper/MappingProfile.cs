@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Entity;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
+using StudentSupervisorService.Models.Response.ClassGroupResponse;
+using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using System;
@@ -16,13 +18,14 @@ namespace StudentSupervisorService.Mapper
         public MappingProfile()
         {
             CreateMap<HighSchool, ResponseOfHighSchool>();
+            CreateMap<Class, ClassResponse>();
+            CreateMap<ClassGroup, ClassGroupResponse>();
 
-            
-            
-            
-            
-            
-     //-------------------------------------------------------------------------------------------------------------       
+
+
+
+
+            //-------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 

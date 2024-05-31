@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IClassGroupRepository : IGenericRepository<ClassGroup>
     {
+        Task<List<ClassGroup>> GetAllClassGroups();
+        Task<ClassGroup> GetClassGroupById(int id);
+        Task<List<ClassGroup>> SearchClassGroups(string? name, string? hall, string? status);
+        Task<ClassGroup> CreateClassGroup(ClassGroup classGroupEntity);
+        Task<ClassGroup> UpdateClassGroup(ClassGroup classGroupEntity);
+        Task DeleteClassGroup(int id);
     }
 }
