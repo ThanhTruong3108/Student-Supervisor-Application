@@ -8,6 +8,7 @@ using StudentSupervisorService.Models.Request.ViolationConfigRequest;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Request.ViolationReportRequest;
 using StudentSupervisorService.Models.Request.ViolationRequest;
+using StudentSupervisorService.Models.Request.ViolationTypeRequest;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.TimeResponse;
@@ -16,6 +17,7 @@ using StudentSupervisorService.Models.Response.ViolationConfigResponse;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using StudentSupervisorService.Models.Response.ViolationReportResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
+using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,6 +80,12 @@ namespace StudentSupervisorService.Mapper
               .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Violation.Name));
 
             CreateMap<RequestOfVioReport, ViolationReport>();
+
+            CreateMap<ViolationType, ResponseOfVioType>()
+              .ForMember(re => re.VioTypeName, act => act.MapFrom(src => src.Name))
+              .ForMember(re => re.VioGroupName, act => act.MapFrom(src => src.ViolationGroup.Name));
+
+            CreateMap<RequestOfVioType, ViolationType>();
             //--------------------------------------------------------------------------------------------------------------
 
 
