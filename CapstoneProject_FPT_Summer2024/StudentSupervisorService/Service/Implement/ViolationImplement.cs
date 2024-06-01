@@ -67,7 +67,7 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                 }
 
-                // Sắp xếp danh sách năm học theo yêu cầu
+                // Sắp xếp danh sách Violation theo yêu cầu
                 var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 if (sortOrder == "desc")
                 {
@@ -101,13 +101,13 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var schoolYear = await _unitOfWork.Violation.GetViolationById(id);
-                if (schoolYear is null)
+                var violation = await _unitOfWork.Violation.GetViolationById(id);
+                if (violation is null)
                 {
                     throw new Exception("The Violation does not exist");
                 }
-                response.Data = _mapper.Map<ResponseOfViolation>(schoolYear);
-                response.Message = $"ViolationId {schoolYear.ViolationId}";
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Message = $"ViolationId {violation.ViolationId}";
                 response.Success = true;
             }
             catch (Exception ex)
@@ -146,7 +146,7 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = violationDTO;
-                    response.Message = "SchoolYears found";
+                    response.Message = "Violations found";
                     response.Success = true;
                 }
             }

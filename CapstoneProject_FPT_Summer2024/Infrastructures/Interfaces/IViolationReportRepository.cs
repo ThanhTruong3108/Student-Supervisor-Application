@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IViolationReportRepository : IGenericRepository<ViolationReport>
     {
+        Task<List<ViolationReport>> GetAllVioReports();
+        Task<ViolationReport> GetVioReportById(int id);
+        Task<List<ViolationReport>> SearchVioReports(int? studentInClassId, int? violationId);
     }
 }

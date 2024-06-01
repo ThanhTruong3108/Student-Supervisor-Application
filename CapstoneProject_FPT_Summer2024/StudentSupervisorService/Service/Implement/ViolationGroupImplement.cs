@@ -46,7 +46,7 @@ namespace StudentSupervisorService.Service.Implement
                 throw new Exception("Can not found by" + id);
             }
 
-            _unitOfWork.ViolationGroup.Update(vioGroup);
+            _unitOfWork.ViolationGroup.Remove(vioGroup);
             _unitOfWork.Save();
         }
 
@@ -64,7 +64,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Sắp xếp danh sách năm học theo yêu cầu
+                // Sắp xếp danh sách Violation Group theo yêu cầu
                 var vioGroupDTO = _mapper.Map<List<ResponseOfVioGroup>>(vioGroups);
                 if (sortOrder == "desc")
                 {
