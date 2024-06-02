@@ -15,6 +15,7 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Service.Implement;
 using StudentSupervisorService.Mapper;
 using Microsoft.EntityFrameworkCore.Internal;
+using StudentSupervisorService.CloudinaryConfig;
 
 namespace StudentSupervisorService
 {
@@ -26,6 +27,13 @@ namespace StudentSupervisorService
             services.AddDbContext<SchoolRulesContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+
+            services.Configure<CloudinarySetting>(options =>
+            {
+                options.CloudName = configuration.GetSection("CloudinarySetting:CloudName").Value;
+                options.ApiKey = configuration.GetSection("CloudinarySetting:ApiKey").Value;
+                options.ApiSecret = configuration.GetSection("CloudinarySetting:ApiSecret").Value;
             });
 
             //Add DI Container

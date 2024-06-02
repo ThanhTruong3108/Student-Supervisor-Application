@@ -11,9 +11,11 @@ namespace StudentSupervisorAPI.Controllers
     public class StudentController : ControllerBase
     {
         private readonly StudentService studentService;
-        public StudentController(StudentService studentService)
+        private readonly ImageUrlService imageUrlService;
+        public StudentController(StudentService studentService, ImageUrlService imageUrlService)
         {
             this.studentService = studentService;
+            this.imageUrlService = imageUrlService;
         }
 
         [HttpGet]
@@ -65,5 +67,40 @@ namespace StudentSupervisorAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        //[HttpPost("upload")]
+        //public async Task<ActionResult<DataResponse<List<string>>>> UploadImage(List<IFormFile> listImage)
+        //{
+        //    try
+        //    {
+        //        var results = await imageUrlService.UploadImage(listImage);
+
+        //        // Extract URLs from the two images
+        //        var urls = results.Select(result => result.SecureUrl.ToString()).ToList();
+        //        return Ok(urls);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+        //[HttpDelete("publicId")]
+        //public async Task<ActionResult<DataResponse<string>>> DeleteImage(string publicId)
+        //{
+        //    try
+        //    {
+        //        var result = await imageUrlService.DeleteImage(publicId);
+        //        if (result.Error != null)
+        //        {
+        //            return BadRequest(result.Error.Message);
+        //        }
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }
