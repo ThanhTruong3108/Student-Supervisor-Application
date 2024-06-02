@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentSupervisorService.Models.Request.HighSchoolRequest;
+using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
+using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -54,6 +57,25 @@ namespace StudentSupervisorAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [HttpPost]
+        public async Task<ActionResult<DataResponse<ResponseOfHighSchool>>> CreateHighSchool(RequestOfHighSchool request)
+        {
+            var createdHighSchool = await _service.CreateHighSchool(request);
+            return createdHighSchool == null ? NotFound() : Ok(createdHighSchool);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DataResponse<ResponseOfHighSchool>>> UpdateHighSchool(int id, RequestOfHighSchool request)
+        {
+            var updatedHighSchool = await _service.UpdateHighSchool(id, request);
+            return updatedHighSchool == null ? NotFound() : Ok(updatedHighSchool);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteHighSchool(int id)
+        {
+            var deletedHighSchool = _service.DeleteHighSchool(id);
+            return deletedHighSchool == null ? NoContent() : Ok(deletedHighSchool);
         }
     }
 }

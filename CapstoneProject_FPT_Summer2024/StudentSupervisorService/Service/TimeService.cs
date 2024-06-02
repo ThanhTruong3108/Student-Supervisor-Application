@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.TimeResponse;
+using StudentSupervisorService.Models.Request.TimeRequest;
 
 namespace StudentSupervisorService.Service
 {
     public interface TimeService
     {
+        Task<DataResponse<List<ResponseOfTime>>> GetAllTimes(int page, int pageSize, string sortOrder);
+        Task<DataResponse<ResponseOfTime>> GetTimeById(int id);
+        Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request);
+        Task DeleteTime(int timeId);
+        Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request);
+        Task<DataResponse<List<ResponseOfTime>>> SearchTimes(byte? slot, TimeSpan? time, string sortOrder);
     }
 }

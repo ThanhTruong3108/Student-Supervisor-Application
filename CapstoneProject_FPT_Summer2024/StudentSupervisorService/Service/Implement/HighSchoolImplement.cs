@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using StudentSupervisorService.Models.Request.HighSchoolRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
+using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +22,40 @@ namespace StudentSupervisorService.Service.Implement
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<DataResponse<ResponseOfHighSchool>> CreateHighSchool(RequestOfHighSchool request)
+        {
+            var response = new DataResponse<ResponseOfHighSchool>();
+
+            try
+            {
+                var createHighSchool = _mapper.Map<HighSchool>(request);
+                createHighSchool.Status = HighSchoolEnum.ACTIVE.ToString();
+                _unitOfWork.HighSchool.Add(createHighSchool);
+                _unitOfWork.Save();
+                response.Data = _mapper.Map<ResponseOfHighSchool>(createHighSchool);
+                response.Message = "Create Successfully.";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task DeleteHighSchool(int id)
+        {
+            var highSchool = _unitOfWork.HighSchool.GetById(id);
+            if (highSchool is null)
+            {
+                throw new Exception("Can not found by" + id);
+            }
+            highSchool.Status = HighSchoolEnum.INACTIVE.ToString();
+            _unitOfWork.HighSchool.Update(highSchool);
+            _unitOfWork.Save();
         }
 
         public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(int page, int pageSize, string sortOrder)
@@ -46,10 +84,10 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Thực hiện phân trang
                 var startIndex = (page - 1) * pageSize;
-                var pagedProducts = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
+                var pagedHighSchools = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
 
 
-                response.Data = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
+                response.Data = pagedHighSchools;
                 response.Message = "List highSchools";
                 response.Success = true;
             }
@@ -120,6 +158,40 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<ResponseOfHighSchool>> UpdateHighSchool(int id, RequestOfHighSchool request)
+        {
+            var response = new DataResponse<ResponseOfHighSchool>();
+
+            try
+            {
+                var highSchool = _unitOfWork.HighSchool.GetById(id);
+                if (highSchool is null)
+                {
+                    response.Message = "Can not found HighSchool";
+                    response.Success = false;
+                    return response;
+                }
+                highSchool.Code = request.Code;
+                highSchool.Name = request.Name;
+                highSchool.Address = request.Address;
+                highSchool.Phone = request.Phone;
+                highSchool.ImageUrl = request.ImageUrl;
+                highSchool.WebUrl = request.WebUrl;
+                _unitOfWork.HighSchool.Update(highSchool);
+                _unitOfWork.Save();
+                response.Data = _mapper.Map<ResponseOfHighSchool>(highSchool);
+                response.Success = true;
+                response.Message = "Update Successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
                 response.Success = false;
             }
 

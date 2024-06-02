@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface ITimeRepository : IGenericRepository<Time>
     {
+        Task<List<Time>> GetAllTimes();
+        Task<Time> GetTimeById(int id);
+        Task<List<Time>> SearchTimes(byte? slot, TimeSpan? time);
     }
 }
