@@ -27,12 +27,12 @@ namespace StudentSupervisorAPI.Controllers
                 return Ok(classesResponse);
             } catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DataResponse<ClassResponse>>> GetClasById(int id)
+        public async Task<ActionResult<DataResponse<ClassResponse>>> GetClassById(int id)
         {
             try
             {
@@ -56,8 +56,8 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var classReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, room, name, totalPoint, sortOrder);
-                return Ok(classReponse);
+                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, room, name, totalPoint, sortOrder);
+                return Ok(classesReponse);
             } catch (Exception ex)
             {
                 return NotFound(ex.Message);

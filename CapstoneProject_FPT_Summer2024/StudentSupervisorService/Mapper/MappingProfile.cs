@@ -5,6 +5,7 @@ using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
+using StudentSupervisorService.Models.Response.StudentResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<HighSchool, ResponseOfHighSchool>();
             CreateMap<Class, ClassResponse>();
             CreateMap<ClassGroup, ClassGroupResponse>();
+            CreateMap<Student, StudentResponse>();
 
 
 

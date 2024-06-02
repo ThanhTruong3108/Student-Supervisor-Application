@@ -28,7 +28,6 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<List<ClassResponse>>();
             try
             {
-                
                 var classEntities = await _unitOfWork.Class.GetAllClasses();
                 if (classEntities is null || !classEntities.Any())
                 {
@@ -44,13 +43,12 @@ namespace StudentSupervisorService.Service.Implement
                     : pagedClasses.OrderBy(r => r.Code).ToList();                
 
                 response.Data = _mapper.Map<List<ClassResponse>>(pagedClasses);
-                response.Message = "List classes";
-                response.Success = true;
-                
+                response.Message = "List Classes";
+                response.Success = true; 
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
             return response;
@@ -70,11 +68,11 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 response.Data = _mapper.Map<ClassResponse>(classEntity);
-                response.Message = "Found a class";
+                response.Message = "Found a Class";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
             return response;
@@ -89,7 +87,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, room, name, totalPoint);
                 if (classEntities is null || classEntities.Count == 0)
                 {
-                    response.Message = "No class matches the search criteria";
+                    response.Message = "No Class matches the search criteria";
                     response.Success = true;
                 } else
                 {
@@ -101,12 +99,12 @@ namespace StudentSupervisorService.Service.Implement
                         classEntities = classEntities.OrderBy(r => r.Code).ToList();
                     }
                     response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
-                    response.Message = "List classes";
+                    response.Message = "List Classes";
                     response.Success = true;
                 }
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
 
@@ -135,7 +133,7 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Create class failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Create Class failed: " + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
             return response;
@@ -171,7 +169,7 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update class failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Update Class failed: " + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
             return response;
@@ -196,7 +194,7 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
             return response;
