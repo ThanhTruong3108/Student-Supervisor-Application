@@ -7,7 +7,6 @@ using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
-
 using StudentSupervisorService.Models.Request.TimeRequest;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Request.ViolationConfigRequest;
@@ -66,11 +65,11 @@ namespace StudentSupervisorService.Mapper
 
 
             CreateMap<Violation, ResponseOfViolation>()
-               .ForMember(re => re.ClassName, act => act.MapFrom(src => src.Class.Name))
-               .ForMember(re => re.VioTypeName, act => act.MapFrom(src => src.ViolationType.Name))
                .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name));
 
-            CreateMap<RequestOfViolation, Violation>()
+            CreateMap<RequestOfCreateViolation, Violation>()
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
+            CreateMap<RequestOfUpdateViolation, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
 
             CreateMap<ViolationConfig, ViolationConfigResponse>()

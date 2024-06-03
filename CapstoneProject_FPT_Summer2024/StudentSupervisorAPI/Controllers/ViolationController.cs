@@ -59,13 +59,20 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolation(RequestOfViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolation([FromForm] RequestOfCreateViolation request)
         {
-            var createdViolation = await _service.CreateViolation(request);
-            return createdViolation == null ? NotFound() : Ok(createdViolation);
+            try
+            {
+                var createdViolation = await _service.CreateViolation(request);
+                return Ok(createdViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, RequestOfViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, RequestOfUpdateViolation request)
         {
             var updatedViolation = await _service.UpdateViolation(id, request);
             return updatedViolation == null ? NotFound() : Ok(updatedViolation);

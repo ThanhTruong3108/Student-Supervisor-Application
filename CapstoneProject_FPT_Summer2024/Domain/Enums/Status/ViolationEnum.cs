@@ -8,7 +8,8 @@ namespace Domain.Enums.Status
 {
     public enum ViolationEnum
     {
-        ACTIVE,
-        INACTIVE,
+        PENDING,
+        APPROVED,
+        REJECTED
     }
 }

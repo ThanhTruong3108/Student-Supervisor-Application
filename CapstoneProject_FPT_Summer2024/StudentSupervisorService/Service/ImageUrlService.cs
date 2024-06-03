@@ -10,7 +10,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ImageUrlService
     {
-        Task<List<ImageUploadResult>> UploadImage(List<IFormFile> imageUrl);
+        Task<ImageUploadResult> UploadImage(IFormFile images);
         Task<DeletionResult> DeleteImage(string publicId);
     }
 }
