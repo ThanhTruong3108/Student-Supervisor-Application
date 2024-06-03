@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentSupervisorService.Models.Request.ViolationRequest;
-using StudentSupervisorService.Models.Response.ViolationResponse;
+
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
