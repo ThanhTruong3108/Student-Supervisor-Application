@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.ViolationTypeResponse;
+using StudentSupervisorService.Models.Request.ViolationTypeRequest;
 
 namespace StudentSupervisorService.Service
 {
     public interface ViolationTypeService
     {
+        Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(int page, int pageSize, string sortOrder);
+        Task<DataResponse<ResponseOfVioType>> GetVioTypeById(int id);
+        Task<DataResponse<ResponseOfVioType>> CreateVioType(RequestOfVioType request);
+        Task DeleteVioType(int id);
+        Task<DataResponse<ResponseOfVioType>> UpdateVioType(int id, RequestOfVioType request);
+        Task<DataResponse<List<ResponseOfVioType>>> SearchVioTypes(int? vioGroupId, string? name, string sortOrder);
     }
 }
