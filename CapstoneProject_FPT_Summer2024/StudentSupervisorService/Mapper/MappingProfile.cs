@@ -20,11 +20,10 @@ using StudentSupervisorService.Models.Response.ViolationReportResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 using StudentSupervisorService.Models.Response.YearPackageResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StudentSupervisorService.Models.Response.ClassGroupResponse;
+using StudentSupervisorService.Models.Response.ClassResponse;
+using StudentSupervisorService.Models.Response.StudentResponse;
+
 
 namespace StudentSupervisorService.Mapper
 {
@@ -34,16 +33,15 @@ namespace StudentSupervisorService.Mapper
         {
             CreateMap<HighSchool, ResponseOfHighSchool>();
             CreateMap<RequestOfHighSchool, HighSchool>();
-
-
-
+            CreateMap<Class, ClassResponse>();
+            CreateMap<ClassGroup, ClassGroupResponse>();
+            CreateMap<Student, StudentResponse>();
 
             //-------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 
             CreateMap<RequestCreateSchoolYear, SchoolYear>();
-
 
             CreateMap<Time, ResponseOfTime>()
                .ForMember(re => re.ClassGroupName, act => act.MapFrom(src => src.ClassGroup.ClassGroupName))
@@ -55,7 +53,6 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.RoleName, act => act.MapFrom(src => src.Role.RoleName));
 
             CreateMap<RequestOfUser, User>();
-
 
             CreateMap<Violation, ResponseOfViolation>()
                .ForMember(re => re.ClassName, act => act.MapFrom(src => src.Class.Name))
@@ -96,9 +93,6 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<RequestOfYearPackage, YearPackage>();
             //--------------------------------------------------------------------------------------------------------------
-
-
-
         }
     }
 }
