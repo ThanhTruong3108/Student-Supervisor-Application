@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
@@ -23,64 +24,6 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
             _imageUrlService = imageUrlService;
         }
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolation(RequestOfCreateViolation request)
-        {
-            var response = new DataResponse<ResponseOfViolation>();
-            try
-            {
-                // Mapping request to Violation entity
-                var violationEntity = _mapper.Map<Violation>(request);
-                violationEntity.CreatedAt = DateTime.Now;
-                violationEntity.UpdatedAt = DateTime.Now;
-                violationEntity.Status = ViolationEnum.PENDING.ToString();
-
-                if (request.Images != null)
-                {
-                    var first2Images = request.Images.Take(2).ToList(); // just take first 2 images to upload
-                    foreach (var image in first2Images)
-                    {
-                        // Upload image to cloudinary
-                        var uploadResult = await _imageUrlService.UploadImage(image);
-                        if (uploadResult.StatusCode == HttpStatusCode.OK)
-                        {
-                            violationEntity.ImageUrls.Add(new ImageUrl
-                            {
-                                ViolationId = violationEntity.ViolationId,
-                                Url = uploadResult.SecureUrl.AbsoluteUri,
-                                Name = uploadResult.PublicId,
-                                Description = "Image of " + violationEntity.ViolationId + " Violation"
-                            });
-                        }
-                    }
-                }
-                // Save Violation to database
-                _unitOfWork.Violation.Add(violationEntity);
-                _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
-                response.Message = "Create Successfully.";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
-        }
-
-        public async Task DeleteViolation(int id)
-        {
-            var violation = _unitOfWork.Violation.GetById(id);
-            if (violation is null)
-            {
-                throw new Exception("Can not found by" + id);
-            }
-            violation.Status = SchoolYearEnum.INACTIVE.ToString();
-
-            _unitOfWork.Violation.Update(violation);
-            _unitOfWork.Save();
-        }
-
         public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(int page, int pageSize, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
@@ -186,6 +129,96 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(RequestOfCreateViolation request)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+            try
+            {
+                // Mapping request to Violation entity
+                var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.CreatedAt = DateTime.Now;
+                violationEntity.UpdatedAt = DateTime.Now;
+                violationEntity.Status = ViolationEnum.PENDING.ToString();
+
+                if (request.Images != null)
+                {
+                    var first2Images = request.Images.Take(2).ToList(); // just take first 2 images to upload
+                    foreach (var image in first2Images)
+                    {
+                        // Upload image to cloudinary
+                        var uploadResult = await _imageUrlService.UploadImage(image);
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            violationEntity.ImageUrls.Add(new ImageUrl
+                            {
+                                ViolationId = violationEntity.ViolationId,
+                                Url = uploadResult.SecureUrl.AbsoluteUri,
+                                Name = uploadResult.PublicId,
+                                Description = "Image of " + violationEntity.ViolationId + " Violation"
+                            });
+                        }
+                    }
+                }
+                // Save Violation to database
+                _unitOfWork.Violation.Add(violationEntity);
+                _unitOfWork.Save();
+                response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
+                response.Message = "Create Successfully.";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(RequestOfCreateViolation request)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+            try
+            {
+                // Mapping request to Violation entity
+                var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.CreatedAt = DateTime.Now;
+                violationEntity.UpdatedAt = DateTime.Now;
+                violationEntity.Status = ViolationEnum.ACTIVE.ToString();
+
+                if (request.Images != null)
+                {
+                    var first2Images = request.Images.Take(2).ToList(); // just take first 2 images to upload
+                    foreach (var image in first2Images)
+                    {
+                        // Upload image to cloudinary
+                        var uploadResult = await _imageUrlService.UploadImage(image);
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            violationEntity.ImageUrls.Add(new ImageUrl
+                            {
+                                ViolationId = violationEntity.ViolationId,
+                                Url = uploadResult.SecureUrl.AbsoluteUri,
+                                Name = uploadResult.PublicId,
+                                Description = "Image of " + violationEntity.ViolationId + " Violation"
+                            });
+                        }
+                    }
+                }
+                // Save Violation to database
+                _unitOfWork.Violation.Add(violationEntity);
+                _unitOfWork.Save();
+                response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
+                response.Message = "Create Successfully.";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfUpdateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
@@ -207,21 +240,92 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
-                violation.Status = request.Status.ToString();
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Update Violation Successfully.";
             }
             catch (Exception ex)
             {
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
                 response.Success = false;
             }
+            return response;
+        }
 
+        public async Task DeleteViolation(int id)
+        {
+            var violation = _unitOfWork.Violation.GetById(id);
+            if (violation is null)
+            {
+                throw new Exception("Can not found Violation by" + id);
+            }
+            violation.Status = SchoolYearEnum.INACTIVE.ToString();
+
+            _unitOfWork.Violation.Update(violation);
+            _unitOfWork.Save();
+        }
+
+        public async Task<DataResponse<ResponseOfViolation>> ApproveViolation(int violationId)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+
+            try
+            {
+                var violation = _unitOfWork.Violation.GetById(violationId);
+                if (violation is null)
+                {
+                    response.Message = "Can not found Violation";
+                    response.Success = false;
+                    return response;
+                }
+
+                violation.Status = ViolationEnum.APPROVED.ToString();
+                _unitOfWork.Violation.Update(violation);
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Success = true;
+                response.Message = "Approve Violation Successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<ResponseOfViolation>> RejectViolation(int violationId)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+
+            try
+            {
+                var violation = _unitOfWork.Violation.GetById(violationId);
+                if (violation is null)
+                {
+                    response.Message = "Can not found Violation";
+                    response.Success = false;
+                    return response;
+                }
+
+                violation.Status = ViolationEnum.REJECTED.ToString();
+                _unitOfWork.Violation.Update(violation);
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Success = true;
+                response.Message = "Reject Violation Successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
     }

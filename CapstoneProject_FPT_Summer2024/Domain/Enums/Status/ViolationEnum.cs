@@ -9,7 +9,9 @@ namespace Domain.Enums.Status
     public enum ViolationEnum
     {
         PENDING,
+        ACTIVE,
+        INACTIVE,
         APPROVED,
-        REJECTED
+        REJECTED,
     }
 }
