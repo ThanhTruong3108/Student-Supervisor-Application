@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentSupervisorService.Authentication.Implement
+namespace Domain.Enums.Role
 {
-    public class Authentication : IAuthentication
+    public enum RoleAccountEnum
     {
+        SCHOOLADMIN,
+        TEACHER,
+        STUDENTSUPERVISOR,
     }
 }
