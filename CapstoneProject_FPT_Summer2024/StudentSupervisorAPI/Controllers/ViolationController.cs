@@ -58,31 +58,84 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolation([FromForm] RequestOfCreateViolation request)
+        // Create violation for student supervisor
+        [HttpPost("student")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForStudentSupervisor([FromForm] RequestOfCreateViolation request)
         {
             try
             {
-                var createdViolation = await _service.CreateViolation(request);
+                var createdViolation = await _service.CreateViolationForStudentSupervisor(request);
                 return Ok(createdViolation);
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
         }
-        [HttpPut("{id}")]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, RequestOfUpdateViolation request)
+
+        // Create violation for supervisor
+        [HttpPost("supervisor")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForSupervisor([FromForm] RequestOfCreateViolation request)
         {
-            var updatedViolation = await _service.UpdateViolation(id, request);
-            return updatedViolation == null ? NotFound() : Ok(updatedViolation);
+            try
+            {
+                var createdViolation = await _service.CreateViolationForSupervisor(request);
+                return Ok(createdViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, [FromForm] RequestOfUpdateViolation request)
+        {
+            try
+            {
+                var updatedViolation = await _service.UpdateViolation(id, request);
+                return Ok(updatedViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteViolation(int id)
         {
-            var deletedViolation = _service.DeleteViolation(id);
-            return deletedViolation == null ? NoContent() : Ok(deletedViolation);
+            try
+            {
+                var deletedViolation = _service.DeleteViolation(id);
+                return Ok(deletedViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/approve")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> ApproveViolation(int id)
+        {
+            try
+            {
+                var approvedViolation = await _service.ApproveViolation(id);
+                return Ok(approvedViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/reject")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> RejectViolation(int id)
+        {
+            try
+            {
+                var rejectedViolation = await _service.RejectViolation(id);
+                return Ok(rejectedViolation);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
