@@ -2,9 +2,12 @@
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using StudentSupervisorService.CloudinaryConfig;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationResponse;
+using System.Net;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -13,23 +16,47 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ViolationImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ImageUrlService _imageUrlService;
+        public ViolationImplement(IUnitOfWork unitOfWork, IMapper mapper, ImageUrlService imageUrlService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _imageUrlService = imageUrlService;
         }
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolation(RequestOfViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolation(RequestOfCreateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
-
             try
             {
-                var createviolation = _mapper.Map<Violation>(request);
-                createviolation.CreatedAt = DateTime.Now;
-                createviolation.Status = ViolationEnum.ACTIVE.ToString();
-                _unitOfWork.Violation.Add(createviolation);
+                // Mapping request to Violation entity
+                var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.CreatedAt = DateTime.Now;
+                violationEntity.UpdatedAt = DateTime.Now;
+                violationEntity.Status = ViolationEnum.PENDING.ToString();
+
+                if (request.Images != null)
+                {
+                    var first2Images = request.Images.Take(2).ToList(); // just take first 2 images to upload
+                    foreach (var image in first2Images)
+                    {
+                        // Upload image to cloudinary
+                        var uploadResult = await _imageUrlService.UploadImage(image);
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            violationEntity.ImageUrls.Add(new ImageUrl
+                            {
+                                ViolationId = violationEntity.ViolationId,
+                                Url = uploadResult.SecureUrl.AbsoluteUri,
+                                Name = uploadResult.PublicId,
+                                Description = "Image of " + violationEntity.ViolationId + " Violation"
+                            });
+                        }
+                    }
+                }
+                // Save Violation to database
+                _unitOfWork.Violation.Add(violationEntity);
                 _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfViolation>(createviolation);
+                response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
                 response.Message = "Create Successfully.";
                 response.Success = true;
             }
@@ -159,7 +186,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfUpdateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
 
@@ -179,10 +206,8 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Code = request.Code;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
-                violation.CreatedAt = request.CreatedAt;
-                violation.CreatedBy = request.CreatedBy;
-                violation.UpdatedAt = DateTime.Now;
-                violation.UpdatedBy = request.UpdatedBy;
+                violation.Date = request.Date;
+                violation.Status = request.Status.ToString();
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();

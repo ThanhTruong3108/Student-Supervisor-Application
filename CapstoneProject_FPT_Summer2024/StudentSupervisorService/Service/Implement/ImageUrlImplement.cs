@@ -3,6 +3,7 @@ using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using StudentSupervisorService.CloudinaryConfig;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -15,34 +16,28 @@ namespace StudentSupervisorService.Service.Implement
             cloudinary = new Cloudinary(account);
         }
 
-        public async Task<List<ImageUploadResult>> UploadImage(List<IFormFile> images)
+        public async Task<ImageUploadResult> UploadImage(IFormFile image)
         {
             try
             {
-                var uploadResults = new List<ImageUploadResult>();
-                var first2Images = images.Take(2).ToList(); // just take first 2 images to upload
-                
-                foreach (var image in first2Images)
+                var uploadResult = new ImageUploadResult();
+                if (image.Length > 0)
                 {
-                    if (image.Length > 0)
+                    using var stream = image.OpenReadStream();
+                    var uploadParams = new ImageUploadParams
                     {
-                        using var stream = image.OpenReadStream();
-                        var uploadParams = new ImageUploadParams
-                        {
-                            File = new FileDescription(image.FileName, stream),
-                        };
-                        var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                        uploadResults.Add(uploadResult);
-                    }
-                    
+                        File = new FileDescription(image.FileName, stream),
+                    };
+                    uploadResult = await cloudinary.UploadAsync(uploadParams);
                 }
-                return uploadResults;
-            } catch (Exception ex)
+                return uploadResult;
+            }
+            catch (Exception ex)
             {
-                throw new Exception("Upload images failed: " + ex.Message);
+                throw new Exception("Upload image failed: " + ex.Message);
             }
         }
-            
+
         public async Task<DeletionResult> DeleteImage(string publicId)
         {
             var deletionParams = new DeletionParams(publicId);
