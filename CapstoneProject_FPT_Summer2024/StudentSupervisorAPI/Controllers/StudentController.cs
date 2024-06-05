@@ -6,7 +6,7 @@ using StudentSupervisorService.Models.Response.StudentResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/students")]
     [ApiController]
     public class StudentController : ControllerBase
     {

@@ -9,7 +9,7 @@ using StudentSupervisorService.Models.Request.ClassGroupRequest;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/class-groups")]
     [ApiController]
     public class ClassGroupController : ControllerBase
     {

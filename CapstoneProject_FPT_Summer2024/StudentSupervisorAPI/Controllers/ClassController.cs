@@ -8,7 +8,7 @@ using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/classes")]
     [ApiController]
     public class ClassController : ControllerBase
     {
