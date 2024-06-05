@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentSupervisorService.Models.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Models
 {
-    public class RequestLogin
+    public class AuthenticationResponse
     {
-        public string Phone { get; set; } = null!;
-
-        public string Password { get; set; } = null!;
+        public string? Token { get; set; }
     }
 }

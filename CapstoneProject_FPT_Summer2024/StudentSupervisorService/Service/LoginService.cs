@@ -10,8 +10,6 @@ namespace StudentSupervisorService.Service
 {
     public interface LoginService
     {
-        Task<AuthResponse<ResponseOfUser>> ValidateUser(RequestLogin accountLogin);
-        Task<AuthResponse<AccountResponse>> ValidateToken(string token);
-        Task<bool> Logout(int accountId);
+        Task<AuthenticationResponse> Authenticate(AuthenticationRequest request);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Infrastructures.Interfaces.IUnitOfWork;
 using Microsoft.IdentityModel.Tokens;
-using StudentSupervisorService.Authentication;
-using StudentSupervisorService.Helpers.MemoryCache;
-using StudentSupervisorService.Models.Response.UserResponse;
+
 using StudentSupervisorService.Models;
 using System;
 using System.Collections.Generic;
@@ -12,133 +10,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Domain.Entity;
+using Domain.Enums.Role;
+using Infrastructures.Interfaces;
 
 namespace StudentSupervisorService.Service.Implement
 {
     public class LoginImplement : LoginService
     {
-        private readonly IAuthentication _authentication;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+        private readonly JwtSettings _jwtSettings;
         private readonly IMapper _mapper;
-        private readonly ICacheManager _cacheManager;
-        private readonly AppConfiguration _appConfiguration;
-
-        public LoginImplement(IAuthentication authentication, IUnitOfWork unitOfWork, IMapper mapper, AppConfiguration appConfiguration, ICacheManager cacheManager)
+        public LoginImplement(IUserRepository userRepository, JwtSettings jwtSettings, IMapper mapper)
         {
-            _authentication = authentication;
-            _unitOfWork = unitOfWork;
+            _userRepository = userRepository;
+            _jwtSettings = jwtSettings;
             _mapper = mapper;
-            _appConfiguration = appConfiguration;
-            _cacheManager = cacheManager;
+        }
+        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
+        {
+            var user = await _userRepository.GetAccountByPhone(request.Phone);
+            if (user == null || user.Password != request.Password)
+            {
+                throw new Exception("Invalid credentials");
+            }
+
+            var token = GenerateJwtToken(user);
+            return new AuthenticationResponse { Token = token };
         }
 
-        public async Task<bool> Logout(int accountId)
+        private string GenerateJwtToken(User user)
         {
-            try
+            var claims = new[]
             {
-                _cacheManager.Remove(accountId.ToString());
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<AuthResponse<ResponseOfUser>> ValidateUser(RequestLogin accountLogin)
-        {
-            var user = await _unitOfWork.User.GetAccountByPhone(accountLogin.Phone);
-            var response = new AuthResponse<ResponseOfUser>();
-
-            if (user == null)
-            {
-                response.Success = false;
-                response.Message = "Phone Not Exist";
-                return response;
-            }
-
-            var result = _authentication.Verify(user.Password, accountLogin.Password);
-            if (!result)
-            {
-                response.Success = false;
-                response.Message = "Invalid Password";
-                return response;
-            }
-
-            string role = user.Role.RoleName;
-
-            response.Data = _mapper.Map<ResponseOfUser>(user);
-            response.Token = _authentication.GenerateToken(user, _appConfiguration.JWTSecretKey, role);
-            response.Success = true;
-            response.Message = "Login Success";
-            return response;
-        }
-
-        public async Task<AuthResponse<AccountResponse>> ValidateToken(string token)
-        {
-            var response = new AuthResponse<AccountResponse>();
-            if (string.IsNullOrEmpty(token))
-            {
-                response.Message = "Token is required";
-                response.Success = false;
-                return response;
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var validationParameters = new TokenValidationParameters
-            {
-                ValidateLifetime = true,
-                RequireExpirationTime = true,
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                ClockSkew = TimeSpan.Zero
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, ((RoleAccountEnum)user.RoleId).ToString())
             };
 
-            try
-            {
-                var tokenData = tokenHandler.ReadJwtToken(token);
-                var tokenExp = tokenData.Claims.FirstOrDefault(claim => claim.Type.Equals("exp"))!.Value;
-                var tokenDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(tokenExp)).UtcDateTime;
-                var now = DateTime.UtcNow;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                if (now > tokenDate)
-                {
-                    response.Success = false;
-                    response.Message = "Token is expired";
-                    return response;
-                }
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Issuer,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
+                signingCredentials: creds
+            );
 
-                var phoneClaim = tokenData.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.MobilePhone))?.Value;
-                var roleClaim = tokenData.Claims.FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Role))?.Value;
-
-                if (string.IsNullOrEmpty(phoneClaim) || string.IsNullOrEmpty(roleClaim))
-                {
-                    response.Success = false;
-                    response.Message = "Invalid token claims";
-                    return response;
-                }
-
-                var user = await _unitOfWork.User.GetAccountByPhone(phoneClaim);
-
-                if (user == null)
-                {
-                    response.Success = false;
-                    response.Message = "Account not found";
-                    return response;
-                }
-
-                response.Data = _mapper.Map<AccountResponse>(user);
-                response.Token = _authentication.GenerateToken(user, _appConfiguration.JWTSecretKey, roleClaim);
-                response.Success = true;
-                response.Message = "Token validated";
-                return response;
-            }
-            catch
-            {
-                response.Message = "Invalid token";
-                response.Success = false;
-                return response;
-            }
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
     }

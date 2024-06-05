@@ -17,26 +17,10 @@ namespace StudentSupervisorAPI.Controllers
             _login = loginService;
         }
 
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<AuthResponse<ResponseOfUser>>> Login(RequestLogin login)
+        [HttpPost]
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticationRequest request)
         {
-            var response = await _login.ValidateUser(login);
-            return Ok(response);
-        }
-
-        [HttpPost("logout")]
-        public async Task<ActionResult<bool>> Logout(int accountId)
-        {
-            var response = await _login.Logout(accountId);
-            return Ok(response);
-        }
-
-        [HttpGet("token/renew")]
-        public async Task<ActionResult<AuthResponse<AccountResponse>>> RenewToken()
-        {
-            string token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            var response = await _login.ValidateToken(token);
+            var response = await _login.Authenticate(request);
             return Ok(response);
         }
     }
