@@ -4,25 +4,55 @@ using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using StudentSupervisorService;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// JWT Settings
-var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-builder.Services.AddSingleton(jwtSettings);
-
 // Add DI Services
 builder.Services.AddDIServices(builder.Configuration);
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
+
 // Add Authentication and Authorization
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -30,43 +60,21 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings.Issuer,
-        ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
-});
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireSchoolAdminRole", policy => policy.RequireRole(RoleAccountEnum.SCHOOLADMIN.ToString()));
-    options.AddPolicy("2", policy => policy.RequireRole(RoleAccountEnum.TEACHER.ToString()));
-    options.AddPolicy("3", policy => policy.RequireRole(RoleAccountEnum.STUDENTSUPERVISOR.ToString()));
-    options.AddPolicy("4", policy => policy.RequireRole(RoleAccountEnum.PRINCIPAL.ToString()));
-});
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.Events = new JwtBearerEvents
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter JWT with Bearer into field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-    {
-        new OpenApiSecurityScheme {
-            Reference = new OpenApiReference {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-            }
-        },
-        new string[] { }
-    }});
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+            var result = JsonConvert.SerializeObject(new { message = "Unauthorized" });
+            return context.Response.WriteAsync(result);
+        }
+    };
 });
 
 var app = builder.Build();

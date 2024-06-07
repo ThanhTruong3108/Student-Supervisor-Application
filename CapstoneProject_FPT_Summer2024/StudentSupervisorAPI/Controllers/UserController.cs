@@ -3,6 +3,7 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Models.Request.UserRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
+        [Authorize(Roles = "SCHOOLADMIN")]
         [HttpGet]
         public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers(int page = 1, int pageSize = 5, string sortOrder = "asc")
         {

@@ -120,7 +120,7 @@ namespace StudentSupervisorService
 
             services.AddTransient<IServiceCollection, ServiceCollection>();
 
-            services.AddTransient<LoginService, LoginImplement>();
+            //services.AddTransient<LoginService, LoginImplement>();
 
             //AUTOMAPPER
             services.AddAutoMapper(typeof(MappingProfile).Assembly);

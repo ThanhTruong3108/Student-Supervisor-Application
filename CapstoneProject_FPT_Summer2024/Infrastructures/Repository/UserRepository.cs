@@ -17,7 +17,9 @@ namespace Infrastructures.Repository
 
         public async Task<User> GetAccountByPhone(string phone)
         {
-            return _context.Users.FirstOrDefault(u => u.Phone.Equals(phone));
+            return _context.Users
+                .Include(r => r.Role)
+                .FirstOrDefault(u => u.Phone.Equals(phone));
         }
 
         public async Task<List<User>> GetAllUsers()
