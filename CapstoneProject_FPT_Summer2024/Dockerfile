@@ -10,6 +10,7 @@ COPY ["Infrastructures/Infrastructures.csproj", "Infrastructures/"]
 COPY ["StudentSupervisorAPI/StudentSupervisorAPI.csproj", "StudentSupervisorAPI/"]
 COPY ["StudentSupervisorService/StudentSupervisorService.csproj", "StudentSupervisorService/"]
 RUN dotnet restore "StudentSupervisorAPI/StudentSupervisorAPI.csproj"
+
 COPY . .
 WORKDIR "/src/StudentSupervisorAPI"
 RUN dotnet build "StudentSupervisorAPI.csproj" -c Release -o /app/build
