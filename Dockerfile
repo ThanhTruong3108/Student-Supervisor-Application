@@ -5,14 +5,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Domain/Domain.csproj", "Domain/"]
-COPY ["Infrastructures/Infrastructures.csproj", "Infrastructures/"]
-COPY ["StudentSupervisorAPI/StudentSupervisorAPI.csproj", "StudentSupervisorAPI/"]
-COPY ["StudentSupervisorService/StudentSupervisorService.csproj", "StudentSupervisorService/"]
+COPY ["/CapstoneProject_FPT_Summer2024/Domain/Domain.csproj", "Domain/"]
+COPY ["/CapstoneProject_FPT_Summer2024/Infrastructures/Infrastructures.csproj", "Infrastructures/"]
+COPY ["/CapstoneProject_FPT_Summer2024/StudentSupervisorAPI/StudentSupervisorAPI.csproj", "StudentSupervisorAPI/"]
+COPY ["/CapstoneProject_FPT_Summer2024/StudentSupervisorService/StudentSupervisorService.csproj", "StudentSupervisorService/"]
 RUN dotnet restore "StudentSupervisorAPI/StudentSupervisorAPI.csproj"
 
 COPY . .
-WORKDIR "/src/StudentSupervisorAPI"
+WORKDIR "/src/CapstoneProject_FPT_Summer2024/StudentSupervisorAPI"
 RUN dotnet build "StudentSupervisorAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
