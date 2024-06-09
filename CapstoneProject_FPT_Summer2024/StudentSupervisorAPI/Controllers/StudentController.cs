@@ -6,24 +6,22 @@ using StudentSupervisorService.Models.Response.StudentResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/students")]
     [ApiController]
     public class StudentController : ControllerBase
     {
         private readonly StudentService studentService;
-        private readonly ImageUrlService imageUrlService;
-        public StudentController(StudentService studentService, ImageUrlService imageUrlService)
+        public StudentController(StudentService studentService)
         {
             this.studentService = studentService;
-            this.imageUrlService = imageUrlService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> GetAllStudents(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> GetAllStudents(string sortOrder = "asc")
         {
             try
             {
-                var studentsResponse = await studentService.GetAllStudents(page, pageSize, sortOrder);
+                var studentsResponse = await studentService.GetAllStudents(sortOrder);
                 return Ok(studentsResponse);
             }
             catch (Exception ex)

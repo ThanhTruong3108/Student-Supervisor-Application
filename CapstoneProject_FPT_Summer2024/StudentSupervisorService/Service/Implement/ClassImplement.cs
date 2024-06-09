@@ -23,7 +23,7 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
         }
 
-        public async Task<DataResponse<List<ClassResponse>>> GetAllClasses(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ClassResponse>>> GetAllClasses(string sortOrder)
         {
             var response = new DataResponse<List<ClassResponse>>();
             try
@@ -36,13 +36,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var pagedClasses = classEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                classEntities = sortOrder == "desc"
+                    ? classEntities.OrderByDescending(r => r.Code).ToList()
+                    : classEntities.OrderBy(r => r.Code).ToList();                
 
-                pagedClasses = sortOrder == "desc"
-                    ? pagedClasses.OrderByDescending(r => r.Code).ToList()
-                    : pagedClasses.OrderBy(r => r.Code).ToList();                
-
-                response.Data = _mapper.Map<List<ClassResponse>>(pagedClasses);
+                response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
                 response.Message = "List Classes";
                 response.Success = true; 
             }

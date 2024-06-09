@@ -13,7 +13,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ClassGroupService
     {
-        Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(string sortOrder);
         Task<DataResponse<ClassGroupResponse>> GetClassGroupById(int id);
         Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(string? name, string? hall, string? status, string sortOrder);
         Task<DataResponse<ClassGroupResponse>> CreateClassGroup(ClassGroupCreateRequest classGroupCreateRequest);

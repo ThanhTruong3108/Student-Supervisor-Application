@@ -26,7 +26,7 @@ namespace StudentSupervisorService.Service.Implement
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents(string sortOrder)
         {
             var response = new DataResponse<List<StudentResponse>>();
             try
@@ -39,13 +39,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var pagedStudents = studentEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                studentEntities = sortOrder == "desc"
+                    ? studentEntities.OrderByDescending(r => r.Code).ToList()
+                    : studentEntities.OrderBy(r => r.Code).ToList();
 
-                pagedStudents = sortOrder == "desc"
-                    ? pagedStudents.OrderByDescending(r => r.Code).ToList()
-                    : pagedStudents.OrderBy(r => r.Code).ToList();
-
-                response.Data = mapper.Map<List<StudentResponse>>(pagedStudents);
+                response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
                 response.Message = "List Students";
                 response.Success = true;
             }

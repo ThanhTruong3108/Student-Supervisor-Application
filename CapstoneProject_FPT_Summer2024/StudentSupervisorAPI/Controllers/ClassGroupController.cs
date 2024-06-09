@@ -9,7 +9,7 @@ using StudentSupervisorService.Models.Request.ClassGroupRequest;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/classgroups")]
     [ApiController]
     public class ClassGroupController : ControllerBase
     {
@@ -20,11 +20,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetAllClassGroups(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetAllClassGroups(string sortOrder = "asc")
         {
             try
             {
-                var classGroupsResponse = await classGroupService.GetAllClassGroups(page, pageSize, sortOrder);
+                var classGroupsResponse = await classGroupService.GetAllClassGroups(sortOrder);
                 return Ok(classGroupsResponse);
             }
             catch (Exception ex)

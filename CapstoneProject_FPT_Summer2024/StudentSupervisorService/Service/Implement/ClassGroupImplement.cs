@@ -24,7 +24,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(string sortOrder)
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
             try
@@ -38,13 +38,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var pagedClassGroups = classGroupEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                classGroupEntities = sortOrder == "desc"
+                    ? classGroupEntities.OrderByDescending(r => r.ClassGroupName).ToList()
+                    : classGroupEntities.OrderBy(r => r.ClassGroupName).ToList();
 
-                pagedClassGroups = sortOrder == "desc"
-                    ? pagedClassGroups.OrderByDescending(r => r.ClassGroupName).ToList()
-                    : pagedClassGroups.OrderBy(r => r.ClassGroupName).ToList();
-
-                response.Data = _mapper.Map<List<ClassGroupResponse>>(pagedClassGroups);
+                response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
                 response.Message = "List ClassGroup";
                 response.Success = true;
 

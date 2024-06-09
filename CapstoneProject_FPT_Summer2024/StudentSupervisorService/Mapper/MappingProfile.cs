@@ -15,8 +15,6 @@ using StudentSupervisorService.Models.Request.ViolationReportRequest;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Request.ViolationTypeRequest;
 using StudentSupervisorService.Models.Request.YearPackageRequest;
-using StudentSupervisorService.Models.Response.HighschoolResponse;
-using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.TimeResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Models.Response.ViolationConfigResponse;

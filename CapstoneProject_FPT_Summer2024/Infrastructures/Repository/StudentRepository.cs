@@ -14,9 +14,9 @@ namespace Infrastructures.Repository
     {
         public StudentRepository(SchoolRulesContext context): base(context) { }
 
-        public async Task<IQueryable<Student>> GetAllStudents()
+        public async Task<List<Student>> GetAllStudents()
         {
-            return _context.Students.AsQueryable();
+            return await _context.Students.ToListAsync();
         }
 
         public async Task<Student> GetStudentById(int id)
