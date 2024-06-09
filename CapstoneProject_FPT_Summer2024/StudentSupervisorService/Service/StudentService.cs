@@ -11,7 +11,7 @@ namespace StudentSupervisorService.Service
 {
     public interface StudentService
     {
-        Task<DataResponse<List<StudentResponse>>> GetAllStudents(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<StudentResponse>>> GetAllStudents();
         Task<DataResponse<StudentResponse>> GetStudentById(int id);
         Task<DataResponse<List<StudentResponse>>> SearchStudents(
             int? schoolId, 

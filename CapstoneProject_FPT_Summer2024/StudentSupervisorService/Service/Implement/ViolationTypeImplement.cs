@@ -4,6 +4,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationTypeRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 using System;
@@ -57,35 +58,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes()
         {
             var response = new DataResponse<List<ResponseOfVioType>>();
 
             try
             {
                 var vioTypes = await _unitOfWork.ViolationType.GetAllVioTypes();
-                if (vioTypes is null)
+                if (vioTypes is null || !vioTypes.Any())
                 {
                     response.Message = "The ViolationType list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách VioType theo yêu cầu
-                var vioTypeDTO = _mapper.Map<List<ResponseOfVioType>>(vioTypes);
-                if (sortOrder == "desc")
-                {
-                    vioTypeDTO = vioTypeDTO.OrderByDescending(r => r.ViolationTypeId).ToList();
-                }
-                else
-                {
-                    vioTypeDTO = vioTypeDTO.OrderBy(r => r.ViolationTypeId).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageVioTypes = vioTypeDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageVioTypes;
+                response.Data = _mapper.Map<List<ResponseOfVioType>>(vioTypes);
                 response.Message = "List ViolationTypes";
                 response.Success = true;
             }

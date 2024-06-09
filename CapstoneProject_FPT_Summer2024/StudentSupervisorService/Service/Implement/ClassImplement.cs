@@ -4,11 +4,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -23,34 +19,29 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
         }
 
-        public async Task<DataResponse<List<ClassResponse>>> GetAllClasses(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ClassResponse>>> GetAllClasses()
         {
             var response = new DataResponse<List<ClassResponse>>();
+
             try
             {
-                var classEntities = await _unitOfWork.Class.GetAllClasses();
-                if (classEntities is null || !classEntities.Any())
+                var classes = await _unitOfWork.Class.GetAllClasses();
+                if (classes is null || !classes.Any())
                 {
                     response.Message = "The Class list is empty";
                     response.Success = true;
                     return response;
                 }
-
-                var pagedClasses = classEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-                pagedClasses = sortOrder == "desc"
-                    ? pagedClasses.OrderByDescending(r => r.Code).ToList()
-                    : pagedClasses.OrderBy(r => r.Code).ToList();                
-
-                response.Data = _mapper.Map<List<ClassResponse>>(pagedClasses);
+                response.Data = _mapper.Map<List<ClassResponse>>(classes);
                 response.Message = "List Classes";
-                response.Success = true; 
+                response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
                 response.Success = false;
             }
+
             return response;
         }
 

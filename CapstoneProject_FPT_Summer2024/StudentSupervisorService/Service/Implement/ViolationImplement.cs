@@ -24,35 +24,20 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
             _imageUrlService = imageUrlService;
         }
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations()
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
                 var violations = await _unitOfWork.Violation.GetAllViolations();
-                if (violations is null)
+                if (violations is null || !violations.Any())
                 {
                     response.Message = "The Violation list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách Violation theo yêu cầu
-                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                if (sortOrder == "desc")
-                {
-                    violationDTO = violationDTO.OrderByDescending(r => r.Code).ToList();
-                }
-                else
-                {
-                    violationDTO = violationDTO.OrderBy(r => r.Code).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageViolations = violationDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageViolations;
+                response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Message = "List Violations";
                 response.Success = true;
             }

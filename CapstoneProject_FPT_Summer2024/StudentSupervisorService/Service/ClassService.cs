@@ -11,7 +11,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ClassService
     {
-        Task<DataResponse<List<ClassResponse>>> GetAllClasses(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<ClassResponse>>> GetAllClasses();
         Task<DataResponse<ClassResponse>> GetClassById(int id);
         Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? room, string? name, int? totalPoint, string sortOrder);
         Task<DataResponse<ClassResponse>> CreateClass(ClassCreateRequest classCreateRequest);

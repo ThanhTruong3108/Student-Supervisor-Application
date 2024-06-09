@@ -8,6 +8,7 @@ using StudentSupervisorService.Authentication;
 using StudentSupervisorService.Authentication.Implement;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using System;
 using System.Collections.Generic;
@@ -63,36 +64,21 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears()
         {
             var response = new DataResponse<List<ResponseOfSchoolYear>>();
 
             try
             {
                 var schoolYears = await _unitOfWork.SchoolYear.GetAllSchoolYears();
-                if (schoolYears is null)
+                if (schoolYears is null || !schoolYears.Any())
                 {
                     response.Message = "The SchoolYear list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách năm học theo yêu cầu
-                var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
-                if (sortOrder == "desc")
-                {
-                    schoolYearDTO = schoolYearDTO.OrderByDescending(r => r.Year).ToList();
-                }
-                else
-                {
-                    schoolYearDTO = schoolYearDTO.OrderBy(r => r.Year).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageSchoolYears = schoolYearDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageSchoolYears;
-                response.Message = "List schoolYears";
+                response.Data = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                response.Message = "List SchoolYears";
                 response.Success = true;
             }
             catch (Exception ex)

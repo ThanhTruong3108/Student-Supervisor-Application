@@ -3,6 +3,7 @@ using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 
 
@@ -50,36 +51,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfVioGroup>>> GetAllVioGroups(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfVioGroup>>> GetAllVioGroups()
         {
             var response = new DataResponse<List<ResponseOfVioGroup>>();
 
             try
             {
-                var vioGroups = await _unitOfWork.ViolationGroup.GetAllViolationGroups();
-                if (vioGroups is null)
+                var vioGroup = await _unitOfWork.ViolationGroup.GetAllViolationGroups();
+                if (vioGroup is null || !vioGroup.Any())
                 {
                     response.Message = "The ViolationGroup list is empty";
                     response.Success = true;
                     return response;
                 }
-
-                // Sắp xếp danh sách Violation Group theo yêu cầu
-                var vioGroupDTO = _mapper.Map<List<ResponseOfVioGroup>>(vioGroups);
-                if (sortOrder == "desc")
-                {
-                    vioGroupDTO = vioGroupDTO.OrderByDescending(r => r.Code).ToList();
-                }
-                else
-                {
-                    vioGroupDTO = vioGroupDTO.OrderBy(r => r.Code).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageVioGroups = vioGroupDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageVioGroups;
+                response.Data = _mapper.Map<List<ResponseOfVioGroup>>(vioGroup);
                 response.Message = "List ViolationGroups";
                 response.Success = true;
             }

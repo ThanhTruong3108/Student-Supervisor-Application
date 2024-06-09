@@ -58,36 +58,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools()
         {
             var response = new DataResponse<List<ResponseOfHighSchool>>();
 
             try
             {
                 var highSchools = await _unitOfWork.HighSchool.GetAllHighSchools();
-                if (highSchools is null)
+                if (highSchools is null || !highSchools.Any())
                 {
                     response.Message = "The HighSchool list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách trường học theo yêu cầu
-                var highSchoolDTO = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
-                if (sortOrder == "desc")
-                {
-                    highSchoolDTO = highSchoolDTO.OrderByDescending(r => r.Code).ToList();
-                }
-                else
-                {
-                    highSchoolDTO = highSchoolDTO.OrderBy(r => r.Code).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pagedHighSchools = highSchoolDTO.Skip(startIndex).Take(pageSize).ToList();
-
-
-                response.Data = pagedHighSchools;
+                response.Data = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
                 response.Message = "List highSchools";
                 response.Success = true;
             }

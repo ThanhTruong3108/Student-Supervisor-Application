@@ -16,13 +16,13 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
-        [Authorize(Roles = "SCHOOLADMIN")]
+        //[Authorize(Roles = "SCHOOLADMIN")]
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers()
         {
             try 
             {
-                var users = await _service.GetAllUsers(page, pageSize, sortOrder);
+                var users = await _service.GetAllUsers();
                 return Ok(users);
             }
             catch (Exception ex)

@@ -17,11 +17,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolations(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolations()
         {
             try
             {
-                var violations = await _service.GetAllViolations(page, pageSize, sortOrder);
+                var violations = await _service.GetAllViolations();
                 return Ok(violations);
             }
             catch (Exception ex)

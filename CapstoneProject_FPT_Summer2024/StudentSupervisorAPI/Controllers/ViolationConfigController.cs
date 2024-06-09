@@ -16,11 +16,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetViolationConfigs(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetViolationConfigs()
         {
             try
             {
-                var violationConfigs = await _service.GetAllViolationConfigs(page, pageSize, sortOrder);
+                var violationConfigs = await _service.GetAllViolationConfigs();
                 return Ok(violationConfigs);
             }
             catch (Exception ex)

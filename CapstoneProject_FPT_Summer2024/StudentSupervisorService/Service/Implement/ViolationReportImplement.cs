@@ -3,6 +3,7 @@ using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationReportRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.ViolationReportResponse;
 
 
@@ -50,35 +51,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports()
         {
             var response = new DataResponse<List<ResponseOfVioReport>>();
 
             try
             {
                 var vioReports = await _unitOfWork.ViolationReport.GetAllVioReports();
-                if (vioReports is null)
+                if (vioReports is null || !vioReports.Any())
                 {
                     response.Message = "The ViolationReport list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách Violation Report theo yêu cầu
-                var vioReportDTO = _mapper.Map<List<ResponseOfVioReport>>(vioReports);
-                if (sortOrder == "desc")
-                {
-                    vioReportDTO = vioReportDTO.OrderByDescending(r => r.ViolationReportId).ToList();
-                }
-                else
-                {
-                    vioReportDTO = vioReportDTO.OrderBy(r => r.ViolationReportId).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageVioReports = vioReportDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageVioReports;
+                response.Data = _mapper.Map<List<ResponseOfVioReport>>(vioReports);
                 response.Message = "List ViolationReports";
                 response.Success = true;
             }

@@ -6,7 +6,6 @@ using Infrastructures.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
 using System;
 using System.Collections.Generic;
@@ -26,34 +25,29 @@ namespace StudentSupervisorService.Service.Implement
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents()
         {
             var response = new DataResponse<List<StudentResponse>>();
+
             try
             {
-                var studentEntities = await unitOfWork.Student.GetAllStudents();
-                if (studentEntities is null || !studentEntities.Any())
+                var students = await unitOfWork.Student.GetAllStudents();
+                if (students is null || !students.Any())
                 {
                     response.Message = "The Student list is empty";
                     response.Success = true;
                     return response;
                 }
-
-                var pagedStudents = studentEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-                pagedStudents = sortOrder == "desc"
-                    ? pagedStudents.OrderByDescending(r => r.Code).ToList()
-                    : pagedStudents.OrderBy(r => r.Code).ToList();
-
-                response.Data = mapper.Map<List<StudentResponse>>(pagedStudents);
+                response.Data = mapper.Map<List<StudentResponse>>(students);
                 response.Message = "List Students";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
                 response.Success = false;
             }
+
             return response;
         }
 

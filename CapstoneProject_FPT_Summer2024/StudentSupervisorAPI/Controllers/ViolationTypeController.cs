@@ -18,11 +18,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetVioTypes(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetVioTypes()
         {
             try
             {
-                var vioTypes = await _service.GetAllVioTypes(page, pageSize, sortOrder);
+                var vioTypes = await _service.GetAllVioTypes();
                 return Ok(vioTypes);
             }
             catch (Exception ex)

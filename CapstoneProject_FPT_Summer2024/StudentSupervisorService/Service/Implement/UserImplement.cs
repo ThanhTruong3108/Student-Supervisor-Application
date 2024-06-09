@@ -4,6 +4,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
 
 
@@ -52,35 +53,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfUser>>> GetAllUsers(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfUser>>> GetAllUsers()
         {
             var response = new DataResponse<List<ResponseOfUser>>();
 
             try
             {
                 var users = await _unitOfWork.User.GetAllUsers();
-                if (users is null)
+                if (users is null || !users.Any())
                 {
                     response.Message = "The User list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách năm học theo yêu cầu
-                var userDTO = _mapper.Map<List<ResponseOfUser>>(users);
-                if (sortOrder == "desc")
-                {
-                    userDTO = userDTO.OrderByDescending(r => r.Code).ToList();
-                }
-                else
-                {
-                    userDTO = userDTO.OrderBy(r => r.Code).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageUsers = userDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageUsers;
+                response.Data = _mapper.Map<List<ResponseOfUser>>(users);
                 response.Message = "List Users";
                 response.Success = true;
             }

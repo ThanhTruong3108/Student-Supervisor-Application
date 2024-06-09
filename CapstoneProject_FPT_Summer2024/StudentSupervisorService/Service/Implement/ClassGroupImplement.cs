@@ -5,12 +5,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassGroupResponse;
-using StudentSupervisorService.Models.Response.ClassResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -24,36 +19,29 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups()
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
+
             try
             {
-
-                var classGroupEntities = await _unitOfWork.ClassGroup.GetAllClassGroups();
-                if (classGroupEntities is null || !classGroupEntities.Any())
+                var classGroups = await _unitOfWork.ClassGroup.GetAllClassGroups();
+                if (classGroups is null || !classGroups.Any())
                 {
                     response.Message = "The ClassGroup list is empty";
                     response.Success = true;
                     return response;
                 }
-
-                var pagedClassGroups = classGroupEntities.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-                pagedClassGroups = sortOrder == "desc"
-                    ? pagedClassGroups.OrderByDescending(r => r.ClassGroupName).ToList()
-                    : pagedClassGroups.OrderBy(r => r.ClassGroupName).ToList();
-
-                response.Data = _mapper.Map<List<ClassGroupResponse>>(pagedClassGroups);
-                response.Message = "List ClassGroup";
+                response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroups);
+                response.Message = "List ClassGroups";
                 response.Success = true;
-
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
                 response.Success = false;
             }
+
             return response;
         }
         public async Task<DataResponse<ClassGroupResponse>> GetClassGroupById(int id)

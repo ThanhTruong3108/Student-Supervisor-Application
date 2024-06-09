@@ -58,35 +58,20 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages()
         {
             var response = new DataResponse<List<ResponseOfYearPackage>>();
 
             try
             {
                 var yearPackages = await _unitOfWork.YearPackage.GetAllYearPackages();
-                if (yearPackages is null)
+                if (yearPackages is null || !yearPackages.Any())
                 {
                     response.Message = "The YearPackage list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách Violation theo yêu cầu
-                var yearPackageDTO = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
-                if (sortOrder == "desc")
-                {
-                    yearPackageDTO = yearPackageDTO.OrderByDescending(r => r.YearPackageId).ToList();
-                }
-                else
-                {
-                    yearPackageDTO = yearPackageDTO.OrderBy(r => r.YearPackageId).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageYearPackages = yearPackageDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageYearPackages;
+                response.Data = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
                 response.Message = "List YearPackages";
                 response.Success = true;
             }

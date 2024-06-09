@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ViolationReportService
     {
-        Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports();
         Task<DataResponse<ResponseOfVioReport>> GetVioReportById(int id);
         Task<DataResponse<ResponseOfVioReport>> CreateVioReport(RequestOfVioReport request);
         Task DeleteVioReport(int id);

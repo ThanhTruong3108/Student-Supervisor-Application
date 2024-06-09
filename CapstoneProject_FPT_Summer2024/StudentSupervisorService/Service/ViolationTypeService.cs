@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ViolationTypeService
     {
-        Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes();
         Task<DataResponse<ResponseOfVioType>> GetVioTypeById(int id);
         Task<DataResponse<ResponseOfVioType>> CreateVioType(RequestOfVioType request);
         Task DeleteVioType(int id);
