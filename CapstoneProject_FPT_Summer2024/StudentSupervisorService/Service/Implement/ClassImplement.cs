@@ -4,11 +4,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -38,11 +34,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 classEntities = sortOrder == "desc"
                     ? classEntities.OrderByDescending(r => r.Code).ToList()
-                    : classEntities.OrderBy(r => r.Code).ToList();                
+                    : classEntities.OrderBy(r => r.Code).ToList();
 
                 response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
                 response.Message = "List Classes";
-                response.Success = true; 
+                response.Success = true;
             }
             catch (Exception ex)
             {

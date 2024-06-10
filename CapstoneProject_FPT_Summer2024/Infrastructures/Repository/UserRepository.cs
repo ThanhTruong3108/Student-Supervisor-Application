@@ -15,6 +15,13 @@ namespace Infrastructures.Repository
     {
         public UserRepository(SchoolRulesContext context) : base(context) { }
 
+        public async Task<User> GetAccountByPhone(string phone)
+        {
+            return _context.Users
+                .Include(r => r.Role)
+                .FirstOrDefault(u => u.Phone.Equals(phone));
+        }
+
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users
@@ -53,7 +60,7 @@ namespace Infrastructures.Repository
 
             if (!string.IsNullOrEmpty(phone))
             {
-                query = query.Where(p => p.Address.Contains(phone));
+                query = query.Where(p => p.Phone.Contains(phone));
             }
 
             return await query

@@ -9,7 +9,7 @@ using StudentSupervisorService.Models.Request.ClassGroupRequest;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/classgroups")]
+    [Route("api/class-groups")]
     [ApiController]
     public class ClassGroupController : ControllerBase
     {
@@ -20,6 +20,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
+
         public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetAllClassGroups(string sortOrder = "asc")
         {
             try

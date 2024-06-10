@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IViolationTypeRepository : IGenericRepository<ViolationType>
     {
+        Task<List<ViolationType>> GetAllVioTypes();
+        Task<ViolationType> GetVioTypeById(int id);
+        Task<List<ViolationType>> SearchVioTypes(int? vioGroupId, string? name);
     }
 }

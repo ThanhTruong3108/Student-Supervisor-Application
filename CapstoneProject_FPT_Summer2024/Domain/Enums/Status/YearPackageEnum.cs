@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentSupervisorService.Authentication.Implement
+namespace Domain.Enums.Status
 {
-    public class Authentication : IAuthentication
+    public enum YearPackageEnum
     {
+        ACTIVE,
+        INACTIVE,
     }
 }

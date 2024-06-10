@@ -6,7 +6,6 @@ using Infrastructures.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,7 @@
 ﻿using Domain.Entity;
 using Infrastructures.Interfaces.IGenericRepository;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUserById(int id);
+        Task<User> GetAccountByPhone(string phone);
         Task<List<User>> SearchUsers(int? role ,string? code, string? name, string? phone);
     }
 }

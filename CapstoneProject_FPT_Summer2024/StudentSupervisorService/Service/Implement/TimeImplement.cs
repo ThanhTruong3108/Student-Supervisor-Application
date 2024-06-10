@@ -49,36 +49,21 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfTime>>> GetAllTimes(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfTime>>> GetAllTimes()
         {
             var response = new DataResponse<List<ResponseOfTime>>();
 
             try
             {
                 var times = await _unitOfWork.Time.GetAllTimes();
-                if (times is null)
+                if (times is null || !times.Any())
                 {
                     response.Message = "The Time list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách TIME theo yêu cầu
-                var timeDTO = _mapper.Map<List<ResponseOfTime>>(times);
-                if (sortOrder == "desc")
-                {
-                    timeDTO = timeDTO.OrderByDescending(r => r.Slot).ToList();
-                }
-                else
-                {
-                    timeDTO = timeDTO.OrderBy(r => r.Slot).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pagedTimes = timeDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pagedTimes;
-                response.Message = "List TimeS";
+                response.Data = _mapper.Map<List<ResponseOfTime>>(times);
+                response.Message = "List Times";
                 response.Success = true;
             }
             catch (Exception ex)

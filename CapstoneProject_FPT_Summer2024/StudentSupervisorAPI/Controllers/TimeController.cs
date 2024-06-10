@@ -18,11 +18,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfTime>>>> GetTimes(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfTime>>>> GetTimes()
         {
             try
             {
-                var times = await _service.GetAllTimes(page, pageSize, sortOrder);
+                var times = await _service.GetAllTimes();
                 return Ok(times);
             }
             catch (Exception ex)

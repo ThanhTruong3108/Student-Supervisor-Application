@@ -19,11 +19,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools(int page = 1, int pageSize = 5, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools()
         {
             try
             {
-                var highSchools = await _service.GetAllHighSchools(page, pageSize, sortOrder);
+                var highSchools = await _service.GetAllHighSchools();
                 return Ok(highSchools);
             }
             catch (Exception ex)

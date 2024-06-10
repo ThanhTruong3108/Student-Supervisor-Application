@@ -19,6 +19,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
+
         public async Task<ActionResult<DataResponse<List<ClassResponse>>>> GetAllClasses(string sortOrder = "asc")
         {
             try

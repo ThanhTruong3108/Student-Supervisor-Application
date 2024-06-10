@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface TimeService
     {
-        Task<DataResponse<List<ResponseOfTime>>> GetAllTimes(int page, int pageSize, string sortOrder);
+        Task<DataResponse<List<ResponseOfTime>>> GetAllTimes();
         Task<DataResponse<ResponseOfTime>> GetTimeById(int id);
         Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request);
         Task DeleteTime(int timeId);

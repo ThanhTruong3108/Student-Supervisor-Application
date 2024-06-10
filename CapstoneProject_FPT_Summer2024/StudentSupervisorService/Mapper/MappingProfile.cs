@@ -41,9 +41,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Student, StudentResponse>();
             CreateMap<RequestOfHighSchool, HighSchool>();
 
-
-
-            //-------------------------------------------------------------------------------------------------------------       
+            //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 
@@ -100,8 +98,7 @@ namespace StudentSupervisorService.Mapper
               .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name));
 
             CreateMap<RequestOfYearPackage, YearPackage>();
-            //--------------------------------------------------------------------------------------------------------------
-
+            //-------------------------------------------------------------------------------------------------------------
         }
     }
 }

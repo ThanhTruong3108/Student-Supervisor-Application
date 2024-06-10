@@ -53,36 +53,21 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs(int page, int pageSize, string sortOrder)
+        public async Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs()
         {
             var response = new DataResponse<List<ViolationConfigResponse>>();
 
             try
             {
-                var violationConfigs = await _unitOfWork.ViolationConfig.GetAllViolationConfigs();
-                if (violationConfigs is null)
+                var vioConfigs = await _unitOfWork.ViolationConfig.GetAllViolationConfigs();
+                if (vioConfigs is null || !vioConfigs.Any())
                 {
                     response.Message = "The ViolationConfig list is empty";
                     response.Success = true;
+                    return response;
                 }
-
-                // Sắp xếp danh sách năm học theo yêu cầu
-                var violationConfigDTO = _mapper.Map<List<ViolationConfigResponse>>(violationConfigs);
-                if (sortOrder == "desc")
-                {
-                    violationConfigDTO = violationConfigDTO.OrderByDescending(r => r.Code).ToList();
-                }
-                else
-                {
-                    violationConfigDTO = violationConfigDTO.OrderBy(r => r.Code).ToList();
-                }
-
-                // Thực hiện phân trang
-                var startIndex = (page - 1) * pageSize;
-                var pageViolations = violationConfigDTO.Skip(startIndex).Take(pageSize).ToList();
-
-                response.Data = pageViolations;
-                response.Message = "List ViolationConfigs";
+                response.Data = _mapper.Map<List<ViolationConfigResponse>>(vioConfigs);
+                response.Message = "List ViolationConfig";
                 response.Success = true;
             }
             catch (Exception ex)
