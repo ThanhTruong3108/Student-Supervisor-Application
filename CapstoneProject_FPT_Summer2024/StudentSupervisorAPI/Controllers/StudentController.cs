@@ -11,19 +11,17 @@ namespace StudentSupervisorAPI.Controllers
     public class StudentController : ControllerBase
     {
         private readonly StudentService studentService;
-        private readonly ImageUrlService imageUrlService;
-        public StudentController(StudentService studentService, ImageUrlService imageUrlService)
+        public StudentController(StudentService studentService)
         {
             this.studentService = studentService;
-            this.imageUrlService = imageUrlService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> GetAllStudents()
+        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> GetAllStudents(string sortOrder = "asc")
         {
             try
             {
-                var studentsResponse = await studentService.GetAllStudents();
+                var studentsResponse = await studentService.GetAllStudents(sortOrder);
                 return Ok(studentsResponse);
             }
             catch (Exception ex)

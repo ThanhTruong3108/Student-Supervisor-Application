@@ -19,29 +19,34 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups()
+        public async Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(string sortOrder)
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
-
             try
             {
-                var classGroups = await _unitOfWork.ClassGroup.GetAllClassGroups();
-                if (classGroups is null || !classGroups.Any())
+
+                var classGroupEntities = await _unitOfWork.ClassGroup.GetAllClassGroups();
+                if (classGroupEntities is null || !classGroupEntities.Any())
                 {
                     response.Message = "The ClassGroup list is empty";
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroups);
-                response.Message = "List ClassGroups";
+
+                classGroupEntities = sortOrder == "desc"
+                    ? classGroupEntities.OrderByDescending(r => r.ClassGroupName).ToList()
+                    : classGroupEntities.OrderBy(r => r.ClassGroupName).ToList();
+
+                response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
+                response.Message = "List ClassGroup";
                 response.Success = true;
+
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
-
             return response;
         }
         public async Task<DataResponse<ClassGroupResponse>> GetClassGroupById(int id)

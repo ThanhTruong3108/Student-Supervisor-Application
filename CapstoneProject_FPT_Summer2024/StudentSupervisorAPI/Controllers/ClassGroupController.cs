@@ -20,11 +20,12 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetAllClassGroups()
+
+        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetAllClassGroups(string sortOrder = "asc")
         {
             try
             {
-                var classGroupsResponse = await classGroupService.GetAllClassGroups();
+                var classGroupsResponse = await classGroupService.GetAllClassGroups(sortOrder);
                 return Ok(classGroupsResponse);
             }
             catch (Exception ex)

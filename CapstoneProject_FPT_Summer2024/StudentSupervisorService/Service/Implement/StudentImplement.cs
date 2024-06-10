@@ -25,29 +25,32 @@ namespace StudentSupervisorService.Service.Implement
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents()
+        public async Task<DataResponse<List<StudentResponse>>> GetAllStudents(string sortOrder)
         {
             var response = new DataResponse<List<StudentResponse>>();
-
             try
             {
-                var students = await unitOfWork.Student.GetAllStudents();
-                if (students is null || !students.Any())
+                var studentEntities = await unitOfWork.Student.GetAllStudents();
+                if (studentEntities is null || !studentEntities.Any())
                 {
                     response.Message = "The Student list is empty";
                     response.Success = true;
                     return response;
                 }
-                response.Data = mapper.Map<List<StudentResponse>>(students);
+
+                studentEntities = sortOrder == "desc"
+                    ? studentEntities.OrderByDescending(r => r.Code).ToList()
+                    : studentEntities.OrderBy(r => r.Code).ToList();
+
+                response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
                 response.Message = "List Students";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
                 response.Success = false;
             }
-
             return response;
         }
 
