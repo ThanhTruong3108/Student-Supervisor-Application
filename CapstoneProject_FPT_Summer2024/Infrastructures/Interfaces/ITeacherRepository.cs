@@ -12,6 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Teacher>> GetAllTeachers();
         Task<Teacher> GetTeacherById(int id);
+        Task<Teacher> GetTeacherByUserId(int id);
         Task<List<Teacher>> SearchTeachers(int? schoolId, int? userId, bool sex);
     }
 }
