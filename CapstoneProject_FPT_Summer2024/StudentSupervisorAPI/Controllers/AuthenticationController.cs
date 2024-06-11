@@ -13,14 +13,14 @@ using System.Text;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/login")]
+    [Route("api/authentications")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
 
-        public LoginController(IUnitOfWork unitOfWork, IConfiguration config)
+        public AuthenticationController(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
             _config = config;
