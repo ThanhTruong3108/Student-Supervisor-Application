@@ -16,11 +16,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfYearPackage>>>> GetYearPackages()
+        public async Task<ActionResult<DataResponse<List<ResponseOfYearPackage>>>> GetYearPackages(string sortOrder)
         {
             try
             {
-                var yearPackages = await _service.GetAllYearPackages();
+                var yearPackages = await _service.GetAllYearPackages(sortOrder);
                 return Ok(yearPackages);
             }
             catch (Exception ex)

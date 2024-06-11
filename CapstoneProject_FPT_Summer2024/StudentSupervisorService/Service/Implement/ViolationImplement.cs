@@ -24,7 +24,7 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
             _imageUrlService = imageUrlService;
         }
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations()
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
@@ -37,7 +37,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
+                // Sắp xếp danh sách Violation theo yêu cầu
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.Code).ToList();
+                }
+                else
+                {
+                    vioDTO = vioDTO.OrderBy(r => r.Code).ToList();
+                }
+                response.Data = vioDTO;
                 response.Message = "List Violations";
                 response.Success = true;
             }

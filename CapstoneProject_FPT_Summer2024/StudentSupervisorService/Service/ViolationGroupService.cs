@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ViolationGroupService
     {
-        Task<DataResponse<List<ResponseOfVioGroup>>> GetAllVioGroups();
+        Task<DataResponse<List<ResponseOfVioGroup>>> GetAllVioGroups(string sortOrder);
         Task<DataResponse<ResponseOfVioGroup>> GetVioGroupById(int id);
         Task<DataResponse<ResponseOfVioGroup>> CreateVioGroup(RequestOfVioGroup request);
         Task DeleteVioGroup(int id);

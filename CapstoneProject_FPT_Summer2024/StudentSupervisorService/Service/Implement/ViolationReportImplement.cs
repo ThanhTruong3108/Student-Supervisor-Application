@@ -51,7 +51,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports()
+        public async Task<DataResponse<List<ResponseOfVioReport>>> GetAllVioReports(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfVioReport>>();
 
@@ -64,7 +64,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfVioReport>>(vioReports);
+                // Sắp xếp danh sách sản phẩm theo yêu cầu
+                var vioReportDTO = _mapper.Map<List<ResponseOfVioReport>>(vioReports);
+                if (sortOrder == "desc")
+                {
+                    vioReportDTO = vioReportDTO.OrderByDescending(r => r.StudentInClassId).ToList();
+                }
+                else
+                {
+                    vioReportDTO = vioReportDTO.OrderBy(r => r.StudentInClassId).ToList();
+                }
+                response.Data = vioReportDTO;
                 response.Message = "List ViolationReports";
                 response.Success = true;
             }

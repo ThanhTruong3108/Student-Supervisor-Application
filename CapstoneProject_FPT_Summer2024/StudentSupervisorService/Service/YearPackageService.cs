@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface YearPackageService
     {
-        Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages();
+        Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages(string sortOrder);
         Task<DataResponse<ResponseOfYearPackage>> GetYearPackageById(int id);
         Task<DataResponse<ResponseOfYearPackage>> CreateYearPackage(RequestOfYearPackage request);
         Task DeleteYearPackage(int id);

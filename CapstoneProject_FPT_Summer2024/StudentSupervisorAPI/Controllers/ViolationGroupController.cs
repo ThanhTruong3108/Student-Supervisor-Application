@@ -3,6 +3,7 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
+using Microsoft.Data.SqlClient;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -16,11 +17,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroups()
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroups(string sortOrder)
         {
             try
             {
-                var vioGroups = await _service.GetAllVioGroups();
+                var vioGroups = await _service.GetAllVioGroups(sortOrder);
                 return Ok(vioGroups);
             }
             catch (Exception ex)

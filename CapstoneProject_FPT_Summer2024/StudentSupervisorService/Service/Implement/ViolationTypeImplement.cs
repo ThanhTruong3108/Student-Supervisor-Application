@@ -58,7 +58,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes()
+        public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfVioType>>();
 
@@ -71,7 +71,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfVioType>>(vioTypes);
+                // Sắp xếp danh sách sản phẩm theo yêu cầu
+                var vioTypeDTO = _mapper.Map<List<ResponseOfVioType>>(vioTypes);
+                if (sortOrder == "desc")
+                {
+                    vioTypeDTO = vioTypeDTO.OrderByDescending(r => r.ViolationGroupId).ToList();
+                }
+                else
+                {
+                    vioTypeDTO = vioTypeDTO.OrderBy(r => r.ViolationGroupId).ToList();
+                }
+                response.Data = vioTypeDTO;
                 response.Message = "List ViolationTypes";
                 response.Success = true;
             }

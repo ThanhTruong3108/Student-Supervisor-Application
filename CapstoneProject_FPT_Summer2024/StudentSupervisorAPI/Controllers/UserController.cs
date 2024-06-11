@@ -18,11 +18,11 @@ namespace StudentSupervisorAPI.Controllers
         }
         //[Authorize(Roles = "SCHOOLADMIN")]
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers()
+        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers(string sortOrder)
         {
             try 
             {
-                var users = await _service.GetAllUsers();
+                var users = await _service.GetAllUsers(sortOrder);
                 return Ok(users);
             }
             catch (Exception ex)

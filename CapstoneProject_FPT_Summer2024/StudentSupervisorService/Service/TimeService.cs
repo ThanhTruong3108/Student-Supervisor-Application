@@ -6,11 +6,11 @@ namespace StudentSupervisorService.Service
 {
     public interface TimeService
     {
-        Task<DataResponse<List<ResponseOfTime>>> GetAllTimes();
+        Task<DataResponse<List<ResponseOfTime>>> GetAllTimes(string sortOrder);
         Task<DataResponse<ResponseOfTime>> GetTimeById(int id);
-        Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request);
+        //Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request);
         Task DeleteTime(int timeId);
-        Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request);
+        //Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request);
         Task<DataResponse<List<ResponseOfTime>>> SearchTimes(byte? slot, TimeSpan? time, string sortOrder);
     }
 }

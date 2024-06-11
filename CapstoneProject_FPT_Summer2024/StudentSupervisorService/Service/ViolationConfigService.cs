@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface ViolationConfigService
     {
-        Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs();
+        Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs(string sortOrder);
         Task<DataResponse<ViolationConfigResponse>> GetViolationConfigById(int id);
         Task<DataResponse<ViolationConfigResponse>> CreateViolationConfig(RequestOfViolationConfig request);
         Task DeleteViolationConfig(int id);

@@ -17,26 +17,26 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request)
-        {
-            var response = new DataResponse<ResponseOfTime>();
+        //public async Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request)
+        //{
+        //    var response = new DataResponse<ResponseOfTime>();
 
-            try
-            {
-                var createTime = _mapper.Map<Time>(request);
-                _unitOfWork.Time.Add(createTime);
-                _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfTime>(createTime);
-                response.Message = "Create Successfully.";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
-        }
+        //    try
+        //    {
+        //        var createTime = _mapper.Map<Time>(request);
+        //        _unitOfWork.Time.Add(createTime);
+        //        _unitOfWork.Save();
+        //        response.Data = _mapper.Map<ResponseOfTime>(createTime);
+        //        response.Message = "Create Successfully.";
+        //        response.Success = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+        //        response.Success = false;
+        //    }
+        //    return response;
+        //}
 
         public async Task DeleteTime(int timeId)
         {
@@ -49,7 +49,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfTime>>> GetAllTimes()
+        public async Task<DataResponse<List<ResponseOfTime>>> GetAllTimes(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfTime>>();
 
@@ -62,7 +62,18 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfTime>>(times);
+                // Sắp xếp danh sách Time theo yêu cầu
+                var timeDTO = _mapper.Map<List<ResponseOfTime>>(times);
+                if (sortOrder == "desc")
+                {
+                    timeDTO = timeDTO.OrderByDescending(r => r.Slot).ToList();
+                }
+                else
+                {
+                    timeDTO = timeDTO.OrderBy(r => r.Slot).ToList();
+                }
+
+                response.Data = timeDTO;
                 response.Message = "List Times";
                 response.Success = true;
             }
@@ -139,35 +150,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request)
-        {
-            var response = new DataResponse<ResponseOfTime>();
+        //public async Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request)
+        //{
+        //    var response = new DataResponse<ResponseOfTime>();
 
-            try
-            {
-                var time = _unitOfWork.Time.GetById(id);
-                if (time is null)
-                {
-                    response.Message = "Can not found Time";
-                    response.Success = false;
-                    return response;
-                }
-                time.ClassGroupId = request.ClassGroupId;
-                time.Slot = request.Slot;
-                time.Time1 = request.Time1;
-                _unitOfWork.Time.Update(time);
-                _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfTime>(time);
-                response.Success = true;
-                response.Message = "Update Successfully.";
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-                response.Success = false;
-            }
+        //    try
+        //    {
+        //        var time = _unitOfWork.Time.GetById(id);
+        //        if (time is null)
+        //        {
+        //            response.Message = "Can not found Time";
+        //            response.Success = false;
+        //            return response;
+        //        }
+        //        time.ClassGroupId = request.ClassGroupId;
+        //        time.Slot = request.Slot;
+        //        time.Time1 = request.Time1;
+        //        _unitOfWork.Time.Update(time);
+        //        _unitOfWork.Save();
+        //        response.Data = _mapper.Map<ResponseOfTime>(time);
+        //        response.Success = true;
+        //        response.Message = "Update Successfully.";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+        //        response.Success = false;
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
     }
 }

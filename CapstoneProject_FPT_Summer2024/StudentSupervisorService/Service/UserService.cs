@@ -6,7 +6,7 @@ namespace StudentSupervisorService.Service
 {
     public interface UserService
     {
-        Task<DataResponse<List<ResponseOfUser>>> GetAllUsers();
+        Task<DataResponse<List<ResponseOfUser>>> GetAllUsers(string sortOrder);
         Task<DataResponse<ResponseOfUser>> GetUserById(int id);
         Task<DataResponse<ResponseOfUser>> CreateUser(RequestOfUser request);
         Task DeleteUser(int userId);

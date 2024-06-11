@@ -18,11 +18,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfTime>>>> GetTimes()
+        public async Task<ActionResult<DataResponse<List<ResponseOfTime>>>> GetTimes(string sortOrder)
         {
             try
             {
-                var times = await _service.GetAllTimes();
+                var times = await _service.GetAllTimes(sortOrder);
                 return Ok(times);
             }
             catch (Exception ex)
@@ -59,18 +59,18 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DataResponse<ResponseOfTime>>> CreateTime(RequestOfTime request)
-        {
-            var createdTime = await _service.CreateTime(request);
-            return createdTime == null ? NotFound() : Ok(createdTime);
-        }
-        [HttpPut("{id}")]
-        public async Task<ActionResult<DataResponse<ResponseOfTime>>> UpdateTime(int id, RequestOfTime request)
-        {
-            var updatedTime = await _service.UpdateTime(id, request);
-            return updatedTime == null ? NotFound() : Ok(updatedTime);
-        }
+        //[HttpPost]
+        //public async Task<ActionResult<DataResponse<ResponseOfTime>>> CreateTime(RequestOfTime request)
+        //{
+        //    var createdTime = await _service.CreateTime(request);
+        //    return createdTime == null ? NotFound() : Ok(createdTime);
+        //}
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<DataResponse<ResponseOfTime>>> UpdateTime(int id, RequestOfTime request)
+        //{
+        //    var updatedTime = await _service.UpdateTime(id, request);
+        //    return updatedTime == null ? NotFound() : Ok(updatedTime);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTime(int id)

@@ -58,7 +58,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages()
+        public async Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfYearPackage>>();
 
@@ -71,7 +71,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
+                // Sắp xếp danh sách sản phẩm theo yêu cầu
+                var yearPackageDTO = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
+                if (sortOrder == "desc")
+                {
+                    yearPackageDTO = yearPackageDTO.OrderByDescending(r => r.NumberOfStudent).ToList();
+                }
+                else
+                {
+                    yearPackageDTO = yearPackageDTO.OrderBy(r => r.NumberOfStudent).ToList();
+                }
+                response.Data = yearPackageDTO;
                 response.Message = "List YearPackages";
                 response.Success = true;
             }

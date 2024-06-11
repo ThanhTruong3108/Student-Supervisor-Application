@@ -16,11 +16,11 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioReport>>>> GetVioReports()
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioReport>>>> GetVioReports(string sortOrder)
         {
             try
             {
-                var vioReports = await _service.GetAllVioReports();
+                var vioReports = await _service.GetAllVioReports(sortOrder);
                 return Ok(vioReports);
             }
             catch (Exception ex)

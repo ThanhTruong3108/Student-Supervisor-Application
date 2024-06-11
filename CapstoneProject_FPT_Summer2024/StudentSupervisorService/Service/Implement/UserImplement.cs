@@ -53,7 +53,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfUser>>> GetAllUsers()
+        public async Task<DataResponse<List<ResponseOfUser>>> GetAllUsers(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfUser>>();
 
@@ -66,7 +66,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfUser>>(users);
+                // Sắp xếp danh sách User theo yêu cầu
+                var userDTO = _mapper.Map<List<ResponseOfUser>>(users);
+                if (sortOrder == "desc")
+                {
+                    userDTO = userDTO.OrderByDescending(r => r.Code).ToList();
+                }
+                else
+                {
+                    userDTO = userDTO.OrderBy(r => r.Code).ToList();
+                }
+                response.Data = userDTO;
                 response.Message = "List Users";
                 response.Success = true;
             }

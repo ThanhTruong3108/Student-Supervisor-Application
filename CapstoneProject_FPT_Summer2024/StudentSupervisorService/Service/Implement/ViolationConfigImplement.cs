@@ -53,7 +53,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs()
+        public async Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs(string sortOrder)
         {
             var response = new DataResponse<List<ViolationConfigResponse>>();
 
@@ -66,7 +66,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ViolationConfigResponse>>(vioConfigs);
+                // Sắp xếp danh sách ViolationConfig theo yêu cầu
+                var vioConfigDTO = _mapper.Map<List<ViolationConfigResponse>>(vioConfigs);
+                if (sortOrder == "desc")
+                {
+                    vioConfigDTO = vioConfigDTO.OrderByDescending(r => r.Code).ToList();
+                }
+                else
+                {
+                    vioConfigDTO = vioConfigDTO.OrderBy(r => r.Code).ToList();
+                }
+                response.Data = vioConfigDTO;
                 response.Message = "List ViolationConfig";
                 response.Success = true;
             }
