@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StudentSupervisorService.Models.Response.TeacherResponse;
+using StudentSupervisorService.Models.Request.TeacherRequest;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -47,6 +49,14 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<RequestCreateSchoolYear, SchoolYear>();
 
+            CreateMap<Teacher, TeacherResponse>()
+               .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))
+               .ForMember(re => re.TeacherName, act => act.MapFrom(src => src.User.Name))
+               .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
+               .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
+               .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address));
+
+            CreateMap<RequestOfTeacher, Teacher>();
 
             CreateMap<Time, ResponseOfTime>()
                .ForMember(re => re.ClassGroupName, act => act.MapFrom(src => src.ClassGroup.ClassGroupName))
