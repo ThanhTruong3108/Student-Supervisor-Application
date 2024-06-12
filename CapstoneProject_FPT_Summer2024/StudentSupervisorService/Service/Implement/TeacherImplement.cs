@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Core;
 using Domain.Entity;
+using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.TeacherRequest;
@@ -17,26 +19,38 @@ namespace StudentSupervisorService.Service.Implement
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-        }
-        public async Task<DataResponse<TeacherResponse>> CreateTeacher(RequestOfTeacher request)
+        }   
+        public async Task<TeacherResponse> CreateAccountTeacher(RequestOfTeacher request)
         {
-            var response = new DataResponse<TeacherResponse>();
+            // Check if the phone number already exists
+            var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+            if (isExist != null)
+            {
+                throw new Exception("Phone already in use!");
+            }
 
-            try
+            // Map request to Teacher entity
+            var teacher = _mapper.Map<Teacher>(request);
+
+            // Hash the password
+            //var passwordHash = _authentication.Hash(request.Password);
+
+            teacher.User = new User
             {
-                var createTeacher = _mapper.Map<Teacher>(request);
-                _unitOfWork.Teacher.Add(createTeacher);
-                _unitOfWork.Save();
-                response.Data = _mapper.Map<TeacherResponse>(createTeacher);
-                response.Message = "Create Successfully.";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
+                SchoolAdminId = request.SchoolAdminId,
+                Code = request.Code,
+                Name = request.TeacherName,
+                Phone = "84" + request.Phone, // Assuming the phone number needs to be prefixed with "84"
+                Password = request.Password,
+                Address = request.Address,
+                RoleId = (byte)RoleAccountEnum.TEACHER, 
+                Status = UserEnum.ACTIVE.ToString() 
+            };
+
+            _unitOfWork.Teacher.Add(teacher);
+            _unitOfWork.Save();
+
+            return _mapper.Map<TeacherResponse>(teacher);
         }
 
         public async Task DeleteTeacher(int id)
@@ -151,39 +165,39 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<TeacherResponse>> UpdateTeacher(int id, RequestOfTeacher request)
-        {
-            var response = new DataResponse<TeacherResponse>();
+        //public async Task<DataResponse<TeacherResponse>> UpdateTeacher(int id, RequestOfTeacher request)
+        //{
+        //    var response = new DataResponse<TeacherResponse>();
 
-            try
-            {
-                var teacher = _unitOfWork.Teacher.GetById(id);
-                if (teacher is null)
-                {
-                    response.Message = "Can not found Teacher";
-                    response.Success = false;
-                    return response;
-                }
+        //    try
+        //    {
+        //        var teacher = _unitOfWork.Teacher.GetById(id);
+        //        if (teacher is null)
+        //        {
+        //            response.Message = "Can not found Teacher";
+        //            response.Success = false;
+        //            return response;
+        //        }
 
-                teacher.SchoolId = request.SchoolId;
-                teacher.UserId = request.UserId;
-                teacher.Sex = request.Sex;
+        //        teacher.SchoolId = request.SchoolId;
+        //        teacher.UserId = request.UserId;
+        //        teacher.Sex = request.Sex;
 
 
-                _unitOfWork.Teacher.Update(teacher);
-                _unitOfWork.Save();
+        //        _unitOfWork.Teacher.Update(teacher);
+        //        _unitOfWork.Save();
 
-                response.Data = _mapper.Map<TeacherResponse>(teacher);
-                response.Success = true;
-                response.Message = "Update Successfully.";
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-                response.Success = false;
-            }
+        //        response.Data = _mapper.Map<TeacherResponse>(teacher);
+        //        response.Success = true;
+        //        response.Message = "Update Successfully.";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+        //        response.Success = false;
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
     }
 }

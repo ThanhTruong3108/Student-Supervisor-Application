@@ -13,8 +13,10 @@ namespace StudentSupervisorService.Models.Response.TeacherResponse
         public string TeacherName { get; set; }
         public string SchoolName { get; set; }
         public string Phone { get; set; }
+        public string Password { get; set; }
         public bool Sex { get; set; }
         public string? Address { get; set; }
+        public byte RoleId { get; set; }
 
     }
 }

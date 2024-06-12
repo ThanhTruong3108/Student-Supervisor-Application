@@ -10,17 +10,39 @@ namespace StudentSupervisorService.Models.Request.TeacherRequest
 {
     public class RequestOfTeacher
     {
-        public RequestOfTeacher(int schoolId, bool sex, int userId)
+        public RequestOfTeacher(int schoolAdminId, int schoolId, string code, string teacherName, string phone, string password, bool sex, string address)
         {
+            SchoolAdminId = schoolAdminId;
             SchoolId = schoolId;
+            Code = code;
+            TeacherName = teacherName;
+            Phone = phone;
+            Password = password;
             Sex = sex;
-            UserId = userId;
+            Address = address;
+            //RoleId = roleId;
+            //Status = status;
         }
+        [Required(ErrorMessage = "The SchoolAdminId field is required.")]
+        public int SchoolAdminId { get; set; }
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }
-        [Required(ErrorMessage = "The UserId field is required.")]
-        public int UserId { get; set; }
+        [Required(ErrorMessage = "The Code field is required.")]
+        public string Code { get; set; }
+        [Required(ErrorMessage = "The TeacherName field is required.")]
+        public string TeacherName { get; set; }
+        [RegularExpression(@"^[0-9]{8,9}$", ErrorMessage = "The phone number must be an 8 or 9 digit integer.")]
+        [Required(ErrorMessage = "The SchoolName field is required.")]
+        public string Phone { get; set; }
+        [Required(ErrorMessage = "The Password field is required.")]
+        public string Password { get; set; }
         [Required(ErrorMessage = "The Sex field is required.")]
         public bool Sex { get; set; }
+        [Required(ErrorMessage = "The Address field is required.")]
+        public string? Address { get; set; }
+        //[Required(ErrorMessage = "The RoleId field is required.")]
+        //public byte RoleId { get; set; }
+        //[Required(ErrorMessage = "The Status field is required.")]
+        //public string Status { get; set; }
     }
 }

@@ -57,18 +57,25 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DataResponse<TeacherResponse>>> CreateTeacher(RequestOfTeacher request)
+        [HttpPost("create-account")]
+        public async Task<ActionResult<TeacherResponse>> CreateTeacherAccount(RequestOfTeacher request)
         {
-            var createdTeacher = await _service.CreateTeacher(request);
-            return createdTeacher == null ? NotFound() : Ok(createdTeacher);
+            try
+            {
+                var teacher = await _service.CreateAccountTeacher(request);
+                return teacher == null ? NotFound() : Ok(new { Success = true, Data = teacher });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        [HttpPut("{id}")]
-        public async Task<ActionResult<DataResponse<TeacherResponse>>> UpdateTeacher(int id, RequestOfTeacher request)
-        {
-            var updatedTeacher = await _service.UpdateTeacher(id, request);
-            return updatedTeacher == null ? NotFound() : Ok(updatedTeacher);
-        }
+        //[HttpPut("{id}")]
+        //public async Task<ActionResult<DataResponse<TeacherResponse>>> UpdateTeacher(int id, RequestOfTeacher request)
+        //{
+        //    var updatedTeacher = await _service.UpdateTeacher(id, request);
+        //    return updatedTeacher == null ? NotFound() : Ok(updatedTeacher);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTeacher(int id)

@@ -54,9 +54,19 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.TeacherName, act => act.MapFrom(src => src.User.Name))
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
                .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
-               .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address));
+               .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
+               .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address))
+               .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId));
 
-            CreateMap<RequestOfTeacher, Teacher>();
+            CreateMap<RequestOfTeacher, Teacher>()
+                .ForPath(re => re.User.SchoolAdminId, act => act.MapFrom(src => src.SchoolAdminId))
+                .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
+                .ForPath(re => re.User.Name, act => act.MapFrom(src => src.TeacherName))
+                .ForPath(re => re.User.Phone, act => act.MapFrom(src => "84" + src.Phone)) // Prefix "84" to Phone
+                .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
+                .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
+            //.ForPath(re => re.User.RoleId, act => act.MapFrom(src => src.RoleId));
+            //.ForPath(re => re.User.Status, act => act.MapFrom(src => src.Status));
 
             CreateMap<Time, ResponseOfTime>()
                .ForMember(re => re.ClassGroupName, act => act.MapFrom(src => src.ClassGroup.ClassGroupName))
