@@ -76,7 +76,7 @@ public partial class SchoolRulesContext : DbContext
     {
         IConfiguration config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
+            .AddJsonFile("appsettings.json", false, false)
             .Build();
         var strConn = config.GetConnectionString("DefaultConnection");
         return strConn;
