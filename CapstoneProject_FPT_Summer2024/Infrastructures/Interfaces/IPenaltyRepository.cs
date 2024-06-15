@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IPenaltyRepository : IGenericRepository<Penalty>
     {
+        Task<List<Penalty>> GetAllPenalties();
+        Task<Penalty> GetPenaltyById(int id);
+        Task<List<Penalty>> SearchPenalties(int? schoolId, string? code, string? name, string? description);
+        Task<Penalty> CreatePenalty(Penalty penaltyEntity);
+        Task<Penalty> UpdatePenalty(Penalty penaltyEntity);
+        Task DeletePenalty(int id);
     }
 }

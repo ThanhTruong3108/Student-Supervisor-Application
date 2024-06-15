@@ -30,6 +30,8 @@ using System.Text;
 using System.Threading.Tasks;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
+using StudentSupervisorService.Models.Response.PenaltyResponse;
+using StudentSupervisorService.Models.Response.SchoolConfigResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -42,6 +44,8 @@ namespace StudentSupervisorService.Mapper
             CreateMap<ClassGroup, ClassGroupResponse>();
             CreateMap<Student, StudentResponse>();
             CreateMap<RequestOfHighSchool, HighSchool>();
+            CreateMap<Penalty, PenaltyResponse>();
+            CreateMap<SchoolConfig, SchoolConfigResponse>();
 
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
