@@ -11,4 +11,10 @@ namespace Domain.Enums.Status
         ACTIVE,
         INACTIVE,
     }
+
+    public enum SchoolConfigStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
 }
