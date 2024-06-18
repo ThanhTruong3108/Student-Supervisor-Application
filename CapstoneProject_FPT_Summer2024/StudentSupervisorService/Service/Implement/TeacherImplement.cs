@@ -22,14 +22,12 @@ namespace StudentSupervisorService.Service.Implement
         }   
         public async Task<TeacherResponse> CreateAccountTeacher(RequestOfTeacher request)
         {
-            // Check if the phone number already exists
             var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
             if (isExist != null)
             {
                 throw new Exception("Phone already in use!");
             }
 
-            // Map request to Teacher entity
             var teacher = _mapper.Map<Teacher>(request);
 
             // Hash the password
@@ -40,7 +38,7 @@ namespace StudentSupervisorService.Service.Implement
                 SchoolAdminId = request.SchoolAdminId,
                 Code = request.Code,
                 Name = request.TeacherName,
-                Phone = "84" + request.Phone, // Assuming the phone number needs to be prefixed with "84"
+                Phone = "84" + request.Phone,
                 Password = request.Password,
                 Address = request.Address,
                 RoleId = (byte)RoleAccountEnum.TEACHER, 
@@ -55,13 +53,20 @@ namespace StudentSupervisorService.Service.Implement
 
         public async Task DeleteTeacher(int id)
         {
-            var teacher = _unitOfWork.Teacher.GetById(id);
-            if (teacher is null)
+            var teacher = await _unitOfWork.Teacher.GetTeacherByIdWithUser(id);
+            if (teacher == null)
             {
-                throw new Exception("Can not found by" + id);
+                throw new Exception("Cannot find Teacher by id " + id);
             }
 
-            _unitOfWork.Teacher.Remove(teacher);
+            if (teacher.User == null)
+            {
+                throw new Exception("Associated User not found for Teacher id " + id);
+            }
+
+            teacher.User.Status = UserEnum.INACTIVE.ToString();
+
+            _unitOfWork.User.Update(teacher.User);
             _unitOfWork.Save();
         }
 
@@ -165,39 +170,46 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        //public async Task<DataResponse<TeacherResponse>> UpdateTeacher(int id, RequestOfTeacher request)
-        //{
-        //    var response = new DataResponse<TeacherResponse>();
+        public async Task<DataResponse<TeacherResponse>> UpdateTeacher(int id, RequestOfTeacher request)
+        {
+            var response = new DataResponse<TeacherResponse>();
 
-        //    try
-        //    {
-        //        var teacher = _unitOfWork.Teacher.GetById(id);
-        //        if (teacher is null)
-        //        {
-        //            response.Message = "Can not found Teacher";
-        //            response.Success = false;
-        //            return response;
-        //        }
+            try
+            {
+                var teacher = await _unitOfWork.Teacher.GetTeacherByIdWithUser(id);
+                if (teacher == null)
+                {
+                    response.Message = "Cannot find Teacher";
+                    response.Success = false;
+                    return response;
+                }
 
-        //        teacher.SchoolId = request.SchoolId;
-        //        teacher.UserId = request.UserId;
-        //        teacher.Sex = request.Sex;
+                // Update Teacher entity
+                _mapper.Map(request, teacher);
 
+                // Update User entity
+                var user = teacher.User;
+                user.Name = request.TeacherName;
+                user.Phone = "84" + request.Phone; 
+                user.Password = request.Password;
+                user.Address = request.Address;
+                user.Status = UserEnum.ACTIVE.ToString(); 
 
-        //        _unitOfWork.Teacher.Update(teacher);
-        //        _unitOfWork.Save();
+                _unitOfWork.Teacher.Update(teacher);
+                _unitOfWork.User.Update(user);
+                _unitOfWork.Save();
 
-        //        response.Data = _mapper.Map<TeacherResponse>(teacher);
-        //        response.Success = true;
-        //        response.Message = "Update Successfully.";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-        //        response.Success = false;
-        //    }
-
-        //    return response;
-        //}
+                response.Data = _mapper.Map<TeacherResponse>(teacher);
+                response.Success = true;
+                response.Message = "Update Successfully.";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while updating the teacher: " + ex.Message);
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }
