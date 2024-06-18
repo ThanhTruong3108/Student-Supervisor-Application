@@ -49,8 +49,8 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var yearPackages = await _service.SearchTeachers(schoolId, userId, sex, sortOrder);
-                return Ok(yearPackages);
+                var teacher = await _service.SearchTeachers(schoolId, userId, sex, sortOrder);
+                return Ok(teacher);
             }
             catch (Exception ex)
             {

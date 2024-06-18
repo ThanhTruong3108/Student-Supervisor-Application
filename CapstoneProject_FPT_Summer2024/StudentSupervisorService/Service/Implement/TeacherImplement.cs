@@ -144,19 +144,19 @@ namespace StudentSupervisorService.Service.Implement
                 }
                 else
                 {
-                    var yearPackageDTO = _mapper.Map<List<TeacherResponse>>(teachers);
+                    var teacherDTO = _mapper.Map<List<TeacherResponse>>(teachers);
 
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        yearPackageDTO = yearPackageDTO.OrderByDescending(p => p.Code).ToList();
+                        teacherDTO = teacherDTO.OrderByDescending(p => p.Code).ToList();
                     }
                     else
                     {
-                        yearPackageDTO = yearPackageDTO.OrderBy(p => p.Code).ToList();
+                        teacherDTO = teacherDTO.OrderBy(p => p.Code).ToList();
                     }
 
-                    response.Data = yearPackageDTO;
+                    response.Data = teacherDTO;
                     response.Message = "Teachers found";
                     response.Success = true;
                 }
