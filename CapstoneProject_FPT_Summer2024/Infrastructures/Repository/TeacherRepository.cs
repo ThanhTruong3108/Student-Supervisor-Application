@@ -33,9 +33,17 @@ namespace Infrastructures.Repository
                .FirstOrDefault(s => s.TeacherId == id);
         }
 
+        public async Task<Teacher> GetTeacherByIdWithUser(int id)
+        {
+            return _context.Teachers
+                .Include(t => t.User)
+                .FirstOrDefault(t => t.TeacherId == id);
+        }
+
         public async Task<Teacher> GetTeacherByUserId(int id)
         {
-            return await _context.Teachers.FirstOrDefaultAsync(i => i.UserId == id);
+            return _context.Teachers
+                .FirstOrDefault(i => i.UserId == id);
         }
 
         public async Task<List<Teacher>> SearchTeachers(int? schoolId, int? userId, bool sex)

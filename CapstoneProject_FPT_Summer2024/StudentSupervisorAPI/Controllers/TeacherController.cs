@@ -15,6 +15,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
+
         [HttpGet]
         public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetTeachers(string sortOrder)
         {
@@ -48,8 +49,8 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var yearPackages = await _service.SearchTeachers(schoolId, userId, sex, sortOrder);
-                return Ok(yearPackages);
+                var teacher = await _service.SearchTeachers(schoolId, userId, sex, sortOrder);
+                return Ok(teacher);
             }
             catch (Exception ex)
             {
@@ -70,12 +71,13 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<DataResponse<TeacherResponse>>> UpdateTeacher(int id, RequestOfTeacher request)
-        //{
-        //    var updatedTeacher = await _service.UpdateTeacher(id, request);
-        //    return updatedTeacher == null ? NotFound() : Ok(updatedTeacher);
-        //}
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DataResponse<TeacherResponse>>> UpdateTeacher(int id, RequestOfTeacher request)
+        {
+            var updatedTeacher = await _service.UpdateTeacher(id, request);
+            return updatedTeacher == null ? NotFound() : Ok(updatedTeacher);
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTeacher(int id)

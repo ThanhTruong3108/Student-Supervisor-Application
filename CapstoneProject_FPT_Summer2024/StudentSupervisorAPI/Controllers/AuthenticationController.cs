@@ -13,7 +13,7 @@ using System.Text;
 
 namespace StudentSupervisorAPI.Controllers
 {
-    [Route("api/authentications")]
+    [Route("api/auths")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {

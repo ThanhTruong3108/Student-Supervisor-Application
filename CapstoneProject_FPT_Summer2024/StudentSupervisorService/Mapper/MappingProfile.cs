@@ -37,6 +37,8 @@ using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.EvaluationResponse;
 using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
+using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
+using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -62,6 +64,25 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 
             CreateMap<RequestCreateSchoolYear, SchoolYear>();
+
+            CreateMap<StudentSupervisor, StudentSupervisorResponse>()
+               .ForMember(re => re.SupervisorCode, act => act.MapFrom(src => src.Code))
+               .ForMember(re => re.UserCode, act => act.MapFrom(src => src.User.Code))
+               .ForMember(re => re.SupervisorName, act => act.MapFrom(src => src.User.Name))
+               .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
+               .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
+               .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address))
+               .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId));
+
+            CreateMap<StudentSupervisorRequest, StudentSupervisor>()
+                .ForPath(re => re.Code, act => act.MapFrom(src => src.SupervisorCode))
+                .ForPath(re => re.User.SchoolAdminId, act => act.MapFrom(src => src.SchoolAdminId))
+                .ForPath(re => re.User.Code, act => act.MapFrom(src => src.UserCode))
+                .ForPath(re => re.User.Name, act => act.MapFrom(src => src.SupervisorName))
+                .ForPath(re => re.User.Phone, act => act.MapFrom(src => "84" + src.Phone)) // Prefix "84" to Phone
+                .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
+                .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
+
 
             CreateMap<Teacher, TeacherResponse>()
                .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))

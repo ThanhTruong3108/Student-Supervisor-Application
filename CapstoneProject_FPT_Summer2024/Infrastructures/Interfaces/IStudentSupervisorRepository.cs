@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IStudentSupervisorRepository : IGenericRepository<StudentSupervisor>
     {
+        Task<List<StudentSupervisor>> GetAllStudentSupervisors();
+        Task<StudentSupervisor> GetStudentSupervisorById(int id);
+        Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, string code);
     }
 }
