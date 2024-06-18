@@ -17,4 +17,29 @@ namespace Domain.Enums.Status
         ACTIVE,
         INACTIVE,
     }
+
+    public enum RegisteredSchoolStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+        EXPIRED,
+    }
+
+    public enum DisciplineStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum EvaluationDetailStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum StudentInClassStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
 }

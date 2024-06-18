@@ -32,6 +32,11 @@ using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
 using StudentSupervisorService.Models.Response.PenaltyResponse;
 using StudentSupervisorService.Models.Response.SchoolConfigResponse;
+using StudentSupervisorService.Models.Response.RegisteredSchoolResponse;
+using StudentSupervisorService.Models.Response.DisciplineResponse;
+using StudentSupervisorService.Models.Response.EvaluationResponse;
+using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
+using StudentSupervisorService.Models.Response.StudentInClassResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -46,6 +51,11 @@ namespace StudentSupervisorService.Mapper
             CreateMap<RequestOfHighSchool, HighSchool>();
             CreateMap<Penalty, PenaltyResponse>();
             CreateMap<SchoolConfig, SchoolConfigResponse>();
+            CreateMap<RegisteredSchool, RegisteredSchoolResponse>();
+            CreateMap<Discipline, DisciplineResponse>();
+            CreateMap<Evaluation, EvaluationResponse>();
+            CreateMap<EvaluationDetail, EvaluationDetailResponse>();
+            CreateMap<StudentInClass, StudentInClassResponse>();
 
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()

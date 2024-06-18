@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IDisciplineRepository : IGenericRepository<Discipline>
     {
+        Task<List<Discipline>> GetAllDisciplines();
+        Task<Discipline> GetDisciplineById(int id);
+        Task<List<Discipline>> SearchDisciplines(int? violationId, int? penaltyId, string? code, string? name, string? description, DateTime? startDate, DateTime? endDate, string? status);
+        Task<Discipline> CreateDiscipline(Discipline disciplineEntity);
+        Task<Discipline> UpdateDiscipline(Discipline disciplineEntity);
+        Task DeleteDiscipline(int id);
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using StudentSupervisorService.Models.Response.ClassResponse;
+﻿using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ClassGroupResponse;

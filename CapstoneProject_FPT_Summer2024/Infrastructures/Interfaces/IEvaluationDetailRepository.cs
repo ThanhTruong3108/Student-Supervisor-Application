@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IEvaluationDetailRepository : IGenericRepository<EvaluationDetail>
     {
+        Task<List<EvaluationDetail>> GetAllEvaluationDetails();
+        Task<EvaluationDetail> GetEvaluationDetailById(int id);
+        Task<List<EvaluationDetail>> SearchEvaluationDetails(int? classId, int? evaluationId, string? status);
+        Task<EvaluationDetail> CreateEvaluationDetail(EvaluationDetail evaluationDetailEntity);
+        Task<EvaluationDetail> UpdateEvaluationDetail(EvaluationDetail evaluationDetailEntity);
+        Task DeleteEvaluationDetail(int id);
     }
 }

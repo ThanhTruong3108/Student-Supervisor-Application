@@ -11,11 +11,11 @@ public partial class StudentInClass
 
     public int StudentId { get; set; }
 
-    public DateTime EnrollDate { get; set; }
+    public DateTime? EnrollDate { get; set; }
 
-    public bool IsSupervisor { get; set; }
+    public bool? IsSupervisor { get; set; }
 
-    public string Status { get; set; } = null!;
+    public string? Status { get; set; } = null!;
 
     public virtual Class Class { get; set; } = null!;
 
