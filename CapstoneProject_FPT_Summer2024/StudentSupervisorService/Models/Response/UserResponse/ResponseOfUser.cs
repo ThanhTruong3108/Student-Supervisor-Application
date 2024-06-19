@@ -12,10 +12,6 @@ namespace StudentSupervisorService.Models.Response.UserResponse
 
         public int? SchoolAdminId { get; set; }
 
-        public byte RoleId { get; set; }
-
-        public string RoleName { get; set; } = null!;
-
         public string Code { get; set; } = null!;
 
         public string Name { get; set; } = null!;
@@ -25,6 +21,10 @@ namespace StudentSupervisorService.Models.Response.UserResponse
         public string Password { get; set; } = null!;
 
         public string? Address { get; set; }
+
+        public byte RoleId { get; set; }
+
+        public string RoleName { get; set; } = null!;
 
     }
 }
