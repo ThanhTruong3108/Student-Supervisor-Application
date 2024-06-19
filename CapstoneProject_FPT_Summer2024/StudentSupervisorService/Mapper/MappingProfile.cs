@@ -39,6 +39,8 @@ using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
+using StudentSupervisorService.Models.Response.SchoolAdminResponse;
+using StudentSupervisorService.Models.Request.SchoolAdminRequest;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -58,6 +60,16 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Evaluation, EvaluationResponse>();
             CreateMap<EvaluationDetail, EvaluationDetailResponse>();
             CreateMap<StudentInClass, StudentInClassResponse>();
+            CreateMap<SchoolAdmin, SchoolAdminResponse>()
+                .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.User.Name))
+                .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
+                .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
+                .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address))
+                .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId))
+                .ForMember(re => re.Status, act => act.MapFrom(src => src.User.Status));
+
+            CreateMap<SchoolAdminCreateRequest, SchoolAdmin>();
 
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()

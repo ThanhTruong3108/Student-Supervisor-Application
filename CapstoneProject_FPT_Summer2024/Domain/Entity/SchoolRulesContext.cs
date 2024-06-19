@@ -315,7 +315,6 @@ public partial class SchoolRulesContext : DbContext
             entity.HasIndex(e => e.SchoolId, "UQ__SchoolAd__3DA4677A24A2E9C7").IsUnique();
 
             entity.Property(e => e.SchoolAdminId)
-                .ValueGeneratedNever()
                 .HasColumnName("SchoolAdminID");
             entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
