@@ -39,6 +39,8 @@ using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
+using StudentSupervisorService.Models.Request.PackageRequest;
+using StudentSupervisorService.Models.Response.PackageResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -64,6 +66,10 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 
             CreateMap<RequestCreateSchoolYear, SchoolYear>();
+
+            CreateMap<Package, ResponseOfPackage>();
+
+            CreateMap<PackageRequest, Package>();
 
             CreateMap<StudentSupervisor, StudentSupervisorResponse>()
                .ForMember(re => re.SupervisorCode, act => act.MapFrom(src => src.Code))

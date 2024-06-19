@@ -10,5 +10,8 @@ namespace Infrastructures.Interfaces
 {
     public interface IPackageRepository : IGenericRepository<Package>
     {
+        Task<List<Package>> GetAllPackages();
+        Task<Package> GetPackageById(int id);
+        Task<List<Package>> SearchPackages(string? name, int? minPrice, int? maxPrice, string? Type);
     }
 }
