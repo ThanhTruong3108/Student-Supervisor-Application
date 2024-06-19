@@ -11,12 +11,6 @@ namespace StudentSupervisorService.Models.Request.TimeRequest
 {
     public class RequestOfTime
     {
-        public RequestOfTime(int classGroupId, byte slot, TimeSpan time1)
-        {
-            ClassGroupId = classGroupId;
-            Slot = slot;
-            Time1 = time1;
-        }
         [Required(ErrorMessage = "The ClassGroupId field is required.")]
         public int ClassGroupId { get; set; }
         [Required(ErrorMessage = "The Slot field is required.")]

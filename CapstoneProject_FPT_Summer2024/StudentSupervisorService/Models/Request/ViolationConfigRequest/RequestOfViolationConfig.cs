@@ -11,15 +11,7 @@ namespace StudentSupervisorService.Models.Request.ViolationConfigRequest
 {
     public class RequestOfViolationConfig
     {
-        public RequestOfViolationConfig(int evaluationId, int violationTypeId, string violationConfigName, string code, string description)
-        {
-            EvaluationId = evaluationId;
-            ViolationTypeId = violationTypeId;
-            ViolationConfigName = violationConfigName;
-            Code = code;
-            Description = description;
 
-        }
         [Required(ErrorMessage = "The EvaluationId field is required.")]
         public int EvaluationId { get; set; }
         [Required(ErrorMessage = "The ViolationTypeId field is required.")]

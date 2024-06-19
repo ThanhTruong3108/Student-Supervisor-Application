@@ -9,16 +9,7 @@ namespace StudentSupervisorService.Models.Request.UserRequest
 {
     public class RequestOfUser
     {
-        public RequestOfUser(int schoolAdminId, byte roleId, string code, string name, string phone, string password, string address)
-        {
-            SchoolAdminId = schoolAdminId;
-            RoleId = roleId;
-            Code = code;
-            Name = name;
-            Phone = phone;
-            Password = password;
-            Address = address;
-        }
+
 
         [Required(ErrorMessage = "The SchoolAdminId field is required.")]
         public int? SchoolAdminId { get; set; }

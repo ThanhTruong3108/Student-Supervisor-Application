@@ -9,12 +9,7 @@ namespace StudentSupervisorService.Models.Request.ViolationTypeRequest
 {
     public class RequestOfVioType
     {
-        public RequestOfVioType(int violationGroupId, string vioTypeName, string description)
-        {
-            ViolationGroupId = violationGroupId;
-            VioTypeName = vioTypeName;
-            Description = description;
-        }
+
         [Required(ErrorMessage = "The ViolationGroupId field is required.")]
         public int ViolationGroupId { get; set; }
         [Required(ErrorMessage = "The VioTypeName field is required.")]
