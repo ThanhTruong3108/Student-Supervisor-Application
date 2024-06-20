@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.SchoolAdminRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.SchoolAdminResponse;
+using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -12,9 +13,12 @@ namespace StudentSupervisorAPI.Controllers
     public class SchoolAdminController : ControllerBase
     {
         private readonly SchoolAdminService schoolAdminService;
-        public SchoolAdminController(SchoolAdminService schoolAdminService)
+
+        private readonly UserService userService;
+        public SchoolAdminController(SchoolAdminService schoolAdminService, UserService userService)
         {
             this.schoolAdminService = schoolAdminService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -116,6 +120,20 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{schoolAdminId}/users")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsersBySchoolAdminId(int schoolAdminId)
+        {
+            try
+            {
+                var users = await userService.GetUsersBySchoolAdminId(schoolAdminId);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }

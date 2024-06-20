@@ -78,19 +78,5 @@ namespace StudentSupervisorAPI.Controllers
             var deletedUser = _service.DeleteUser(id);
             return deletedUser == null ? NoContent() : Ok(deletedUser);
         }
-
-        [HttpGet("byschooladmin/{schoolAdminId}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsersBySchoolAdminId(int schoolAdminId)
-        {
-            try
-            {
-                var users = await _service.GetUsersBySchoolAdminId(schoolAdminId);
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
     }
 }
