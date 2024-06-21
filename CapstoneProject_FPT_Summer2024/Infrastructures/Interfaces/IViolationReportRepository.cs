@@ -12,6 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<ViolationReport>> GetAllVioReports();
         Task<ViolationReport> GetVioReportById(int id);
+        Task<ViolationReport> GetVioReportByVioId(int violationId);
         Task<List<ViolationReport>> SearchVioReports(int? studentInClassId, int? violationId);
     }
 }

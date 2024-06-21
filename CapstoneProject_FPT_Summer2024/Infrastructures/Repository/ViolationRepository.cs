@@ -14,15 +14,18 @@ namespace Infrastructures.Repository
 {
     public class ViolationRepository : GenericRepository<Violation>, IViolationRepository
     {
-        public ViolationRepository(SchoolRulesContext context): base(context) { }
+        public ViolationRepository(SchoolRulesContext context) : base(context) { }
 
         public async Task<List<Violation>> GetAllViolations()
         {
             var violations = await _context.Violations
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                .Include(c => c.Teacher)
+                .Include(v => v.ViolationType)
+                .Include(v => v.Teacher)
+                .Include(v => v.ViolationReports)
+                    .ThenInclude(vr => vr.StudentInClass)
+                        .ThenInclude(sic => sic.Student)
                 .ToListAsync();
+
             return violations;
         }
 
@@ -32,6 +35,9 @@ namespace Infrastructures.Repository
                .Include(c => c.Class)
                .Include(c => c.ViolationType)
                .Include(c => c.Teacher)
+               .Include(v => v.ViolationReports)
+                    .ThenInclude(vr => vr.StudentInClass)
+                        .ThenInclude(sic => sic.Student)
                .FirstOrDefault(s => s.ViolationId == id);
         }
 
@@ -73,6 +79,9 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                 .Include(c => c.Teacher)
+                .Include(v => v.ViolationReports)
+                    .ThenInclude(vr => vr.StudentInClass)
+                        .ThenInclude(sic => sic.Student)
                 .ToListAsync();
         }
     }

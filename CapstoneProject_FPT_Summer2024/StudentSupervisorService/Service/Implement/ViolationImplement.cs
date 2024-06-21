@@ -131,6 +131,11 @@ namespace StudentSupervisorService.Service.Implement
             {
                 // Mapping request to Violation entity
                 var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.ViolationReports.Add(new ViolationReport
+                {
+                    ViolationId = violationEntity.ViolationId,
+                    StudentInClassId = request.StudentInClassId,
+                });
                 violationEntity.CreatedAt = DateTime.Now;
                 violationEntity.UpdatedAt = DateTime.Now;
                 violationEntity.Status = ViolationEnum.PENDING.ToString();
@@ -176,6 +181,11 @@ namespace StudentSupervisorService.Service.Implement
             {
                 // Mapping request to Violation entity
                 var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.ViolationReports.Add(new ViolationReport
+                {
+                    ViolationId = violationEntity.ViolationId,
+                    StudentInClassId = request.StudentInClassId,
+                });
                 violationEntity.CreatedAt = DateTime.Now;
                 violationEntity.UpdatedAt = DateTime.Now;
                 violationEntity.Status = ViolationEnum.ACTIVE.ToString();
@@ -229,12 +239,21 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 violation.ClassId = request.ClassId;
+                // Update ViolationReport
+                if (request.StudentInClassId != null)
+                {
+                    var violationReport = await _unitOfWork.ViolationReport.GetVioReportByVioId(id);
+                    violationReport.StudentInClassId = request.StudentInClassId;
+                    _unitOfWork.ViolationReport.Update(violationReport);
+                    _unitOfWork.Save();
+                }
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.TeacherId = request.TeacherId;
                 violation.Code = request.Code;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
+                violation.UpdatedAt = DateTime.Now;
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
