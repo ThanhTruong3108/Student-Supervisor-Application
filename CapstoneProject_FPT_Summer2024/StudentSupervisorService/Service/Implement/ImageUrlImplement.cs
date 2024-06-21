@@ -34,15 +34,24 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                throw new Exception("Upload image failed: " + ex.Message);
+                throw new Exception("Upload image failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
         }
 
         public async Task<DeletionResult> DeleteImage(string publicId)
         {
-            var deletionParams = new DeletionParams(publicId);
-            var result = await cloudinary.DestroyAsync(deletionParams);
-            return result;
+            try
+            {
+                var deleteParams = new DeletionParams(publicId);
+                var result = await cloudinary.DestroyAsync(deleteParams);
+                return result;
+            }
+            catch (Exception ex)
+                       {
+                throw new Exception("Delete image failed: " + ex.Message
+                                       + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
         }
     }
 }

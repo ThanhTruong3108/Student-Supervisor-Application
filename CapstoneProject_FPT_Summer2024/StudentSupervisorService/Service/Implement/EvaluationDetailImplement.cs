@@ -51,7 +51,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -76,7 +77,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -111,7 +113,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -136,7 +139,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Create EvaluationDetail failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Create EvaluationDetail failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -169,7 +173,8 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update EvaluationDetail failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Update EvaluationDetail failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -195,7 +200,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;

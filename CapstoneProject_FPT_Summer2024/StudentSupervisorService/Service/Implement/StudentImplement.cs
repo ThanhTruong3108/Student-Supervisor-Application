@@ -48,7 +48,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -73,7 +74,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -108,7 +110,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message + ex.InnerException.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 
@@ -139,7 +142,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Student Class failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Student Class failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -176,7 +180,8 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update Student failed: " + ex.Message + ex.InnerException.Message;
+                response.Message = "Update Student failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
