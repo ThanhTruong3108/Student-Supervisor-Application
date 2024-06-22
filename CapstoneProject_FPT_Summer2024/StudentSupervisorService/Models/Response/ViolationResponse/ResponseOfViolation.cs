@@ -12,6 +12,9 @@ namespace StudentSupervisorService.Models.Response.ViolationResponse
         public int ClassId { get; set; }
         public string? StudentName { get; set; }
         public int ViolationTypeId { get; set; }
+        public string? ViolationTypeName { get; set; }
+        public int ViolationGroupId { get; set; }
+        public string? ViolationGroupName { get; set; }
         public int? TeacherId { get; set; }
         public string Code { get; set; } = null!;
         public string ViolationName { get; set; } = null!;
