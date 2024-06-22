@@ -23,13 +23,18 @@ namespace Infrastructures.Repository
                 .ToListAsync();
             return vioReports;
         }
-
+        
         public async Task<ViolationReport> GetVioReportById(int id)
         {
             return _context.ViolationReports
                .Include(c => c.StudentInClass)
                .Include(c => c.Violation)
                .FirstOrDefault(s => s.ViolationReportId == id);
+        }
+
+        public async Task<ViolationReport> GetVioReportByVioId(int violationId)
+        {
+            return await _context.ViolationReports.FirstOrDefaultAsync(s => s.ViolationId == violationId);
         }
 
         public async Task<List<ViolationReport>> SearchVioReports(int? studentInClassId, int? violationId)

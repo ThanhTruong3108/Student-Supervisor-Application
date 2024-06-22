@@ -53,7 +53,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 
@@ -77,7 +78,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 
@@ -117,7 +119,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 
@@ -131,6 +134,11 @@ namespace StudentSupervisorService.Service.Implement
             {
                 // Mapping request to Violation entity
                 var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.ViolationReports.Add(new ViolationReport
+                {
+                    ViolationId = violationEntity.ViolationId,
+                    StudentInClassId = request.StudentInClassId,
+                });
                 violationEntity.CreatedAt = DateTime.Now;
                 violationEntity.UpdatedAt = DateTime.Now;
                 violationEntity.Status = ViolationEnum.PENDING.ToString();
@@ -163,7 +171,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -176,6 +185,11 @@ namespace StudentSupervisorService.Service.Implement
             {
                 // Mapping request to Violation entity
                 var violationEntity = _mapper.Map<Violation>(request);
+                violationEntity.ViolationReports.Add(new ViolationReport
+                {
+                    ViolationId = violationEntity.ViolationId,
+                    StudentInClassId = request.StudentInClassId,
+                });
                 violationEntity.CreatedAt = DateTime.Now;
                 violationEntity.UpdatedAt = DateTime.Now;
                 violationEntity.Status = ViolationEnum.ACTIVE.ToString();
@@ -208,7 +222,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : ""); ;
                 response.Success = false;
             }
             return response;
@@ -229,12 +244,21 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 violation.ClassId = request.ClassId;
+                // Update ViolationReport
+                if (request.StudentInClassId != null)
+                {
+                    var violationReport = await _unitOfWork.ViolationReport.GetVioReportByVioId(id);
+                    violationReport.StudentInClassId = request.StudentInClassId;
+                    _unitOfWork.ViolationReport.Update(violationReport);
+                    _unitOfWork.Save();
+                }
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.TeacherId = request.TeacherId;
                 violation.Code = request.Code;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
+                violation.UpdatedAt = DateTime.Now;
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
@@ -245,7 +269,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : ""); ;
                 response.Success = false;
             }
             return response;
@@ -288,7 +313,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -318,7 +344,8 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
