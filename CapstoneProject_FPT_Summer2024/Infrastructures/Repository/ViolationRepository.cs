@@ -20,6 +20,7 @@ namespace Infrastructures.Repository
         {
             var violations = await _context.Violations
                 .Include(v => v.ViolationType)
+                    .ThenInclude(vt => vt.ViolationGroup)
                 .Include(v => v.Teacher)
                 .Include(v => v.ViolationReports)
                     .ThenInclude(vr => vr.StudentInClass)

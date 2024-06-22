@@ -129,6 +129,9 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<Violation, ResponseOfViolation>()
                .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
+               .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
+               .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
+               .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
                    src => src.ViolationReports.
                    FirstOrDefault().
