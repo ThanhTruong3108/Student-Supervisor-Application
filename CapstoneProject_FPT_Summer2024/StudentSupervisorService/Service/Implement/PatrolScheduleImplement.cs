@@ -4,6 +4,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 using System;
@@ -186,7 +187,29 @@ namespace StudentSupervisorService.Service.Implement
 
         public async Task<DataResponse<PatrolScheduleResponse>> DeletePatrolSchedule(int id)
         {
-            throw new NotImplementedException();
+            var response = new DataResponse<PatrolScheduleResponse>();
+            try
+            {
+                var existingPSchedule = await _unitOfWork.PatrolSchedule.GetPatrolScheduleById(id);
+                if (existingPSchedule == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "PatrolSchedule not found";
+                    response.Success = false;
+                    return response;
+                }
+                await _unitOfWork.PatrolSchedule.DeletePatrolSchedule(id);
+                response.Data = "Empty";
+                response.Message = "PatrolSchedule deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
     }
 }

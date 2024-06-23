@@ -67,7 +67,19 @@ namespace Infrastructures.Repository
 
         public async Task DeletePatrolSchedule(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var pScheduleEntity = await _context.PatrolSchedules.FindAsync(id);
+                if (pScheduleEntity != null)
+                {
+                    _context.PatrolSchedules.Remove(pScheduleEntity);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
         }
     }
 }

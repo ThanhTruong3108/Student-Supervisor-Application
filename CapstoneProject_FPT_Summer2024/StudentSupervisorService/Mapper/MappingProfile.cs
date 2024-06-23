@@ -135,6 +135,10 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
                .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
                .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
+               .ForMember(dest => dest.StudentInClassId, opt => opt.MapFrom(
+                   src => src.ViolationReports.
+                   FirstOrDefault().
+                   StudentInClass.StudentInClassId))
                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
                    src => src.ViolationReports.
                    FirstOrDefault().

@@ -65,6 +65,7 @@ namespace StudentSupervisorService.Service.Implement
                 var studentInClassEntity = await _unitOfWork.StudentInClass.GetStudentInClassById(id);
                 if (studentInClassEntity == null)
                 {
+                    response.Data = "Empty";
                     response.Message = "StudentInClass not found";
                     response.Success = false;
                     return response;

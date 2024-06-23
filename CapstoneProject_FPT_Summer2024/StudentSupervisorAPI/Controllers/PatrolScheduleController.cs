@@ -92,5 +92,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataResponse<PatrolScheduleResponse>>> DeletePatrolSchedule(int id)
+        {
+            try
+            {
+                var pScheduletResponse = await patrolScheduleService.DeletePatrolSchedule(id);
+                return Ok(pScheduletResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
+        }
     }
 }
