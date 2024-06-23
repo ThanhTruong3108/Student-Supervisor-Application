@@ -24,5 +24,6 @@ namespace StudentSupervisorService.Service
             string sortOrder);
         Task<DataResponse<StudentResponse>> CreateStudent(StudentCreateRequest studentCreateRequest);
         Task<DataResponse<StudentResponse>> UpdateStudent(StudentUpdateRequest studentUpdateRequest);
+        Task<DataResponse<StudentResponse>> DeleteStudent(int studentId);
     }
 }

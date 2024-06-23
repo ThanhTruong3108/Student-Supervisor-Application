@@ -10,5 +10,11 @@ namespace Infrastructures.Interfaces
 {
     public interface IPatrolScheduleRepository : IGenericRepository<PatrolSchedule>
     {
+        Task<List<PatrolSchedule>> GetAllPatrolSchedules();
+        Task<PatrolSchedule> GetPatrolScheduleById(int id);
+        Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to);
+        Task<PatrolSchedule> CreatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
+        Task<PatrolSchedule> UpdatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
+        Task DeletePatrolSchedule(int id);
     }
 }

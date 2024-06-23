@@ -6,6 +6,7 @@ using Infrastructures.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
 using System;
 using System.Collections.Generic;
@@ -181,6 +182,34 @@ namespace StudentSupervisorService.Service.Implement
             {
                 response.Data = "Empty";
                 response.Message = "Update Student failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<StudentResponse>> DeleteStudent(int studentId)
+        {
+            var response = new DataResponse<StudentResponse>();
+            try
+            {
+                var existingStudent = await unitOfWork.Student.GetStudentById(studentId);
+                if (existingStudent == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Student not found";
+                    response.Success = false;
+                    return response;
+                }
+                await unitOfWork.Student.DeleteStudent(studentId);
+                response.Data = "Empty";
+                response.Message = "Student deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }

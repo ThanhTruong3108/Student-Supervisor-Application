@@ -71,5 +71,21 @@ namespace Infrastructures.Repository
             await _context.SaveChangesAsync();
             return studentEntity;
         }
+
+        public async Task DeleteStudent(int id)
+        {
+            try
+            {
+                var studentEntity = await _context.Students.FindAsync(id);
+                if (studentEntity != null)
+                {
+                    _context.Students.Remove(studentEntity);
+                    await _context.SaveChangesAsync();
+                }
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
+        }
     }
 }

@@ -41,6 +41,7 @@ using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Response.SchoolAdminResponse;
 using StudentSupervisorService.Models.Request.SchoolAdminRequest;
+using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -70,6 +71,8 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Status, act => act.MapFrom(src => src.User.Status));
 
             CreateMap<SchoolAdminCreateRequest, SchoolAdmin>();
+
+            CreateMap<PatrolSchedule, PatrolScheduleResponse>();
 
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()

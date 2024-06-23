@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.StudentResponse;
+using StudentSupervisorService.Models.Request.StudentRequest;
+using StudentSupervisorService.Models.Response.ClassGroupResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -63,6 +65,48 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<DataResponse<StudentResponse>>> CreateStudent(StudentCreateRequest request)
+        {
+            try
+            {
+                var studentResponse = await studentService.CreateStudent(request);
+                return Ok(studentResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<DataResponse<StudentResponse>>> UpdateStudent(StudentUpdateRequest request)
+        {
+            try
+            {
+                var studentResponse = await studentService.UpdateStudent(request);
+                return Ok(studentResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataResponse<StudentResponse>>> DeleteStudent(int id)
+        {
+            try
+            {
+                var studentResponse = await studentService.DeleteStudent(id);
+                return Ok(studentResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
         }
 
