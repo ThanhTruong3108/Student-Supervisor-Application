@@ -17,26 +17,39 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        //public async Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request)
-        //{
-        //    var response = new DataResponse<ResponseOfTime>();
+        public async Task<DataResponse<ResponseOfTime>> CreateTime(RequestOfTime request)
+        {
+            var response = new DataResponse<ResponseOfTime>();
 
-        //    try
-        //    {
-        //        var createTime = _mapper.Map<Time>(request);
-        //        _unitOfWork.Time.Add(createTime);
-        //        _unitOfWork.Save();
-        //        response.Data = _mapper.Map<ResponseOfTime>(createTime);
-        //        response.Message = "Create Successfully.";
-        //        response.Success = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-        //        response.Success = false;
-        //    }
-        //    return response;
-        //}
+            try
+            {
+                if (!TimeSpan.TryParse(request.Time1, out TimeSpan parsedTime))
+                {
+                    response.Message = "Invalid time format. Please provide a valid time in the format 'HH:mm:ss.fffffff'.";
+                    response.Success = false;
+                    return response;
+                }
+                var createTime = _mapper.Map<Time>(request);
+                createTime.Time1 = parsedTime;
+
+                _unitOfWork.Time.Add(createTime);
+                _unitOfWork.Save();
+                response.Data = _mapper.Map<ResponseOfTime>(createTime);
+                response.Message = "Create Successfully.";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                if (ex.InnerException != null)
+                {
+                    response.Message += "\nInner Exception: " + ex.InnerException.Message;
+                }
+                response.Success = false;
+            }
+
+            return response;
+        }
 
         public async Task DeleteTime(int timeId)
         {
@@ -150,35 +163,45 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        //public async Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request)
-        //{
-        //    var response = new DataResponse<ResponseOfTime>();
+        public async Task<DataResponse<ResponseOfTime>> UpdateTime(int id, RequestOfTime request)
+        {
+            var response = new DataResponse<ResponseOfTime>();
 
-        //    try
-        //    {
-        //        var time = _unitOfWork.Time.GetById(id);
-        //        if (time is null)
-        //        {
-        //            response.Message = "Can not found Time";
-        //            response.Success = false;
-        //            return response;
-        //        }
-        //        time.ClassGroupId = request.ClassGroupId;
-        //        time.Slot = request.Slot;
-        //        time.Time1 = request.Time1;
-        //        _unitOfWork.Time.Update(time);
-        //        _unitOfWork.Save();
-        //        response.Data = _mapper.Map<ResponseOfTime>(time);
-        //        response.Success = true;
-        //        response.Message = "Update Successfully.";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
-        //        response.Success = false;
-        //    }
+            try
+            {
+                var time = _unitOfWork.Time.GetById(id);
+                if (time is null)
+                {
+                    response.Message = "Can not found Time";
+                    response.Success = false;
+                    return response;
+                }
 
-        //    return response;
-        //}
+                time.ClassGroupId = request.ClassGroupId;
+                time.Slot = request.Slot;
+
+                if (!TimeSpan.TryParse(request.Time1, out TimeSpan parsedTime))
+                {
+                    response.Message = "Invalid time format.";
+                    response.Success = false;
+                    return response;
+                }
+                time.Time1 = parsedTime;
+
+                _unitOfWork.Time.Update(time);
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<ResponseOfTime>(time);
+                response.Success = true;
+                response.Message = "Update Successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

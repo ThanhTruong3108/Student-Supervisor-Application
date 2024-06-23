@@ -16,6 +16,6 @@ namespace StudentSupervisorService.Models.Request.TimeRequest
         [Required(ErrorMessage = "The Slot field is required.")]
         public byte Slot { get; set; }
         [Required(ErrorMessage = "The Time field is required.")]
-        public TimeSpan Time1 { get; set; }
+        public string Time1 { get; set; }
     }
 }

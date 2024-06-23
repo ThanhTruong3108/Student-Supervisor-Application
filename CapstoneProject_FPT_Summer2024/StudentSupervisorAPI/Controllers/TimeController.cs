@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentSupervisorService.Models.Request.SchoolYearRequest;
-using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.TimeResponse;
@@ -59,18 +57,18 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult<DataResponse<ResponseOfTime>>> CreateTime(RequestOfTime request)
-        //{
-        //    var createdTime = await _service.CreateTime(request);
-        //    return createdTime == null ? NotFound() : Ok(createdTime);
-        //}
-        //[HttpPut("{id}")]
-        //public async Task<ActionResult<DataResponse<ResponseOfTime>>> UpdateTime(int id, RequestOfTime request)
-        //{
-        //    var updatedTime = await _service.UpdateTime(id, request);
-        //    return updatedTime == null ? NotFound() : Ok(updatedTime);
-        //}
+        [HttpPost]
+        public async Task<ActionResult<DataResponse<ResponseOfTime>>> CreateTime(RequestOfTime request)
+        {
+            var createdTime = await _service.CreateTime(request);
+            return createdTime == null ? NotFound() : Ok(createdTime);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<DataResponse<ResponseOfTime>>> UpdateTime(int id, RequestOfTime request)
+        {
+            var updatedTime = await _service.UpdateTime(id, request);
+            return updatedTime == null ? NotFound() : Ok(updatedTime);
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTime(int id)

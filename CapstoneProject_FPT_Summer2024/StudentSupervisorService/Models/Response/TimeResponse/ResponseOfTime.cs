@@ -13,6 +13,6 @@ namespace StudentSupervisorService.Models.Response.TimeResponse
         public string ClassGroupName { get; set; } = null!;
         public string Hall { get; set; } = null!;
         public byte Slot { get; set; }
-        public TimeSpan Time1 { get; set; }
+        public string Time1 { get; set; }
     }
 }
