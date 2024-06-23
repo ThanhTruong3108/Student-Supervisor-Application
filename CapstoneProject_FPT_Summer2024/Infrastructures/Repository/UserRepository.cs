@@ -68,5 +68,13 @@ namespace Infrastructures.Repository
                 .Include (c => c.Role)
                 .ToListAsync();
         }
+        public async Task<List<User>> GetUsersBySchoolAdminId(int schoolAdminId)
+        {
+            return await _context.Users
+                .Include(c => c.SchoolAdmin)
+                .Include(c => c.Role)
+                .Where(u => u.SchoolAdminId == schoolAdminId)
+                .ToListAsync();
+        }
     }
 }

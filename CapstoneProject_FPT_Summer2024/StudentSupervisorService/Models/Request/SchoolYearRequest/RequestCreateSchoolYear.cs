@@ -9,13 +9,6 @@ namespace StudentSupervisorService.Models.Request.SchoolYearRequest
 {
     public class RequestCreateSchoolYear
     {
-        public RequestCreateSchoolYear(int schoolId, short year, DateTime startDate, DateTime endDate)
-        {
-            SchoolId = schoolId;
-            Year = year;
-            StartDate = startDate;
-            EndDate = endDate;
-        }
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }
         [Required(ErrorMessage = "The Year field is required.")]

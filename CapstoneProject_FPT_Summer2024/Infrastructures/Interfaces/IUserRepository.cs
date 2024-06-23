@@ -15,5 +15,6 @@ namespace Infrastructures.Interfaces
         Task<User> GetUserById(int id);
         Task<User> GetAccountByPhone(string phone);
         Task<List<User>> SearchUsers(int? role ,string? code, string? name, string? phone);
+        Task<List<User>> GetUsersBySchoolAdminId(int schoolAdminId);
     }
 }

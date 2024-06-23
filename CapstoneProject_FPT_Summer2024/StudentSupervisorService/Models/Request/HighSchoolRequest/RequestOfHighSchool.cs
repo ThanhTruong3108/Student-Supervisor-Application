@@ -10,16 +10,6 @@ namespace StudentSupervisorService.Models.Request.HighSchoolRequest
 {
     public class RequestOfHighSchool
     {
-        public RequestOfHighSchool(string code, string name, string address, string phone, string imageUrl, string webUrl)
-        {
-            Code = code;
-            Name = name;
-            Address = address;
-            Phone = phone;
-            ImageUrl = imageUrl;
-            WebUrl = webUrl;
-
-        }
         [Required(ErrorMessage = "The Code field is required.")]
         public string? Code { get; set; }
         [Required(ErrorMessage = "The Name field is required.")]

@@ -4,7 +4,6 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
 
 
@@ -107,6 +106,35 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfUser>>> GetUsersBySchoolAdminId(int schoolAdminId)
+        {
+            var response = new DataResponse<List<ResponseOfUser>>();
+
+            try
+            {
+                var users = await _unitOfWork.User.GetUsersBySchoolAdminId(schoolAdminId);
+                if (users == null || !users.Any())
+                {
+                    response.Message = "No users found for the specified SchoolAdminId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var userDTOs = _mapper.Map<List<ResponseOfUser>>(users);
+                    response.Data = userDTOs;
+                    response.Message = "Users found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
 

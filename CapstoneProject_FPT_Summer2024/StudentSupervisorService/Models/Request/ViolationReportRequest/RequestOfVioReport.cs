@@ -10,11 +10,7 @@ namespace StudentSupervisorService.Models.Request.ViolationReportRequest
 {
     public class RequestOfVioReport
     {
-        public RequestOfVioReport(int studentInClassId, int violationId)
-        {
-            StudentInClassId = studentInClassId;
-            ViolationId = violationId;
-        }
+
         [Required(ErrorMessage = "The StudentInClassId field is required.")]
         public int StudentInClassId { get; set; }
         [Required(ErrorMessage = "The ViolationId field is required.")]
