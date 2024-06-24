@@ -17,12 +17,12 @@ namespace Infrastructures.Repository
 
         public async Task<List<StudentInClass>> GetAllStudentInClass()
         {
-            return await _context.StudentInClasses.ToListAsync();
+            return await _context.StudentInClasses.Include(s => s.Student).ToListAsync();
         }
 
         public async Task<StudentInClass> GetStudentInClassById(int id)
         {
-            return await _context.StudentInClasses.FirstOrDefaultAsync(x => x.StudentInClassId == id);
+            return await _context.StudentInClasses.Include(s => s.Student).FirstOrDefaultAsync(x => x.StudentInClassId == id);
         }
 
         public async Task<List<StudentInClass>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, string? status)
@@ -50,7 +50,7 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Contains(status));
             }
 
-            return await query.ToListAsync();
+            return await query.Include(s => s.Student).ToListAsync();
         }
         public async Task<StudentInClass> CreateStudentInClass(StudentInClass studentInClassEntity)
         {
