@@ -16,12 +16,22 @@ namespace Infrastructures.Repository
 
         public async Task<List<PatrolSchedule>> GetAllPatrolSchedules()
         {
-            return await _context.PatrolSchedules.ToListAsync();
+            return await _context.PatrolSchedules
+                .Include(p => p.Supervisor)
+                    .ThenInclude(s => s.User)
+                .Include(p => p.Teacher)
+                    .ThenInclude(t => t.User)
+                .ToListAsync();
         }
 
         public async Task<PatrolSchedule> GetPatrolScheduleById(int id)
         {
-            return await _context.PatrolSchedules.FirstOrDefaultAsync(x => x.ScheduleId == id);
+            return await _context.PatrolSchedules
+                .Include(p => p.Supervisor)
+                    .ThenInclude(s => s.User)
+                .Include(p => p.Teacher)
+                    .ThenInclude(t => t.User)
+                .FirstOrDefaultAsync(x => x.ScheduleId == id);
         }
 
         public async Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to)
@@ -49,7 +59,12 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.To <= to);
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(p => p.Supervisor)
+                    .ThenInclude(s => s.User)
+                .Include(p => p.Teacher)
+                    .ThenInclude(t => t.User)
+                .ToListAsync();
         }
         public async Task<PatrolSchedule> CreatePatrolSchedule(PatrolSchedule patrolScheduleEntity)
         {
