@@ -9,6 +9,7 @@ namespace Infrastructures.Interfaces.IUnitOfWork
 {
     public interface IUnitOfWork
     {
+        IAdminRepository Admin { get; }
         IClassGroupRepository ClassGroup {  get; }
         IClassReposirory Class {  get; }
         IDisciplineRepository Discipline {  get; }

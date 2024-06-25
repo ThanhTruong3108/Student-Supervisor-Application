@@ -120,12 +120,23 @@ namespace StudentSupervisorService
 
             services.AddTransient<IServiceCollection, ServiceCollection>();
 
-            //services.AddTransient<LoginService, LoginImplement>();
+            // Configure other services
+            ConfigureTokenBlacklist(services);
+            ConfigureLoginService(services);
 
             //AUTOMAPPER
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             return services;
+        }
+        public static void ConfigureTokenBlacklist(IServiceCollection services)
+        {
+            services.AddSingleton<TokenBlacklistService, TokenBlacklistImplement>();
+        }
+
+        public static void ConfigureLoginService(IServiceCollection services)
+        {
+            services.AddScoped<LoginService, LoginImplement>();
         }
     }
 }

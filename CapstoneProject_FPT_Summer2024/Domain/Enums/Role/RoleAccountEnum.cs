@@ -8,9 +8,10 @@ namespace Domain.Enums.Role
 {
     public enum RoleAccountEnum
     {
-        SCHOOLADMIN = 1,
-        TEACHER = 2,
-        STUDENTSUPERVISOR = 3,
-        PRINCIPAL = 4
+        ADMIN = 1,
+        SCHOOLADMIN = 2,
+        PRINCIPAL = 3,
+        TEACHER = 4,
+        STUDENTSUPERVISOR = 5
     }
 }

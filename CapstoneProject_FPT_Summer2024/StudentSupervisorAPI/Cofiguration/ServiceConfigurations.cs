@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using StudentSupervisorService.Service;
 using System.Text;
 
 namespace StudentSupervisorAPI.Cofiguration
@@ -63,6 +64,18 @@ namespace StudentSupervisorAPI.Cofiguration
                 };
                 options.Events = new JwtBearerEvents
                 {
+                    OnMessageReceived = context =>
+                    {
+                        var tokenBlacklistService = context.HttpContext.RequestServices.GetRequiredService<TokenBlacklistService>();
+                        var token = context.Token;
+
+                        if (token != null && tokenBlacklistService.IsTokenBlacklisted(token))
+                        {
+                            context.Fail("This token is blacklisted.");
+                        }
+
+                        return Task.CompletedTask;
+                    },
                     OnChallenge = context =>
                     {
                         context.HandleResponse();

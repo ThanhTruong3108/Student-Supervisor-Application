@@ -15,6 +15,8 @@ public partial class Penalty
 
     public string? Description { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual ICollection<Discipline> Disciplines { get; set; } = new List<Discipline>();
 
     public virtual HighSchool School { get; set; } = null!;

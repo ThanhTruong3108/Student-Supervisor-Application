@@ -19,6 +19,7 @@ namespace Infrastructures.Repository.UnitOfWork
         public UnitOfWork(SchoolRulesContext context)
         {
             _context = context;
+            Admin = new AdminRepository(_context);
             ClassGroup = new ClassGroupRepository(_context);
             Class = new ClassRepository(_context);
             Discipline = new DisciplineRepository(_context);
@@ -47,6 +48,7 @@ namespace Infrastructures.Repository.UnitOfWork
             YearPackage = new YearPackageRepository(_context);
         }
         public SchoolRulesContext Context { get { return _context; } }
+        public IAdminRepository Admin { get; }
         public IClassGroupRepository ClassGroup { get; }
         public IClassReposirory Class { get; }
         public IDisciplineRepository Discipline { get; }

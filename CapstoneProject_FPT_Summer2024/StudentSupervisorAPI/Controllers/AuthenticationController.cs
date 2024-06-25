@@ -17,75 +17,37 @@ namespace StudentSupervisorAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _config;
+        private readonly LoginService _loginService;
 
-        public AuthenticationController(IUnitOfWork unitOfWork, IConfiguration config)
+        public AuthenticationController(LoginService loginService)
         {
-            _unitOfWork = unitOfWork;
-            _config = config;
+            _loginService = loginService;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        public async Task<IActionResult> Login([FromBody] LoginModel login, [FromQuery] bool isAdmin = false)
         {
-            var user = await AuthenticateUser(login);
+            var (success, message, token) = await _loginService.Login(login, isAdmin);
 
-            if (user != null)
+            if (success)
             {
-                var token = GenerateToken(user);
                 return Ok(new { token });
             }
 
-            // Check if user exists to give a more specific error message
-            var existingUser = await _unitOfWork.User.GetAccountByPhone(login.Phone);
-            if (existingUser == null)
-            {
-                return Unauthorized(new { message = "Invalid phone number." });
-            }
-            else
-            {
-                return Unauthorized(new { message = "Invalid password." });
-            }
+            return Unauthorized(new { message });
         }
 
-        private async Task<User> AuthenticateUser(LoginModel login)
+        [HttpPost("logout")]
+        public IActionResult Logout()
         {
-            var user = await _unitOfWork.User.GetAccountByPhone(login.Phone);
-            if (user != null && user.Password == login.Password)
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+            if (string.IsNullOrEmpty(token))
             {
-                return user;
+                return BadRequest(new { message = "Token is required." });
             }
-            return null;
+
+            _loginService.Logout(token);
+            return Ok(new { message = "Logged out successfully." });
         }
-
-        private string GenerateToken(User user)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role.RoleName) // Add RoleName to claims
-            };
-
-            var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(120),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-    }
-
-    public class LoginModel
-    {
-        public string Phone { get; set; }
-        public string Password { get; set; }
     }
 }

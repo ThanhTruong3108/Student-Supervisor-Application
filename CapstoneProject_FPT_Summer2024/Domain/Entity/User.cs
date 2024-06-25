@@ -27,8 +27,6 @@ public partial class User
 
     public virtual SchoolAdmin? SchoolAdmin { get; set; }
 
-    public virtual ICollection<SchoolAdmin> SchoolAdmins { get; set; } = new List<SchoolAdmin>();
-
     public virtual ICollection<StudentSupervisor> StudentSupervisors { get; set; } = new List<StudentSupervisor>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();

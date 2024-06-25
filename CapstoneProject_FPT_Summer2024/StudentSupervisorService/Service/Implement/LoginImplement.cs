@@ -13,54 +13,97 @@ using System.Security.Claims;
 using Domain.Entity;
 using Domain.Enums.Role;
 using Infrastructures.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace StudentSupervisorService.Service.Implement
 {
     public class LoginImplement : LoginService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly JwtSettings _jwtSettings;
-        private readonly IMapper _mapper;
-        public LoginImplement(IUserRepository userRepository, JwtSettings jwtSettings, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _config;
+        private readonly TokenBlacklistService _tokenBlacklistService;
+
+        public LoginImplement(IUnitOfWork unitOfWork, IConfiguration config, TokenBlacklistService tokenBlacklistService)
         {
-            _userRepository = userRepository;
-            _jwtSettings = jwtSettings;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _config = config;
+            _tokenBlacklistService = tokenBlacklistService;
         }
-        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
+
+        public async Task<(bool success, string message, string token)> Login(LoginModel login, bool isAdmin)
         {
-            var user = await _userRepository.GetAccountByPhone(request.Phone);
-            if (user == null || user.Password != request.Password)
+            if (isAdmin)
             {
-                throw new Exception("Invalid credentials");
+                var admin = await AuthenticateAdmin(login);
+                if (admin != null)
+                {
+                    var token = GenerateToken(admin, isAdmin);
+                    return (true, "Login successful", token);
+                }
+
+                var existingAdmin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
+                return (existingAdmin == null) ? (false, "Invalid phone number.", null) : (false, "Invalid password.", null);
             }
+            else
+            {
+                var user = await AuthenticateUser(login);
+                if (user != null)
+                {
+                    var token = GenerateToken(user, isAdmin);
+                    return (true, "Login successful", token);
+                }
 
-            var token = GenerateJwtToken(user);
-            return new AuthenticationResponse { Token = token };
+                var existingUser = await _unitOfWork.User.GetAccountByPhone(login.Phone);
+                return (existingUser == null) ? (false, "Invalid phone number.", null) : (false, "Invalid password.", null);
+            }
         }
 
-        private string GenerateJwtToken(User user)
+        public void Logout(string token)
         {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, ((RoleAccountEnum)user.RoleId).ToString())
-            };
+            _tokenBlacklistService.BlacklistToken(token);
+        }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        private async Task<Admin> AuthenticateAdmin(LoginModel login)
+        {
+            var admin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
+            if (admin != null && admin.Password == login.Password)
+            {
+                return admin;
+            }
+            return null;
+        }
+
+        private async Task<User> AuthenticateUser(LoginModel login)
+        {
+            var user = await _unitOfWork.User.GetAccountByPhone(login.Phone);
+            if (user != null && user.Password == login.Password)
+            {
+                return user;
+            }
+            return null;
+        }
+
+        private string GenerateToken(dynamic user, bool isAdmin)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Role, user.Role.RoleName)
+        };
 
             var token = new JwtSecurityToken(
-                issuer: _jwtSettings.Issuer,
-                audience: _jwtSettings.Issuer,
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(_jwtSettings.DurationInMinutes),
-                signingCredentials: creds
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }
