@@ -75,8 +75,6 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<SchoolAdminCreateRequest, SchoolAdmin>();
 
-            CreateMap<PatrolSchedule, PatrolScheduleResponse>();
-
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
@@ -151,6 +149,12 @@ namespace StudentSupervisorService.Mapper
                    FirstOrDefault().
                    StudentInClass.
                    Student.Name));
+
+            CreateMap<PatrolSchedule, PatrolScheduleResponse>()
+                .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(
+                    src => src.Supervisor.User.Name))
+                .ForMember(dest => dest.TeacherName, opt => opt.MapFrom(
+                    src => src.Teacher.User.Name));
 
             CreateMap<RequestOfCreateViolation, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
