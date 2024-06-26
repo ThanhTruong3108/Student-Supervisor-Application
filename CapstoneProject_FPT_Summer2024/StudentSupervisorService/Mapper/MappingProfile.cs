@@ -64,14 +64,13 @@ namespace StudentSupervisorService.Mapper
             CreateMap<EvaluationDetail, EvaluationDetailResponse>();
             CreateMap<StudentInClass, StudentInClassResponse>()
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Student.Name));
-            //CreateMap<SchoolAdmin, SchoolAdminResponse>()
-            //    .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))
-            //    .ForMember(re => re.Name, act => act.MapFrom(src => src.User.Name))
-            //    .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
-            //    .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
-            //    .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address))
-            //    .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId))
-            //    .ForMember(re => re.Status, act => act.MapFrom(src => src.User.Status));
+            CreateMap<SchoolAdmin, SchoolAdminResponse>()
+                .ForMember(re => re.AdminName, act => act.MapFrom(src => src.Admin.Name))
+                .ForMember(re => re.SchoolCode, act => act.MapFrom(src => src.School.Code))
+                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
+                .ForMember(re => re.Phone, act => act.MapFrom(src => src.School.Phone))
+                .ForMember(re => re.Address, act => act.MapFrom(src => src.School.Address))
+                .ForMember(re => re.City, act => act.MapFrom(src => src.School.City));
 
             //CreateMap<SchoolAdminCreateRequest, SchoolAdmin>();
 

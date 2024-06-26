@@ -41,7 +41,7 @@ namespace StudentSupervisorService.Service.Implement
                 Phone = "84" + request.Phone,
                 Password = request.Password,
                 Address = request.Address,
-                RoleId = (byte)RoleAccountEnum.TEACHER, 
+                RoleId = (byte)RoleAccountEnum.SUPERVISOR, 
                 Status = UserEnum.ACTIVE.ToString() 
             };
 
