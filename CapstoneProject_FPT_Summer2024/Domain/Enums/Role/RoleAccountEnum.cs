@@ -11,7 +11,7 @@ namespace Domain.Enums.Role
         ADMIN = 1,
         SCHOOL_ADMIN = 2,
         PRINCIPAL = 3,
-        TEACHER = 4,
+        SUPERVISOR = 4,
         STUDENTSUPERVISOR = 5
     }
 }
