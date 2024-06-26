@@ -19,7 +19,36 @@ namespace StudentSupervisorService.Service.Implement
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-        }   
+        }
+
+        public async Task<TeacherResponse> CreateAccountSupervisor(RequestOfTeacher request)
+        {
+            var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+            if (isExist != null)
+            {
+                throw new Exception("Phone already in use!");
+            }
+
+            var teacher = _mapper.Map<Teacher>(request);
+
+            teacher.User = new User
+            {
+                SchoolAdminId = request.SchoolAdminId,
+                Code = request.Code,
+                Name = request.TeacherName,
+                Phone = "84" + request.Phone,
+                Password = request.Password,
+                Address = request.Address,
+                RoleId = (byte)RoleAccountEnum.SUPERVISOR,
+                Status = UserEnum.ACTIVE.ToString()
+            };
+
+            _unitOfWork.Teacher.Add(teacher);
+            _unitOfWork.Save();
+
+            return _mapper.Map<TeacherResponse>(teacher);
+        }
+
         public async Task<TeacherResponse> CreateAccountTeacher(RequestOfTeacher request)
         {
             var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
@@ -41,7 +70,7 @@ namespace StudentSupervisorService.Service.Implement
                 Phone = "84" + request.Phone,
                 Password = request.Password,
                 Address = request.Address,
-                RoleId = (byte)RoleAccountEnum.SUPERVISOR, 
+                RoleId = (byte)RoleAccountEnum.TEACHER, 
                 Status = UserEnum.ACTIVE.ToString() 
             };
 

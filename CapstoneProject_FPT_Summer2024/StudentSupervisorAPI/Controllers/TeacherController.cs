@@ -58,12 +58,26 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost("create-account")]
+        [HttpPost]
         public async Task<ActionResult<TeacherResponse>> CreateTeacherAccount(RequestOfTeacher request)
         {
             try
             {
                 var teacher = await _service.CreateAccountTeacher(request);
+                return teacher == null ? NotFound() : Ok(new { Success = true, Data = teacher });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("create-account")]
+        public async Task<ActionResult<TeacherResponse>> CreateSupervisorAccount(RequestOfTeacher request)
+        {
+            try
+            {
+                var teacher = await _service.CreateAccountSupervisor(request);
                 return teacher == null ? NotFound() : Ok(new { Success = true, Data = teacher });
             }
             catch (Exception ex)
