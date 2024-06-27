@@ -72,7 +72,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost("create-account")]
+        [HttpPost("supervisors")]
         public async Task<ActionResult<TeacherResponse>> CreateSupervisorAccount(RequestOfTeacher request)
         {
             try
