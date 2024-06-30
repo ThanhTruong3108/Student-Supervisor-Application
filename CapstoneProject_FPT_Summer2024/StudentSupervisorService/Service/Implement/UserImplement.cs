@@ -112,16 +112,16 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfUser>>> GetUsersBySchoolAdminId(int schoolAdminId)
+        public async Task<DataResponse<List<ResponseOfUser>>> GetUsersBySchoolId(int schoolId)
         {
             var response = new DataResponse<List<ResponseOfUser>>();
 
             try
             {
-                var users = await _unitOfWork.User.GetUsersBySchoolAdminId(schoolAdminId);
+                var users = await _unitOfWork.User.GetUsersBySchoolId(schoolId);
                 if (users == null || !users.Any())
                 {
-                    response.Message = "No users found for the specified SchoolAdminId.";
+                    response.Message = "No users found for the specified SchoolId.";
                     response.Success = false;
                 }
                 else
@@ -141,13 +141,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfUser>>> SearchUsers(int? role, string? code, string? name, string? phone, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfUser>>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfUser>>();
 
             try
             {
-                var users = await _unitOfWork.User.SearchUsers(role, code, name, phone);
+                var users = await _unitOfWork.User.SearchUsers( schoolId,role, code, name, phone);
                 if (users is null || users.Count == 0)
                 {
                     response.Message = "No Users found matching the criteria";
@@ -194,7 +194,7 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
-                user.SchoolAdminId = request.SchoolAdminId;
+                user.SchoolId = request.SchoolId;
                 user.RoleId = request.RoleId;
                 user.Code = request.Code;
                 user.Name = request.Name;

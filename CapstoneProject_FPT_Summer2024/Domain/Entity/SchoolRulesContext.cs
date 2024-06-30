@@ -42,10 +42,6 @@ public partial class SchoolRulesContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<SchoolAdmin> SchoolAdmins { get; set; }
-
-    public virtual DbSet<SchoolConfig> SchoolConfigs { get; set; }
-
     public virtual DbSet<SchoolYear> SchoolYears { get; set; }
 
     public virtual DbSet<Student> Students { get; set; }
@@ -56,8 +52,6 @@ public partial class SchoolRulesContext : DbContext
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
-    public virtual DbSet<Time> Times { get; set; }
-
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Violation> Violations { get; set; }
@@ -65,8 +59,6 @@ public partial class SchoolRulesContext : DbContext
     public virtual DbSet<ViolationConfig> ViolationConfigs { get; set; }
 
     public virtual DbSet<ViolationGroup> ViolationGroups { get; set; }
-
-    public virtual DbSet<ViolationReport> ViolationReports { get; set; }
 
     public virtual DbSet<ViolationType> ViolationTypes { get; set; }
 
@@ -113,7 +105,6 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.ClassGroupId).HasColumnName("ClassGroupID");
             entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(70);
-            entity.Property(e => e.Room).HasMaxLength(10);
             entity.Property(e => e.SchoolYearId).HasColumnName("SchoolYearID");
 
             entity.HasOne(d => d.ClassGroup).WithMany(p => p.Classes)
@@ -134,7 +125,12 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.ClassGroupId).HasColumnName("ClassGroupID");
             entity.Property(e => e.ClassGroupName).HasMaxLength(50);
             entity.Property(e => e.Hall).HasMaxLength(20);
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
             entity.Property(e => e.Status).HasMaxLength(50);
+
+            entity.HasOne(d => d.School).WithMany(p => p.ClassGroups)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_ClassGroup_HighSchool");
         });
 
         modelBuilder.Entity<Discipline>(entity =>
@@ -142,10 +138,8 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Discipline");
 
             entity.Property(e => e.DisciplineId).HasColumnName("DisciplineID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(255);
             entity.Property(e => e.EndDate).HasColumnType("date");
-            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.PennaltyId).HasColumnName("PennaltyID");
             entity.Property(e => e.StartDate).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
@@ -171,11 +165,16 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.From).HasColumnType("date");
             entity.Property(e => e.SchoolYearId).HasColumnName("SchoolYearID");
             entity.Property(e => e.To).HasColumnType("date");
+            entity.Property(e => e.ViolationConfigId).HasColumnName("ViolationConfigID");
 
             entity.HasOne(d => d.SchoolYear).WithMany(p => p.Evaluations)
                 .HasForeignKey(d => d.SchoolYearId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Evaluation_SchoolYear");
+
+            entity.HasOne(d => d.ViolationConfig).WithMany(p => p.Evaluations)
+                .HasForeignKey(d => d.ViolationConfigId)
+                .HasConstraintName("FK_Evaluation_ViolationConfig");
         });
 
         modelBuilder.Entity<EvaluationDetail>(entity =>
@@ -210,9 +209,6 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.Address).HasMaxLength(300);
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.Code).HasMaxLength(50);
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(500)
-                .HasColumnName("ImageURL");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Phone).HasMaxLength(12);
             entity.Property(e => e.Status).HasMaxLength(50);
@@ -262,6 +258,7 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.ScheduleId).HasColumnName("ScheduleID");
             entity.Property(e => e.ClassId).HasColumnName("ClassID");
             entity.Property(e => e.From).HasColumnType("date");
+            entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
             entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
             entity.Property(e => e.To).HasColumnType("date");
@@ -274,7 +271,7 @@ public partial class SchoolRulesContext : DbContext
             entity.HasOne(d => d.Supervisor).WithMany(p => p.PatrolSchedules)
                 .HasForeignKey(d => d.SupervisorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PatrolSchedule_StudentSupervisor");
+                .HasConstraintName("FK_PatrolSchedule_StudentSupervisor1");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.PatrolSchedules)
                 .HasForeignKey(d => d.TeacherId)
@@ -289,7 +286,6 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Penalty");
 
             entity.Property(e => e.PenaltyId).HasColumnName("PenaltyID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
@@ -327,46 +323,6 @@ public partial class SchoolRulesContext : DbContext
                 .ValueGeneratedOnAdd()
                 .HasColumnName("RoleID");
             entity.Property(e => e.RoleName).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<SchoolAdmin>(entity =>
-        {
-            entity.HasKey(e => e.SchoolAdminId).HasName("PK__SchoolAd__95831C8EECEED97B");
-
-            entity.ToTable("SchoolAdmin");
-
-            entity.HasIndex(e => e.SchoolId, "UQ__SchoolAd__3DA4677AEE728741").IsUnique();
-
-            entity.Property(e => e.SchoolAdminId).HasColumnName("SchoolAdminID");
-            entity.Property(e => e.AdminId).HasColumnName("AdminID");
-            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
-
-            entity.HasOne(d => d.Admin).WithMany(p => p.SchoolAdmins)
-                .HasForeignKey(d => d.AdminId)
-                .HasConstraintName("FK_SchoolAdmin_Admin");
-
-            entity.HasOne(d => d.School).WithOne(p => p.SchoolAdmin)
-                .HasForeignKey<SchoolAdmin>(d => d.SchoolId)
-                .HasConstraintName("FK_Principal_HighSchool");
-        });
-
-        modelBuilder.Entity<SchoolConfig>(entity =>
-        {
-            entity.HasKey(e => e.ConfigId);
-
-            entity.ToTable("SchoolConfig");
-
-            entity.Property(e => e.ConfigId).HasColumnName("ConfigID");
-            entity.Property(e => e.Code).HasMaxLength(100);
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
-            entity.Property(e => e.Status).HasMaxLength(50);
-
-            entity.HasOne(d => d.School).WithMany(p => p.SchoolConfigs)
-                .HasForeignKey(d => d.SchoolId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SchoolConfig_HighSchool");
         });
 
         modelBuilder.Entity<SchoolYear>(entity =>
@@ -409,7 +365,9 @@ public partial class SchoolRulesContext : DbContext
 
             entity.Property(e => e.StudentInClassId).HasColumnName("StudentInClassID");
             entity.Property(e => e.ClassId).HasColumnName("ClassID");
+            entity.Property(e => e.EndDate).HasColumnType("date");
             entity.Property(e => e.EnrollDate).HasColumnType("date");
+            entity.Property(e => e.StartDate).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
 
@@ -429,8 +387,8 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("StudentSupervisor");
 
             entity.Property(e => e.StudentSupervisorId).HasColumnName("StudentSupervisorID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(100);
+            entity.Property(e => e.StudentInClassId).HasColumnName("StudentInClassID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.StudentSupervisors)
@@ -458,20 +416,6 @@ public partial class SchoolRulesContext : DbContext
                 .HasConstraintName("FK_Teacher_User");
         });
 
-        modelBuilder.Entity<Time>(entity =>
-        {
-            entity.ToTable("Time");
-
-            entity.Property(e => e.TimeId).HasColumnName("TimeID");
-            entity.Property(e => e.ClassGroupId).HasColumnName("ClassGroupID");
-            entity.Property(e => e.Time1).HasColumnName("Time");
-
-            entity.HasOne(d => d.ClassGroup).WithMany(p => p.Times)
-                .HasForeignKey(d => d.ClassGroupId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Time_ClassGroup");
-        });
-
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK_Entity");
@@ -485,7 +429,7 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(255);
             entity.Property(e => e.Phone).HasMaxLength(20);
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
-            entity.Property(e => e.SchoolAdminId).HasColumnName("SchoolAdminID");
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
             entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
@@ -493,9 +437,9 @@ public partial class SchoolRulesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Role");
 
-            entity.HasOne(d => d.SchoolAdmin).WithMany(p => p.Users)
-                .HasForeignKey(d => d.SchoolAdminId)
-                .HasConstraintName("FK_User_SchoolAdmin");
+            entity.HasOne(d => d.School).WithMany(p => p.Users)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_User_HighSchool");
         });
 
         modelBuilder.Entity<Violation>(entity =>
@@ -504,12 +448,12 @@ public partial class SchoolRulesContext : DbContext
 
             entity.Property(e => e.ViolationId).HasColumnName("ViolationID");
             entity.Property(e => e.ClassId).HasColumnName("ClassID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.CreatedAt).HasColumnType("date");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.StudentInClassId).HasColumnName("StudentInClassID");
             entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
             entity.Property(e => e.UpdatedAt).HasColumnType("date");
             entity.Property(e => e.ViolationTypeId).HasColumnName("ViolationTypeID");
@@ -518,6 +462,10 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Violation_Class");
+
+            entity.HasOne(d => d.StudentInClass).WithMany(p => p.Violations)
+                .HasForeignKey(d => d.StudentInClassId)
+                .HasConstraintName("FK_Violation_StudentInClass");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Violations)
                 .HasForeignKey(d => d.TeacherId)
@@ -534,17 +482,9 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("ViolationConfig");
 
             entity.Property(e => e.ViolationConfigId).HasColumnName("ViolationConfigID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(200);
-            entity.Property(e => e.EvaluationId).HasColumnName("EvaluationID");
-            entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.ViolationTypeId).HasColumnName("ViolationTypeID");
-
-            entity.HasOne(d => d.Evaluation).WithMany(p => p.ViolationConfigs)
-                .HasForeignKey(d => d.EvaluationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ViolationConfig_Evaluation");
 
             entity.HasOne(d => d.ViolationType).WithMany(p => p.ViolationConfigs)
                 .HasForeignKey(d => d.ViolationTypeId)
@@ -557,30 +497,14 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("ViolationGroup");
 
             entity.Property(e => e.ViolationGroupId).HasColumnName("ViolationGroupID");
-            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(50);
-        });
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
+            entity.Property(e => e.Status).HasMaxLength(50);
 
-        modelBuilder.Entity<ViolationReport>(entity =>
-        {
-            entity.HasKey(e => e.ViolationReportId).HasName("PK_ViolationReport_1");
-
-            entity.ToTable("ViolationReport");
-
-            entity.Property(e => e.ViolationReportId).HasColumnName("ViolationReportID");
-            entity.Property(e => e.StudentInClassId).HasColumnName("StudentInClassID");
-            entity.Property(e => e.ViolationId).HasColumnName("ViolationID");
-
-            entity.HasOne(d => d.StudentInClass).WithMany(p => p.ViolationReports)
-                .HasForeignKey(d => d.StudentInClassId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ViolationReport_StudentInClass");
-
-            entity.HasOne(d => d.Violation).WithMany(p => p.ViolationReports)
-                .HasForeignKey(d => d.ViolationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ViolationReport_Violation");
+            entity.HasOne(d => d.School).WithMany(p => p.ViolationGroups)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_ViolationGroup_HighSchool");
         });
 
         modelBuilder.Entity<ViolationType>(entity =>
@@ -590,6 +514,7 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.ViolationTypeId).HasColumnName("ViolationTypeID");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.ViolationGroupId).HasColumnName("ViolationGroupID");
 
             entity.HasOne(d => d.ViolationGroup).WithMany(p => p.ViolationTypes)

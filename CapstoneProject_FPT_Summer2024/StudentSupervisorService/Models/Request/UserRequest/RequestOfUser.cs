@@ -12,7 +12,7 @@ namespace StudentSupervisorService.Models.Request.UserRequest
 
 
         [Required(ErrorMessage = "The SchoolAdminId field is required.")]
-        public int? SchoolAdminId { get; set; }
+        public int? SchoolId { get; set; }
         [Required(ErrorMessage = "The RoleId field is required.")]
         public byte RoleId { get; set; }
         [Required(ErrorMessage = "The Code field is required.")]

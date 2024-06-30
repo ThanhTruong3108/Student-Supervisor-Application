@@ -9,12 +9,6 @@ namespace StudentSupervisorService.Models.Request.YearPackageRequest
 {
     public class RequestOfYearPackage
     {
-        public RequestOfYearPackage(int schoolYearId, int packageId, int numberOfStudent)
-        {
-            SchoolYearId = schoolYearId;
-            PackageId = packageId;
-            NumberOfStudent = numberOfStudent;
-        }
         [Required(ErrorMessage = "The SchoolYearId field is required.")]
         public int SchoolYearId { get; set; }
         [Required(ErrorMessage = "The PackageId field is required.")]

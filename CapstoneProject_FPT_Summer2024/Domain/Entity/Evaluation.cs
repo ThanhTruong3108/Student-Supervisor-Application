@@ -9,6 +9,8 @@ public partial class Evaluation
 
     public int SchoolYearId { get; set; }
 
+    public int? ViolationConfigId { get; set; }
+
     public string? Description { get; set; }
 
     public DateTime From { get; set; }
@@ -21,5 +23,5 @@ public partial class Evaluation
 
     public virtual SchoolYear SchoolYear { get; set; } = null!;
 
-    public virtual ICollection<ViolationConfig> ViolationConfigs { get; set; } = new List<ViolationConfig>();
+    public virtual ViolationConfig? ViolationConfig { get; set; }
 }

@@ -17,23 +17,23 @@ public partial class HighSchool
 
     public string? Phone { get; set; }
 
-    public string? ImageUrl { get; set; }
-
     public string? WebUrl { get; set; }
 
     public string Status { get; set; } = null!;
 
+    public virtual ICollection<ClassGroup> ClassGroups { get; set; } = new List<ClassGroup>();
+
     public virtual ICollection<Penalty> Penalties { get; set; } = new List<Penalty>();
 
     public virtual ICollection<RegisteredSchool> RegisteredSchools { get; set; } = new List<RegisteredSchool>();
-
-    public virtual SchoolAdmin? SchoolAdmin { get; set; }
-
-    public virtual ICollection<SchoolConfig> SchoolConfigs { get; set; } = new List<SchoolConfig>();
 
     public virtual ICollection<SchoolYear> SchoolYears { get; set; } = new List<SchoolYear>();
 
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
+
+    public virtual ICollection<ViolationGroup> ViolationGroups { get; set; } = new List<ViolationGroup>();
 }

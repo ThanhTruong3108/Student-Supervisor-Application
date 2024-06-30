@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
             return await _context.Disciplines.FirstOrDefaultAsync(x => x.DisciplineId == id);
         }
 
-        public async Task<List<Discipline>> SearchDisciplines(int? violationId, int? penaltyId, string? code, string? name, string? description, DateTime? startDate, DateTime? endDate, string? status)
+        public async Task<List<Discipline>> SearchDisciplines(int? violationId, int? penaltyId, string? description, DateTime? startDate, DateTime? endDate, string? status)
         {
             var query = _context.Disciplines.AsQueryable();
 
@@ -36,14 +36,6 @@ namespace Infrastructures.Repository
             if (penaltyId != null)
             {
                 query = query.Where(p => p.PennaltyId == penaltyId);
-            }
-            if (!string.IsNullOrEmpty(code))
-            {
-                query = query.Where(p => p.Code.Contains(code));
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
             }
             if (!string.IsNullOrEmpty(description))
             {

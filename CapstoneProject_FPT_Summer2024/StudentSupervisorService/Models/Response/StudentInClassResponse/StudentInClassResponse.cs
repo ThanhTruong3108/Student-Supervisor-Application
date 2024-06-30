@@ -14,6 +14,9 @@ namespace StudentSupervisorService.Models.Response.StudentInClassResponse
         public string? StudentName { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool? IsSupervisor { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? NumberOfViolation { get; set; }
         public string? Status { get; set; }
     }
 }

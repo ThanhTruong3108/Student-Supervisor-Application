@@ -7,7 +7,9 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    public int? SchoolAdminId { get; set; }
+    public byte RoleId { get; set; }
+
+    public int? SchoolId { get; set; }
 
     public string Code { get; set; } = null!;
 
@@ -19,13 +21,11 @@ public partial class User
 
     public string? Address { get; set; }
 
-    public byte RoleId { get; set; }
-
     public string Status { get; set; } = null!;
 
     public virtual Role Role { get; set; } = null!;
 
-    public virtual SchoolAdmin? SchoolAdmin { get; set; }
+    public virtual HighSchool? School { get; set; }
 
     public virtual ICollection<StudentSupervisor> StudentSupervisors { get; set; } = new List<StudentSupervisor>();
 

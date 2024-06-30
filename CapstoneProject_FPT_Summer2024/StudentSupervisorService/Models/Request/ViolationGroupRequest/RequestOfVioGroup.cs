@@ -9,8 +9,8 @@ namespace StudentSupervisorService.Models.Request.ViolationGroupRequest
 {
     public class RequestOfVioGroup
     {
-        [Required(ErrorMessage = "The Code field is required.")]
-        public string? Code { get; set; }
+        [Required(ErrorMessage = "The SchoolId field is required.")]
+        public int? SchoolId { get; set; }
         [Required(ErrorMessage = "The Name field is required.")]
         public string VioGroupName { get; set; } = null!;
         [Required(ErrorMessage = "The Description field is required.")]

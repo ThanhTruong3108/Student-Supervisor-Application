@@ -49,8 +49,6 @@ namespace StudentSupervisorAPI.Controllers
         public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> SearchDisciplines(
             int? violationId,
             int? penaltyId,
-            string? code,
-            string? name,
             string? description,
             DateTime? startDate,
             DateTime? endDate,
@@ -59,7 +57,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var disciplinesResponse = await disciplineService.SearchDisciplines(violationId, penaltyId, code, name, description, startDate, endDate, status, sortOrder);
+                var disciplinesResponse = await disciplineService.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status, sortOrder);
                 return Ok(disciplinesResponse);
             }
             catch (Exception ex)

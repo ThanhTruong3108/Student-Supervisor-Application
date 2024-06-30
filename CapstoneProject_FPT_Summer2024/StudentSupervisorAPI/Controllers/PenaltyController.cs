@@ -44,16 +44,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<PenaltyResponse>>>> SearchPenalties(
-            int? schoolId, 
-            string? code, 
-            string? name, 
-            string? description,
-            string? sortOrder)
+        public async Task<ActionResult<DataResponse<List<PenaltyResponse>>>> SearchPenalties(int? schoolId, string? name, string? description, string? sortOrder)
         {
             try
             {
-                var penaltiesReponse = await penaltyService.SearchPenalties(schoolId, code, name, description, sortOrder);
+                var penaltiesReponse = await penaltyService.SearchPenalties(schoolId, name, description, sortOrder);
                 return Ok(penaltiesReponse);
             } catch (Exception ex)
             {

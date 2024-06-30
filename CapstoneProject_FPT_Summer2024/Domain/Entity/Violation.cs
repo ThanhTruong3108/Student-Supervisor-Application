@@ -11,9 +11,9 @@ public partial class Violation
 
     public int ViolationTypeId { get; set; }
 
-    public int? TeacherId { get; set; }
+    public int? StudentInClassId { get; set; }
 
-    public string Code { get; set; } = null!;
+    public int? TeacherId { get; set; }
 
     public string Name { get; set; } = null!;
 
@@ -37,9 +37,9 @@ public partial class Violation
 
     public virtual ICollection<ImageUrl> ImageUrls { get; set; } = new List<ImageUrl>();
 
-    public virtual Teacher? Teacher { get; set; }
+    public virtual StudentInClass? StudentInClass { get; set; }
 
-    public virtual ICollection<ViolationReport> ViolationReports { get; set; } = new List<ViolationReport>();
+    public virtual Teacher? Teacher { get; set; }
 
     public virtual ViolationType ViolationType { get; set; } = null!;
 }

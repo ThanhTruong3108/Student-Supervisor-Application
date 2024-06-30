@@ -76,13 +76,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(string? name, string? hall, string? status, string sortOrder)
+        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
 
             try
             {
-                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(name, hall, status);
+                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(name, hall, slot, time, status);
                 if (classGroupEntities is null || classGroupEntities.Count == 0)
                 {
                     response.Message = "No ClassGroup matches the search criteria";

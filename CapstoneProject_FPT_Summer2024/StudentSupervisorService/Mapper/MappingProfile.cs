@@ -7,19 +7,15 @@ using StudentSupervisorService.Models.Response.ClassResponse;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
-using StudentSupervisorService.Models.Request.TimeRequest;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Request.ViolationConfigRequest;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
-using StudentSupervisorService.Models.Request.ViolationReportRequest;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Request.ViolationTypeRequest;
 using StudentSupervisorService.Models.Request.YearPackageRequest;
-using StudentSupervisorService.Models.Response.TimeResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Models.Response.ViolationConfigResponse;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
-using StudentSupervisorService.Models.Response.ViolationReportResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 using StudentSupervisorService.Models.Response.YearPackageResponse;
@@ -31,7 +27,6 @@ using System.Threading.Tasks;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
 using StudentSupervisorService.Models.Response.PenaltyResponse;
-using StudentSupervisorService.Models.Response.SchoolConfigResponse;
 using StudentSupervisorService.Models.Response.RegisteredSchoolResponse;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.EvaluationResponse;
@@ -41,8 +36,6 @@ using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Request.PackageRequest;
 using StudentSupervisorService.Models.Response.PackageResponse;
-using StudentSupervisorService.Models.Response.SchoolAdminResponse;
-using StudentSupervisorService.Models.Request.SchoolAdminRequest;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 
 namespace StudentSupervisorService.Mapper
@@ -57,22 +50,13 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Student, StudentResponse>();
             CreateMap<RequestOfHighSchool, HighSchool>();
             CreateMap<Penalty, PenaltyResponse>();
-            CreateMap<SchoolConfig, SchoolConfigResponse>();
             CreateMap<RegisteredSchool, RegisteredSchoolResponse>();
             CreateMap<Discipline, DisciplineResponse>();
             CreateMap<Evaluation, EvaluationResponse>();
             CreateMap<EvaluationDetail, EvaluationDetailResponse>();
             CreateMap<StudentInClass, StudentInClassResponse>()
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Student.Name));
-            CreateMap<SchoolAdmin, SchoolAdminResponse>()
-                .ForMember(re => re.AdminName, act => act.MapFrom(src => src.Admin.Name))
-                .ForMember(re => re.SchoolCode, act => act.MapFrom(src => src.School.Code))
-                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
-                .ForMember(re => re.Phone, act => act.MapFrom(src => src.School.Phone))
-                .ForMember(re => re.Address, act => act.MapFrom(src => src.School.Address))
-                .ForMember(re => re.City, act => act.MapFrom(src => src.School.City));
 
-            //CreateMap<SchoolAdminCreateRequest, SchoolAdmin>();
 
             //------------------------------------------------------------------------------------------------------------       
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
@@ -85,8 +69,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<PackageRequest, Package>();
 
             CreateMap<StudentSupervisor, StudentSupervisorResponse>()
-               .ForMember(re => re.SupervisorCode, act => act.MapFrom(src => src.Code))
-               .ForMember(re => re.UserCode, act => act.MapFrom(src => src.User.Code))
+               .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))
                .ForMember(re => re.SupervisorName, act => act.MapFrom(src => src.User.Name))
                .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
                .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
@@ -94,9 +77,8 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId));
 
             CreateMap<StudentSupervisorRequest, StudentSupervisor>()
-                .ForPath(re => re.Code, act => act.MapFrom(src => src.SupervisorCode))
-                .ForPath(re => re.User.SchoolAdminId, act => act.MapFrom(src => src.SchoolAdminId))
-                .ForPath(re => re.User.Code, act => act.MapFrom(src => src.UserCode))
+                .ForPath(re => re.User.SchoolId, act => act.MapFrom(src => src.SchoolId))
+                .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
                 .ForPath(re => re.User.Name, act => act.MapFrom(src => src.SupervisorName))
                 .ForPath(re => re.User.Phone, act => act.MapFrom(src => "84" + src.Phone)) // Prefix "84" to Phone
                 .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
@@ -113,41 +95,35 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId));
 
             CreateMap<RequestOfTeacher, Teacher>()
-                .ForPath(re => re.User.SchoolAdminId, act => act.MapFrom(src => src.SchoolAdminId))
                 .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
                 .ForPath(re => re.User.Name, act => act.MapFrom(src => src.TeacherName))
                 .ForPath(re => re.User.Phone, act => act.MapFrom(src => "84" + src.Phone)) // Prefix "84" to Phone
                 .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
                 .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
-            //.ForPath(re => re.User.RoleId, act => act.MapFrom(src => src.RoleId));
-            //.ForPath(re => re.User.Status, act => act.MapFrom(src => src.Status));
 
-            CreateMap<Time, ResponseOfTime>()
-               .ForMember(re => re.ClassGroupName, act => act.MapFrom(src => src.ClassGroup.ClassGroupName))
-               .ForMember(re => re.Hall, act => act.MapFrom(src => src.ClassGroup.Hall));
-
-            CreateMap<RequestOfTime, Time>();
 
             CreateMap<User, ResponseOfUser>()
+                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
+                .ForMember(re => re.UserName, act => act.MapFrom(src => src.Name))
                .ForMember(re => re.RoleName, act => act.MapFrom(src => src.Role.RoleName));
 
             CreateMap<RequestOfUser, User>();
 
 
-            CreateMap<Violation, ResponseOfViolation>()
-               .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
-               .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
-               .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
-               .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
-               .ForMember(dest => dest.StudentInClassId, opt => opt.MapFrom(
-                   src => src.ViolationReports.
-                   FirstOrDefault().
-                   StudentInClass.StudentInClassId))
-               .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
-                   src => src.ViolationReports.
-                   FirstOrDefault().
-                   StudentInClass.
-                   Student.Name));
+            //CreateMap<Violation, ResponseOfViolation>()
+            //   .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
+            //   .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
+            //   .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
+            //   .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
+            //   .ForMember(dest => dest.StudentInClassId, opt => opt.MapFrom(
+            //       src => src.ViolationReports.
+            //       FirstOrDefault().
+            //       StudentInClass.StudentInClassId))
+            //   .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
+            //       src => src.ViolationReports.
+            //       FirstOrDefault().
+            //       StudentInClass.
+            //       Student.Name));
 
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(
@@ -161,22 +137,16 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
 
             CreateMap<ViolationConfig, ViolationConfigResponse>()
-               .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
-               .ForMember(re => re.ViolationConfigName, act => act.MapFrom(src => src.Name));
+               .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name));
 
-            CreateMap<RequestOfViolationConfig, ViolationConfig>()
-                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationConfigName));
+            CreateMap<RequestOfViolationConfig, ViolationConfig>();
 
             CreateMap<ViolationGroup, ResponseOfVioGroup>()
+                 .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
               .ForMember(re => re.VioGroupName, act => act.MapFrom(src => src.Name));
 
             CreateMap<RequestOfVioGroup, ViolationGroup>();
 
-            CreateMap<ViolationReport, ResponseOfVioReport>()
-              .ForMember(re => re.EnrollDate, act => act.MapFrom(src => src.StudentInClass.EnrollDate))
-              .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Violation.Name));
-
-            CreateMap<RequestOfVioReport, ViolationReport>();
 
             CreateMap<ViolationType, ResponseOfVioType>()
               .ForMember(re => re.VioTypeName, act => act.MapFrom(src => src.Name))

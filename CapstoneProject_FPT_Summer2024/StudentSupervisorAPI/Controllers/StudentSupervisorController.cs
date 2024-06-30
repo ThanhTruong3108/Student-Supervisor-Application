@@ -19,7 +19,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<StudentSupervisorResponse>>>> GetStudentSupervisors(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<StudentSupervisorResponse>>>> GetStudentSupervisors(string sortOrder = "asc")
         {
             try
             {
@@ -47,11 +47,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchStudentSupervisors(int? userId = null, string code = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchStudentSupervisors(int? userId = null, int? studentInClassId = null, string sortOrder = "asc")
         {
             try
             {
-                var stuSuper = await _service.SearchStudentSupervisors(userId, code, sortOrder);
+                var stuSuper = await _service.SearchStudentSupervisors(userId, studentInClassId, sortOrder);
                 return Ok(stuSuper);
             }
             catch (Exception ex)

@@ -18,7 +18,7 @@ namespace StudentSupervisorAPI.Controllers
         }
         //[Authorize(Roles = "SCHOOLADMIN")]
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsers(string sortOrder = "asc")
         {
             try 
             {
@@ -46,11 +46,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchUsers(int? role = null, string? code = null, string? name = null, string? phone = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchUsers(int? schoolId = null,int? role = null, string? code = null, string? name = null, string? phone = null, string sortOrder = "asc")
         {
             try
             {
-                var users = await _service.SearchUsers(role, code, name, phone, sortOrder);
+                var users = await _service.SearchUsers(schoolId, role, code, name, phone, sortOrder);
                 return Ok(users);
             }
             catch (Exception ex)

@@ -13,6 +13,8 @@ public partial class ViolationType
 
     public string? Description { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual ICollection<ViolationConfig> ViolationConfigs { get; set; } = new List<ViolationConfig>();
 
     public virtual ViolationGroup ViolationGroup { get; set; } = null!;

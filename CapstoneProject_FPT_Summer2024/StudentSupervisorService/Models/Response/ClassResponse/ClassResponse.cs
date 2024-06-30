@@ -7,7 +7,6 @@ namespace StudentSupervisorService.Models.Response.ClassResponse
         public int SchoolYearId { get; set; }
         public int ClassGroupId { get; set; }
         public string? Code { get; set; }
-        public string? Room { get; set; }
         public string? Name { get; set; }
         public int? TotalPoint { get; set; }
     }

@@ -29,7 +29,7 @@ namespace Infrastructures.Repository
               .FirstOrDefault(s => s.StudentSupervisorId == id);
         }
 
-        public async Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, string code)
+        public async Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, int? studentInClassId)
         {
             var query = _context.StudentSupervisors.AsQueryable();
 
@@ -37,10 +37,9 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.UserId == userId.Value);
             }
-
-            if (!string.IsNullOrEmpty(code))
+            if (studentInClassId.HasValue)
             {
-                query = query.Where(p => p.Code.Contains(code));
+                query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
             }
 
             return await query

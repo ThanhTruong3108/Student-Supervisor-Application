@@ -11,8 +11,6 @@ namespace StudentSupervisorService.Models.Request.TeacherRequest
     public class RequestOfTeacher
     {
 
-        [Required(ErrorMessage = "The SchoolAdminId field is required.")]
-        public int SchoolAdminId { get; set; }
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }
         [Required(ErrorMessage = "The Code field is required.")]
@@ -28,9 +26,6 @@ namespace StudentSupervisorService.Models.Request.TeacherRequest
         public bool Sex { get; set; }
         [Required(ErrorMessage = "The Address field is required.")]
         public string? Address { get; set; }
-        //[Required(ErrorMessage = "The RoleId field is required.")]
-        //public byte RoleId { get; set; }
-        //[Required(ErrorMessage = "The Status field is required.")]
-        //public string Status { get; set; }
+
     }
 }

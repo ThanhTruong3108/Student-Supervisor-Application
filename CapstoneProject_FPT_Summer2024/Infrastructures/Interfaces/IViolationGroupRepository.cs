@@ -12,6 +12,6 @@ namespace Infrastructures.Interfaces
     {
         Task<List<ViolationGroup>> GetAllViolationGroups();
         Task<ViolationGroup> GetViolationGroupById(int id);
-        Task<List<ViolationGroup>> SearchViolationGroups(string? code, string? name);
+        Task<List<ViolationGroup>> SearchViolationGroups(int? schoolId, string? name);
     }
 }

@@ -12,6 +12,6 @@ namespace Infrastructures.Interfaces
     {
         Task<List<ViolationConfig>> GetAllViolationConfigs();
         Task<ViolationConfig> GetViolationConfigById(int id);
-        Task<List<ViolationConfig>> SearchViolationConfigs(int? evaluationId, int? vioTypeId ,string? code, string? name);
+        Task<List<ViolationConfig>> SearchViolationConfigs(int? vioTypeId, int? minusPoints);
     }
 }

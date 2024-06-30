@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
             return _context.HighSchools.FirstOrDefault(r => r.SchoolId == id);
         }
 
-        public async Task<List<HighSchool>> SearchHighSchools(string? code, string? name, string? address, string? phone)
+        public async Task<List<HighSchool>> SearchHighSchools(string? code, string? name, string? city, string? address, string? phone)
         {
             var query = _context.HighSchools.AsQueryable();
 
@@ -37,6 +37,11 @@ namespace Infrastructures.Repository
             if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                query = query.Where(p => p.City.Contains(city));
             }
 
             if (!string.IsNullOrEmpty(address))

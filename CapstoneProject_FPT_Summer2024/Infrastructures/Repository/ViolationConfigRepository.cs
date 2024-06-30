@@ -18,7 +18,6 @@ namespace Infrastructures.Repository
         public async Task<List<ViolationConfig>> GetAllViolationConfigs()
         {
             var violationConnfig = await _context.ViolationConfigs
-                .Include(e => e.Evaluation)
                 .Include(e => e.ViolationType)
                 .ToListAsync();
             return violationConnfig;
@@ -27,37 +26,25 @@ namespace Infrastructures.Repository
         public async Task<ViolationConfig> GetViolationConfigById(int id)
         {
             return _context.ViolationConfigs
-                .Include(e => e.Evaluation)
                 .Include(e => e.ViolationType)
                 .FirstOrDefault(s => s.ViolationConfigId == id);
         }
 
-        public async Task<List<ViolationConfig>> SearchViolationConfigs(int? evaluationId, int? vioTypeId, string? code, string? name)
+        public async Task<List<ViolationConfig>> SearchViolationConfigs(int? vioTypeId, int? minusPoints)
         {
             var query = _context.ViolationConfigs.AsQueryable();
-
-            if (evaluationId.HasValue)
-            {
-                query = query.Where(p => p.EvaluationId == evaluationId.Value);
-            }
 
             if (vioTypeId.HasValue)
             {
                 query = query.Where(p => p.ViolationTypeId == vioTypeId.Value);
             }
 
-            if (!string.IsNullOrEmpty(code))
+            if (minusPoints.HasValue)
             {
-                query = query.Where(p => p.Code.Contains(code));
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
+                query = query.Where(p => p.MinusPoints == minusPoints.Value);
             }
 
             return await query
-                .Include(e => e.Evaluation)
                 .Include(e => e.ViolationType)
                 .ToListAsync();
         }

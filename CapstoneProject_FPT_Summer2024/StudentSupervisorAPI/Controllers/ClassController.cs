@@ -49,14 +49,13 @@ namespace StudentSupervisorAPI.Controllers
             int? schoolYearId, 
             int? classGroupId, 
             string? code, 
-            string? room, 
             string? name, 
             int? totalPoint,
             string? sortOrder)
         {
             try
             {
-                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, room, name, totalPoint, sortOrder);
+                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, name, totalPoint, sortOrder);
                 return Ok(classesReponse);
             } catch (Exception ex)
             {

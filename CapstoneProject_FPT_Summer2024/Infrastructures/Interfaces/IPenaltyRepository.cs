@@ -12,7 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Penalty>> GetAllPenalties();
         Task<Penalty> GetPenaltyById(int id);
-        Task<List<Penalty>> SearchPenalties(int? schoolId, string? code, string? name, string? description);
+        Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description);
         Task<Penalty> CreatePenalty(Penalty penaltyEntity);
         Task<Penalty> UpdatePenalty(Penalty penaltyEntity);
         Task DeletePenalty(int id);

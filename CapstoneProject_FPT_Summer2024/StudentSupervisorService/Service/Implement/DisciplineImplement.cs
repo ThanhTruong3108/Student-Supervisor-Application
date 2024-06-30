@@ -39,8 +39,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 disciplineEntities = sortOrder == "desc"
-                    ? disciplineEntities.OrderByDescending(r => r.Name).ToList()
-                    : disciplineEntities.OrderBy(r => r.Name).ToList();
+                    ? disciplineEntities.OrderByDescending(r => r.DisciplineId).ToList()
+                    : disciplineEntities.OrderBy(r => r.DisciplineId).ToList();
 
                 response.Data = _mapper.Map<List<DisciplineResponse>>(disciplineEntities);
                 response.Message = "List Discipline";
@@ -82,13 +82,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<DisciplineResponse>>> SearchDisciplines(int? violationId, int? penaltyId, string? code, string? name, string? description, DateTime? startDate, DateTime? endDate, string? status, string sortOrder)
+        public async Task<DataResponse<List<DisciplineResponse>>> SearchDisciplines(int? violationId, int? penaltyId, string? description, DateTime? startDate, DateTime? endDate, string? status, string sortOrder)
         {
             var response = new DataResponse<List<DisciplineResponse>>();
 
             try
             {
-                var disciplineEntities = await _unitOfWork.Discipline.SearchDisciplines(violationId, penaltyId, code, name, description, startDate, endDate, status);
+                var disciplineEntities = await _unitOfWork.Discipline.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status);
                 if (disciplineEntities is null || disciplineEntities.Count == 0)
                 {
                     response.Message = "No Discipline matches the search criteria";
@@ -98,11 +98,11 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     if (sortOrder == "desc")
                     {
-                        disciplineEntities = disciplineEntities.OrderByDescending(r => r.Name).ToList();
+                        disciplineEntities = disciplineEntities.OrderByDescending(r => r.DisciplineId).ToList();
                     }
                     else
                     {
-                        disciplineEntities = disciplineEntities.OrderBy(r => r.Name).ToList();
+                        disciplineEntities = disciplineEntities.OrderBy(r => r.DisciplineId).ToList();
                     }
                     response.Data = _mapper.Map<List<DisciplineResponse>>(disciplineEntities);
                     response.Message = "List Discipline";
@@ -127,8 +127,6 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     ViolationId = request.ViolationId,
                     PennaltyId = request.PennaltyId,
-                    Code = request.Code,
-                    Name = request.Name,
                     Description = request.Description,
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
@@ -165,8 +163,6 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingDiscipline.ViolationId = request.ViolationId ?? existingDiscipline.ViolationId;
                 existingDiscipline.PennaltyId = request.PennaltyId ?? existingDiscipline.PennaltyId;
-                existingDiscipline.Code = request.Code ?? existingDiscipline.Code;
-                existingDiscipline.Name = request.Name ?? existingDiscipline.Name;
                 existingDiscipline.Description = request.Description ?? existingDiscipline.Description;
                 existingDiscipline.StartDate = request.StartDate ?? existingDiscipline.StartDate;
                 existingDiscipline.EndDate = request.EndDate ?? existingDiscipline.EndDate;

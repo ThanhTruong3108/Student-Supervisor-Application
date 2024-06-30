@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
             return await _context.StudentInClasses.Include(s => s.Student).FirstOrDefaultAsync(x => x.StudentInClassId == id);
         }
 
-        public async Task<List<StudentInClass>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, string? status)
+        public async Task<List<StudentInClass>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status)
         {
             var query = _context.StudentInClasses.AsQueryable();
 
@@ -44,6 +44,18 @@ namespace Infrastructures.Repository
             if (isSupervisor != null)
             {
                 query = query.Where(p => p.IsSupervisor == isSupervisor);
+            }
+            if (startDate != null)
+            {
+                query = query.Where(p => p.StartDate == startDate);
+            }
+            if (endDate != null)
+            {
+                query = query.Where(p => p.EndDate == endDate);
+            }
+            if (numberOfViolation != null)
+            {
+                query = query.Where(p => p.NumberOfViolation == numberOfViolation);
             }
             if (!string.IsNullOrEmpty(status))
             {

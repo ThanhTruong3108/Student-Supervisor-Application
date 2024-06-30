@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users
-                .Include(c => c.SchoolAdmin)
+                .Include(c => c.SchoolId)
                 .Include(c => c.Role)
                 .ToListAsync();
             return users;
@@ -34,14 +34,19 @@ namespace Infrastructures.Repository
         public async Task<User> GetUserById(int id)
         {
             return _context.Users
-               .Include(c => c.SchoolAdmin)
+               .Include(c => c.SchoolId)
                .Include(c => c.Role)
                .FirstOrDefault(s => s.UserId == id);
         }
 
-        public async Task<List<User>> SearchUsers(int? role, string? code, string? name, string? phone)
+        public async Task<List<User>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone)
         {
             var query = _context.Users.AsQueryable();
+
+            if (schoolId.HasValue)
+            {
+                query = query.Where(p => p.SchoolId == schoolId.Value);
+            }
 
             if (role.HasValue)
             {
@@ -64,16 +69,16 @@ namespace Infrastructures.Repository
             }
 
             return await query
-                .Include(c => c.SchoolAdmin)
+                .Include(c => c.SchoolId)
                 .Include (c => c.Role)
                 .ToListAsync();
         }
-        public async Task<List<User>> GetUsersBySchoolAdminId(int schoolAdminId)
+        public async Task<List<User>> GetUsersBySchoolId(int schoolId)
         {
             return await _context.Users
-                .Include(c => c.SchoolAdmin)
+                .Include(c => c.SchoolId)
                 .Include(c => c.Role)
-                .Where(u => u.SchoolAdminId == schoolAdminId)
+                .Where(u => u.SchoolId == schoolId)
                 .ToListAsync();
         }
     }

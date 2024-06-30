@@ -10,17 +10,13 @@ namespace StudentSupervisorService.Models.Request.StudentSupervisorRequest
 {
     public class StudentSupervisorRequest
     {
-        [Required(ErrorMessage = "The SupervisorCode field is required.")]
-        public string SupervisorCode { get; set; } = null!;
+        [Required(ErrorMessage = "The StudentInClassId field is required.")]
+        public int? StudentInClassId { get; set; }
+        [Required(ErrorMessage = "The SchoolId field is required.")]
+        public int SchoolId { get; set; }
 
-        [Required(ErrorMessage = "The Description field is required.")]
-        public string? Description { get; set; }
-
-        [Required(ErrorMessage = "The SchoolAdminId field is required.")]
-        public int SchoolAdminId { get; set; }
-
-        [Required(ErrorMessage = "The UserCode field is required.")]
-        public string UserCode { get; set; } = null!;
+        [Required(ErrorMessage = "The Code field is required.")]
+        public string Code { get; set; } = null!;
 
         [Required(ErrorMessage = "The SupervisorName field is required.")]
         public string SupervisorName { get; set; } = null!;
@@ -34,6 +30,9 @@ namespace StudentSupervisorService.Models.Request.StudentSupervisorRequest
 
         [Required(ErrorMessage = "The Address field is required.")]
         public string? Address { get; set; } = null!;
+
+        [Required(ErrorMessage = "The Description field is required.")]
+        public string? Description { get; set; }
 
     }
 }

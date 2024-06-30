@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.HighSchoolRequest;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
@@ -19,11 +20,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools()
+        public async Task<ActionResult<DataResponse<List<ResponseOfHighSchool>>>> GetHighSchools(string sortOrder = "asc")
         {
             try
             {
-                var highSchools = await _service.GetAllHighSchools();
+                var highSchools = await _service.GetAllHighSchools(sortOrder);
                 return Ok(highSchools);
             }
             catch (Exception ex)
@@ -46,11 +47,11 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
         [HttpGet("search")]
-        public async Task<IActionResult> SearchProducts(string? code = null, string? name = null, string? address = null, string? phone = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchProducts(string? code = null, string? name = null, string? city = null, string? address = null, string? phone = null, string sortOrder = "asc")
         {
             try
             {
-                var highSchools = await _service.SearchHighSchools(code, name, address, phone, sortOrder);
+                var highSchools = await _service.SearchHighSchools(code, name, city, address, phone, sortOrder);
                 return Ok(highSchools);
             }
             catch (Exception ex)

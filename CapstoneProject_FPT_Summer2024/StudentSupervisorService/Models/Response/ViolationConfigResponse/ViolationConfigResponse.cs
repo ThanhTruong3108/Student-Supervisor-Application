@@ -10,16 +10,13 @@ namespace StudentSupervisorService.Models.Response.ViolationConfigResponse
     {
         public int ViolationConfigId { get; set; }
 
-        public int EvaluationId { get; set; }
-
         public int ViolationTypeId { get; set; }
 
         public string ViolationTypeName { get; set; } = null!;
 
-        public string ViolationConfigName { get; set; } = null!;
-
-        public string Code { get; set; } = null!;
+        public int? MinusPoints { get; set; }
 
         public string? Description { get; set; }
+        public string Status { get; set; } = null!;
     }
 }

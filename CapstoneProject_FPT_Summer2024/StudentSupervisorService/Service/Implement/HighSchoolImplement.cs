@@ -6,6 +6,7 @@ using StudentSupervisorService.Models.Request.HighSchoolRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
+using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,21 +59,31 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools()
+        public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfHighSchool>>();
 
             try
             {
-                var highSchools = await _unitOfWork.HighSchool.GetAllHighSchools();
-                if (highSchools is null || !highSchools.Any())
+                var highSchool = await _unitOfWork.HighSchool.GetAllHighSchools();
+                if (highSchool is null || !highSchool.Any())
                 {
                     response.Message = "The HighSchool list is empty";
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfHighSchool>>(highSchools);
-                response.Message = "List highSchools";
+                // Sắp xếp danh sách Violation Group theo yêu cầu
+                var highSchoolDTO = _mapper.Map<List<ResponseOfHighSchool>>(highSchool);
+                if (sortOrder == "desc")
+                {
+                    highSchoolDTO = highSchoolDTO.OrderByDescending(r => r.Code).ToList();
+                }
+                else
+                {
+                    highSchoolDTO = highSchoolDTO.OrderBy(r => r.Code).ToList();
+                }
+                response.Data = highSchoolDTO;
+                response.Message = "List HighSchools";
                 response.Success = true;
             }
             catch (Exception ex)
@@ -108,13 +119,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? address, string? phone, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? city, string? address, string? phone, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfHighSchool>>();
 
             try
             {
-                var highSchools = await _unitOfWork.HighSchool.SearchHighSchools(code, name, address, phone);
+                var highSchools = await _unitOfWork.HighSchool.SearchHighSchools(code, name, city, address, phone);
                 if (highSchools is null || highSchools.Count == 0)
                 {
                     response.Message = "No HighSchools found matching the criteria";
@@ -163,9 +174,9 @@ namespace StudentSupervisorService.Service.Implement
                 }
                 highSchool.Code = request.Code;
                 highSchool.Name = request.Name;
+                highSchool.City = request.City;
                 highSchool.Address = request.Address;
                 highSchool.Phone = request.Phone;
-                highSchool.ImageUrl = request.ImageUrl;
                 highSchool.WebUrl = request.WebUrl;
                 _unitOfWork.HighSchool.Update(highSchool);
                 _unitOfWork.Save();

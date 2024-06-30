@@ -18,7 +18,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetVioTypes(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetVioTypes(string sortOrder = "asc")
         {
             try
             {

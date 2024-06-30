@@ -20,6 +20,4 @@ public partial class Admin
     public string Status { get; set; } = null!;
 
     public virtual Role Role { get; set; } = null!;
-
-    public virtual ICollection<SchoolAdmin> SchoolAdmins { get; set; } = new List<SchoolAdmin>();
 }

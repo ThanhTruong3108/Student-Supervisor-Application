@@ -18,6 +18,7 @@ namespace Infrastructures.Repository
         public async Task<List<ViolationGroup>> GetAllViolationGroups()
         {
             var vioGroups = await _context.ViolationGroups
+                .Include(v => v.School)
                 .ToListAsync();
             return vioGroups;
         }
@@ -25,16 +26,17 @@ namespace Infrastructures.Repository
         public async Task<ViolationGroup> GetViolationGroupById(int id)
         {
             return _context.ViolationGroups
+                .Include(v => v.School)
                 .FirstOrDefault(v => v.ViolationGroupId == id);
         }
 
-        public async Task<List<ViolationGroup>> SearchViolationGroups(string? code, string? name)
+        public async Task<List<ViolationGroup>> SearchViolationGroups(int? schoolId, string? name)
         {
             var query = _context.ViolationGroups.AsQueryable();
 
-            if (!string.IsNullOrEmpty(code))
+            if (schoolId.HasValue)
             {
-                query = query.Where(p => p.Code.Contains(code));
+                query = query.Where(p => p.SchoolId == schoolId.Value);
             }
 
             if (!string.IsNullOrEmpty(name))
@@ -42,7 +44,9 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Name.Contains(name));
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(v => v.School)
+                .ToListAsync();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace StudentSupervisorService.Models.Response.EvaluationResponse
     {
         public int EvaluationId { get; set; }
         public int SchoolYearId { get; set; }
+        public int? ViolationConfigId { get; set; }
         public string? Description { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }

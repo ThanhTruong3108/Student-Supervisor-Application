@@ -11,10 +11,6 @@ public partial class Discipline
 
     public int PennaltyId { get; set; }
 
-    public string Code { get; set; } = null!;
-
-    public string Name { get; set; } = null!;
-
     public string? Description { get; set; }
 
     public DateTime? StartDate { get; set; }

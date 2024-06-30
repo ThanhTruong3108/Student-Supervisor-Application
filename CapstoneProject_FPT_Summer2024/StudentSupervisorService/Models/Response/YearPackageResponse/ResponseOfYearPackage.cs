@@ -14,5 +14,6 @@ namespace StudentSupervisorService.Models.Response.YearPackageResponse
         public int PackageId { get; set; }
         public string PackageName { get; set; } = null!;
         public int? NumberOfStudent { get; set; }
+        public string? Status { get; set; }
     }
 }

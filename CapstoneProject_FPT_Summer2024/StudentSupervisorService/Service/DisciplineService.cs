@@ -16,8 +16,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<DisciplineResponse>>> SearchDisciplines(
             int? violationId, 
             int? penaltyId, 
-            string? code, 
-            string? name, 
             string? description, 
             DateTime? startDate, 
             DateTime? endDate, 

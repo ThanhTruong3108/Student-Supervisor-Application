@@ -40,8 +40,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 penaltyEntities = sortOrder == "desc"
-                    ? penaltyEntities.OrderByDescending(r => r.Code).ToList()
-                    : penaltyEntities.OrderBy(r => r.Code).ToList();
+                    ? penaltyEntities.OrderByDescending(r => r.PenaltyId).ToList()
+                    : penaltyEntities.OrderBy(r => r.PenaltyId).ToList();
 
                 response.Data = _mapper.Map<List<PenaltyResponse>>(penaltyEntities);
                 response.Message = "List Penalty";
@@ -82,13 +82,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PenaltyResponse>>> SearchPenalties(int? schoolId, string? code, string? name, string? description, string sortOrder)
+        public async Task<DataResponse<List<PenaltyResponse>>> SearchPenalties(int? schoolId, string? name, string? description, string sortOrder)
         {
             var response = new DataResponse<List<PenaltyResponse>>();
 
             try
             {
-                var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, code, name, description);
+                var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, name, description);
                 if (penaltyEntities is null || penaltyEntities.Count == 0)
                 {
                     response.Message = "No Penalty matches the search criteria";
@@ -98,11 +98,11 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     if (sortOrder == "desc")
                     {
-                        penaltyEntities = penaltyEntities.OrderByDescending(r => r.Code).ToList();
+                        penaltyEntities = penaltyEntities.OrderByDescending(r => r.PenaltyId).ToList();
                     }
                     else
                     {
-                        penaltyEntities = penaltyEntities.OrderBy(r => r.Code).ToList();
+                        penaltyEntities = penaltyEntities.OrderBy(r => r.PenaltyId).ToList();
                     }
                     response.Data = _mapper.Map<List<PenaltyResponse>>(penaltyEntities);
                     response.Message = "List Penalty";
@@ -127,7 +127,6 @@ namespace StudentSupervisorService.Service.Implement
                 var penaltyEntity = new Penalty
                 {
                     SchoolId = penaltyCreateRequest.SchoolId,
-                    Code = penaltyCreateRequest.Code,
                     Name = penaltyCreateRequest.Name,
                     Description = penaltyCreateRequest.Description,
                 };
@@ -162,7 +161,6 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingPenalty.SchoolId = penaltyUpdateRequest.SchoolId ?? existingPenalty.SchoolId;
-                existingPenalty.Code = penaltyUpdateRequest.Code ?? existingPenalty.Code;
                 existingPenalty.Name = penaltyUpdateRequest.Name ?? existingPenalty.Name;
                 existingPenalty.Description = penaltyUpdateRequest.Description ?? existingPenalty.Description;
 

@@ -10,10 +10,13 @@ namespace StudentSupervisorService.Models.Response.ViolationGroupResponse
     {
         public int ViolationGroupId { get; set; }
 
-        public string? Code { get; set; }
+        public int? SchoolId { get; set; }
+        public string SchoolName { get; set; } = null!;
 
         public string VioGroupName { get; set; } = null!;
 
         public string? Description { get; set; }
+
+        public string? Status { get; set; }
     }
 }

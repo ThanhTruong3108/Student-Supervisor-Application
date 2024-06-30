@@ -14,12 +14,12 @@ namespace StudentSupervisorService.Models.Request.HighSchoolRequest
         public string? Code { get; set; }
         [Required(ErrorMessage = "The Name field is required.")]
         public string Name { get; set; } = null!;
+        [Required(ErrorMessage = "The City field is required.")]
+        public string? City { get; set; }
         [Required(ErrorMessage = "The Address field is required.")]
         public string? Address { get; set; }
         [Required(ErrorMessage = "The Phone field is required.")]
         public string? Phone { get; set; }
-        [Required(ErrorMessage = "The ImageUrl field is required.")]
-        public string? ImageUrl { get; set; }
         [Required(ErrorMessage = "The WebUrl field is required.")]
         public string? WebUrl { get; set; }
     }

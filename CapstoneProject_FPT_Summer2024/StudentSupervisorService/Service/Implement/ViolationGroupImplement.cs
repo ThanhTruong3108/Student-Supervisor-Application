@@ -68,11 +68,11 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroupDTO = _mapper.Map<List<ResponseOfVioGroup>>(vioGroup);
                 if (sortOrder == "desc")
                 {
-                    vioGroupDTO = vioGroupDTO.OrderByDescending(r => r.Code).ToList();
+                    vioGroupDTO = vioGroupDTO.OrderByDescending(r => r.ViolationGroupId).ToList();
                 }
                 else
                 {
-                    vioGroupDTO = vioGroupDTO.OrderBy(r => r.Code).ToList();
+                    vioGroupDTO = vioGroupDTO.OrderBy(r => r.ViolationGroupId).ToList();
                 }
                 response.Data = vioGroupDTO;
                 response.Message = "List ViolationGroups";
@@ -111,13 +111,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfVioGroup>>> SearchVioGroups(string? code, string? name, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfVioGroup>>> SearchVioGroups(int? schoolId, string? name, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfVioGroup>>();
 
             try
             {
-                var vioGroups = await _unitOfWork.ViolationGroup.SearchViolationGroups( code, name);
+                var vioGroups = await _unitOfWork.ViolationGroup.SearchViolationGroups(schoolId, name);
                 if (vioGroups is null || vioGroups.Count == 0)
                 {
                     response.Message = "No ViolationGroup found matching the criteria";
@@ -130,11 +130,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        vioGroupDTO = vioGroupDTO.OrderByDescending(p => p.Code).ToList();
+                        vioGroupDTO = vioGroupDTO.OrderByDescending(p => p.ViolationGroupId).ToList();
                     }
                     else
                     {
-                        vioGroupDTO = vioGroupDTO.OrderBy(p => p.Code).ToList();
+                        vioGroupDTO = vioGroupDTO.OrderBy(p => p.ViolationGroupId).ToList();
                     }
 
                     response.Data = vioGroupDTO;
@@ -165,7 +165,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                vioGroup.Code = request.Code;
+                vioGroup.SchoolId = request.SchoolId;
                 vioGroup.Name = request.VioGroupName;
                 vioGroup.Description = request.Description;
 

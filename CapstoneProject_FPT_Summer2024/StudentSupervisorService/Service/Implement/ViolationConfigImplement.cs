@@ -70,11 +70,11 @@ namespace StudentSupervisorService.Service.Implement
                 var vioConfigDTO = _mapper.Map<List<ViolationConfigResponse>>(vioConfigs);
                 if (sortOrder == "desc")
                 {
-                    vioConfigDTO = vioConfigDTO.OrderByDescending(r => r.Code).ToList();
+                    vioConfigDTO = vioConfigDTO.OrderByDescending(r => r.ViolationConfigId).ToList();
                 }
                 else
                 {
-                    vioConfigDTO = vioConfigDTO.OrderBy(r => r.Code).ToList();
+                    vioConfigDTO = vioConfigDTO.OrderBy(r => r.ViolationConfigId).ToList();
                 }
                 response.Data = vioConfigDTO;
                 response.Message = "List ViolationConfig";
@@ -113,13 +113,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? evaluationId, int? vioTypeId, string? code, string? name, string sortOrder)
+        public async Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? vioTypeId, int? minusPoints, string sortOrder)
         {
             var response = new DataResponse<List<ViolationConfigResponse>>();
 
             try
             {
-                var violationConfigs = await _unitOfWork.ViolationConfig.SearchViolationConfigs(evaluationId, vioTypeId, code, name);
+                var violationConfigs = await _unitOfWork.ViolationConfig.SearchViolationConfigs(vioTypeId, minusPoints);
                 if (violationConfigs is null || violationConfigs.Count == 0)
                 {
                     response.Message = "No ViolationConfig found matching the criteria";
@@ -132,11 +132,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        violationConfigDTO = violationConfigDTO.OrderByDescending(p => p.Code).ToList();
+                        violationConfigDTO = violationConfigDTO.OrderByDescending(p => p.ViolationConfigId).ToList();
                     }
                     else
                     {
-                        violationConfigDTO = violationConfigDTO.OrderBy(p => p.Code).ToList();
+                        violationConfigDTO = violationConfigDTO.OrderBy(p => p.ViolationConfigId).ToList();
                     }
 
                     response.Data = violationConfigDTO;
@@ -167,10 +167,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                violation.EvaluationId = request.EvaluationId;
                 violation.ViolationTypeId = request.ViolationTypeId;
-                violation.Code = request.Code;
-                violation.Name = request.ViolationConfigName;
+                violation.MinusPoints = request.MinusPoints;
                 violation.Description = request.Description;
 
                 _unitOfWork.ViolationConfig.Update(violation);

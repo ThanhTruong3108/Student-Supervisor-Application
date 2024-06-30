@@ -3,12 +3,8 @@ using Azure;
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
-using Microsoft.Data.SqlClient;
-using StudentSupervisorService.Authentication;
-using StudentSupervisorService.Authentication.Implement;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using System;
 using System.Collections.Generic;
@@ -64,7 +60,7 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork.Save();
         }
 
-        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears()
+        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfSchoolYear>>();
 
@@ -77,7 +73,17 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = true;
                     return response;
                 }
-                response.Data = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                // Sắp xếp danh sách sản phẩm theo yêu cầu
+                var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                if (sortOrder == "desc")
+                {
+                    schoolYearDTO = schoolYearDTO.OrderByDescending(r => r.Year).ToList();
+                }
+                else
+                {
+                    schoolYearDTO = schoolYearDTO.OrderBy(r => r.Year).ToList();
+                }
+                response.Data = schoolYearDTO;
                 response.Message = "List SchoolYears";
                 response.Success = true;
             }

@@ -16,7 +16,7 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfYearPackage>>>> GetYearPackages(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ResponseOfYearPackage>>>> GetYearPackages(string sortOrder = "asc")
         {
             try
             {

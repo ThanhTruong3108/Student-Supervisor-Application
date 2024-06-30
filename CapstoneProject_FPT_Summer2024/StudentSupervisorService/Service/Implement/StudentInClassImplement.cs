@@ -83,13 +83,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentInClassResponse>>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, string? status, string sortOrder)
+        public async Task<DataResponse<List<StudentInClassResponse>>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status, string sortOrder)
         {
             var response = new DataResponse<List<StudentInClassResponse>>();
 
             try
             {
-                var studentInClassEntities = await _unitOfWork.StudentInClass.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, status);
+                var studentInClassEntities = await _unitOfWork.StudentInClass.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate,endDate, numberOfViolation, status);
                 if (studentInClassEntities is null || studentInClassEntities.Count == 0)
                 {
                     response.Message = "No StudentInClass matches the search criteria";

@@ -17,7 +17,7 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroups(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroups(string sortOrder = "asc")
         {
             try
             {
@@ -45,11 +45,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchVioGroups(string? code = null, string? name = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchVioGroups(int? schoolId = null, string? name = null, string sortOrder = "asc")
         {
             try
             {
-                var vioGroup = await _service.SearchVioGroups(code, name, sortOrder);
+                var vioGroup = await _service.SearchVioGroups(schoolId, name, sortOrder);
                 return Ok(vioGroup);
             }
             catch (Exception ex)

@@ -7,11 +7,11 @@ public partial class StudentSupervisor
 {
     public int StudentSupervisorId { get; set; }
 
-    public string Code { get; set; } = null!;
+    public int UserId { get; set; }
+
+    public int? StudentInClassId { get; set; }
 
     public string? Description { get; set; }
-
-    public int UserId { get; set; }
 
     public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
 

@@ -30,19 +30,15 @@ namespace Infrastructures.Repository.UnitOfWork
             PatrolSchedule = new PatrolScheduleRepository(_context);
             Penalty = new PenaltyRepository(_context);
             RegisteredSchool = new RegisteredSchoolRepository(_context);
-            SchoolAdmin = new SchoolAdminRepository(_context);
-            SchoolConfig = new SchoolConfigRepository(_context);
             HighSchool = new HighSchoolRepository(_context);
             SchoolYear = new SchoolYearRepository(_context);
             StudentInClass = new StudentInClassRepository(_context);
             Student = new StudentRepository(_context);
             StudentSupervisor = new StudentSupervisorRepository(_context);
             Teacher = new TeacherRepository(_context);
-            Time = new TimeRepository(_context);
             User = new UserRepository(_context);
             ViolationConfig = new ViolationConfigRepository(_context);
             ViolationGroup = new ViolationGroupRepository(_context);
-            ViolationReport = new ViolationReportRepository(_context);
             Violation = new ViolationRepository(_context);
             ViolationType = new ViolationTypeRepository(_context);
             YearPackage = new YearPackageRepository(_context);
@@ -59,19 +55,15 @@ namespace Infrastructures.Repository.UnitOfWork
         public IPatrolScheduleRepository PatrolSchedule { get; }
         public IPenaltyRepository Penalty { get; }
         public IRegisteredSchoolRepository RegisteredSchool { get; }
-        public ISchoolAdminRepository SchoolAdmin { get; }
-        public ISchoolConfigRepository SchoolConfig { get; }
         public IHighSchoolRepository HighSchool { get; }
         public ISchoolYearRepository SchoolYear { get; }
         public IStudentInClassRepository StudentInClass { get; }
         public IStudentRepository Student { get; }
         public IStudentSupervisorRepository StudentSupervisor { get; }
         public ITeacherRepository Teacher { get; }
-        public ITimeRepository Time { get; }
         public IUserRepository User { get; }
         public IViolationConfigRepository ViolationConfig { get; }
         public IViolationGroupRepository ViolationGroup { get; }
-        public IViolationReportRepository ViolationReport { get; }
         public IViolationRepository Violation { get; }
         public IViolationTypeRepository ViolationType { get; }
         public IYearPackageRepository YearPackage { get; }

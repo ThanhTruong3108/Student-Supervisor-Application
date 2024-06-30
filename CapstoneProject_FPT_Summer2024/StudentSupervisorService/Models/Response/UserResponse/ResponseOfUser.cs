@@ -10,11 +10,12 @@ namespace StudentSupervisorService.Models.Response.UserResponse
     {
         public int UserId { get; set; }
 
-        public int? SchoolAdminId { get; set; }
+        public int? SchoolId { get; set; }
+        public string SchoolName { get; set; } = null!;
 
         public string Code { get; set; } = null!;
 
-        public string Name { get; set; } = null!;
+        public string UserName { get; set; } = null!;
 
         public string Phone { get; set; } = null!;
 

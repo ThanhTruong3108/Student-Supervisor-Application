@@ -7,9 +7,9 @@ namespace StudentSupervisorService.Service
 {
     public interface HighSchoolService
     {
-        Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools();
+        Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(string sortOrder);
         Task<DataResponse<ResponseOfHighSchool>> GetHighSchoolById(int id);
-        Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? address, string? phone, string sortOrder);
+        Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? city, string? address, string? phone, string sortOrder);
         Task<DataResponse<ResponseOfHighSchool>> CreateHighSchool(RequestOfHighSchool request);
         Task DeleteHighSchool(int id);
         Task<DataResponse<ResponseOfHighSchool>> UpdateHighSchool(int id, RequestOfHighSchool request);

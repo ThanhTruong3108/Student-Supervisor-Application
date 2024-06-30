@@ -17,5 +17,6 @@ namespace StudentSupervisorService.Models.Response.SchoolYearResponse
         public DateTime EndDate { get; set; }
         public int SchoolId { get; set; }
         public string SchoolName { get; set; } = null!;
+        public string Status { get; set; } = null!;
     }
 }

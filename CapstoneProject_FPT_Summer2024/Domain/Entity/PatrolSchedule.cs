@@ -17,6 +17,8 @@ public partial class PatrolSchedule
 
     public DateTime To { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual Class Class { get; set; } = null!;
 
     public virtual StudentSupervisor Supervisor { get; set; } = null!;

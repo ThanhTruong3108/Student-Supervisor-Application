@@ -75,11 +75,11 @@ namespace StudentSupervisorService.Service.Implement
                 var vioTypeDTO = _mapper.Map<List<ResponseOfVioType>>(vioTypes);
                 if (sortOrder == "desc")
                 {
-                    vioTypeDTO = vioTypeDTO.OrderByDescending(r => r.ViolationGroupId).ToList();
+                    vioTypeDTO = vioTypeDTO.OrderByDescending(r => r.ViolationTypeId).ToList();
                 }
                 else
                 {
-                    vioTypeDTO = vioTypeDTO.OrderBy(r => r.ViolationGroupId).ToList();
+                    vioTypeDTO = vioTypeDTO.OrderBy(r => r.ViolationTypeId).ToList();
                 }
                 response.Data = vioTypeDTO;
                 response.Message = "List ViolationTypes";

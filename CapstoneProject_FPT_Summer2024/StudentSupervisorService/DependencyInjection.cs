@@ -72,12 +72,6 @@ namespace StudentSupervisorService
             services.AddTransient<IRegisteredSchoolRepository, RegisteredSchoolRepository>();
             services.AddTransient<RegisteredSchoolService, RegisteredSchoolImplement>();
 
-            services.AddTransient<ISchoolAdminRepository, SchoolAdminRepository>();
-            services.AddTransient<SchoolAdminService, SchoolAdminImplement>();
-
-            services.AddTransient<ISchoolConfigRepository, SchoolConfigRepository>();
-            services.AddTransient<SchoolConfigService, SchoolConfigImplement>();
-
             services.AddTransient<ISchoolYearRepository, SchoolYearRepository>();
             services.AddTransient<SchoolYearService, SchoolYearImplement>();
 
@@ -93,9 +87,6 @@ namespace StudentSupervisorService
             services.AddTransient<ITeacherRepository, TeacherRepository>();
             services.AddTransient<TeacherService, TeacherImplement>();
 
-            services.AddTransient<ITimeRepository, TimeRepository>();
-            services.AddTransient<TimeService, TimeImplement>();
-
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<UserService, UserImplement>();
 
@@ -107,9 +98,6 @@ namespace StudentSupervisorService
 
             services.AddTransient<IViolationGroupRepository, ViolationGroupRepository>();
             services.AddTransient<ViolationGroupService, ViolationGroupImplement>();
-
-            services.AddTransient<IViolationReportRepository, ViolationReportRepository>();
-            services.AddTransient<ViolationReportService, ViolationReportImplement>();
 
             services.AddTransient<IViolationTypeRepository, ViolationTypeRepository>();
             services.AddTransient<ViolationTypeService, ViolationTypeImplement>();

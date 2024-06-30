@@ -33,7 +33,7 @@ namespace StudentSupervisorService.Service.Implement
 
             teacher.User = new User
             {
-                SchoolAdminId = request.SchoolAdminId,
+                SchoolId = request.SchoolId,
                 Code = request.Code,
                 Name = request.TeacherName,
                 Phone = "84" + request.Phone,
@@ -64,7 +64,7 @@ namespace StudentSupervisorService.Service.Implement
 
             teacher.User = new User
             {
-                SchoolAdminId = request.SchoolAdminId,
+                SchoolId = request.SchoolId,
                 Code = request.Code,
                 Name = request.TeacherName,
                 Phone = "84" + request.Phone,

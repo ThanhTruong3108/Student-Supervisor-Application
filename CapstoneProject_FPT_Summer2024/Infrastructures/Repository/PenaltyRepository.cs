@@ -24,17 +24,13 @@ namespace Infrastructures.Repository
             return await _context.Penalties.FirstOrDefaultAsync(x => x.PenaltyId == id);
         }
 
-        public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? code, string? name, string? description)
+        public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description)
         {
             var query = _context.Penalties.AsQueryable();
 
             if (schoolId != null)
             {
                 query = query.Where(p => p.SchoolId == schoolId);
-            }
-            if (!string.IsNullOrEmpty(code))
-            {
-                query = query.Where(p => p.Code.Contains(code));
             }
             if (!string.IsNullOrEmpty(name))
             {

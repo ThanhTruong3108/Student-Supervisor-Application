@@ -16,7 +16,7 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetViolationConfigs(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetViolationConfigs(string sortOrder = "asc")
         {
             try
             {
@@ -44,11 +44,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchViolationConfigs(int? evaluationId = null, int? vioTypeId = null, string? code = null, string? name = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchViolationConfigs(int? vioTypeId = null, int? minusPoints = null, string sortOrder = "asc")
         {
             try
             {
-                var violationConfigs = await _service.SearchViolationConfigs(evaluationId, vioTypeId, code, name, sortOrder);
+                var violationConfigs = await _service.SearchViolationConfigs(vioTypeId, minusPoints, sortOrder);
                 return Ok(violationConfigs);
             }
             catch (Exception ex)

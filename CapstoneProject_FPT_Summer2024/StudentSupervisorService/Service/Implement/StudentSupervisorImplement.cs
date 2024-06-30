@@ -31,12 +31,12 @@ namespace StudentSupervisorService.Service.Implement
 
             var studentSupervisor = new StudentSupervisor
             {
-                Code = request.SupervisorCode,
+                StudentInClassId = request.StudentInClassId,
                 Description = request.Description,
                 User = new User
                 {
-                    SchoolAdminId = request.SchoolAdminId,
-                    Code = request.UserCode,
+                    SchoolId = request.SchoolId,
+                    Code = request.Code,
                     Name = request.SupervisorName,
                     Phone = "84" + request.Phone, // Assuming the phone number needs to be prefixed with "84"
                     Password = request.Password,
@@ -88,11 +88,11 @@ namespace StudentSupervisorService.Service.Implement
                 var stuSuperDTO = _mapper.Map<List<StudentSupervisorResponse>>(stuSupervisors);
                 if (sortOrder == "desc")
                 {
-                    stuSuperDTO = stuSuperDTO.OrderByDescending(r => r.SupervisorCode).ToList();
+                    stuSuperDTO = stuSuperDTO.OrderByDescending(r => r.StudentSupervisorId).ToList();
                 }
                 else
                 {
-                    stuSuperDTO = stuSuperDTO.OrderBy(r => r.SupervisorCode).ToList();
+                    stuSuperDTO = stuSuperDTO.OrderBy(r => r.StudentSupervisorId).ToList();
                 }
                 response.Data = stuSuperDTO;
                 response.Message = "List StudentSupervisors";
@@ -131,13 +131,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentSupervisorResponse>>> SearchStudentSupervisors(int? userId, string code, string sortOrder)
+        public async Task<DataResponse<List<StudentSupervisorResponse>>> SearchStudentSupervisors(int? userId, int? studentInClassId, string sortOrder)
         {
             var response = new DataResponse<List<StudentSupervisorResponse>>();
 
             try
             {
-                var stuSupervisors = await _unitOfWork.StudentSupervisor.SearchStudentSupervisors(userId, code);
+                var stuSupervisors = await _unitOfWork.StudentSupervisor.SearchStudentSupervisors(userId, studentInClassId);
                 if (stuSupervisors is null || stuSupervisors.Count == 0)
                 {
                     response.Message = "No StudentSupervisor found matching the criteria";
@@ -150,11 +150,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        stuSupervisorDTO = stuSupervisorDTO.OrderByDescending(p => p.SupervisorCode).ToList();
+                        stuSupervisorDTO = stuSupervisorDTO.OrderByDescending(p => p.StudentSupervisorId).ToList();
                     }
                     else
                     {
-                        stuSupervisorDTO = stuSupervisorDTO.OrderBy(p => p.SupervisorCode).ToList();
+                        stuSupervisorDTO = stuSupervisorDTO.OrderBy(p => p.StudentSupervisorId).ToList();
                     }
 
                     response.Data = stuSupervisorDTO;
@@ -186,12 +186,12 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                studentSupervisor.Code = request.SupervisorCode;
+                studentSupervisor.StudentInClassId = request.StudentInClassId;
                 studentSupervisor.Description = request.Description;
 
                 var user = studentSupervisor.User;
-                user.SchoolAdminId = request.SchoolAdminId;
-                user.Code = request.UserCode;
+                user.SchoolId = request.SchoolId;
+                user.Code = request.Code;
                 user.Name = request.SupervisorName;
                 user.Phone = request.Phone;
                 user.Password = request.Password; 

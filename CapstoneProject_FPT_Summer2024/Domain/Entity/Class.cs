@@ -13,8 +13,6 @@ public partial class Class
 
     public string? Code { get; set; }
 
-    public string? Room { get; set; }
-
     public string Name { get; set; } = null!;
 
     public int TotalPoint { get; set; }

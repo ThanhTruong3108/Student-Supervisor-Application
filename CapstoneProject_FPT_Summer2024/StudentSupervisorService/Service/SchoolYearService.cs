@@ -11,7 +11,7 @@ namespace StudentSupervisorService.Service
 {
     public interface SchoolYearService
     {
-        Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears();
+        Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(string sortOrder);
         Task<DataResponse<ResponseOfSchoolYear>> GetSchoolYearById(int id);
         Task<DataResponse<ResponseOfSchoolYear>> CreateSchoolYear(RequestCreateSchoolYear request);
         Task DeleteSchoolYear(int id);

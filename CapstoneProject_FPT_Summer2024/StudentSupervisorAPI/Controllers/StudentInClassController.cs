@@ -46,17 +46,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> SearchStudentInClasses(
-            int? classId,
-            int? studentId,
-            DateTime? enrollDate,
-            bool? isSupervisor,
-            string? status,
-            string sortOrder)
+        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> SearchStudentInClasses(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status, string sortOrder)
         {
             try
             {
-                var studentInClassesResponse = await studentInClassService.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, status, sortOrder);
+                var studentInClassesResponse = await studentInClassService.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status, sortOrder);
                 return Ok(studentInClassesResponse);
             }
             catch (Exception ex)

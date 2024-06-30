@@ -24,7 +24,7 @@ namespace Infrastructures.Repository
             return await _context.Classes.FirstOrDefaultAsync(x => x.ClassId == id);
         }
 
-        public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? room, string? name, int? totalPoint)
+        public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? name, int? totalPoint)
         {
             var query = _context.Classes.AsQueryable();
 
@@ -39,10 +39,6 @@ namespace Infrastructures.Repository
             if (!string.IsNullOrEmpty(code))
             {
                 query = query.Where(p => p.Code.Contains(code));
-            }
-            if (!string.IsNullOrEmpty(room))
-            {
-                query = query.Where(p => p.Room.Contains(room));
             }
             if (!string.IsNullOrEmpty(name))
             {

@@ -15,11 +15,17 @@ public partial class StudentInClass
 
     public bool? IsSupervisor { get; set; }
 
-    public string? Status { get; set; } = null!;
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
+    public int? NumberOfViolation { get; set; }
+
+    public string? Status { get; set; }
 
     public virtual Class Class { get; set; } = null!;
 
     public virtual Student Student { get; set; } = null!;
 
-    public virtual ICollection<ViolationReport> ViolationReports { get; set; } = new List<ViolationReport>();
+    public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
 }

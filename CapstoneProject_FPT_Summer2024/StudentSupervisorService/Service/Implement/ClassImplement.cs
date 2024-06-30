@@ -74,13 +74,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? room, string? name, int? totalPoint, string sortOrder)
+        public async Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? name, int? totalPoint, string sortOrder)
         {
             var response = new DataResponse<List<ClassResponse>>();
 
             try
             {
-                var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, room, name, totalPoint);
+                var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, name, totalPoint);
                 if (classEntities is null || classEntities.Count == 0)
                 {
                     response.Message = "No Class matches the search criteria";
@@ -118,7 +118,6 @@ namespace StudentSupervisorService.Service.Implement
                     SchoolYearId = request.SchoolYearId,
                     ClassGroupId = request.ClassGroupId,
                     Code = request.Code,
-                    Room = request.Room,
                     Name = request.Name,
                     TotalPoint = request.TotalPoint
                 };
@@ -154,7 +153,6 @@ namespace StudentSupervisorService.Service.Implement
                 existingClass.SchoolYearId = request.SchoolYearId ?? existingClass.SchoolYearId;
                 existingClass.ClassGroupId = request.ClassGroupId ?? existingClass.ClassGroupId;
                 existingClass.Code = request.Code ?? existingClass.Code;
-                existingClass.Room = request.Room ?? existingClass.Room;
                 existingClass.Name = request.Name ?? existingClass.Name;
                 existingClass.TotalPoint = request.TotalPoint ?? existingClass.TotalPoint;
 

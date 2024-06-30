@@ -9,12 +9,8 @@ namespace StudentSupervisorService.Models.Response.StudentSupervisorResponse
     public class StudentSupervisorResponse
     {
         public int StudentSupervisorId { get; set; }
-
-        public string SupervisorCode { get; set; } = null!;
-
-        public string? Description { get; set; }
-
-        public string UserCode { get; set; }
+        public int? StudentInClassId { get; set; }
+        public string Code { get; set; }
 
         public string SupervisorName { get; set; }
 
@@ -23,6 +19,7 @@ namespace StudentSupervisorService.Models.Response.StudentSupervisorResponse
         public string Password { get; set; } 
 
         public string? Address { get; set; }
+        public string? Description { get; set; }
 
         public byte RoleId { get; set; }
 

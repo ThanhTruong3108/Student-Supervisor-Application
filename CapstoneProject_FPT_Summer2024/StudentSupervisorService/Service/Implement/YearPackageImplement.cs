@@ -75,11 +75,11 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackageDTO = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
                 if (sortOrder == "desc")
                 {
-                    yearPackageDTO = yearPackageDTO.OrderByDescending(r => r.NumberOfStudent).ToList();
+                    yearPackageDTO = yearPackageDTO.OrderByDescending(r => r.YearPackageId).ToList();
                 }
                 else
                 {
-                    yearPackageDTO = yearPackageDTO.OrderBy(r => r.NumberOfStudent).ToList();
+                    yearPackageDTO = yearPackageDTO.OrderBy(r => r.YearPackageId).ToList();
                 }
                 response.Data = yearPackageDTO;
                 response.Message = "List YearPackages";

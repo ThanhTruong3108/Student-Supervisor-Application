@@ -17,7 +17,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetTeachers(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetTeachers(string sortOrder = "asc")
         {
             try
             {
