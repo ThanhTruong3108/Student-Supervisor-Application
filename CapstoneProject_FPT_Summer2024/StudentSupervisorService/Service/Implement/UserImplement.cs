@@ -198,7 +198,7 @@ namespace StudentSupervisorService.Service.Implement
                 user.RoleId = request.RoleId;
                 user.Code = request.Code;
                 user.Name = request.Name;
-                user.Phone = request.Phone;
+                user.Phone = "84" + request.Phone;
                 user.Password = request.Password;
                 user.Address = request.Address;
                 _unitOfWork.User.Update(user);

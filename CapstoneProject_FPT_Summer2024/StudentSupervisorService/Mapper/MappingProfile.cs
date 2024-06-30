@@ -105,6 +105,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<User, ResponseOfUser>()
                 .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
                 .ForMember(re => re.UserName, act => act.MapFrom(src => src.Name))
+                .ForMember(re => re.Phone, act => act.MapFrom(src => "84" + src.Phone))
                .ForMember(re => re.RoleName, act => act.MapFrom(src => src.Role.RoleName));
 
             CreateMap<RequestOfUser, User>();
