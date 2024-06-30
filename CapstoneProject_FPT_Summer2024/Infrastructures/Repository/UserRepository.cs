@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _context.Users
-                .Include(c => c.SchoolId)
+                .Include(c => c.School)
                 .Include(c => c.Role)
                 .ToListAsync();
             return users;
@@ -34,7 +34,7 @@ namespace Infrastructures.Repository
         public async Task<User> GetUserById(int id)
         {
             return _context.Users
-               .Include(c => c.SchoolId)
+               .Include(c => c.School)
                .Include(c => c.Role)
                .FirstOrDefault(s => s.UserId == id);
         }
@@ -69,14 +69,14 @@ namespace Infrastructures.Repository
             }
 
             return await query
-                .Include(c => c.SchoolId)
+                .Include(c => c.School)
                 .Include (c => c.Role)
                 .ToListAsync();
         }
         public async Task<List<User>> GetUsersBySchoolId(int schoolId)
         {
             return await _context.Users
-                .Include(c => c.SchoolId)
+                .Include(c => c.School)
                 .Include(c => c.Role)
                 .Where(u => u.SchoolId == schoolId)
                 .ToListAsync();

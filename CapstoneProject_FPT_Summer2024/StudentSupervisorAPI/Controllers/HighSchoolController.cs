@@ -5,6 +5,7 @@ using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
+using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -14,9 +15,11 @@ namespace StudentSupervisorAPI.Controllers
     public class HighSchoolController : ControllerBase
     {
         private HighSchoolService _service;
-        public HighSchoolController(HighSchoolService service)
+        private UserService _userService;
+        public HighSchoolController(HighSchoolService service, UserService userService)
         {
             _service = service;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -78,5 +81,20 @@ namespace StudentSupervisorAPI.Controllers
             var deletedHighSchool = _service.DeleteHighSchool(id);
             return deletedHighSchool == null ? NoContent() : Ok(deletedHighSchool);
         }
+
+        [HttpGet("users/{id}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsersBySchoolId(int id)
+        {
+            try
+            {
+                var users = await _userService.GetUsersBySchoolId(id);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
     }
 }
