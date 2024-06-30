@@ -3,7 +3,6 @@ using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 
 
@@ -105,6 +104,35 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfVioGroup>>> GetVioGroupsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfVioGroup>>();
+            try
+            {
+                var vioGroups = await _unitOfWork.ViolationGroup.GetViolationGroupBySchoolId(schoolId);
+                if(vioGroups == null || !vioGroups.Any())
+                {
+                    response.Message = "No ViolationGroups found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationGroupDTOs = _mapper.Map<List<ResponseOfVioGroup>>(vioGroups);
+                    response.Data = violationGroupDTOs;
+                    response.Message = "ViolationGroups found";
+                    response.Success = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
 

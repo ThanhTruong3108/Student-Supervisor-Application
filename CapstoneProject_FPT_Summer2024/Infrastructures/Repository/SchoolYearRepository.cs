@@ -29,6 +29,14 @@ namespace Infrastructures.Repository
                .FirstOrDefault(s => s.SchoolYearId == id);
         }
 
+        public async Task<List<SchoolYear>> GetSchoolYearBySchoolId(int schoolId)
+        {
+            return await _context.SchoolYears
+                .Include(c => c.School)
+                .Where(m => m.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
         public async Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate)
         {
             var query = _context.SchoolYears.AsQueryable();

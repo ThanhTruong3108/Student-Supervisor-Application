@@ -6,6 +6,7 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
+using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -16,10 +17,14 @@ namespace StudentSupervisorAPI.Controllers
     {
         private HighSchoolService _service;
         private UserService _userService;
-        public HighSchoolController(HighSchoolService service, UserService userService)
+        private ViolationGroupService _violationGroupService;
+        private SchoolYearService _schoolYearService;
+        public HighSchoolController(HighSchoolService service, UserService userService, ViolationGroupService violationGroupService, SchoolYearService schoolYearService)
         {
             _service = service;
             _userService = userService;
+            _violationGroupService = violationGroupService;
+            _schoolYearService = schoolYearService;
         }
 
         [HttpGet]
@@ -89,6 +94,34 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var users = await _userService.GetUsersBySchoolId(id);
                 return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("violation-groups/{id}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetViolationGroupsBySchoolId(int id)
+        {
+            try
+            {
+                var vioGroups = await _violationGroupService.GetVioGroupsBySchoolId(id);
+                return Ok(vioGroups);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("school-years/{id}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetSchoolYearsBySchoolId(int id)
+        {
+            try
+            {
+                var schoolYears = await _schoolYearService.GetSchoolYearBySchoolId(id);
+                return Ok(schoolYears);
             }
             catch (Exception ex)
             {

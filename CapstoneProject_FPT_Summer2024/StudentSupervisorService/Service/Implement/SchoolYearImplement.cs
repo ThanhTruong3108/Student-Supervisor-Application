@@ -120,6 +120,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetSchoolYearBySchoolId(int schoolId)
+        {
+           var response = new DataResponse<List<ResponseOfSchoolYear>>();
+
+            try
+            {
+                var schoolYears = await _unitOfWork.SchoolYear.GetSchoolYearBySchoolId(schoolId);
+                if(schoolYears == null || !schoolYears.Any())
+                {
+                    response.Message = "No SchoolYears found for the specified SchoolId";
+                    response.Success = false;
+
+                }
+                else
+                {
+                    var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
+                    response.Data = schoolYearDTO;
+                    response.Message = "SchoolYears found";
+                    response.Success = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return  response;
+        }
+
         public async Task<DataResponse<List<ResponseOfSchoolYear>>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfSchoolYear>>();

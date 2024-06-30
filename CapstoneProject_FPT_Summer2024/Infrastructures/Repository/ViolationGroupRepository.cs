@@ -30,6 +30,14 @@ namespace Infrastructures.Repository
                 .FirstOrDefault(v => v.ViolationGroupId == id);
         }
 
+        public async Task<List<ViolationGroup>> GetViolationGroupBySchoolId(int schoolId)
+        {
+            return await _context.ViolationGroups
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
         public async Task<List<ViolationGroup>> SearchViolationGroups(int? schoolId, string? name)
         {
             var query = _context.ViolationGroups.AsQueryable();
