@@ -17,7 +17,6 @@ namespace StudentSupervisorService.Models.Response.ViolationResponse
         public int ViolationGroupId { get; set; }
         public string? ViolationGroupName { get; set; }
         public int? TeacherId { get; set; }
-        public string Code { get; set; } = null!;
         public string ViolationName { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime Date { get; set; }
@@ -25,5 +24,6 @@ namespace StudentSupervisorService.Models.Response.ViolationResponse
         public int? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy { get; set; }
+        public string? Status { get; set; }
     }
 }

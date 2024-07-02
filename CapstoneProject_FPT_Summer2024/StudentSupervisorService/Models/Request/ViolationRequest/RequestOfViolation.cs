@@ -17,42 +17,39 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
         [Required(ErrorMessage = "The ClassId field is required.")]
         public int ClassId { get; set; }
 
+        [Required(ErrorMessage = "The ViolationTypeId field is required.")]
+        public int ViolationTypeId { get; set; }
+
         [Required(ErrorMessage = "The StudentInClassId field is required.")]
         public int StudentInClassId { get; set; }
 
-        [Required(ErrorMessage = "The ViolationTypeId field is required.")]
-        public int ViolationTypeId { get; set; }
         public int? TeacherId { get; set; }
-
-        [Required(ErrorMessage = "The Code field is required.")]
-        public string Code { get; set; } = null!;
 
         [Required(ErrorMessage = "The ViolationName field is required.")]
         public string ViolationName { get; set; } = null!;
 
         public string? Description { get; set; }
+
+        [Required(ErrorMessage = "The Date field is required.")]
         public DateTime Date { get; set; }
         public List<IFormFile>? Images { get; set; }
     }
 
     public class RequestOfUpdateViolation
     {
-        [Required(ErrorMessage = "The ClassId field is required.")]
-        public int ClassId { get; set; }
-        [Required(ErrorMessage = "The StudentInClassId field is required.")]
-        public int StudentInClassId { get; set; }
+        public int ViolationId { get; set; }
+        public int? ClassId { get; set; }
 
-        [Required(ErrorMessage = "The ViolationTypeId field is required.")]
-        public int ViolationTypeId { get; set; }
+        public int? ViolationTypeId { get; set; }
+
+        public int? StudentInClassId { get; set; }
+
         public int? TeacherId { get; set; }
 
-        [Required(ErrorMessage = "The Code field is required.")]
-        public string Code { get; set; } = null!;
+        public string? ViolationName { get; set; } = null!;
 
-        [Required(ErrorMessage = "The ViolationName field is required.")]
-        public string ViolationName { get; set; } = null!;
         public string? Description { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public List<IFormFile>? Images { get; set; }
     }
 }

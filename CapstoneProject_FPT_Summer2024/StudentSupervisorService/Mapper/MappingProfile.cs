@@ -111,20 +111,17 @@ namespace StudentSupervisorService.Mapper
             CreateMap<RequestOfUser, User>();
 
 
-            //CreateMap<Violation, ResponseOfViolation>()
-            //   .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
-            //   .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
-            //   .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
-            //   .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
-            //   .ForMember(dest => dest.StudentInClassId, opt => opt.MapFrom(
-            //       src => src.ViolationReports.
-            //       FirstOrDefault().
-            //       StudentInClass.StudentInClassId))
-            //   .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
-            //       src => src.ViolationReports.
-            //       FirstOrDefault().
-            //       StudentInClass.
-            //       Student.Name));
+            CreateMap<Violation, ResponseOfViolation>()
+               .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
+               .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
+               .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))
+               .ForMember(re => re.ViolationGroupName, act => act.MapFrom(src => src.ViolationType.ViolationGroup.Name))
+               .ForMember(dest => dest.StudentInClassId, opt => opt.MapFrom(
+                   src => src.StudentInClass.StudentInClassId))
+               .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
+                   src => src.StudentInClass.Student.Name))
+               .ForMember(dest => dest.ViolationGroupName, opt => opt.MapFrom(
+                   src => src.ViolationType.ViolationGroup.Name));
 
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(

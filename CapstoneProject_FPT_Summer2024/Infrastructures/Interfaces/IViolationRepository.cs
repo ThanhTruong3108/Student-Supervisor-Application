@@ -10,8 +10,20 @@ namespace Infrastructures.Interfaces
 {
     public interface IViolationRepository : IGenericRepository<Violation>
     {
-        //Task<List<Violation>> GetAllViolations();
-        //Task<Violation> GetViolationById(int id);
-        //Task<List<Violation>> SearchViolations(int? classId, int? teacherId, int? vioTypeId, string? code, string? name, DateTime? date);
+        Task<List<Violation>> GetAllViolations();
+        Task<Violation> GetViolationById(int id);
+        Task<List<Violation>> SearchViolations(
+            int? classId, 
+            int? violationTypeId,
+            int? studentInClassId,
+            int? teacherId,
+            string? name,
+            string? description,
+            DateTime? date,
+            string? status
+            );
+        Task<Violation> CreateViolation(Violation violationEntity);
+        Task<Violation> UpdateViolation(Violation violationEntity);
+        Task DeleteViolation(int id);
     }
 }
