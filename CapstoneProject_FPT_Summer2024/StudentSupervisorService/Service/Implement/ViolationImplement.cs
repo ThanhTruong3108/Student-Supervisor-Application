@@ -287,31 +287,17 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id)
+        public async Task DeleteViolation(int id)
         {
-            var response = new DataResponse<ResponseOfViolation>();
-            try
+            var violation = _unitOfWork.Violation.GetById(id);
+            if (violation is null)
             {
-                var existingViolation = await _unitOfWork.Violation.GetViolationById(id);
-                if (existingViolation == null)
-                {
-                    response.Data = "Empty";
-                    response.Message = "Violation not found";
-                    response.Success = false;
-                    return response;
-                }
-                await _unitOfWork.Violation.DeleteViolation(id);
-                response.Data = "Empty";
-                response.Message = "Violation deleted successfully";
-                response.Success = true;
+                throw new Exception("Can not found by" + id);
             }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
+            violation.Status = ViolationStatusEnums.INACTIVE.ToString();
+
+            _unitOfWork.Violation.Update(violation);
+            _unitOfWork.Save();
         }
 
         public async Task<DataResponse<ResponseOfViolation>> ApproveViolation(int violationId)

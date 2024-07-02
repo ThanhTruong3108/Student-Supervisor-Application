@@ -12,7 +12,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(RequestOfCreateViolation request);
         Task<DataResponse<ResponseOfViolation>> ApproveViolation(int id);
         Task<DataResponse<ResponseOfViolation>> RejectViolation(int id);
-        Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id);
+        Task DeleteViolation(int id);
         Task<DataResponse<ResponseOfViolation>> UpdateViolation(RequestOfUpdateViolation request);
         Task<DataResponse<List<ResponseOfViolation>>> SearchViolations(
                 int? classId,
