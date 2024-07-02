@@ -84,13 +84,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PatrolScheduleResponse>>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string sortOrder)
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status ,string sortOrder)
         {
             var response = new DataResponse<List<PatrolScheduleResponse>>();
 
             try
             {
-                var pScheduleEntities = await _unitOfWork.PatrolSchedule.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to);
+                var pScheduleEntities = await _unitOfWork.PatrolSchedule.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, status);
                 if (pScheduleEntities is null || pScheduleEntities.Count == 0)
                 {
                     response.Message = "No PatrolSchedule matches the search criteria";
@@ -132,6 +132,7 @@ namespace StudentSupervisorService.Service.Implement
                     TeacherId = request.TeacherId,
                     From = request.From,
                     To = request.To,
+                    Status = PatrolScheduleStatusEnums.ONGOING.ToString()
                 };
 
                 var created = await _unitOfWork.PatrolSchedule.CreatePatrolSchedule(pScheduleEntity);
@@ -168,6 +169,7 @@ namespace StudentSupervisorService.Service.Implement
                 existingPatrolSchedule.TeacherId = request.TeacherId ?? existingPatrolSchedule.TeacherId;
                 existingPatrolSchedule.From = request.From ?? existingPatrolSchedule.From;
                 existingPatrolSchedule.To = request.To ?? existingPatrolSchedule.To;
+                existingPatrolSchedule.Status = request.Status.ToString() ?? existingPatrolSchedule.Status;
 
                 await _unitOfWork.PatrolSchedule.UpdatePatrolSchedule(existingPatrolSchedule);
 

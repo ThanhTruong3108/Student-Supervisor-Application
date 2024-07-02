@@ -81,7 +81,7 @@ namespace Infrastructures.Repository
         public async Task DeleteStudentInClass(int id)
         {
             var studentInClassEntity = await _context.StudentInClasses.FindAsync(id);
-            studentInClassEntity.Status = StudentInClassStatusEnums.INACTIVE.ToString();
+            studentInClassEntity.Status = StudentInClassStatusEnums.UNENROLLED.ToString();
             _context.Entry(studentInClassEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

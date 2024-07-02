@@ -48,6 +48,7 @@ namespace StudentSupervisorAPI.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<DataResponse<List<EvaluationResponse>>>> SearchEvaluations(
                        int? schoolYearId,
+                       int? violationConfigId,
                        string? description,
                        DateTime? from,
                        DateTime? to,
@@ -56,7 +57,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var evaluationsResponse = await evaluationService.SearchEvaluations(schoolYearId, description, from, to, point, sortOrder);
+                var evaluationsResponse = await evaluationService.SearchEvaluations(schoolYearId, violationConfigId, description, from, to, point, sortOrder);
                 return Ok(evaluationsResponse);
             }
             catch (Exception ex)

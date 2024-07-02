@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.EvaluationDetailRequest;
 using StudentSupervisorService.Models.Response;
@@ -49,12 +50,12 @@ namespace StudentSupervisorAPI.Controllers
         public async Task<ActionResult<DataResponse<List<EvaluationDetailResponse>>>> SearchEvaluationDetails(
                        int? classId,
                        int? evaluationId,
-                       string? status,
+                       EvaluationDetailStatusEnums? status,
                        string sortOrder = "asc")
         {
             try
             {
-                var evaluationDetailsResponse = await evaluationDetailService.SearchEvaluationDetails(classId, evaluationId, status, sortOrder);
+                var evaluationDetailsResponse = await evaluationDetailService.SearchEvaluationDetails(classId, evaluationId, status.ToString(), sortOrder);
                 return Ok(evaluationDetailsResponse);
             }
             catch (Exception ex)

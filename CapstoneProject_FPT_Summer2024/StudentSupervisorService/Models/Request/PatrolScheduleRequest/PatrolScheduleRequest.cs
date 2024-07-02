@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums.Status;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,6 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
         public int? TeacherId { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
+        public PatrolScheduleStatusEnums? Status { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,7 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ScheduleId == id);
         }
 
-        public async Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to)
+        public async Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status)
         {
             var query = _context.PatrolSchedules.AsQueryable();
 
@@ -57,6 +58,10 @@ namespace Infrastructures.Repository
             if (to != null)
             {
                 query = query.Where(p => p.To <= to);
+            }
+            if (status != null)
+            {
+                query = query.Where(p => p.Status.Equals(status));
             }
 
             return await query
@@ -85,11 +90,9 @@ namespace Infrastructures.Repository
             try
             {
                 var pScheduleEntity = await _context.PatrolSchedules.FindAsync(id);
-                if (pScheduleEntity != null)
-                {
-                    _context.PatrolSchedules.Remove(pScheduleEntity);
-                    await _context.SaveChangesAsync();
-                }
+                pScheduleEntity.Status = PatrolScheduleStatusEnums.INACTIVE.ToString();
+                _context.Entry(pScheduleEntity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

@@ -25,10 +25,14 @@ namespace Infrastructures.Repository
             return await _context.ClassGroups.FirstOrDefaultAsync(x => x.ClassGroupId == id);
         }
 
-        public async Task<List<ClassGroup>> SearchClassGroups(string? name, string? hall, int? slot, TimeSpan? time, string? status)
+        public async Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status)
         {
             var query = _context.ClassGroups.AsQueryable();
 
+            if (schoolId.HasValue)
+            {
+                query = query.Where(p => p.SchoolId == schoolId.Value);
+            }
             if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(p => p.ClassGroupName.Contains(name));
@@ -48,7 +52,7 @@ namespace Infrastructures.Repository
             }
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(p => p.Status.Contains(status));
+                query = query.Where(p => p.Status.Equals(status));
             }
 
             return await query.ToListAsync();

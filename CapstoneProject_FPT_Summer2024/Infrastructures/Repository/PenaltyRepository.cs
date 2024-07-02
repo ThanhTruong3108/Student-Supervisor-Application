@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Infrastructures.Repository
             return await _context.Penalties.FirstOrDefaultAsync(x => x.PenaltyId == id);
         }
 
-        public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description)
+        public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description, string? status)
         {
             var query = _context.Penalties.AsQueryable();
 
@@ -39,6 +40,10 @@ namespace Infrastructures.Repository
             if (!string.IsNullOrEmpty(description))
             {
                 query = query.Where(p => p.Description.Contains(description));
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(p => p.Status.Equals(status));
             }
 
             return await query.ToListAsync();
@@ -60,7 +65,10 @@ namespace Infrastructures.Repository
 
         public async Task DeletePenalty(int id)
         {
-            
+            var penaltyEntity = await _context.Penalties.FindAsync(id);
+            penaltyEntity.Status = PenaltyStatusEnums.INACTIVE.ToString();
+            _context.Entry(penaltyEntity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }   
     }
 }

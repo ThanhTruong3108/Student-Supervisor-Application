@@ -31,7 +31,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createSchoolYear = _mapper.Map<SchoolYear>(request);
-                createSchoolYear.Status = SchoolYearEnum.ACTIVE.ToString();
+                createSchoolYear.Status = SchoolYearStatusEnums.ONGOING.ToString();
                 //createSchoolYear.Status = 1;
                 _unitOfWork.SchoolYear.Add(createSchoolYear);
                 _unitOfWork.Save();
@@ -54,7 +54,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-            schoolYear.Status = SchoolYearEnum.INACTIVE.ToString();
+            schoolYear.Status = SchoolYearStatusEnums.INACTIVE.ToString();
 
             _unitOfWork.SchoolYear.Update(schoolYear);
             _unitOfWork.Save();

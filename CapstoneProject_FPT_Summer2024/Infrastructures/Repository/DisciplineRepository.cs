@@ -77,6 +77,6 @@ namespace Infrastructures.Repository
             disciplineEntity.Status = DisciplineStatusEnums.INACTIVE.ToString();
             _context.Entry(disciplineEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        } 
+        }
     }
 }

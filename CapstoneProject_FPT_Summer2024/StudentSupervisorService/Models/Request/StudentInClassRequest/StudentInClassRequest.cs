@@ -12,7 +12,9 @@ namespace StudentSupervisorService.Models.Request.StudentInClassRequest
         public int StudentId { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool IsSupervisor { get; set; }
-        public string? Status { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? NumberOfViolation { get; set; }
     }
 
     public class StudentInClassUpdateRequest
@@ -22,6 +24,8 @@ namespace StudentSupervisorService.Models.Request.StudentInClassRequest
         public int? StudentId { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool? IsSupervisor { get; set; }
-        public string? Status { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? NumberOfViolation { get; set; }
     }
 }

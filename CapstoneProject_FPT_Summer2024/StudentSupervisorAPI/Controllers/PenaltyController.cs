@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.PenaltyRequest;
 using StudentSupervisorService.Models.Response;
@@ -44,11 +45,16 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<PenaltyResponse>>>> SearchPenalties(int? schoolId, string? name, string? description, string? sortOrder)
+        public async Task<ActionResult<DataResponse<List<PenaltyResponse>>>> SearchPenalties(
+                int? schoolId, 
+                string? name, 
+                string? description, 
+                PenaltyStatusEnums? status,
+                string? sortOrder)
         {
             try
             {
-                var penaltiesReponse = await penaltyService.SearchPenalties(schoolId, name, description, sortOrder);
+                var penaltiesReponse = await penaltyService.SearchPenalties(schoolId, name, description, status.ToString(),sortOrder);
                 return Ok(penaltiesReponse);
             } catch (Exception ex)
             {

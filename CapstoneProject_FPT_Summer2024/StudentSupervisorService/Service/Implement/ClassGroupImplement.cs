@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
 using StudentSupervisorService.Models.Response;
@@ -76,13 +77,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
+        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
 
             try
             {
-                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(name, hall, slot, time, status);
+                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(schoolId, name, hall, slot, time, status);
                 if (classGroupEntities is null || classGroupEntities.Count == 0)
                 {
                     response.Message = "No ClassGroup matches the search criteria";
@@ -118,9 +119,12 @@ namespace StudentSupervisorService.Service.Implement
             {
                 var classGroupEntity = new ClassGroup
                 {
+                    SchoolId = request.SchoolId,
                     ClassGroupName = request.ClassGroupName,
                     Hall = request.Hall,
-                    Status = request.Status
+                    Slot = request.Slot,
+                    Time = request.Time,
+                    Status = ClassGroupStatusEnums.ACTIVE.ToString()
                 };
 
                 var created = await _unitOfWork.ClassGroup.CreateClassGroup(classGroupEntity);
@@ -151,9 +155,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                existingClassGroup.SchoolId = request.SchoolId ?? existingClassGroup.SchoolId;
                 existingClassGroup.ClassGroupName = request.ClassGroupName ?? existingClassGroup.ClassGroupName;
                 existingClassGroup.Hall = request.Hall ?? existingClassGroup.Hall;
-                existingClassGroup.Status = request.Status ?? existingClassGroup.Status;
+                existingClassGroup.Slot = request.Slot ?? existingClassGroup.Slot;
+                existingClassGroup.Time = request.Time ?? existingClassGroup.Time;
 
                 await _unitOfWork.ClassGroup.UpdateClassGroup(existingClassGroup);
 

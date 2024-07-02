@@ -25,7 +25,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createUser = _mapper.Map<User>(request);
-                createUser.Status = UserEnum.ACTIVE.ToString();
+                createUser.Status = UserStatusEnums.ACTIVE.ToString();
                 _unitOfWork.User.Add(createUser);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfUser>(createUser);
@@ -47,7 +47,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + userId);
             }
-            user.Status = UserEnum.INACTIVE.ToString();
+            user.Status = UserStatusEnums.INACTIVE.ToString();
             _unitOfWork.User.Update(user);
             _unitOfWork.Save();
         }

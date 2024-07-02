@@ -12,7 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<ClassGroup>> GetAllClassGroups();
         Task<ClassGroup> GetClassGroupById(int id);
-        Task<List<ClassGroup>> SearchClassGroups(string? name, string? hall, int? slot, TimeSpan? time, string? status);
+        Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status);
         Task<ClassGroup> CreateClassGroup(ClassGroup classGroupEntity);
         Task<ClassGroup> UpdateClassGroup(ClassGroup classGroupEntity);
         Task DeleteClassGroup(int id);

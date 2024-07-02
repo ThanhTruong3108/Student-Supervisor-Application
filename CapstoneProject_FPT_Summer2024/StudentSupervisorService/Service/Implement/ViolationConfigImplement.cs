@@ -25,7 +25,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createViolationConfig = _mapper.Map<ViolationConfig>(request);
-                createViolationConfig.Status = ViolationConfigEnum.ACTIVE.ToString();
+                createViolationConfig.Status = ViolationConfigStatusEnums.ACTIVE.ToString();
                 _unitOfWork.ViolationConfig.Add(createViolationConfig);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ViolationConfigResponse>(createViolationConfig);
@@ -47,7 +47,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-            violationConfig.Status = SchoolYearEnum.INACTIVE.ToString();
+            violationConfig.Status = ViolationConfigStatusEnums.INACTIVE.ToString();
 
             _unitOfWork.ViolationConfig.Update(violationConfig);
             _unitOfWork.Save();

@@ -32,7 +32,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createHighSchool = _mapper.Map<HighSchool>(request);
-                createHighSchool.Status = HighSchoolEnum.ACTIVE.ToString();
+                createHighSchool.Status = HighSchoolStatusEnums.ACTIVE.ToString();
                 _unitOfWork.HighSchool.Add(createHighSchool);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfHighSchool>(createHighSchool);
@@ -54,7 +54,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-            highSchool.Status = HighSchoolEnum.INACTIVE.ToString();
+            highSchool.Status = HighSchoolStatusEnums.INACTIVE.ToString();
             _unitOfWork.HighSchool.Update(highSchool);
             _unitOfWork.Save();
         }

@@ -12,7 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Evaluation>> GetAllEvaluations();
         Task<Evaluation> GetEvaluationById(int id);
-        Task<List<Evaluation>> SearchEvaluations(int? schoolYearId, string? desciption, DateTime? from, DateTime? to, short? point);
+        Task<List<Evaluation>> SearchEvaluations(int? schoolYearId, int? violationConfigId, string? desciption, DateTime? from, DateTime? to, short? point);
         Task<Evaluation> CreateEvaluation(Evaluation evaluationEntity);
         Task<Evaluation> UpdateEvaluation(Evaluation evaluationEntity);
         Task DeleteEvaluation(int id);

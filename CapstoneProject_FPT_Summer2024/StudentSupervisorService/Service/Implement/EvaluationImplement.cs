@@ -82,13 +82,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<EvaluationResponse>>> SearchEvaluations(int? schoolYearId, string? desciption, DateTime? from, DateTime? to, short? point, string sortOrder)
+        public async Task<DataResponse<List<EvaluationResponse>>> SearchEvaluations(int? schoolYearId, int? violationConfigID, string? desciption, DateTime? from, DateTime? to, short? point, string sortOrder)
         {
             var response = new DataResponse<List<EvaluationResponse>>();
 
             try
             {
-                var evaluationEntities = await _unitOfWork.Evaluation.SearchEvaluations(schoolYearId, desciption, from, to, point);
+                var evaluationEntities = await _unitOfWork.Evaluation.SearchEvaluations(schoolYearId, violationConfigID ,desciption, from, to, point);
                 if (evaluationEntities is null || evaluationEntities.Count == 0)
                 {
                     response.Message = "No Evaluation matches the search criteria";
@@ -125,6 +125,7 @@ namespace StudentSupervisorService.Service.Implement
                 var evaluationEntity = new Evaluation
                 {
                     SchoolYearId = request.SchoolYearId,
+                    ViolationConfigId = request.ViolationConfigId,
                     Description = request.Description,
                     From = request.From,
                     To = request.To,
@@ -161,6 +162,7 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingEvaluation.SchoolYearId = request.SchoolYearId ?? existingEvaluation.SchoolYearId;
+                existingEvaluation.ViolationConfigId = request.ViolationConfigId ?? existingEvaluation.ViolationConfigId;
                 existingEvaluation.Description = request.Description ?? existingEvaluation.Description;
                 existingEvaluation.From = request.From ?? existingEvaluation.From;
                 existingEvaluation.To = request.To ?? existingEvaluation.To;

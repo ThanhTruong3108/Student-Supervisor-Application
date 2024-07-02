@@ -130,7 +130,7 @@ namespace StudentSupervisorService.Service.Implement
                     Description = request.Description,
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
-                    Status = DisciplineStatusEnums.ACTIVE.ToString()
+                    Status = DisciplineStatusEnums.PENDING.ToString()
                 };
 
                 var created = await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
@@ -166,7 +166,7 @@ namespace StudentSupervisorService.Service.Implement
                 existingDiscipline.Description = request.Description ?? existingDiscipline.Description;
                 existingDiscipline.StartDate = request.StartDate ?? existingDiscipline.StartDate;
                 existingDiscipline.EndDate = request.EndDate ?? existingDiscipline.EndDate;
-                existingDiscipline.Status = request.Status ?? existingDiscipline.Status;
+                existingDiscipline.Status = request.Status.ToString() ?? existingDiscipline.Status;
 
                 await _unitOfWork.Discipline.UpdateDiscipline(existingDiscipline);
 

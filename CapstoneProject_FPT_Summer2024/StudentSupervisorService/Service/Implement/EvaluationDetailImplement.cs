@@ -162,7 +162,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingEvaluationDetail.ClassId = request.ClassId ?? existingEvaluationDetail.ClassId;
                 existingEvaluationDetail.EvaluationId = request.EvaluationId ?? existingEvaluationDetail.EvaluationId;
-                existingEvaluationDetail.Status = request.Status ?? existingEvaluationDetail.Status;
+                existingEvaluationDetail.Status = request.Status.ToString() ?? existingEvaluationDetail.Status;
 
                 await _unitOfWork.EvaluationDetail.UpdateEvaluationDetail(existingEvaluationDetail);
 
@@ -205,6 +205,6 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
             return response;
-        } 
+        }
     }
 }

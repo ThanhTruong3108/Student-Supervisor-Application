@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.PenaltyRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
+using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.PenaltyResponse;
 using System;
 using System.Collections.Generic;
@@ -82,13 +84,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PenaltyResponse>>> SearchPenalties(int? schoolId, string? name, string? description, string sortOrder)
+        public async Task<DataResponse<List<PenaltyResponse>>> SearchPenalties(int? schoolId, string? name, string? description, string? status, string sortOrder)
         {
             var response = new DataResponse<List<PenaltyResponse>>();
 
             try
             {
-                var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, name, description);
+                var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, name, description, status);
                 if (penaltyEntities is null || penaltyEntities.Count == 0)
                 {
                     response.Message = "No Penalty matches the search criteria";
@@ -129,6 +131,7 @@ namespace StudentSupervisorService.Service.Implement
                     SchoolId = penaltyCreateRequest.SchoolId,
                     Name = penaltyCreateRequest.Name,
                     Description = penaltyCreateRequest.Description,
+                    Status = PenaltyStatusEnums.ACTIVE.ToString()
                 };
 
                 var created = await _unitOfWork.Penalty.CreatePenalty(penaltyEntity);
@@ -180,9 +183,31 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public Task<DataResponse<PenaltyResponse>> DeletePenalty(int id)
+        public async Task<DataResponse<PenaltyResponse>> DeletePenalty(int id)
         {
-            throw new NotImplementedException();
+            var response = new DataResponse<PenaltyResponse>();
+            try
+            {
+                var existingPenalty = await _unitOfWork.Penalty.GetPenaltyById(id);
+                if (existingPenalty == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Penalty not found";
+                    response.Success = false;
+                    return response;
+                }
+                await _unitOfWork.Penalty.DeletePenalty(id);
+                response.Data = "Empty";
+                response.Message = "Penalty deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
     }
 }

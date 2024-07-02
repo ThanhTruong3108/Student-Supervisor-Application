@@ -15,7 +15,7 @@ namespace StudentSupervisorService.Service
     {
         Task<DataResponse<List<ClassGroupResponse>>> GetAllClassGroups(string sortOrder);
         Task<DataResponse<ClassGroupResponse>> GetClassGroupById(int id);
-        Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder);
+        Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder);
         Task<DataResponse<ClassGroupResponse>> CreateClassGroup(ClassGroupCreateRequest classGroupCreateRequest);
         Task<DataResponse<ClassGroupResponse>> UpdateClassGroup(ClassGroupUpdateRequest classGroupUpdateRequest);
         Task<DataResponse<ClassGroupResponse>> DeleteClassGroup(int id);

@@ -4,6 +4,7 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
+using Domain.Enums.Status;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -47,16 +48,17 @@ namespace StudentSupervisorAPI.Controllers
 
         [HttpGet("search")]
         public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> SearchClassGroups(
+            int? schoolId,
             string? classGroupName,
             string? hall,
             int? slot, 
             TimeSpan? time,
-            string? status,
+            ClassGroupStatusEnums? status,
             string sortOrder)
         {
             try
             {
-                var classGroupsResponse = await classGroupService.SearchClassGroups(classGroupName, hall, slot, time, status, sortOrder);
+                var classGroupsResponse = await classGroupService.SearchClassGroups(schoolId, classGroupName, hall, slot, time, status.ToString(), sortOrder);
                 return Ok(classGroupsResponse);
             }
             catch (Exception ex)

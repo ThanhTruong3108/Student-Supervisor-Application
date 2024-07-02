@@ -40,7 +40,7 @@ namespace StudentSupervisorService.Service.Implement
                 Password = request.Password,
                 Address = request.Address,
                 RoleId = (byte)RoleAccountEnum.SUPERVISOR,
-                Status = UserEnum.ACTIVE.ToString()
+                Status = UserStatusEnums.ACTIVE.ToString()
             };
 
             _unitOfWork.Teacher.Add(teacher);
@@ -71,7 +71,7 @@ namespace StudentSupervisorService.Service.Implement
                 Password = request.Password,
                 Address = request.Address,
                 RoleId = (byte)RoleAccountEnum.TEACHER, 
-                Status = UserEnum.ACTIVE.ToString() 
+                Status = UserStatusEnums.ACTIVE.ToString() 
             };
 
             _unitOfWork.Teacher.Add(teacher);
@@ -93,7 +93,7 @@ namespace StudentSupervisorService.Service.Implement
                 throw new Exception("Associated User not found for Teacher id " + id);
             }
 
-            teacher.User.Status = UserEnum.INACTIVE.ToString();
+            teacher.User.Status = UserStatusEnums.INACTIVE.ToString();
 
             _unitOfWork.User.Update(teacher.User);
             _unitOfWork.Save();
@@ -222,7 +222,7 @@ namespace StudentSupervisorService.Service.Implement
                 user.Phone = "84" + request.Phone; 
                 user.Password = request.Password;
                 user.Address = request.Address;
-                user.Status = UserEnum.ACTIVE.ToString(); 
+                user.Status = UserStatusEnums.ACTIVE.ToString(); 
 
                 _unitOfWork.Teacher.Update(teacher);
                 _unitOfWork.User.Update(user);

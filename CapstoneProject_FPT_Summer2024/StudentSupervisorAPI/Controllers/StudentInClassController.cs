@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response;
@@ -46,11 +47,20 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> SearchStudentInClasses(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status, string sortOrder)
+        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> SearchStudentInClasses(
+                int? classId, 
+                int? studentId, 
+                DateTime? enrollDate, 
+                bool? isSupervisor, 
+                DateTime? startDate, 
+                DateTime? endDate, 
+                int? numberOfViolation, 
+                StudentInClassStatusEnums? status, 
+                string sortOrder)
         {
             try
             {
-                var studentInClassesResponse = await studentInClassService.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status, sortOrder);
+                var studentInClassesResponse = await studentInClassService.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status.ToString(), sortOrder);
                 return Ok(studentInClassesResponse);
             }
             catch (Exception ex)

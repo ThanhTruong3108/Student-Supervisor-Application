@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
@@ -52,11 +53,12 @@ namespace StudentSupervisorAPI.Controllers
                        int? teacherId,
                        DateTime? from,
                        DateTime? to,
+                       PatrolScheduleStatusEnums? status,
                        string sortOrder = "asc")
         {
             try
             {
-                var patrolSchedulesResponse = await patrolScheduleService.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, sortOrder);
+                var patrolSchedulesResponse = await patrolScheduleService.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, status.ToString(), sortOrder);
                 return Ok(patrolSchedulesResponse);
             }
             catch (Exception ex)

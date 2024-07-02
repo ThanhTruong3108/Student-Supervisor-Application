@@ -22,12 +22,13 @@ namespace Domain.Enums.Status
     {
         ACTIVE,
         INACTIVE,
-        EXPIRED,
     }
 
     public enum DisciplineStatusEnums
     {
-        ACTIVE,
+        PENDING,
+        EXECUTING,
+        DONE,
         INACTIVE,
     }
 
@@ -38,6 +39,83 @@ namespace Domain.Enums.Status
     }
 
     public enum StudentInClassStatusEnums
+    {
+        ENROLLED,
+        UNENROLLED,
+    }
+
+    public enum ViolationStatusEnums
+    {
+        PENDING,
+        APPROVED,
+        REJECTED,
+        INACTIVE,
+    }
+
+    public enum ViolationTypeStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum ViolationGroupStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum ViolationConfigStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum PatrolScheduleStatusEnums
+    {
+        ONGOING,
+        FINISHED,
+        INACTIVE,
+    }
+
+    public enum PenaltyStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum PackageStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum YearPackageStatusEnums
+    {
+        VALID,
+        EXPIRED,
+    }
+
+    public enum SchoolYearStatusEnums
+    {
+        ONGOING,
+        FINISHED,
+        INACTIVE
+    }
+
+    public enum HighSchoolStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+        BANNED
+    }
+
+    public enum AdminStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
+    public enum UserStatusEnums
     {
         ACTIVE,
         INACTIVE,

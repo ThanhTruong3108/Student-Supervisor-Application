@@ -12,7 +12,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<PatrolSchedule>> GetAllPatrolSchedules();
         Task<PatrolSchedule> GetPatrolScheduleById(int id);
-        Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to);
+        Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status);
         Task<PatrolSchedule> CreatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
         Task<PatrolSchedule> UpdatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
         Task DeletePatrolSchedule(int id);

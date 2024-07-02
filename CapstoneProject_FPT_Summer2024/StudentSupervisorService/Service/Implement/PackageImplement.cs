@@ -26,7 +26,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createPackage = _mapper.Map<Package>(request);
-                createPackage.Status = PackageEnum.ACTIVE.ToString();
+                createPackage.Status = PackageStatusEnums.ACTIVE.ToString();
                 _unitOfWork.Package.Add(createPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfPackage>(createPackage);
@@ -48,7 +48,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-            vioGroup.Status = PackageEnum.INACTIVE.ToString();
+            vioGroup.Status = PackageStatusEnums.INACTIVE.ToString();
             _unitOfWork.Package.Update(vioGroup);
             _unitOfWork.Save();
         }

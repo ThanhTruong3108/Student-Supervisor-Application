@@ -30,7 +30,7 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createYearPackage = _mapper.Map<YearPackage>(request);
-                createYearPackage.Status = YearPackageEnum.ACTIVE.ToString();
+                createYearPackage.Status = YearPackageStatusEnums.VALID.ToString();
                 _unitOfWork.YearPackage.Add(createYearPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfYearPackage>(createYearPackage);
@@ -52,7 +52,7 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-            yearPackage.Status = YearPackageEnum.INACTIVE.ToString();
+            yearPackage.Status = YearPackageStatusEnums.EXPIRED.ToString();
 
             _unitOfWork.YearPackage.Update(yearPackage);
             _unitOfWork.Save();

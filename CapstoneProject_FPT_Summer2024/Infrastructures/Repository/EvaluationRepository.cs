@@ -25,13 +25,17 @@ namespace Infrastructures.Repository
             return await _context.Evaluations.FirstOrDefaultAsync(x => x.EvaluationId == id);
         }
 
-        public async Task<List<Evaluation>> SearchEvaluations(int? schoolYearId, string? desciption, DateTime? from, DateTime? to, short? point)
+        public async Task<List<Evaluation>> SearchEvaluations(int? schoolYearId, int? violationConfigID, string? desciption, DateTime? from, DateTime? to, short? point)
         {
             var query = _context.Evaluations.AsQueryable();
 
             if (schoolYearId != null)
             {
                 query = query.Where(p => p.SchoolYearId == schoolYearId);
+            }
+            if (violationConfigID != null)
+            {
+                query = query.Where(p => p.ViolationConfigId == violationConfigID);
             }
             if (!string.IsNullOrEmpty(desciption))
             {

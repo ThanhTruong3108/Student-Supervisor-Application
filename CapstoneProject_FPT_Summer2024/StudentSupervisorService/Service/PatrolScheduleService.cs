@@ -19,6 +19,7 @@ namespace StudentSupervisorService.Service
             int? teacherId,
             DateTime? from,
             DateTime? to,
+            string? status,
             string sortOrder);
         Task<DataResponse<PatrolScheduleResponse>> CreatePatrolSchedule(PatrolScheduleCreateRequest request);
         Task<DataResponse<PatrolScheduleResponse>> UpdatePatrolSchedule(PatrolScheduleUpdateRequest request);

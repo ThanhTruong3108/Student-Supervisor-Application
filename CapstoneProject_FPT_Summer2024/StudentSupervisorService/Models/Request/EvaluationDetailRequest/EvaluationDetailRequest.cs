@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums.Status;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,6 @@ namespace StudentSupervisorService.Models.Request.EvaluationDetailRequest
         public int EvaluationDetailId { get; set; }
         public int? ClassId { get; set; }
         public int? EvaluationId { get; set; }
-        public string? Status { get; set; }
+        public EvaluationDetailStatusEnums? Status { get; set; }
     }
 }

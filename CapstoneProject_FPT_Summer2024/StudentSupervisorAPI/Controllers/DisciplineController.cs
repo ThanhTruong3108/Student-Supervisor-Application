@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
@@ -52,12 +53,12 @@ namespace StudentSupervisorAPI.Controllers
             string? description,
             DateTime? startDate,
             DateTime? endDate,
-            string? status,
+            DisciplineStatusEnums? status,
             string sortOrder = "asc")
         {
             try
             {
-                var disciplinesResponse = await disciplineService.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status, sortOrder);
+                var disciplinesResponse = await disciplineService.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status.ToString(), sortOrder);
                 return Ok(disciplinesResponse);
             }
             catch (Exception ex)

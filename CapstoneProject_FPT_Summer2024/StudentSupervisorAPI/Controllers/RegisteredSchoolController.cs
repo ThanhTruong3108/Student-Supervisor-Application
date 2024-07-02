@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
 using StudentSupervisorService.Models.Request.RegisteredSchoolRequest;
@@ -52,12 +53,12 @@ namespace StudentSupervisorAPI.Controllers
                        int? schoolId,
                        DateTime? registeredDate,
                        string? description,
-                       string? status,
+                       RegisteredSchoolStatusEnums? status,
                        string sortOrder)
         {
             try
             {
-                var registeredSchoolsResponse = await registeredSchoolService.SearchRegisteredSchools(schoolId, registeredDate, description, status, sortOrder);
+                var registeredSchoolsResponse = await registeredSchoolService.SearchRegisteredSchools(schoolId, registeredDate, description, status.ToString(), sortOrder);
                 return Ok(registeredSchoolsResponse);
             }
             catch (Exception ex)

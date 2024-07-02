@@ -89,7 +89,7 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var studentInClassEntities = await _unitOfWork.StudentInClass.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate,endDate, numberOfViolation, status);
+                var studentInClassEntities = await _unitOfWork.StudentInClass.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status);
                 if (studentInClassEntities is null || studentInClassEntities.Count == 0)
                 {
                     response.Message = "No StudentInClass matches the search criteria";
@@ -130,7 +130,10 @@ namespace StudentSupervisorService.Service.Implement
                     StudentId = request.StudentId,
                     EnrollDate = request.EnrollDate,
                     IsSupervisor = request.IsSupervisor,
-                    Status = StudentInClassStatusEnums.ACTIVE.ToString()
+                    StartDate = request.StartDate,
+                    EndDate = request.EndDate,
+                    NumberOfViolation = request.NumberOfViolation,
+                    Status = StudentInClassStatusEnums.ENROLLED.ToString()
                 };
 
                 var created = await _unitOfWork.StudentInClass.CreateStudentInClass(studentInClassEntity);
@@ -165,7 +168,9 @@ namespace StudentSupervisorService.Service.Implement
                 existingStudentInClass.StudentId = request.StudentId ?? existingStudentInClass.StudentId;
                 existingStudentInClass.EnrollDate = request.EnrollDate ?? existingStudentInClass.EnrollDate;
                 existingStudentInClass.IsSupervisor = request.IsSupervisor ?? existingStudentInClass.IsSupervisor;
-                existingStudentInClass.Status = request.Status ?? existingStudentInClass.Status;
+                existingStudentInClass.StartDate = request.StartDate ?? existingStudentInClass.StartDate;
+                existingStudentInClass.EndDate = request.EndDate ?? existingStudentInClass.EndDate;
+                existingStudentInClass.NumberOfViolation = request.NumberOfViolation ?? existingStudentInClass.NumberOfViolation;
 
                 await _unitOfWork.StudentInClass.UpdateStudentInClass(existingStudentInClass);
 
