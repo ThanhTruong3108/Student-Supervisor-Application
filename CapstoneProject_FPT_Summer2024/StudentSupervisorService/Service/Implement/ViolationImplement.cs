@@ -248,13 +248,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(RequestOfUpdateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfUpdateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
-                var existingViolation = await _unitOfWork.Violation.GetViolationById(request.ViolationId);
-                if (existingViolation == null)
+                var violation = _unitOfWork.Violation.GetById(id);
+                if (violation == null)
                 {
                     response.Data = "Empty";
                     response.Message = "Violation not found";
@@ -262,18 +262,19 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                existingViolation.Class.ClassId = request.ClassId ?? existingViolation.ClassId;
-                existingViolation.ViolationType.ViolationTypeId = request.ViolationTypeId ?? existingViolation.ViolationTypeId;
-                existingViolation.StudentInClass.StudentInClassId = request.StudentInClassId ?? existingViolation.StudentInClass.StudentInClassId;
-                existingViolation.Teacher.TeacherId = request.TeacherId ?? existingViolation.Teacher.TeacherId;
-                existingViolation.Name = request.ViolationName ?? existingViolation.Name;
-                existingViolation.Description = request.Description ?? existingViolation.Description;
-                existingViolation.Date = request.Date ?? existingViolation.Date;
-                existingViolation.UpdatedAt = DateTime.Now;
+                //existingViolation.Class.ClassId = request.ClassId ?? existingViolation.ClassId;
+                violation.ViolationTypeId = request.ViolationTypeId;
+                violation.StudentInClassId = request.StudentInClassId;
+                violation.TeacherId = request.TeacherId;
+                violation.Name = request.ViolationName;
+                violation.Description = request.Description;
+                violation.Date = request.Date;
+                violation.UpdatedAt = DateTime.Now;
 
-                await _unitOfWork.Violation.UpdateViolation(existingViolation);
+                _unitOfWork.Violation.Update(violation);
+                _unitOfWork.Save();
 
-                response.Data = _mapper.Map<ResponseOfViolation>(existingViolation);
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Message = "Violation updated successfully";
                 response.Success = true;
             }

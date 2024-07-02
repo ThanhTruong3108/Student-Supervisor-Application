@@ -37,19 +37,19 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
 
     public class RequestOfUpdateViolation
     {
-        public int ViolationId { get; set; }
-        public int? ClassId { get; set; }
+        //public int ViolationId { get; set; }
+        public int ClassId { get; set; }
 
-        public int? ViolationTypeId { get; set; }
+        public int ViolationTypeId { get; set; }
 
         public int? StudentInClassId { get; set; }
 
         public int? TeacherId { get; set; }
 
-        public string? ViolationName { get; set; } = null!;
+        public string ViolationName { get; set; } = null!;
 
         public string? Description { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         public List<IFormFile>? Images { get; set; }
     }
 }

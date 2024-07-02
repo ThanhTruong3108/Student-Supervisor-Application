@@ -99,11 +99,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation([FromForm] RequestOfUpdateViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id ,[FromForm] RequestOfUpdateViolation request)
         {
             try
             {
-                var updatedViolation = await _service.UpdateViolation(request);
+                var updatedViolation = await _service.UpdateViolation(id, request);
                 return Ok(updatedViolation);
             }
             catch (Exception ex)
