@@ -25,9 +25,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel login, [FromQuery] bool isAdmin = false)
+        public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            var (success, message, token) = await _loginService.Login(login, isAdmin);
+            var (success, message, token) = await _loginService.Login(login, false);
 
             if (success)
             {
@@ -50,4 +50,5 @@ namespace StudentSupervisorAPI.Controllers
             return Ok(new { message = "Logged out successfully." });
         }
     }
+
 }

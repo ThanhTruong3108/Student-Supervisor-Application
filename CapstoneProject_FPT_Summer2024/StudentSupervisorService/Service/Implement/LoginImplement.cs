@@ -32,30 +32,28 @@ namespace StudentSupervisorService.Service.Implement
 
         public async Task<(bool success, string message, string token)> Login(LoginModel login, bool isAdmin)
         {
-            if (isAdmin)
+            var admin = await AuthenticateAdmin(login);
+            if (admin != null)
             {
-                var admin = await AuthenticateAdmin(login);
-                if (admin != null)
-                {
-                    var token = GenerateToken(admin, isAdmin);
-                    return (true, "Login successful", token);
-                }
-
-                var existingAdmin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
-                return (existingAdmin == null) ? (false, "Invalid phone number.", null) : (false, "Invalid password.", null);
+                var token = GenerateToken(admin, true);
+                return (true, "Login successful", token);
             }
-            else
+
+            var user = await AuthenticateUser(login);
+            if (user != null)
             {
-                var user = await AuthenticateUser(login);
-                if (user != null)
-                {
-                    var token = GenerateToken(user, isAdmin);
-                    return (true, "Login successful", token);
-                }
-
-                var existingUser = await _unitOfWork.User.GetAccountByPhone(login.Phone);
-                return (existingUser == null) ? (false, "Invalid phone number.", null) : (false, "Invalid password.", null);
+                var token = GenerateToken(user, false);
+                return (true, "Login successful", token);
             }
+
+            var existingAdmin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
+            var existingUser = await _unitOfWork.User.GetAccountByPhone(login.Phone);
+
+            if (existingAdmin == null && existingUser == null)
+            {
+                return (false, "Invalid phone number.", null);
+            }
+            return (false, "Invalid password.", null);
         }
 
         public void Logout(string token)
@@ -63,7 +61,7 @@ namespace StudentSupervisorService.Service.Implement
             _tokenBlacklistService.BlacklistToken(token);
         }
 
-        private async Task<Admin> AuthenticateAdmin(LoginModel login)
+        private async Task<Admin?> AuthenticateAdmin(LoginModel login)
         {
             var admin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
             if (admin != null && admin.Password == login.Password)
@@ -73,7 +71,7 @@ namespace StudentSupervisorService.Service.Implement
             return null;
         }
 
-        private async Task<User> AuthenticateUser(LoginModel login)
+        private async Task<User?> AuthenticateUser(LoginModel login)
         {
             var user = await _unitOfWork.User.GetAccountByPhone(login.Phone);
             if (user != null && user.Password == login.Password)
@@ -106,4 +104,5 @@ namespace StudentSupervisorService.Service.Implement
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
+
 }
