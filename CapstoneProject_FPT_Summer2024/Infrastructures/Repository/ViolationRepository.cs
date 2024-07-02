@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -16,74 +17,108 @@ namespace Infrastructures.Repository
     {
         public ViolationRepository(SchoolRulesContext context) : base(context) { }
 
-        //public async Task<List<Violation>> GetAllViolations()
-        //{
-        //    var violations = await _context.Violations
-        //        .Include(v => v.ViolationType)
-        //            .ThenInclude(vt => vt.ViolationGroup)
-        //        .Include(v => v.Teacher)
-        //        .Include(v => v.ViolationReports)
-        //            .ThenInclude(vr => vr.StudentInClass)
-        //                .ThenInclude(sic => sic.Student)
-        //        .ToListAsync();
+        public async Task<List<Violation>> GetAllViolations()
+        {
+            var violations = await _context.Violations
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .ToListAsync();
 
-        //    return violations;
-        //}
+            return violations;
+        }
 
-        //public async Task<Violation> GetViolationById(int id)
-        //{
-        //    return _context.Violations
-        //       .Include(c => c.Class)
-        //       .Include(c => c.ViolationType)
-        //       .Include(c => c.Teacher)
-        //       .Include(v => v.ViolationReports)
-        //            .ThenInclude(vr => vr.StudentInClass)
-        //                .ThenInclude(sic => sic.Student)
-        //       .FirstOrDefault(s => s.ViolationId == id);
-        //}
+        public async Task<Violation> GetViolationById(int id)
+        {
+            return _context.Violations
+               .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+               .FirstOrDefault(s => s.ViolationId == id);
+        }
 
-        //public async Task<List<Violation>> SearchViolations(int? classId, int? teacherId, int? vioTypeId, string? code, string? name, DateTime? date)
-        //{
-        //    var query = _context.Violations.AsQueryable();
+        public async Task<List<Violation>> SearchViolations(
+                int? classId,
+                int? violationTypeId,
+                int? studentInClassId,
+                int? teacherId,
+                string? name,
+                string? description,
+                DateTime? date,
+                string? status)
+        {
+            var query = _context.Violations.AsQueryable();
 
-        //    if (classId.HasValue)
-        //    {
-        //        query = query.Where(p => p.ClassId == classId.Value);
-        //    }
+            if (classId.HasValue)
+            {
+                query = query.Where(p => p.ClassId == classId.Value);
+            }
+            if (violationTypeId.HasValue)
+            {
+                query = query.Where(p => p.ViolationTypeId == violationTypeId.Value);
+            }
+            if (studentInClassId.HasValue)
+            {
+                query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
+            }
+            if (teacherId.HasValue)
+            {
+                query = query.Where(p => p.TeacherId == teacherId.Value);
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+            if (!string.IsNullOrEmpty(description))
+            {
+                query = query.Where(p => p.Description.Contains(description));
+            }
+            if (date.HasValue)
+            {
+                query = query.Where(p => p.Date == date.Value);
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(p => p.Status.Equals(status));
+            }
 
-        //    if (teacherId.HasValue)
-        //    {
-        //        query = query.Where(p => p.TeacherId == teacherId.Value);
-        //    }
+            return await query
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .ToListAsync();
+        }
 
-        //    if (vioTypeId.HasValue)
-        //    {
-        //        query = query.Where(p => p.ViolationTypeId == vioTypeId.Value);
-        //    }
+        public async Task<Violation> CreateViolation(Violation violationEntity)
+        {
+            await _context.Violations.AddAsync(violationEntity);
+            await _context.SaveChangesAsync();
+            return violationEntity;
+        }
 
-        //    if (!string.IsNullOrEmpty(code))
-        //    {
-        //        query = query.Where(p => p.Code.Contains(code));
-        //    }
+        public async Task<Violation> UpdateViolation(Violation violationEntity)
+        {
+            _context.Violations.Update(violationEntity);
+            _context.Entry(violationEntity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return violationEntity;
+        }
 
-        //    if (!string.IsNullOrEmpty(name))
-        //    {
-        //        query = query.Where(p => p.Name.Contains(name));
-        //    }
-
-        //    if (date.HasValue)
-        //    {
-        //        query = query.Where(p => p.Date >= date.Value);
-        //    }
-
-        //    return await query
-        //        .Include(c => c.Class)
-        //        .Include(c => c.ViolationType)
-        //        .Include(c => c.Teacher)
-        //        .Include(v => v.ViolationReports)
-        //            .ThenInclude(vr => vr.StudentInClass)
-        //                .ThenInclude(sic => sic.Student)
-        //        .ToListAsync();
-        //}
+        public async Task DeleteViolation(int id)
+        {
+            var violationEntity = await _context.Violations.FindAsync(id);
+            violationEntity.Status = ViolationStatusEnums.INACTIVE.ToString();
+            _context.Entry(violationEntity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }
