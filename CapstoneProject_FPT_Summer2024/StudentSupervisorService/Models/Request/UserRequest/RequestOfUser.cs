@@ -9,13 +9,11 @@ namespace StudentSupervisorService.Models.Request.UserRequest
 {
     public class RequestOfUser
     {
-
-
         [Required(ErrorMessage = "The SchoolAdminId field is required.")]
         public int? SchoolId { get; set; }
         [Required(ErrorMessage = "The RoleId field is required.")]
-        public byte RoleId { get; set; }
-        [Required(ErrorMessage = "The Code field is required.")]
+        //public byte RoleId { get; set; }
+        //[Required(ErrorMessage = "The Code field is required.")]
         public string Code { get; set; } = null!;
         [Required(ErrorMessage = "The Name field is required.")]
         public string Name { get; set; } = null!;

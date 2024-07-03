@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.UserRequest;
@@ -18,25 +19,71 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<ResponseOfUser>> CreateUser(RequestOfUser request)
+        public async Task<DataResponse<ResponseOfUser>> CreatePrincipal(RequestOfUser request)
         {
             var response = new DataResponse<ResponseOfUser>();
 
             try
             {
-                var createUser = _mapper.Map<User>(request);
-                createUser.Status = UserStatusEnums.ACTIVE.ToString();
-                _unitOfWork.User.Add(createUser);
+                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                if (isExist != null)
+                {
+                    throw new Exception("Phone already in use!");
+                }
+
+                var newUser = _mapper.Map<User>(request);
+                newUser.RoleId = (byte)RoleAccountEnum.PRINCIPAL;
+                newUser.Status = UserStatusEnums.ACTIVE.ToString();
+
+                _unitOfWork.User.Add(newUser);
                 _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfUser>(createUser);
-                response.Message = "Create Successfully.";
+
+                var userResponse = _mapper.Map<ResponseOfUser>(newUser);
+
+                response.Data = userResponse;
+                response.Message = "User created successfully.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
+
+            return response;
+        }
+
+        public async Task<DataResponse<ResponseOfUser>> CreateSchoolAdmin(RequestOfUser request)
+        {
+            var response = new DataResponse<ResponseOfUser>();
+
+            try
+            {
+                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                if (isExist != null)
+                {
+                    throw new Exception("Phone already in use!");
+                }
+
+                var newUser = _mapper.Map<User>(request);
+                newUser.RoleId = (byte)RoleAccountEnum.SCHOOL_ADMIN;
+                newUser.Status = UserStatusEnums.ACTIVE.ToString();
+
+                _unitOfWork.User.Add(newUser);
+                _unitOfWork.Save();
+
+                var userResponse = _mapper.Map<ResponseOfUser>(newUser);
+
+                response.Data = userResponse;
+                response.Message = "User created successfully.";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
             return response;
         }
 
@@ -195,7 +242,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
                 user.SchoolId = request.SchoolId;
-                user.RoleId = request.RoleId;
+                //user.RoleId = request.RoleId;
                 user.Code = request.Code;
                 user.Name = request.Name;
                 user.Phone = "84" + request.Phone;

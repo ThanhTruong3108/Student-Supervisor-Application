@@ -8,7 +8,8 @@ namespace StudentSupervisorService.Service
     {
         Task<DataResponse<List<ResponseOfUser>>> GetAllUsers(string sortOrder);
         Task<DataResponse<ResponseOfUser>> GetUserById(int id);
-        Task<DataResponse<ResponseOfUser>> CreateUser(RequestOfUser request);
+        Task<DataResponse<ResponseOfUser>> CreatePrincipal(RequestOfUser request);
+        Task<DataResponse<ResponseOfUser>> CreateSchoolAdmin(RequestOfUser request);
         Task DeleteUser(int userId);
         Task<DataResponse<ResponseOfUser>> UpdateUser(int id, RequestOfUser request);
         Task<DataResponse<List<ResponseOfUser>>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone, string sortOrder);

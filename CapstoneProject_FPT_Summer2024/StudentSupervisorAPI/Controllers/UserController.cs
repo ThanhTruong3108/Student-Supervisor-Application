@@ -59,12 +59,20 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreateUser(RequestOfUser request)
+        [HttpPost("principal")]
+        public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreatePrincipal(RequestOfUser request)
         {
-            var createdUser = await _service.CreateUser(request);
-            return createdUser == null ? NotFound() : Ok(createdUser);
+            var createdPrincipal = await _service.CreatePrincipal(request);
+            return createdPrincipal == null ? NotFound() : Ok(createdPrincipal);
         }
+
+        [HttpPost("school_admin")]
+        public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreateSchoolAdmin(RequestOfUser request)
+        {
+            var createdSchoolAdmin = await _service.CreateSchoolAdmin(request);
+            return createdSchoolAdmin == null ? NotFound() : Ok(createdSchoolAdmin);
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfUser>>> UpdateSchoolYear(int id, RequestOfUser request)
         {
