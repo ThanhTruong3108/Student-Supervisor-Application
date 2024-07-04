@@ -24,5 +24,9 @@ namespace StudentSupervisorService.Service
                 DateTime? date,
                 string? status,
                 string sortOrder);
+
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year);
+        Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode);
     }
 }

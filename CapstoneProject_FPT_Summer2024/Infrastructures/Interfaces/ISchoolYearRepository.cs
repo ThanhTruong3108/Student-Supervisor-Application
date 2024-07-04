@@ -14,5 +14,6 @@ namespace Infrastructures.Interfaces
         Task<SchoolYear> GetSchoolYearById(int id);
         Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate);
         Task<List<SchoolYear>> GetSchoolYearBySchoolId(int schoolId);
+        Task<SchoolYear> GetYearBySchoolYearId(int schoolId, short year);
     }
 }

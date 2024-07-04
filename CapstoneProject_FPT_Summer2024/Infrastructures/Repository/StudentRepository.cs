@@ -16,12 +16,16 @@ namespace Infrastructures.Repository
 
         public async Task<List<Student>> GetAllStudents()
         {
-            return await _context.Students.ToListAsync();
+            return await _context.Students
+                .Include(s => s.School)
+                .ToListAsync();
         }
 
         public async Task<Student> GetStudentById(int id)
         {
-            return await _context.Students.FirstOrDefaultAsync(x => x.StudentId == id);
+            return await _context.Students
+                .Include(s => s.School)
+                .FirstOrDefaultAsync(x => x.StudentId == id);
         }
 
         public async Task<List<Student>> SearchStudents(int? schoolId, string? code, string? name, bool? sex, DateTime? birthday, string? address, string? phone)
@@ -56,7 +60,9 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.Phone.Contains(phone));
             }
-            return await query.ToListAsync();
+            return await query
+                .Include(s => s.School)
+                .ToListAsync();
         }
         public async Task<Student> CreateStudent(Student studentEntity)
         {
@@ -86,6 +92,13 @@ namespace Infrastructures.Repository
             {
                 throw new Exception(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
+        }
+
+        public async Task<Student> GetStudentByCode(string code)
+        {
+            return _context.Students
+                .Include(s => s.School)
+                .FirstOrDefault(x => x.Code == code);
         }
     }
 }

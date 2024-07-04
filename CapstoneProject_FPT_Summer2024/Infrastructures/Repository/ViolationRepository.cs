@@ -120,5 +120,47 @@ namespace Infrastructures.Repository
             _context.Entry(violationEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Violation>> GetViolationsByStudentId(int studentId)
+        {
+            return await _context.Violations
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.StudentInClass.StudentId == studentId)
+                .ToListAsync();
+
+        }
+
+        public async Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId)
+        {
+            return await _context.Violations
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.StudentInClass.StudentId == studentId && v.Class.SchoolYearId == schoolYearId)
+                .ToListAsync();
+        }
+
+        public async Task<Dictionary<int, int>> GetViolationCountByYear(int studentId)
+        {
+            return await _context.Violations
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.StudentInClass.StudentId == studentId)
+                .GroupBy(v => v.Class.SchoolYearId)
+                .Select(g => new { SchoolYearId = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(g => g.SchoolYearId, g => g.Count);
+        }
     }
 }

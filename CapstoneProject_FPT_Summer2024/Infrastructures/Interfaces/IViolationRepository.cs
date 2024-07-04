@@ -25,5 +25,9 @@ namespace Infrastructures.Interfaces
         Task<Violation> CreateViolation(Violation violationEntity);
         Task<Violation> UpdateViolation(Violation violationEntity);
         Task DeleteViolation(int id);
+        Task<List<Violation>> GetViolationsByStudentId(int studentId);
+        Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId);
+        Task<Dictionary<int, int>> GetViolationCountByYear(int studentId);
+
     }
 }
