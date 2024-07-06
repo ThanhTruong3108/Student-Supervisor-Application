@@ -113,13 +113,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfPackage>>> SearchPackages(string? name, int? minPrice, int? maxPrice, string? type, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfPackage>>> SearchPackages(int? packageTypeId, string? name, int? totalStudents, int? totalViolations, int? minPrice, int? maxPrice, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfPackage>>();
 
             try
             {
-                var packages = await _unitOfWork.Package.SearchPackages(name, minPrice, maxPrice, type);
+                var packages = await _unitOfWork.Package.SearchPackages(packageTypeId ,name, totalStudents, totalViolations ,minPrice, maxPrice);
                 if (packages is null || packages.Count == 0)
                 {
                     response.Message = "No Package found matching the criteria";
@@ -167,11 +167,12 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                package.PackageId = request.PackageTypeId;
                 package.Name = request.Name;
                 package.Description = request.Description;
-                package.RegisteredDate = DateTime.Now;
+                package.TotalStudents = request.TotalStudents;
+                package.TotalViolations = request.TotalViolations;
                 package.Price = request.Price;
-                package.Type = request.Type;
 
                 _unitOfWork.Package.Update(package);
                 _unitOfWork.Save();

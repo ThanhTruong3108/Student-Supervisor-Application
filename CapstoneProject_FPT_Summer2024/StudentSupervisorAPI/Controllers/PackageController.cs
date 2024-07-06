@@ -47,11 +47,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchPackages(string? name = null, int? minPrice = null, int? maxPrice = null, string? Type = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchPackages(int? packageTypeId =null, string? name = null, int? totalStudents =null, int? totalViolations = null, int? minPrice = null, int? maxPrice = null, string sortOrder = "asc")
         {
             try
             {
-                var vioGroup = await _service.SearchPackages(name, minPrice, maxPrice, Type,  sortOrder);
+                var vioGroup = await _service.SearchPackages(packageTypeId, name, totalStudents, totalViolations, minPrice, maxPrice,  sortOrder);
                 return Ok(vioGroup);
             }
             catch (Exception ex)

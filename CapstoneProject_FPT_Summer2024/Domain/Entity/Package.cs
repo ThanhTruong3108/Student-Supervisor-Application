@@ -7,17 +7,21 @@ public partial class Package
 {
     public int PackageId { get; set; }
 
+    public int PackageTypeId { get; set; }
+
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
 
-    public DateTime? RegisteredDate { get; set; }
+    public int? TotalStudents { get; set; }
+
+    public int? TotalViolations { get; set; }
 
     public int? Price { get; set; }
 
-    public string? Type { get; set; }
-
     public string? Status { get; set; }
+
+    public virtual PackageType PackageType { get; set; } = null!;
 
     public virtual ICollection<YearPackage> YearPackages { get; set; } = new List<YearPackage>();
 }

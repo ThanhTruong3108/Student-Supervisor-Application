@@ -37,6 +37,8 @@ using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Request.PackageRequest;
 using StudentSupervisorService.Models.Response.PackageResponse;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
+using StudentSupervisorService.Models.Request.PackageTypeRequest;
+using StudentSupervisorService.Models.Response.PackageTypeResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -67,6 +69,10 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Package, ResponseOfPackage>();
 
             CreateMap<PackageRequest, Package>();
+
+            CreateMap<PackageType, PackageTypeResponse>();
+
+            CreateMap<PackageTypeRequest, PackageType>();
 
             CreateMap<StudentSupervisor, StudentSupervisorResponse>()
                .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))

@@ -89,6 +89,12 @@ namespace Domain.Enums.Status
         INACTIVE,
     }
 
+    public enum PackageTypeStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
     public enum YearPackageStatusEnums
     {
         VALID,

@@ -17,6 +17,7 @@ namespace Infrastructures.Repository
         public async Task<List<Package>> GetAllPackages()
         {
             var packages = await _context.Packages
+                .Include(x => x.PackageType)
                 .ToListAsync();
             return packages;
         }
@@ -24,16 +25,32 @@ namespace Infrastructures.Repository
         public async Task<Package> GetPackageById(int id)
         {
             return _context.Packages
+                .Include(x => x.PackageType)
                 .FirstOrDefault(v => v.PackageId == id);
         }
 
-        public async Task<List<Package>> SearchPackages(string? name, int? minPrice, int? maxPrice, string? Type)
+        public async Task<List<Package>> SearchPackages(int? packageTypeId, string? name, int? totalStudents, int? totalViolations, int? minPrice, int? maxPrice)
         {
             var query = _context.Packages.AsQueryable();
+
+            if (packageTypeId.HasValue)
+            {
+                query = query.Where(p => p.PackageTypeId == packageTypeId.Value);
+            }
 
             if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (totalStudents.HasValue)
+            {
+                query = query.Where(p => p.TotalStudents == totalStudents.Value);
+            }
+
+            if (totalViolations.HasValue)
+            {
+                query = query.Where(p => p.TotalViolations == totalViolations.Value);
             }
 
             if (minPrice.HasValue)
@@ -47,12 +64,9 @@ namespace Infrastructures.Repository
             }
 
 
-            if (!string.IsNullOrEmpty(Type))
-            {
-                query = query.Where(p => p.Type.Contains(Type));
-            }
-
-            return await query.ToListAsync();
+            return await query
+                .Include(x => x.PackageType)
+                .ToListAsync();
         }
     }
 }

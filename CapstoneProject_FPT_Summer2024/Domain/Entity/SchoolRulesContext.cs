@@ -33,6 +33,7 @@ public partial class SchoolRulesContext : DbContext
     public virtual DbSet<ImageUrl> ImageUrls { get; set; }
 
     public virtual DbSet<Package> Packages { get; set; }
+    public virtual DbSet<PackageType> PackageTypes { get; set; }
 
     public virtual DbSet<PatrolSchedule> PatrolSchedules { get; set; }
 
@@ -242,11 +243,26 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Package");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.RegisteredDate).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
-            entity.Property(e => e.Type).HasMaxLength(50);
+
+            entity.HasOne(d => d.PackageType).WithMany(p => p.Packages)
+            .HasForeignKey(d => d.PackageTypeId)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("FK_Package_PackageType");
+
+        });
+
+        modelBuilder.Entity<PackageType>(entity =>
+        {
+            entity.ToTable("PackageType");
+
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Description).HasMaxLength(200);
+            entity.Property(e => e.Status).HasMaxLength(50);
         });
 
         modelBuilder.Entity<PatrolSchedule>(entity =>

@@ -27,6 +27,7 @@ namespace Infrastructures.Repository.UnitOfWork
             Evaluation = new EvaluationRepository(_context);
             ImageUrl = new ImageUrlRepository(_context);
             Package = new PackageRepository(_context);
+            PackageType = new PackageTypeRepository(_context);
             PatrolSchedule = new PatrolScheduleRepository(_context);
             Penalty = new PenaltyRepository(_context);
             RegisteredSchool = new RegisteredSchoolRepository(_context);
@@ -52,6 +53,7 @@ namespace Infrastructures.Repository.UnitOfWork
         public IEvaluationRepository Evaluation { get; }
         public IImageUrlRepository ImageUrl { get; }
         public IPackageRepository Package { get; }
+        public IPackageTypeRepository PackageType { get; }
         public IPatrolScheduleRepository PatrolSchedule { get; }
         public IPenaltyRepository Penalty { get; }
         public IRegisteredSchoolRepository RegisteredSchool { get; }

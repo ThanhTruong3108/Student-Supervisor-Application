@@ -11,6 +11,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfPackage>> CreatePackage(PackageRequest request);
         Task DeletePackage(int id);
         Task<DataResponse<ResponseOfPackage>> UpdatePackage(int id, PackageRequest request);
-        Task<DataResponse<List<ResponseOfPackage>>> SearchPackages(string? name, int? minPrice, int? maxPrice, string? type, string sortOrder);
+        Task<DataResponse<List<ResponseOfPackage>>> SearchPackages(int? packageTypeId, string? name, int? totalStudents, int? totalViolations, int? minPrice, int? maxPrice, string sortOrder);
     }
 }
