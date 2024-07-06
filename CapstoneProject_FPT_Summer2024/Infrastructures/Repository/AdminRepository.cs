@@ -20,5 +20,13 @@ namespace Infrastructures.Repository
             .Include(a => a.Role)
             .FirstOrDefault(a => a.Phone == phone);
         }
+
+        public async Task<List<Admin>> GetAllAdmins()
+        {
+            var admins = await _context.Admins
+                .Include(c => c.Role)
+                .ToListAsync();
+            return admins;
+        }
     }
 }

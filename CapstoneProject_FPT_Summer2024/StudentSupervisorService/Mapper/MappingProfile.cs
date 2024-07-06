@@ -39,6 +39,7 @@ using StudentSupervisorService.Models.Response.PackageResponse;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 using StudentSupervisorService.Models.Request.PackageTypeRequest;
 using StudentSupervisorService.Models.Response.PackageTypeResponse;
+using StudentSupervisorService.Models.Response.AdminResponse;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -46,6 +47,7 @@ namespace StudentSupervisorService.Mapper
     {
         public MappingProfile()
         {
+            CreateMap<Admin, AdminResponse>();
             CreateMap<HighSchool, ResponseOfHighSchool>();
             CreateMap<Class, ClassResponse>();
             CreateMap<ClassGroup, ClassGroupResponse>();

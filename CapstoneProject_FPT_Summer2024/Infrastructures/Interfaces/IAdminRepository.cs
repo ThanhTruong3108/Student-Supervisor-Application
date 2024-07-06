@@ -11,5 +11,6 @@ namespace Infrastructures.Interfaces
     public interface IAdminRepository : IGenericRepository<Admin>
     {
         Task<Admin> GetAccountByPhone(string phone);
+        Task<List<Admin>> GetAllAdmins();
     }
 }

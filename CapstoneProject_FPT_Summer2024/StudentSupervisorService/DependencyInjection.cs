@@ -39,6 +39,9 @@ namespace StudentSupervisorService
             //Add DI Container
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            services.AddTransient<IAdminRepository, AdminRepository>();
+            services.AddTransient<AdminService, AdminImplement>();
+
             services.AddTransient<IClassGroupRepository, ClassGroupRepository>();
             services.AddTransient<ClassGroupService, ClassGroupImplement>();
 
