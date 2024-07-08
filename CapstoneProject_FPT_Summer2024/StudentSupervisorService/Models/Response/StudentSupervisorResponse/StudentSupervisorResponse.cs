@@ -10,13 +10,14 @@ namespace StudentSupervisorService.Models.Response.StudentSupervisorResponse
     {
         public int StudentSupervisorId { get; set; }
         public int? StudentInClassId { get; set; }
-        public string Code { get; set; }
+        public int? SchoolId { get; set; }
+        public string Code { get; set; } = null!;
 
-        public string SupervisorName { get; set; }
+        public string SupervisorName { get; set; } = null!;
 
-        public string Phone { get; set; } 
+        public string Phone { get; set; } = null!;
 
-        public string Password { get; set; } 
+        public string Password { get; set; } = null!;
 
         public string? Address { get; set; }
         public string? Description { get; set; }
