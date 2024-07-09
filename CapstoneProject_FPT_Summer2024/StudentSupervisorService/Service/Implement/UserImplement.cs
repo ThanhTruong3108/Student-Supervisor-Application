@@ -84,7 +84,9 @@ namespace StudentSupervisorService.Service.Implement
                 var newSchoolAdmin = _mapper.Map<User>(request);
                 newSchoolAdmin.RoleId = (byte)RoleAccountEnum.SCHOOL_ADMIN;
                 newSchoolAdmin.Status = UserStatusEnums.ACTIVE.ToString();
-                newSchoolAdmin.Phone = "84" + request.Phone;
+
+                // Prepend "84" if not already present
+                newSchoolAdmin.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
 
                 _unitOfWork.User.Add(newSchoolAdmin);
                 _unitOfWork.Save();
