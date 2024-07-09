@@ -13,6 +13,6 @@ namespace Domain.Enums.Role
         PRINCIPAL = 3,
         SUPERVISOR = 4,
         TEACHER = 5,
-        STUDENTSUPERVISOR = 6
+        STUDENT_SUPERVISOR = 6
     }
 }

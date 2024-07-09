@@ -42,7 +42,7 @@ namespace StudentSupervisorService.Service.Implement
                     Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
                     Password = request.Password,
                     Address = request.Address,
-                    RoleId = (byte)RoleAccountEnum.STUDENTSUPERVISOR,
+                    RoleId = (byte)RoleAccountEnum.STUDENT_SUPERVISOR,
                     Status = UserStatusEnums.ACTIVE.ToString()
                 }
             };
