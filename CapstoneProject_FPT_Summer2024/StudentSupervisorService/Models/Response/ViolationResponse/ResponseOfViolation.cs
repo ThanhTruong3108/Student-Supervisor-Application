@@ -20,6 +20,7 @@ namespace StudentSupervisorService.Models.Response.ViolationResponse
         public string ViolationName { get; set; } = null!;
         public string? Description { get; set; }
         public DateTime Date { get; set; }
+        public List<string> ImageUrls { get; set; } = new List<string>();
         public DateTime? CreatedAt { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
