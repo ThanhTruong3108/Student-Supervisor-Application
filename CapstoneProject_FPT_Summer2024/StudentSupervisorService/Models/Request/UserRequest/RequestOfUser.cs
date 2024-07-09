@@ -11,16 +11,19 @@ namespace StudentSupervisorService.Models.Request.UserRequest
     {
         [Required(ErrorMessage = "The SchoolAdminId field is required.")]
         public int? SchoolId { get; set; }
-        [Required(ErrorMessage = "The RoleId field is required.")]
-        //public byte RoleId { get; set; }
-        //[Required(ErrorMessage = "The Code field is required.")]
+
+        [Required(ErrorMessage = "The Code field is required.")]
         public string Code { get; set; } = null!;
+
         [Required(ErrorMessage = "The Name field is required.")]
         public string Name { get; set; } = null!;
+
         [RegularExpression(@"^[0-9]{8,9}$", ErrorMessage = "The phone number must be an 8 or 9 digit integer.")]
         public string Phone { get; set; } = null!;
+
         [Required(ErrorMessage = "The Password field is required.")]
         public string Password { get; set; } = null!;
+
         [Required(ErrorMessage = "The Address field is required.")]
         public string? Address { get; set; }
     }

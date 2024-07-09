@@ -6,6 +6,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.UserResponse;
+using System.Security.Principal;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -31,14 +32,15 @@ namespace StudentSupervisorService.Service.Implement
                     throw new Exception("Phone already in use!");
                 }
 
-                var newUser = _mapper.Map<User>(request);
-                newUser.RoleId = (byte)RoleAccountEnum.PRINCIPAL;
-                newUser.Status = UserStatusEnums.ACTIVE.ToString();
+                var newPrincipal = _mapper.Map<User>(request);
+                newPrincipal.RoleId = (byte)RoleAccountEnum.PRINCIPAL;
+                newPrincipal.Status = UserStatusEnums.ACTIVE.ToString();
+                newPrincipal.Phone = "84" + request.Phone;
 
-                _unitOfWork.User.Add(newUser);
+                _unitOfWork.User.Add(newPrincipal);
                 _unitOfWork.Save();
 
-                var userResponse = _mapper.Map<ResponseOfUser>(newUser);
+                var userResponse = _mapper.Map<ResponseOfUser>(newPrincipal);
 
                 response.Data = userResponse;
                 response.Message = "User created successfully.";
@@ -65,14 +67,15 @@ namespace StudentSupervisorService.Service.Implement
                     throw new Exception("Phone already in use!");
                 }
 
-                var newUser = _mapper.Map<User>(request);
-                newUser.RoleId = (byte)RoleAccountEnum.SCHOOL_ADMIN;
-                newUser.Status = UserStatusEnums.ACTIVE.ToString();
+                var newSchoolAdmin = _mapper.Map<User>(request);
+                newSchoolAdmin.RoleId = (byte)RoleAccountEnum.SCHOOL_ADMIN;
+                newSchoolAdmin.Status = UserStatusEnums.ACTIVE.ToString();
+                newSchoolAdmin.Phone = "84" + request.Phone;
 
-                _unitOfWork.User.Add(newUser);
+                _unitOfWork.User.Add(newSchoolAdmin);
                 _unitOfWork.Save();
 
-                var userResponse = _mapper.Map<ResponseOfUser>(newUser);
+                var userResponse = _mapper.Map<ResponseOfUser>(newSchoolAdmin);
 
                 response.Data = userResponse;
                 response.Message = "User created successfully.";
