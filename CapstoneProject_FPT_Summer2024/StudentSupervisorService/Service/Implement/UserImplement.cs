@@ -35,7 +35,9 @@ namespace StudentSupervisorService.Service.Implement
                 var newPrincipal = _mapper.Map<User>(request);
                 newPrincipal.RoleId = (byte)RoleAccountEnum.PRINCIPAL;
                 newPrincipal.Status = UserStatusEnums.ACTIVE.ToString();
-                newPrincipal.Phone = "84" + request.Phone;
+
+                // Prepend "84" if not already present
+                newPrincipal.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
 
                 _unitOfWork.User.Add(newPrincipal);
                 _unitOfWork.Save();
@@ -247,7 +249,10 @@ namespace StudentSupervisorService.Service.Implement
                 user.SchoolId = request.SchoolId;
                 user.Code = request.Code;
                 user.Name = request.Name;
-                user.Phone = "84" + request.Phone;
+
+                // Prepend "84" if not already present
+                user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
                 user.Password = request.Password;
                 user.Address = request.Address;
                 _unitOfWork.User.Update(user);

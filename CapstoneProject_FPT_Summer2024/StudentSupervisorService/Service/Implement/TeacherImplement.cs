@@ -36,7 +36,8 @@ namespace StudentSupervisorService.Service.Implement
                 SchoolId = request.SchoolId,
                 Code = request.Code,
                 Name = request.TeacherName,
-                Phone = "84" + request.Phone,
+                // Prepend "84" if not already present
+                Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
                 Password = request.Password,
                 Address = request.Address,
                 RoleId = (byte)RoleAccountEnum.SUPERVISOR,
@@ -59,15 +60,14 @@ namespace StudentSupervisorService.Service.Implement
 
             var teacher = _mapper.Map<Teacher>(request);
 
-            // Hash the password
-            //var passwordHash = _authentication.Hash(request.Password);
 
             teacher.User = new User
             {
                 SchoolId = request.SchoolId,
                 Code = request.Code,
                 Name = request.TeacherName,
-                Phone = "84" + request.Phone,
+                // Prepend "84" if not already present
+                Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
                 Password = request.Password,
                 Address = request.Address,
                 RoleId = (byte)RoleAccountEnum.TEACHER, 
@@ -219,7 +219,8 @@ namespace StudentSupervisorService.Service.Implement
                 // Update User entity
                 var user = teacher.User;
                 user.Name = request.TeacherName;
-                user.Phone = "84" + request.Phone; 
+                // Prepend "84" if not already present
+                user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
                 user.Password = request.Password;
                 user.Address = request.Address;
                 user.Status = UserStatusEnums.ACTIVE.ToString(); 

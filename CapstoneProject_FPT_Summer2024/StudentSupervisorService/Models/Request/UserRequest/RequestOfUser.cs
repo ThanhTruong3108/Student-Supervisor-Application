@@ -18,7 +18,7 @@ namespace StudentSupervisorService.Models.Request.UserRequest
         [Required(ErrorMessage = "The Name field is required.")]
         public string Name { get; set; } = null!;
 
-        [RegularExpression(@"^[0-9]{8,9}$", ErrorMessage = "The phone number must be an 8 or 9 digit integer.")]
+        [RegularExpression(@"^84[0-9]{8,9}$|^[0-9]{8,9}$", ErrorMessage = "The phone number must be 8 or 9 digits, with optional '84' country code prefix.")]
         public string Phone { get; set; } = null!;
 
         [Required(ErrorMessage = "The Password field is required.")]

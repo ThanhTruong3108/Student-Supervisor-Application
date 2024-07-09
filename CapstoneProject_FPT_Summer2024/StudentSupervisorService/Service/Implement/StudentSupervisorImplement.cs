@@ -38,7 +38,8 @@ namespace StudentSupervisorService.Service.Implement
                     SchoolId = request.SchoolId,
                     Code = request.Code,
                     Name = request.SupervisorName,
-                    Phone = "84" + request.Phone, // Assuming the phone number needs to be prefixed with "84"
+                    // Prepend "84" if not already present
+                    Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
                     Password = request.Password,
                     Address = request.Address,
                     RoleId = (byte)RoleAccountEnum.STUDENTSUPERVISOR,
@@ -177,7 +178,6 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                // Retrieve the existing StudentSupervisor entity by ID
                 var studentSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorById(id);
                 if (studentSupervisor == null)
                 {
@@ -193,7 +193,8 @@ namespace StudentSupervisorService.Service.Implement
                 user.SchoolId = request.SchoolId;
                 user.Code = request.Code;
                 user.Name = request.SupervisorName;
-                user.Phone = request.Phone;
+                // Prepend "84" if not already present
+                user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
                 user.Password = request.Password; 
                 user.Address = request.Address;
                 user.Status = UserStatusEnums.ACTIVE.ToString();
