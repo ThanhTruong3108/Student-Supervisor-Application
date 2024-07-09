@@ -26,10 +26,16 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
-                if (isExist != null)
+                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                if (isExistPhone != null)
                 {
                     throw new Exception("Phone already in use!");
+                }
+
+                var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    throw new Exception("Code already in use!");
                 }
 
                 var newPrincipal = _mapper.Map<User>(request);
@@ -63,10 +69,16 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
-                if (isExist != null)
+                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                if (isExistPhone != null)
                 {
                     throw new Exception("Phone already in use!");
+                }
+
+                var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    throw new Exception("Code already in use!");
                 }
 
                 var newSchoolAdmin = _mapper.Map<User>(request);
@@ -246,13 +258,20 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != id).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 user.SchoolId = request.SchoolId;
                 user.Code = request.Code;
                 user.Name = request.Name;
-
                 // Prepend "84" if not already present
                 user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
-
                 user.Password = request.Password;
                 user.Address = request.Address;
                 _unitOfWork.User.Update(user);

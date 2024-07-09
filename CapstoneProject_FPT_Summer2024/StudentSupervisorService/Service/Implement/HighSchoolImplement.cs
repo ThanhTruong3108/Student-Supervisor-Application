@@ -31,10 +31,22 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+
+                // Kiểm tra xem code đã tồn tại hay chưa
+                var existingHighSchool = _unitOfWork.HighSchool.Find(h => h.Code == request.Code).FirstOrDefault();
+                if (existingHighSchool != null)
+                {
+                    response.Message = "Code already exists.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var createHighSchool = _mapper.Map<HighSchool>(request);
                 createHighSchool.Status = HighSchoolStatusEnums.ACTIVE.ToString();
+
                 _unitOfWork.HighSchool.Add(createHighSchool);
                 _unitOfWork.Save();
+
                 response.Data = _mapper.Map<ResponseOfHighSchool>(createHighSchool);
                 response.Message = "Create Successfully.";
                 response.Success = true;
@@ -172,6 +184,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                var isExistCode = _unitOfWork.HighSchool.Find(h => h.Code == request.Code && h.SchoolId != id).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 highSchool.Code = request.Code;
                 highSchool.Name = request.Name;
                 highSchool.City = request.City;

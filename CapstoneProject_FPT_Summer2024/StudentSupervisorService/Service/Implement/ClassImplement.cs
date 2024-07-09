@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Infrastructures.Repository.UnitOfWork;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
@@ -113,6 +114,14 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ClassResponse>();
             try
             {
+                var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var classEntity = new Class
                 {
                     SchoolYearId = request.SchoolYearId,
@@ -146,6 +155,14 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Class not found";
+                    response.Success = false;
+                    return response;
+                }
+
+                var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code && s.ClassId != request.ClassId).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
                     response.Success = false;
                     return response;
                 }

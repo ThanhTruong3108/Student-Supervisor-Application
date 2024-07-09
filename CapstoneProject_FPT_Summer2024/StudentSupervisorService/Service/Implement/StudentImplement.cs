@@ -124,6 +124,14 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<StudentResponse>();
             try
             {
+                var isExistCode = unitOfWork.Student.Find(s => s.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var studentEntity = new Student
                 {
                     SchoolId = request.SchoolId,
@@ -160,6 +168,14 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Student not found";
+                    response.Success = false;
+                    return response;
+                }
+
+                var isExistCode = unitOfWork.Student.Find(s => s.Code == request.Code && s.StudentId != request.StudentId).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
                     response.Success = false;
                     return response;
                 }
