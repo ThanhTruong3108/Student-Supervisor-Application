@@ -89,7 +89,7 @@ namespace StudentSupervisorService.Mapper
                 .ForPath(re => re.User.SchoolId, act => act.MapFrom(src => src.SchoolId))
                 .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
                 .ForPath(re => re.User.Name, act => act.MapFrom(src => src.SupervisorName))
-                .ForPath(re => re.User.Phone, act => act.MapFrom(src => + src.Phone))
+                .ForPath(re => re.User.Phone, act => act.MapFrom(src =>  src.Phone))
                 .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
                 .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
 

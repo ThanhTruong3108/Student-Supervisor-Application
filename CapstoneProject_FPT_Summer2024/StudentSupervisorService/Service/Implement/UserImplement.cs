@@ -245,7 +245,6 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
                 user.SchoolId = request.SchoolId;
-                //user.RoleId = request.RoleId;
                 user.Code = request.Code;
                 user.Name = request.Name;
                 user.Phone = "84" + request.Phone;
