@@ -130,7 +130,8 @@ namespace StudentSupervisorService.Mapper
                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
                    src => src.StudentInClass.Student.Name))
                .ForMember(dest => dest.ViolationGroupName, opt => opt.MapFrom(
-                   src => src.ViolationType.ViolationGroup.Name));
+                   src => src.ViolationType.ViolationGroup.Name))
+               .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ImageUrls.Select(img => img.Url)));
 
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(

@@ -20,6 +20,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetAllViolations()
         {
             var violations = await _context.Violations
+                .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
@@ -34,7 +35,8 @@ namespace Infrastructures.Repository
         public async Task<Violation> GetViolationById(int id)
         {
             return _context.Violations
-               .Include(c => c.Class)
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.Teacher)
@@ -89,6 +91,7 @@ namespace Infrastructures.Repository
             }
 
             return await query
+                .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
@@ -124,6 +127,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsByStudentId(int studentId)
         {
             return await _context.Violations
+                .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
@@ -138,6 +142,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId)
         {
             return await _context.Violations
+                .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
@@ -151,6 +156,7 @@ namespace Infrastructures.Repository
         public async Task<Dictionary<int, int>> GetViolationCountByYear(int studentId)
         {
             return await _context.Violations
+                .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
