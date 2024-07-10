@@ -232,6 +232,15 @@ namespace StudentSupervisorService.Service.Implement
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
+                // Increase NumberOfViolation in StudentInClass
+                var studentInClass = _unitOfWork.StudentInClass.GetById(violationEntity.StudentInClassId.Value);
+                if (studentInClass != null)
+                {
+                    studentInClass.NumberOfViolation = (studentInClass.NumberOfViolation ?? 0) + 1;
+                    _unitOfWork.StudentInClass.Update(studentInClass);
+                    _unitOfWork.Save();
+                }
+
                 response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
                 response.Message = "Create Successfully.";
                 response.Success = true;
