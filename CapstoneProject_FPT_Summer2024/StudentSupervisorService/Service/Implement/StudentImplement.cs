@@ -40,8 +40,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 studentEntities = sortOrder == "desc"
-                    ? studentEntities.OrderByDescending(r => r.Code).ToList()
-                    : studentEntities.OrderBy(r => r.Code).ToList();
+                    ? studentEntities.OrderByDescending(r => r.StudentId).ToList()
+                    : studentEntities.OrderBy(r => r.StudentId).ToList();
 
                 response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
                 response.Message = "List Students";
@@ -98,11 +98,11 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     if (sortOrder == "desc")
                     {
-                        studentEntities = studentEntities.OrderByDescending(r => r.Code).ToList();
+                        studentEntities = studentEntities.OrderByDescending(r => r.StudentId).ToList();
                     }
                     else
                     {
-                        studentEntities = studentEntities.OrderBy(r => r.Code).ToList();
+                        studentEntities = studentEntities.OrderBy(r => r.StudentId).ToList();
                     }
                     response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
                     response.Message = "List Students";

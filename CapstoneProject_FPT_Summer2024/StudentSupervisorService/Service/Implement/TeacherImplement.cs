@@ -116,11 +116,11 @@ namespace StudentSupervisorService.Service.Implement
                 var teacherDTO = _mapper.Map<List<TeacherResponse>>(teachers);
                 if (sortOrder == "desc")
                 {
-                    teacherDTO = teacherDTO.OrderByDescending(r => r.Code).ToList();
+                    teacherDTO = teacherDTO.OrderByDescending(r => r.TeacherId).ToList();
                 }
                 else
                 {
-                    teacherDTO = teacherDTO.OrderBy(r => r.Code).ToList();
+                    teacherDTO = teacherDTO.OrderBy(r => r.TeacherId).ToList();
                 }
                 response.Data = teacherDTO;
                 response.Message = "List Teachers";
@@ -178,11 +178,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        teacherDTO = teacherDTO.OrderByDescending(p => p.Code).ToList();
+                        teacherDTO = teacherDTO.OrderByDescending(p => p.TeacherId).ToList();
                     }
                     else
                     {
-                        teacherDTO = teacherDTO.OrderBy(p => p.Code).ToList();
+                        teacherDTO = teacherDTO.OrderBy(p => p.TeacherId).ToList();
                     }
 
                     response.Data = teacherDTO;

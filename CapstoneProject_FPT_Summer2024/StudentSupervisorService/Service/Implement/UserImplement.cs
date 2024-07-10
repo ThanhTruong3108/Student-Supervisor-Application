@@ -135,11 +135,11 @@ namespace StudentSupervisorService.Service.Implement
                 var userDTO = _mapper.Map<List<ResponseOfUser>>(users);
                 if (sortOrder == "desc")
                 {
-                    userDTO = userDTO.OrderByDescending(r => r.Code).ToList();
+                    userDTO = userDTO.OrderByDescending(r => r.UserId).ToList();
                 }
                 else
                 {
-                    userDTO = userDTO.OrderBy(r => r.Code).ToList();
+                    userDTO = userDTO.OrderBy(r => r.UserId).ToList();
                 }
                 response.Data = userDTO;
                 response.Message = "List Users";
@@ -226,11 +226,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        userDTO = userDTO.OrderByDescending(p => p.Code).ToList();
+                        userDTO = userDTO.OrderByDescending(p => p.UserId).ToList();
                     }
                     else
                     {
-                        userDTO = userDTO.OrderBy(p => p.Code).ToList();
+                        userDTO = userDTO.OrderBy(p => p.UserId).ToList();
                     }
 
                     response.Data = userDTO;

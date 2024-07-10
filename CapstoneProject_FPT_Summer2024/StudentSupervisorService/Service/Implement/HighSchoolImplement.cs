@@ -88,11 +88,11 @@ namespace StudentSupervisorService.Service.Implement
                 var highSchoolDTO = _mapper.Map<List<ResponseOfHighSchool>>(highSchool);
                 if (sortOrder == "desc")
                 {
-                    highSchoolDTO = highSchoolDTO.OrderByDescending(r => r.Code).ToList();
+                    highSchoolDTO = highSchoolDTO.OrderByDescending(r => r.SchoolId).ToList();
                 }
                 else
                 {
-                    highSchoolDTO = highSchoolDTO.OrderBy(r => r.Code).ToList();
+                    highSchoolDTO = highSchoolDTO.OrderBy(r => r.SchoolId).ToList();
                 }
                 response.Data = highSchoolDTO;
                 response.Message = "List HighSchools";
@@ -150,11 +150,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        highSchoolDTO = highSchoolDTO.OrderByDescending(p => p.Code).ToList();
+                        highSchoolDTO = highSchoolDTO.OrderByDescending(p => p.SchoolId).ToList();
                     }
                     else
                     {
-                        highSchoolDTO = highSchoolDTO.OrderBy(p => p.Code).ToList();
+                        highSchoolDTO = highSchoolDTO.OrderBy(p => p.SchoolId).ToList();
                     }
 
                     response.Data = highSchoolDTO;

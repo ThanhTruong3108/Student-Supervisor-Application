@@ -70,11 +70,11 @@ namespace StudentSupervisorService.Service.Implement
                 var packageDTO = _mapper.Map<List<ResponseOfPackage>>(package);
                 if (sortOrder == "desc")
                 {
-                    packageDTO = packageDTO.OrderByDescending(r => r.Price).ToList();
+                    packageDTO = packageDTO.OrderByDescending(r => r.PackageId).ToList();
                 }
                 else
                 {
-                    packageDTO = packageDTO.OrderBy(r => r.Price).ToList();
+                    packageDTO = packageDTO.OrderBy(r => r.PackageId).ToList();
                 }
                 response.Data = packageDTO;
                 response.Message = "List Packages";
@@ -132,11 +132,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        packageDTO = packageDTO.OrderByDescending(p => p.Price).ToList();
+                        packageDTO = packageDTO.OrderByDescending(p => p.PackageId).ToList();
                     }
                     else
                     {
-                        packageDTO = packageDTO.OrderBy(p => p.Price).ToList();
+                        packageDTO = packageDTO.OrderBy(p => p.PackageId).ToList();
                     }
 
                     response.Data = packageDTO;
