@@ -48,10 +48,10 @@ VALUES
 -- Chèn 4 bản ghi mẫu vào bảng SchoolYear
 INSERT INTO [dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
 VALUES 
-    (1, 2021, '2021-09-01', '2022-06-30', 'ACTIVE'),
-    (1, 2022, '2022-09-01', '2023-06-30', 'ACTIVE'),
-    (1, 2023, '2023-09-01', '2024-06-30', 'ACTIVE'),
-    (1, 2024, '2024-09-01', '2025-06-30', 'ACTIVE');
+    (1, 2021, '2021-09-01', '2022-06-30', 'FINISHED'),
+    (1, 2022, '2022-09-01', '2023-06-30', 'ONGOING'),
+    (1, 2023, '2023-09-01', '2024-06-30', 'ONGOING'),
+    (1, 2024, '2024-09-01', '2025-06-30', 'ONGOING');
 
 
 -- Chèn 3 bản ghi mẫu vào bảng ClassGroup
@@ -103,26 +103,26 @@ VALUES
 -- Chèn 20 bản ghi mẫu vào bảng StudentInClass
 INSERT INTO [dbo].[StudentInClass] ([ClassID], [StudentID], [EnrollDate], [IsSupervisor], [StartDate], [EndDate], [NumberOfViolation], [Status])
 VALUES
-(1, 1, '2023-09-01', 1, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(2, 2, '2023-09-01', 1, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(3, 3, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(4, 4, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(1, 5, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(2, 6, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(3, 7, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(4, 8, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(1, 9, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(2, 10, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(3, 11, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(4, 12, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(1, 13, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(2, 14, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(3, 15, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(4, 16, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(1, 17, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(2, 18, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(3, 19, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE'),
-(4, 20, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ACTIVE');
+(1, 1, '2023-09-01', 1, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(2, 2, '2023-09-01', 1, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(3, 3, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(4, 4, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(1, 5, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(2, 6, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(3, 7, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(4, 8, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(1, 9, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(2, 10, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(3, 11, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(4, 12, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(1, 13, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(2, 14, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(3, 15, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(4, 16, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(1, 17, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(2, 18, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(3, 19, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED '),
+(4, 20, '2023-09-01', 0, '2023-09-01', '2024-05-31', 2, 'ENROLLED ');
 
 -- Chèn 6 bản ghi mẫu vào bảng ViolationGroup
 INSERT INTO [dbo].[ViolationGroup] ([SchoolID], [Name], [Description], [Status])
@@ -275,32 +275,53 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[Discipline] ([ViolationID], [PennaltyID], [Description], [StartDate], [EndDate], [Status])
 VALUES
 -- ViolationID 1 to 10 from Class 1
-(1, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2024-01-11', '2024-01-11', 'ACTIVE'),
-(2, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2024-02-16', '2024-02-16', 'ACTIVE'),
-(3, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2024-03-02', '2024-03-02', 'ACTIVE'),
-(4, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2024-03-06', '2024-03-06', 'ACTIVE'),
-(5, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2024-03-11', '2024-03-11', 'ACTIVE'),
+(1, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-01-11', '2021-01-14', 'PENDING '),
+(2, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-02-16', '2021-02-19', 'PENDING '),
+(3, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-03-02', '2021-03-05', 'PENDING '),
+(4, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-03-06', '2021-03-09', 'PENDING '),
+(5, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-03-11', '2021-03-14', 'PENDING '),
+(6, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-03-15', '2021-03-18', 'PENDING '),
+(7, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-04-20', '2021-04-23', 'PENDING '),
+(8, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-04-22', '2021-04-25', 'PENDING '),
+(9, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-05-05', '2021-05-08', 'PENDING '),
+(10, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-05-07 ', '2021-05-10', 'PENDING '),
+
 
 -- ViolationID 11 to 20 from Class 2
-(11, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2024-06-02', '2024-06-02', 'ACTIVE'),
-(12, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2024-06-11', '2024-06-11', 'ACTIVE'),
-(13, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2024-07-02', '2024-07-02', 'ACTIVE'),
-(14, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2024-07-06', '2024-07-06', 'ACTIVE'),
-(15, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2024-07-11', '2024-07-11', 'ACTIVE'),
+(11, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-06-02', '2021-06-05', 'PENDING '),
+(12, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-06-11', '2021-06-14', 'PENDING '),
+(13, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-07-02', '2021-07-05', 'PENDING '),
+(14, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-07-06', '2021-07-09', 'PENDING '),
+(15, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-07-11', '2021-07-14', 'PENDING '),
+(16, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-07-15', '2021-07-18', 'PENDING '),
+(17, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-07-20', '2021-07-23', 'PENDING '),
+(18, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-07-28', '2021-07-28', 'PENDING '),
+(19, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-08-01', '2021-08-04', 'PENDING '),
+(20, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-08-05', '2021-08-08', 'PENDING '),
 
 -- ViolationID 21 to 30 from Class 3
-(21, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2024-08-11', '2024-08-11', 'ACTIVE'),
-(22, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2024-08-16', '2024-08-16', 'ACTIVE'),
-(23, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2024-08-21', '2024-08-21', 'ACTIVE'),
-(24, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2024-08-26', '2024-08-26', 'ACTIVE'),
-(25, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2024-08-31', '2024-08-31', 'ACTIVE'),
+(21, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-08-11', '2021-08-14', 'PENDING '),
+(22, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-08-16', '2021-08-19', 'PENDING '),
+(23, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-08-21', '2021-08-24', 'PENDING '),
+(24, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-08-26', '2021-08-29', 'PENDING '),
+(25, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-08-31', '2021-09-03', 'PENDING '),
+(26, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2021-09-05', '2021-09-08', 'PENDING '),
+(27, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2021-09-10', '2021-09-13', 'PENDING '),
+(28, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2021-09-15', '2021-09-18', 'PENDING '),
+(29, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2021-09-20', '2021-09-23', 'PENDING '),
+(30, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2021-09-25', '2021-09-28', 'PENDING '),
 
 -- ViolationID 31 to 40 from Class 4
-(31, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2024-10-02', '2024-10-02', 'ACTIVE'),
-(32, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2024-10-06', '2024-10-06', 'ACTIVE'),
-(33, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2024-10-11', '2024-10-11', 'ACTIVE'),
-(34, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2024-10-16', '2024-10-16', 'ACTIVE'),
-(35, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2024-10-21', '2024-10-21', 'ACTIVE');
+(31, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2022-10-02', '2022-10-05', 'PENDING '),
+(32, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2022-10-06', '2022-10-09', 'PENDING '),
+(33, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2022-10-11', '2022-10-14', 'PENDING '),
+(34, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2022-10-16', '2022-10-19', 'PENDING '),
+(35, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2022-10-21', '2024-10-24', 'PENDING '),
+(36, 1, N'Cảnh cáo bằng lời hoặc văn bản.', '2022-10-25', '2022-10-28', 'PENDING '),
+(37, 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', '2022-10-30', '2022-11-03', 'PENDING '),
+(38, 3, N'Yêu cầu học sinh viết bài kiểm điểm.', '2022-11-01', '2022-11-04', 'PENDING '),
+(39, 4, N'Đuổi học tạm thời hoặc vĩnh viễn.', '2022-11-05', '2022-11-08', 'PENDING '),
+(40, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2022-11-10', '2022-11-13', 'PENDING ');
 
 
 -- Chèn 40 bản ghi mẫu vào bảng ViolationConfig
@@ -357,54 +378,54 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [NumberOfStudent], [Status])
 VALUES
     -- Dữ liệu cho năm học 2021
-    (1, 1, 450, 'ACTIVE'),
-    (1, 2, 850, 'ACTIVE'),
-    (1, 3, 0, 'ACTIVE'),
-    (1, 4, 90, 'ACTIVE'),
+    (1, 1, 450, 'VALID  '),
+    (1, 2, 850, 'VALID  '),
+    (1, 3, 0, 'VALID  '),
+    (1, 4, 90, 'VALID '),
 
     -- Dữ liệu cho năm học 2022
-    (2, 1, 460, 'ACTIVE'),
-    (2, 2, 880, 'ACTIVE'),
-    (2, 3, 0, 'ACTIVE'),
+    (2, 1, 460, 'VALID '),
+    (2, 2, 880, 'VALID '),
+    (2, 3, 0, 'VALID '),
     (2, 4, 95, 'ACTIVE'),
 
     -- Dữ liệu cho năm học 2023
-    (3, 1, 470, 'ACTIVE'),
-    (3, 2, 890, 'ACTIVE'),
-    (3, 3, 0, 'ACTIVE'),
-    (3, 4, 100, 'ACTIVE'),
+    (3, 1, 470, 'VALID '),
+    (3, 2, 890, 'VALID '),
+    (3, 3, 0, 'VALID '),
+    (3, 4, 100, 'VALID '),
 
     -- Dữ liệu cho năm học 2024
-    (4, 1, 480, 'ACTIVE'),
-    (4, 2, 900, 'ACTIVE'),
-    (4, 3, 0, 'ACTIVE'),
-    (4, 4, 110, 'ACTIVE');
+    (4, 1, 480, 'VALID '),
+    (4, 2, 900, 'VALID '),
+    (4, 3, 0, 'VALID '),
+    (4, 4, 110, 'VALID ');
 -- Chèn 12 bản ghi mẫu vào bảng PatrolSchedule
 INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [SupervisorID], [TeacherID], [From], [To], [Status])
 VALUES
     -- Lịch tuần tra cho lớp 10A1 năm học 2021
-    (1, 1, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
-    (1, 2, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
+    (1, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
+    (1, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 11A1 năm học 2021
-    (2, 1, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
-    (2, 2, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
+    (2, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
+    (2, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 12A1 năm học 2021
-    (3, 1, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
-    (3, 2, 1, '2021-09-01', '2022-06-30', 'ACTIVE'),
+    (3, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
+    (3, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 10A1 năm học 2022
-    (4, 1, 1, '2022-09-01', '2023-06-30', 'ACTIVE'),
-    (4, 2, 1, '2022-09-01', '2023-06-30', 'ACTIVE'),
+    (4, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
+    (4, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
 
     -- Lịch tuần tra cho lớp 11A1 năm học 2022
-    (5, 1, 1, '2022-09-01', '2023-06-30', 'ACTIVE'),
-    (5, 2, 1, '2022-09-01', '2023-06-30', 'ACTIVE'),
+    (5, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
+    (5, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
 
     -- Lịch tuần tra cho lớp 12A1 năm học 2022
-    (6, 1, 1, '2022-09-01', '2023-06-30', 'ACTIVE'),
-    (6, 2, 1, '2022-09-01', '2023-06-30', 'ACTIVE');
+    (6, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
+    (6, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING');
 
 -- Chèn 12 bản ghi mẫu vào bảng ImageURL
 INSERT INTO [SchoolRules].[dbo].[ImageURL] ([ViolationID], [URL], [Name], [Description])
