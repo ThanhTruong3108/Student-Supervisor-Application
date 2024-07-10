@@ -203,6 +203,24 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Check if Code already exists for another StudentSupervisor
+                var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != studentSupervisor.UserId).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if Phone already exists for another StudentSupervisor
+                var isExistPhone = _unitOfWork.User.Find(u => u.Phone == request.Phone && u.UserId != studentSupervisor.UserId).FirstOrDefault();
+                if (isExistPhone != null)
+                {
+                    response.Message = "Phone already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 studentSupervisor.StudentInClassId = request.StudentInClassId;
                 studentSupervisor.Description = request.Description;
 

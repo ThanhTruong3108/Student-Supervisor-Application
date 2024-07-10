@@ -213,6 +213,24 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Check if Code already exists for another teacher
+                var isExistCode =  _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != teacher.UserId).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if Phone already exists for another teacher
+                var isExistPhone =  _unitOfWork.User.Find(u => u.Phone == request.Phone && u.UserId != teacher.UserId).FirstOrDefault();
+                if (isExistPhone != null)
+                {
+                    response.Message = "Phone already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Update Teacher entity
                 _mapper.Map(request, teacher);
 

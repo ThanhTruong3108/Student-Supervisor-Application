@@ -269,6 +269,15 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var isExistPhone = _unitOfWork.User.Find(u => u.Phone == request.Phone && u.UserId != id).FirstOrDefault();
+                if (isExistPhone != null)
+                {
+                    response.Message = "Phone already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
+
                 user.SchoolId = request.SchoolId;
                 user.Code = request.Code;
                 user.Name = request.Name;
