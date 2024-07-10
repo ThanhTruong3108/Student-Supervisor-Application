@@ -77,11 +77,11 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
                 if (sortOrder == "desc")
                 {
-                    schoolYearDTO = schoolYearDTO.OrderByDescending(r => r.Year).ToList();
+                    schoolYearDTO = schoolYearDTO.OrderByDescending(r => r.SchoolYearId).ToList();
                 }
                 else
                 {
-                    schoolYearDTO = schoolYearDTO.OrderBy(r => r.Year).ToList();
+                    schoolYearDTO = schoolYearDTO.OrderBy(r => r.SchoolYearId).ToList();
                 }
                 response.Data = schoolYearDTO;
                 response.Message = "List SchoolYears";
@@ -168,11 +168,11 @@ namespace StudentSupervisorService.Service.Implement
                     // Thực hiện sắp xếp
                     if (sortOrder == "desc")
                     {
-                        schoolYearDTO = schoolYearDTO.OrderByDescending(p => p.Year).ToList();
+                        schoolYearDTO = schoolYearDTO.OrderByDescending(p => p.SchoolYearId).ToList();
                     }
                     else
                     {
-                        schoolYearDTO = schoolYearDTO.OrderBy(p => p.Year).ToList();
+                        schoolYearDTO = schoolYearDTO.OrderBy(p => p.SchoolYearId).ToList();
                     }
 
                     response.Data = schoolYearDTO;
