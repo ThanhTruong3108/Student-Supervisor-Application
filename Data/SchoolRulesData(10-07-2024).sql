@@ -154,15 +154,16 @@ VALUES
 (2, N'Vi phạm luật giao thông', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (2, N'Uống rượu, hút thuốc, sử dụng chất kích thích gây nghiện', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (2, N'Cờ bạc', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
+(2, N'Không mang đủ sách vở, dụng cụ học tập', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
+(2, N'Không chú ý nghe giảng', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
+(2, N'Nói chuyện, làm việc riêng trong giờ học', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
+(2, N'Tự ý ra khỏi lớp trong giờ học', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
+
 
 -- Vi phạm học tập - thi cử
-(3, N'Không mang đủ sách vở, dụng cụ học tập', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-(3, N'Không chú ý nghe giảng', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Không chép bài đầy đủ', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Không làm bài tập về nhà', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-(3, N'Nói chuyện, làm việc riêng trong giờ học', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Ngồi không đúng vị trí trong lớp', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-(3, N'Tự ý ra khỏi lớp trong giờ học', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Quay cóp trong giờ kiểm tra', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Sử dụng tài liệu trong lúc thi', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 
@@ -211,52 +212,52 @@ VALUES
 INSERT INTO [dbo].[Violation] ([ClassID], [ViolationTypeID], [StudentInClassID], [TeacherID], [Name], [Description], [Date], [CreatedAt], [CreatedBy], [UpdatedAt], [UpdatedBy], [Status])
 VALUES
 -- Class 1 Violations
-(1, 2, 1, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện không xin phép trong giờ học.', '2021-01-10 10:30:00', '2021-01-10', 1, NULL, NULL, 'PENDING'),
-(1, 3, 2, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp trong lớp học.', '2021-02-15 11:00:00', '2021-02-15', 1, NULL, NULL, 'PENDING'),
-(1, 4, 3, 1, N'Không tuân theo chỉ dẫn', N'Học sinh không tuân theo chỉ dẫn của giáo viên.', '2021-03-01 09:00:00', '2021-03-01', 1, NULL, NULL, 'PENDING'),
+(1, 6, 1, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2021-01-10 10:30:00', '2021-01-10', 1, NULL, NULL, 'PENDING'),
+(1, 24, 2, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2021-02-15 11:00:00', '2021-02-15', 1, NULL, NULL, 'PENDING'),
+(1, 4, 3, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2021-03-01 09:00:00', '2021-03-01', 1, NULL, NULL, 'PENDING'),
 (1, 1, 4, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-03-05 09:00:00', '2021-03-05', 1, NULL, NULL, 'PENDING'),
-(1, 1, 5, 1, N'Đi học trễ', N'Học sinh đi học trễ nhiều lần.', '2021-03-10 08:45:00', '2021-03-10', 1, NULL, NULL, 'PENDING'),
-(1, 1, 1, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-03-15 10:00:00', '2021-03-15', 1, NULL, NULL, 'PENDING'),
-(1, 6, 2, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-04-20 08:00:00', '2021-04-20', 1, NULL, NULL, 'PENDING'),
-(1, 6, 3, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-04-22 08:15:00', '2021-04-22', 1, NULL, NULL, 'PENDING'),
-(1, 3, 4, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ thi.', '2021-05-05 10:00:00', '2021-05-05', 1, NULL, NULL, 'PENDING'),
-(1, 3, 5, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-05-07 14:00:00', '2021-05-07', 1, NULL, NULL, 'PENDING'),
+(1, 2, 5, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2021-03-10 08:45:00', '2021-03-10', 1, NULL, NULL, 'PENDING'),
+(1, 3, 1, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-03-15 10:00:00', '2021-03-15', 1, NULL, NULL, 'PENDING'),
+(1, 43, 2, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-04-20 08:00:00', '2021-04-20', 1, NULL, NULL, 'PENDING'),
+(1, 45, 3, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-04-22 08:15:00', '2021-04-22', 1, NULL, NULL, 'PENDING'),
+(1, 23, 4, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-05-05 10:00:00', '2021-05-05', 1, NULL, NULL, 'PENDING'),
+(1, 22, 5, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-05-07 14:00:00', '2021-05-07', 1, NULL, NULL, 'PENDING'),
 
 -- Class 2 Violations
-(2, 2, 6, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện không xin phép trong giờ học.', '2021-06-01 12:00:00', '2021-06-01', 1, NULL, NULL, 'PENDING'),
-(2, 3, 7, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp trong lớp học.', '2021-06-10 11:00:00', '2021-06-10', 1, NULL, NULL, 'PENDING'),
-(2, 4, 8, 1, N'Không tuân theo chỉ dẫn', N'Học sinh không tuân theo chỉ dẫn của giáo viên.', '2021-07-01 09:00:00', '2021-07-01', 1, NULL, NULL, 'PENDING'),
+(2, 6, 6, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2021-06-01 12:00:00', '2021-06-01', 1, NULL, NULL, 'PENDING'),
+(2, 24, 7, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2021-06-10 11:00:00', '2021-06-10', 1, NULL, NULL, 'PENDING'),
+(2, 4, 8, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2021-07-01 09:00:00', '2021-07-01', 1, NULL, NULL, 'PENDING'),
 (2, 1, 9, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-07-05 09:00:00', '2021-07-05', 1, NULL, NULL, 'PENDING'),
-(2, 1, 10, 1, N'Đi học trễ', N'Học sinh đi học trễ nhiều lần.', '2021-07-10 08:45:00', '2021-07-10', 1, NULL, NULL, 'PENDING'),
-(2, 1, 6, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-07-15 10:00:00', '2021-07-15', 1, NULL, NULL, 'PENDING'),
-(2, 6, 7, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-07-20 08:00:00', '2021-07-20', 1, NULL, NULL, 'PENDING'),
-(2, 6, 8, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-07-25 08:15:00', '2021-07-25', 1, NULL, NULL, 'PENDING'),
-(2, 3, 9, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ thi.', '2021-08-01 10:00:00', '2021-08-01', 1, NULL, NULL, 'PENDING'),
-(2, 3, 10, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-08-05 14:00:00', '2021-08-05', 1, NULL, NULL, 'PENDING'),
+(2, 2, 10, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2021-07-10 08:45:00', '2021-07-10', 1, NULL, NULL, 'PENDING'),
+(2, 3, 6, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-07-15 10:00:00', '2021-07-15', 1, NULL, NULL, 'PENDING'),
+(2, 43, 7, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-07-20 08:00:00', '2021-07-20', 1, NULL, NULL, 'PENDING'),
+(2, 45, 8, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-07-25 08:15:00', '2021-07-25', 1, NULL, NULL, 'PENDING'),
+(2, 23, 9, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-08-01 10:00:00', '2021-08-01', 1, NULL, NULL, 'PENDING'),
+(2, 22, 10, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-08-05 14:00:00', '2021-08-05', 1, NULL, NULL, 'PENDING'),
 
 -- Class 3 Violations
-(3, 2, 11, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện không xin phép trong giờ học.', '2021-08-10 10:30:00', '2021-08-10', 1, NULL, NULL, 'PENDING'),
-(3, 3, 12, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp trong lớp học.', '2021-08-15 11:00:00', '2021-08-15', 1, NULL, NULL, 'PENDING'),
-(3, 4, 13, 1, N'Không tuân theo chỉ dẫn', N'Học sinh không tuân theo chỉ dẫn của giáo viên.', '2021-08-20 09:00:00', '2021-08-20', 1, NULL, NULL, 'PENDING'),
+(3, 6, 11, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2021-08-10 10:30:00', '2021-08-10', 1, NULL, NULL, 'PENDING'),
+(3, 24, 12, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2021-08-15 11:00:00', '2021-08-15', 1, NULL, NULL, 'PENDING'),
+(3, 4, 13, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2021-08-20 09:00:00', '2021-08-20', 1, NULL, NULL, 'PENDING'),
 (3, 1, 14, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-08-25 09:00:00', '2021-08-25', 1, NULL, NULL, 'PENDING'),
-(3, 1, 15, 1, N'Đi học trễ', N'Học sinh đi học trễ nhiều lần.', '2021-08-30 08:45:00', '2021-08-30', 1, NULL, NULL, 'PENDING'),
-(3, 1, 11, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-09-05 10:00:00', '2021-09-05', 1, NULL, NULL, 'PENDING'),
-(3, 6, 12, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-09-10 08:00:00', '2021-09-10', 1, NULL, NULL, 'PENDING'),
-(3, 6, 13, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-09-15 08:15:00', '2021-09-15', 1, NULL, NULL, 'PENDING'),
-(3, 3, 14, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ thi.', '2021-09-20 10:00:00', '2021-09-20', 1, NULL, NULL, 'PENDING'),
-(3, 3, 15, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-09-25 14:00:00', '2021-09-25', 1, NULL, NULL, 'PENDING'),
+(3, 2, 15, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2021-08-30 08:45:00', '2021-08-30', 1, NULL, NULL, 'PENDING'),
+(3, 3, 11, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-09-05 10:00:00', '2021-09-05', 1, NULL, NULL, 'PENDING'),
+(3, 43, 12, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-09-10 08:00:00', '2021-09-10', 1, NULL, NULL, 'PENDING'),
+(3, 45, 13, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-09-15 08:15:00', '2021-09-15', 1, NULL, NULL, 'PENDING'),
+(3, 23, 14, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-09-20 10:00:00', '2021-09-20', 1, NULL, NULL, 'PENDING'),
+(3, 22, 15, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-09-25 14:00:00', '2021-09-25', 1, NULL, NULL, 'PENDING'),
 
 -- Class 4 Violations
-(4, 2, 16, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện không xin phép trong giờ học.', '2022-10-01 12:00:00', '2022-10-01', 1, NULL, NULL, 'PENDING'),
-(4, 3, 17, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp trong lớp học.', '2022-10-05 11:00:00', '2022-10-05', 1, NULL, NULL, 'PENDING'),
-(4, 4, 18, 1, N'Không tuân theo chỉ dẫn', N'Học sinh không tuân theo chỉ dẫn của giáo viên.', '2022-10-10 09:00:00', '2022-10-10', 1, NULL, NULL, 'PENDING'),
+(4, 6, 16, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-10-01 12:00:00', '2022-10-01', 1, NULL, NULL, 'PENDING'),
+(4, 24, 17, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-10-05 11:00:00', '2022-10-05', 1, NULL, NULL, 'PENDING'),
+(4, 4, 18, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-10-10 09:00:00', '2022-10-10', 1, NULL, NULL, 'PENDING'),
 (4, 1, 19, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2022-10-15 09:00:00', '2022-10-15', 1, NULL, NULL, 'PENDING'),
-(4, 1, 20, 1, N'Đi học trễ', N'Học sinh đi học trễ nhiều lần.', '2022-10-20 08:45:00', '2022-10-20', 1, NULL, NULL, 'PENDING'),
-(4, 1, 16, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-10-25 10:00:00', '2022-10-25', 1, NULL, NULL, 'PENDING'),
-(4, 6, 17, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-10-30 08:00:00', '2022-10-30', 1, NULL, NULL, 'PENDING'),
-(4, 6, 18, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-11-01 08:15:00', '2022-11-01', 1, NULL, NULL, 'PENDING'),
-(4, 3, 19, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ thi.', '2022-11-05 10:00:00', '2022-11-05', 1, NULL, NULL, 'PENDING'),
-(4, 3, 20, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2022-11-10 14:00:00', '2022-11-10', 1, NULL, NULL, 'PENDING');
+(4, 2, 20, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-10-20 08:45:00', '2022-10-20', 1, NULL, NULL, 'PENDING'),
+(4, 3, 16, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-10-25 10:00:00', '2022-10-25', 1, NULL, NULL, 'PENDING'),
+(4, 43, 17, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-10-30 08:00:00', '2022-10-30', 1, NULL, NULL, 'PENDING'),
+(4, 45, 18, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-11-01 08:15:00', '2022-11-01', 1, NULL, NULL, 'PENDING'),
+(4, 23, 19, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2022-11-05 10:00:00', '2022-11-05', 1, NULL, NULL, 'PENDING'),
+(4, 22, 20, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2022-11-10 14:00:00', '2022-11-10', 1, NULL, NULL, 'PENDING');
 
 
 
@@ -324,31 +325,81 @@ VALUES
 (40, 5, N'Đình chỉ học tập trong một khoảng thời gian.', '2022-11-10', '2022-11-13', 'PENDING ');
 
 
--- Chèn 40 bản ghi mẫu vào bảng ViolationConfig
-INSERT INTO [SchoolRules].[dbo].[ViolationConfig] ([ViolationTypeID], [MinusPoints], [Description], [Status])
+-- Chèn 58 bản ghi mẫu vào bảng ViolationConfig
+INSERT INTO [dbo].[ViolationConfig] ([ViolationTypeID], [MinusPoints], [Description], [Status])
 VALUES
--- Disruptive Behavior
-(1, 5, N'Nói chuyện không đúng lúc trong lớp học', 'ACTIVE'),
-(2, 10, N'Sử dụng ngôn ngữ không phù hợp', 'ACTIVE'),
-(3, 15, N'Không tuân theo hướng dẫn của giáo viên hoặc nhân viên', 'ACTIVE'),
+-- Vi phạm chuyên cần
+(1, 5, N'Nghỉ học có phép/không phép', 'ACTIVE'),
+(2, 5, N'Đi học trễ', 'ACTIVE'),
+(3, 10, N'Bỏ tiết/trốn tiết', 'ACTIVE'),
+(4, 10, N'Nghỉ buổi lao động có phép/không phép', 'ACTIVE'),
 
--- Attendance Issues
-(4, 20, N'Vắng học không phép', 'ACTIVE'),
-(5, 10, N'Đi học muộn nhiều lần', 'ACTIVE'),
-(6, 15, N'Trốn học', 'ACTIVE'),
+-- Vi phạm nề nếp
+(5, 5, N'Đi lại trên hành lang, ngoài sân trong giờ học', 'ACTIVE'),
+(6, 5, N'Gây ồn ào, mất trật tự', 'ACTIVE'),
+(7, 10, N'Leo rào, trèo tường', 'ACTIVE'),
+(8, 10, N'Đi vệ sinh sai nơi quy định', 'ACTIVE'),
+(9, 10, N'Để xe sai quy định', 'ACTIVE'),
+(10, 20, N'Đưa người lạ mặt vào trường', 'ACTIVE'),
+(11, 10, N'Mang điện thoại, tư trang quý vào trường', 'ACTIVE'),
+(12, 20, N'Vi phạm luật giao thông', 'ACTIVE'),
+(13, 30, N'Uống rượu, hút thuốc, sử dụng chất kích thích gây nghiện', 'ACTIVE'),
+(14, 30, N'Cờ bạc', 'ACTIVE'),
+(15, 5, N'Không mang đủ sách vở, dụng cụ học tập', 'ACTIVE'),
+(16, 5, N'Không chú ý nghe giảng', 'ACTIVE'),
+(17, 5, N'Nói chuyện, làm việc riêng trong giờ học', 'ACTIVE'),
+(18, 5, N'Tự ý ra khỏi lớp trong giờ học', 'ACTIVE'),
 
--- Dress Code Violations
-(7, 5, N'Mặc quần áo không đúng quy định', 'ACTIVE'),
-(8, 5, N'Dùng phụ kiện không được phép', 'ACTIVE'),
+-- Vi phạm học tập - thi cử
+(19, 5, N'Không chép bài đầy đủ', 'ACTIVE'),
+(20, 10, N'Không làm bài tập về nhà', 'ACTIVE'),
+(21, 5, N'Ngồi không đúng vị trí trong lớp', 'ACTIVE'),
+(22, 20, N'Quay cóp trong giờ kiểm tra', 'ACTIVE'),
+(23, 30, N'Sử dụng tài liệu trong lúc thi', 'ACTIVE'),
 
--- Academic Dishonesty
-(9, 25, N'Gian lận trong thi cử', 'ACTIVE'),
-(10, 20, N'Đạo văn', 'ACTIVE'),
+-- Vi phạm đạo đức
+(24, 30, N'Vô lễ với thầy cô giáo', 'ACTIVE'),
+(25, 15, N'Nói tục, chửi thề', 'ACTIVE'),
+(26, 20, N'Nói dối, gian lận', 'ACTIVE'),
+(27, 20, N'Ăn vạ, ăn cắp', 'ACTIVE'),
+(28, 30, N'Bắt nạt, ngược đãi bạn học', 'ACTIVE'),
+(29, 30, N'Gây sự, đánh nhau', 'ACTIVE'),
+(30, 20, N'Ăn mặc phản cảm', 'ACTIVE'),
+(31, 30, N'Lưu hành văn hóa phẩm đồi trụy', 'ACTIVE'),
+(32, 30, N'Sử dụng mạng xã hội một cách tiêu cực', 'ACTIVE'),
+(33, 20, N'Không tham gia hoạt động tình nguyện', 'ACTIVE'),
 
--- Bullying
-(11, 20, N'Bắt nạt bằng lời nói', 'ACTIVE'),
-(12, 25, N'Bắt nạt bằng hành động', 'ACTIVE'),
-(13, 20, N'Bắt nạt qua mạng', 'ACTIVE');
+-- Vi phạm môi trường và tài sản chung
+(34, 15, N'Xả rác bừa bãi', 'ACTIVE'),
+(35, 10, N'Mang đồ ăn vào trong lớp', 'ACTIVE'),
+(36, 20, N'Viết bậy lên mặt bàn/tường', 'ACTIVE'),
+(37, 15, N'Bẻ hoa, cây cảnh trong khuôn viên trường', 'ACTIVE'),
+(38, 10, N'Phung phí điện nước của trường', 'ACTIVE'),
+(39, 20, N'Phá hoại/làm mất tài sản của trường học', 'ACTIVE'),
+(40, 30, N'Trộm cắp tài sản của bạn học, nhà trường', 'ACTIVE'),
+(41, 30, N'Chiếm đoạt hoặc sử dụng trái phép tài sản', 'ACTIVE'),
+
+-- Vi phạm tác phong
+(42, 10, N'Không mặc đồng phục', 'ACTIVE'),
+(43, 10, N'Mặc đồng phục không chuẩn', 'ACTIVE'),
+(44, 10, N'Thay đổi về đồng phục', 'ACTIVE'),
+(45, 10, N'Đeo phụ kiện trái phép', 'ACTIVE'),
+(46, 10, N'Mặc đồng phục bẩn hoặc hư hỏng', 'ACTIVE'),
+(47, 10, N'Mặc quá lố hoặc lòe loẹt', 'ACTIVE'),
+(48, 10, N'Mang giày bẩn hoặc nhếch nhác', 'ACTIVE'),
+(49, 10, N'Mang giày hư', 'ACTIVE'),
+(50, 20, N'Mang giày không an toàn', 'ACTIVE'),
+(51, 15, N'Mang giày không phù hợp với hoạt động', 'ACTIVE'),
+(52, 20, N'Mang giày không liên quan đến môi trường học tập', 'ACTIVE'),
+(53, 15, N'Kiểu tóc không phù hợp', 'ACTIVE'),
+(54, 20, N'Màu tóc không phù hợp', 'ACTIVE'),
+(55, 10, N'Phụ kiện tóc trái phép', 'ACTIVE'),
+(56, 10, N'Tóc bẩn hoặc bù xù', 'ACTIVE'),
+(57, 15, N'Son móng tay', 'ACTIVE'),
+(58, 15, N'Trang điểm quá lố', 'ACTIVE');
+
+
+
 
 -- Chèn 2 bản ghi mẫu vào bảng PackageType
 INSERT INTO [SchoolRules].[dbo].[PackageType] ([Name], [Description], [Status])
