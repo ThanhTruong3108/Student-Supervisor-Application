@@ -77,6 +77,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<PackageTypeRequest, PackageType>();
 
             CreateMap<StudentSupervisor, StudentSupervisorResponse>()
+               .ForMember(re => re.IsSupervisor, act => act.MapFrom(src => src.StudentInClass.IsSupervisor))
                .ForMember(re => re.SchoolId, act => act.MapFrom(src => src.User.SchoolId))
                .ForMember(re => re.Code, act => act.MapFrom(src => src.User.Code))
                .ForMember(re => re.SupervisorName, act => act.MapFrom(src => src.User.Name))

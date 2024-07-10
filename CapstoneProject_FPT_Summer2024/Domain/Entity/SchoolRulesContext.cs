@@ -411,6 +411,11 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentSupervisor_User");
+
+            entity.HasOne(d => d.StudentInClass)
+                .WithMany()
+                .HasForeignKey(d => d.StudentInClassId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Teacher>(entity =>

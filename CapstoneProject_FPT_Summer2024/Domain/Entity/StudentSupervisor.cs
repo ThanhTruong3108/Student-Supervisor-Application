@@ -16,4 +16,5 @@ public partial class StudentSupervisor
     public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
 
     public virtual User User { get; set; } = null!;
+    public virtual StudentInClass? StudentInClass { get; set; }
 }

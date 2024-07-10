@@ -18,6 +18,7 @@ namespace Infrastructures.Repository
         {
             var stuSupervisors = await _context.StudentSupervisors
                 .Include(c => c.User)
+                .Include(s => s.StudentInClass)
                 .ToListAsync();
             return stuSupervisors;
         }
@@ -26,6 +27,7 @@ namespace Infrastructures.Repository
         {
             return _context.StudentSupervisors
               .Include(c => c.User)
+              .Include(s => s.StudentInClass)
               .FirstOrDefault(s => s.StudentSupervisorId == id);
         }
 
@@ -44,6 +46,7 @@ namespace Infrastructures.Repository
 
             return await query
                 .Include(c => c.User)
+                .Include(s => s.StudentInClass)
                 .ToListAsync();
         }
     }

@@ -10,6 +10,7 @@ namespace StudentSupervisorService.Models.Response.StudentSupervisorResponse
     {
         public int StudentSupervisorId { get; set; }
         public int? StudentInClassId { get; set; }
+        public bool? IsSupervisor { get; set; }
         public int? SchoolId { get; set; }
         public string Code { get; set; } = null!;
 

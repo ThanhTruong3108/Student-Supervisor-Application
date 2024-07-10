@@ -48,6 +48,15 @@ namespace StudentSupervisorService.Service.Implement
             };
 
             _unitOfWork.StudentSupervisor.Add(studentSupervisor);
+
+            // Cập nhật Supervisor cho StudentInClass tương ứng
+            var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
+            if (studentInClass != null)
+            {
+                studentInClass.IsSupervisor = true;
+                _unitOfWork.StudentInClass.Update(studentInClass);
+            }
+
             _unitOfWork.Save();
 
             return _mapper.Map<StudentSupervisorResponse>(studentSupervisor);
@@ -67,8 +76,16 @@ namespace StudentSupervisorService.Service.Implement
             }
 
             stuSupervisor.User.Status = UserStatusEnums.INACTIVE.ToString();
-
             _unitOfWork.User.Update(stuSupervisor.User);
+
+            // Cập nhật Supervisor cho StudentInClass tương ứng
+            var studentInClass = _unitOfWork.StudentInClass.GetById(stuSupervisor.StudentInClassId.Value);
+            if (studentInClass != null)
+            {
+                studentInClass.IsSupervisor = false;
+                _unitOfWork.StudentInClass.Update(studentInClass);
+            }
+
             _unitOfWork.Save();
         }
 

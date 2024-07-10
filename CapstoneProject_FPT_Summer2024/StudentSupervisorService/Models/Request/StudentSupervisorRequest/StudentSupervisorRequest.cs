@@ -12,6 +12,10 @@ namespace StudentSupervisorService.Models.Request.StudentSupervisorRequest
     {
         [Required(ErrorMessage = "The StudentInClassId field is required.")]
         public int? StudentInClassId { get; set; }
+
+        //[Required(ErrorMessage = "The IsSupervisor field is required.")]
+        //public bool? IsSupervisor { get; set; }
+
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }
 
