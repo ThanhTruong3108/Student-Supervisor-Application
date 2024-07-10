@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Response;
@@ -23,16 +24,24 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var createvioGroup = _mapper.Map<ViolationGroup>(request);
+                var createvioGroup = new ViolationGroup
+                {
+                    SchoolId = request.SchoolId,
+                    Name = request.VioGroupName,
+                    Description = request.Description,
+                    Status = ViolationGroupStatusEnums.ACTIVE.ToString()
+                };
                 _unitOfWork.ViolationGroup.Add(createvioGroup);
                 _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfVioGroup>(createvioGroup);
+                var created = await _unitOfWork.ViolationGroup.GetViolationGroupById(createvioGroup.ViolationGroupId);
+                response.Data = _mapper.Map<ResponseOfVioGroup>(created);
                 response.Message = "Create Successfully.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -45,8 +54,8 @@ namespace StudentSupervisorService.Service.Implement
             {
                 throw new Exception("Can not found by" + id);
             }
-
-            _unitOfWork.ViolationGroup.Remove(vioGroup);
+            vioGroup.Status = ViolationGroupStatusEnums.INACTIVE.ToString();
+            _unitOfWork.ViolationGroup.Update(vioGroup);
             _unitOfWork.Save();
         }
 
@@ -185,7 +194,7 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var vioGroup = _unitOfWork.ViolationGroup.GetById(id);
+                var vioGroup = await _unitOfWork.ViolationGroup.GetViolationGroupById(id);
                 if (vioGroup is null)
                 {
                     response.Message = "Can not found ViolationGroup";

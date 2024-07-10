@@ -165,7 +165,7 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingPatrolSchedule.ClassId = request.ClassId ?? existingPatrolSchedule.ClassId;
-                existingPatrolSchedule.SupervisorId = request.SupervisorId ?? existingPatrolSchedule.SupervisorId;
+                existingPatrolSchedule.Supervisor.StudentSupervisorId = request.SupervisorId ?? existingPatrolSchedule.SupervisorId;
                 existingPatrolSchedule.TeacherId = request.TeacherId ?? existingPatrolSchedule.TeacherId;
                 existingPatrolSchedule.From = request.From ?? existingPatrolSchedule.From;
                 existingPatrolSchedule.To = request.To ?? existingPatrolSchedule.To;
