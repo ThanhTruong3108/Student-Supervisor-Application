@@ -26,6 +26,7 @@ namespace StudentSupervisorService.Models.Response.UserResponse
         public byte RoleId { get; set; }
 
         public string RoleName { get; set; } = null!;
+        public string Status { get; set; } = null!;
 
     }
 }
