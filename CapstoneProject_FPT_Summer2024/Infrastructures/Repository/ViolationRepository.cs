@@ -168,5 +168,61 @@ namespace Infrastructures.Repository
                 .Select(g => new { SchoolYearId = g.Key, Count = g.Count() })
                 .ToDictionaryAsync(g => g.SchoolYearId, g => g.Count);
         }
+
+        public async Task<List<Violation>> GetApprovedViolations()
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Status == ViolationStatusEnums.APPROVED.ToString())
+                .ToListAsync();
+        }
+
+        public async Task<List<Violation>> GetPendingViolations()
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Status == ViolationStatusEnums.PENDING.ToString())
+                .ToListAsync();
+        }
+
+        public async Task<List<Violation>> GetRejectedViolations()
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Status == ViolationStatusEnums.REJECTED.ToString())
+                .ToListAsync();
+        }
+
+        public async Task<List<Violation>> GetInactiveViolations()
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Status == ViolationStatusEnums.INACTIVE.ToString())
+                .ToListAsync();
+        }
     }
 }

@@ -196,5 +196,61 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpGet("approved")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetApprovedViolations()
+        {
+            try
+            {
+                var response = await _service.GetApprovedViolations();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("pending")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetPendingViolations()
+        {
+            try
+            {
+                var response = await _service.GetPendingViolations();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("rejected")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetRejectedViolations()
+        {
+            try
+            {
+                var response = await _service.GetRejectedViolations();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("inactive")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetInActiveViolations()
+        {
+            try
+            {
+                var response = await _service.GetInactiveViolations();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

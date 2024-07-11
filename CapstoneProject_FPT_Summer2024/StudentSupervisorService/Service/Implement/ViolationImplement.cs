@@ -12,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace StudentSupervisorService.Service.Implement
 {
-    public class ViolationImplement : ViolationService 
+    public class ViolationImplement : ViolationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -324,6 +324,15 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Status = ViolationStatusEnums.APPROVED.ToString();
                 await _unitOfWork.Violation.UpdateViolation(violation);
 
+                // Increase NumberOfViolation in StudentInClass
+                var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
+                if (studentInClass != null)
+                {
+                    studentInClass.NumberOfViolation = (studentInClass.NumberOfViolation ?? 0) + 1;
+                    _unitOfWork.StudentInClass.Update(studentInClass);
+                    _unitOfWork.Save();
+                }
+
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
                 response.Message = "Approve Violation Successfully.";
@@ -354,9 +363,18 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Status = ViolationStatusEnums.REJECTED.ToString();
                 await _unitOfWork.Violation.UpdateViolation(violation);
 
+                // Decrease NumberOfViolation in StudentInClass
+                var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
+                if (studentInClass != null && studentInClass.NumberOfViolation > 0)
+                {
+                    studentInClass.NumberOfViolation -= 1;
+                    _unitOfWork.StudentInClass.Update(studentInClass);
+                    _unitOfWork.Save();
+                }
+
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Approve Violation Successfully.";
+                response.Message = "Rejected Violation Successfully.";
             }
             catch (Exception ex)
             {
@@ -454,6 +472,122 @@ namespace StudentSupervisorService.Service.Implement
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetApprovedViolations()
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetApprovedViolations();
+                if (violations is null || !violations.Any())
+                {
+                    response.Message = "No Approved violations found";
+                    response.Success = true;
+                    return response;
+                }
+
+                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = violationDTO;
+                response.Message = "List of Approved violations";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetPendingViolations()
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetPendingViolations();
+                if (violations is null || !violations.Any())
+                {
+                    response.Message = "No Pending violations found";
+                    response.Success = true;
+                    return response;
+                }
+
+                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = violationDTO;
+                response.Message = "List of Pending violations";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetRejectedViolations()
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetRejectedViolations();
+                if (violations is null || !violations.Any())
+                {
+                    response.Message = "No Rejected violations found";
+                    response.Success = true;
+                    return response;
+                }
+
+                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = violationDTO;
+                response.Message = "List of Rejected violations";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetInactiveViolations()
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetInactiveViolations();
+                if (violations is null || !violations.Any())
+                {
+                    response.Message = "No InActive violations found";
+                    response.Success = true;
+                    return response;
+                }
+
+                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = violationDTO;
+                response.Message = "List of InActive violations";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
             return response;
         }
     }
