@@ -26,5 +26,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<StudentInClassResponse>> CreateStudentInClass(StudentInClassCreateRequest request);
         Task<DataResponse<StudentInClassResponse>> UpdateStudentInClass(StudentInClassUpdateRequest request);
         Task<DataResponse<StudentInClassResponse>> DeleteStudentInClass(int id);
+        Task<DataResponse<StudentInClassResponse>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId);
     }
 }

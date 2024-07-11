@@ -213,6 +213,54 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
             return response;
-        }  
+        }
+
+        public async Task<DataResponse<StudentInClassResponse>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId)
+        {
+            var response = new DataResponse<StudentInClassResponse>();
+            try
+            {
+                var existingStudentInClass = await _unitOfWork.StudentInClass.GetStudentInClassById(studentInClassId);
+                if (existingStudentInClass == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "StudentInClass not found";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Create new StudentInClass record for the new class
+                var newStudentInClass = new StudentInClass
+                {
+                    ClassId = newClassId,
+                    StudentId = existingStudentInClass.StudentId,
+                    EnrollDate = DateTime.Now,
+                    IsSupervisor = existingStudentInClass.IsSupervisor,
+                    StartDate = DateTime.Now,
+                    EndDate = null,
+                    NumberOfViolation = existingStudentInClass.NumberOfViolation,
+                    Status = StudentInClassStatusEnums.ENROLLED.ToString()
+                };
+
+                // Update the old record to reflect the student has been unenrolled
+                existingStudentInClass.Status = StudentInClassStatusEnums.UNENROLLED.ToString();
+                existingStudentInClass.EndDate = DateTime.Now;
+
+                await _unitOfWork.StudentInClass.UpdateStudentInClass(existingStudentInClass);
+                await _unitOfWork.StudentInClass.CreateStudentInClass(newStudentInClass);
+
+                response.Data = _mapper.Map<StudentInClassResponse>(newStudentInClass);
+                response.Message = "Student change successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Change failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

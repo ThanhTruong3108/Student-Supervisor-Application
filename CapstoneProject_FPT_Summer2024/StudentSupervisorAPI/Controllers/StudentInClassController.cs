@@ -110,5 +110,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("change-class")]
+        public async Task<ActionResult<DataResponse<StudentInClassResponse>>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId)
+        {
+            try
+            {
+                var studentInClassResponse = await studentInClassService.ChangeStudentToAnotherClass(studentInClassId, newClassId);
+                return Ok(studentInClassResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

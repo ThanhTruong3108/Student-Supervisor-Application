@@ -17,12 +17,16 @@ namespace Infrastructures.Repository
 
         public async Task<List<StudentInClass>> GetAllStudentInClass()
         {
-            return await _context.StudentInClasses.Include(s => s.Student).ToListAsync();
+            return await _context.StudentInClasses
+                .Include(s => s.Student)
+                .ToListAsync();
         }
 
         public async Task<StudentInClass> GetStudentInClassById(int id)
         {
-            return await _context.StudentInClasses.Include(s => s.Student).FirstOrDefaultAsync(x => x.StudentInClassId == id);
+            return await _context.StudentInClasses
+                .Include(s => s.Student)
+                .FirstOrDefaultAsync(x => x.StudentInClassId == id);
         }
 
         public async Task<List<StudentInClass>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status)
