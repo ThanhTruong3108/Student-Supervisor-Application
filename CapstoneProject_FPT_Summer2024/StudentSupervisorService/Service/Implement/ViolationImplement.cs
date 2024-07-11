@@ -32,6 +32,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetAllViolations();
                 if (violations is null || !violations.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "The Violation list is empty";
                     response.Success = true;
                     return response;
@@ -52,6 +53,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
+                response.Data = "Empty";
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -69,6 +71,9 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(id);
                 if (violation is null)
                 {
+                    response.Data = "Empty";
+                    response.Message = "The Violation does not exist";
+                    response.Success = false;
                     throw new Exception("The Violation does not exist");
                 }
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
@@ -103,6 +108,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.SearchViolations(classId, violationTypeId, studentInClassId, teacherId, name, description, date, status);
                 if (violations is null || violations.Count == 0)
                 {
+                    response.Data = "Empty";
                     response.Message = "No Violation found matching the criteria";
                     response.Success = true;
                 }
@@ -259,7 +265,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                //existingViolation.Class.ClassId = request.ClassId ?? existingViolation.ClassId;
+                violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
                 violation.TeacherId = request.TeacherId;

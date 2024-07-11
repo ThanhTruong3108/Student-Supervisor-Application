@@ -9,6 +9,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/violations")]
     [ApiController]
+    [RequestSizeLimit(104857600)]
     public class ViolationController : ControllerBase
     {
         private ViolationService _service;
