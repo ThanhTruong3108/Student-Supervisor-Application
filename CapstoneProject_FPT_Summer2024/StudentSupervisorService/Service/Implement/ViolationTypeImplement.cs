@@ -32,9 +32,11 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var createVioType = _mapper.Map<ViolationType>(request);
+                createVioType.Status = ViolationTypeStatusEnums.ACTIVE.ToString();
                 _unitOfWork.ViolationType.Add(createVioType);
                 _unitOfWork.Save();
-                response.Data = _mapper.Map<ResponseOfVioType>(createVioType);
+                var created = await _unitOfWork.ViolationType.GetVioTypeById(createVioType.ViolationTypeId);
+                response.Data = _mapper.Map<ResponseOfVioType>(created);
                 response.Message = "Create Successfully.";
                 response.Success = true;
             }
@@ -48,13 +50,13 @@ namespace StudentSupervisorService.Service.Implement
 
         public async Task DeleteVioType(int id)
         {
-            var vioType = _unitOfWork.ViolationType.GetById(id);
+            var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
             if (vioType is null)
             {
                 throw new Exception("Can not found by" + id);
             }
-
-            _unitOfWork.ViolationType.Remove(vioType);
+            vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
+            _unitOfWork.ViolationType.Update(vioType);
             _unitOfWork.Save();
         }
 
@@ -164,7 +166,7 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var vioType = _unitOfWork.ViolationType.GetById(id);
+                var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
                 if (vioType is null)
                 {
                     response.Message = "Can not found ViolationType";

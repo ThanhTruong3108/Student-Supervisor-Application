@@ -3,6 +3,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.To <= to);
             }
-            if (status != null)
+            if (!status.IsNullOrEmpty())
             {
                 query = query.Where(p => p.Status.Equals(status));
             }
@@ -81,6 +82,7 @@ namespace Infrastructures.Repository
         public async Task<PatrolSchedule> UpdatePatrolSchedule(PatrolSchedule patrolScheduleEntity)
         {
             _context.PatrolSchedules.Update(patrolScheduleEntity);
+            _context.Entry(patrolScheduleEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return patrolScheduleEntity;
         }
