@@ -129,8 +129,8 @@ namespace StudentSupervisorService.Service.Implement
                     ClassId = request.ClassId,
                     StudentId = request.StudentId,
                     EnrollDate = request.EnrollDate,
-                    IsSupervisor = request.IsSupervisor,
-                    StartDate = request.StartDate,
+                    IsSupervisor = false,
+                    StartDate = DateTime.Now,
                     EndDate = request.EndDate,
                     NumberOfViolation = request.NumberOfViolation,
                     Status = StudentInClassStatusEnums.ENROLLED.ToString()
