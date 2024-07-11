@@ -5,6 +5,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using System.Net;
 using static System.Net.Mime.MediaTypeNames;
@@ -32,6 +33,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetAllViolations();
                 if (violations is null || !violations.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "The Violation list is empty";
                     response.Success = true;
                     return response;
@@ -52,6 +54,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
+                response.Data = "Empty";
                 response.Message = "Oops! Some thing went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -69,6 +72,9 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(id);
                 if (violation is null)
                 {
+                    response.Data = "Empty";
+                    response.Message = "The Violation does not exist";
+                    response.Success = false;
                     throw new Exception("The Violation does not exist");
                 }
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
@@ -103,6 +109,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.SearchViolations(classId, violationTypeId, studentInClassId, teacherId, name, description, date, status);
                 if (violations is null || violations.Count == 0)
                 {
+                    response.Data = "Empty";
                     response.Message = "No Violation found matching the criteria";
                     response.Success = true;
                 }
@@ -268,7 +275,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                //existingViolation.Class.ClassId = request.ClassId ?? existingViolation.ClassId;
+                violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
                 violation.TeacherId = request.TeacherId;
@@ -294,17 +301,34 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteViolation(int id)
+        public async Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id)
         {
-            var violation = _unitOfWork.Violation.GetById(id);
-            if (violation is null)
+            var response = new DataResponse<ResponseOfViolation>();
+            try
             {
-                throw new Exception("Can not found by" + id);
-            }
-            violation.Status = ViolationStatusEnums.INACTIVE.ToString();
+                var violation = _unitOfWork.Violation.GetById(id);
+                if (violation is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Violation not found";
+                    response.Success = false;
+                    return response;
+                }
+                violation.Status = ViolationStatusEnums.INACTIVE.ToString();
+                _unitOfWork.Violation.Update(violation);
+                _unitOfWork.Save();
 
-            _unitOfWork.Violation.Update(violation);
-            _unitOfWork.Save();
+                response.Data = "Empty";
+                response.Message = "Violation deleted successfully";
+                response.Success = true;
+            } catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<ResponseOfViolation>> ApproveViolation(int violationId)

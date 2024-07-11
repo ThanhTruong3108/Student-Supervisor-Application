@@ -51,7 +51,7 @@ namespace Infrastructures.Repository
             }
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(p => p.Status.Contains(status));
+                query = query.Where(p => p.Status.Equals(status));
             }
 
             return await query.ToListAsync();

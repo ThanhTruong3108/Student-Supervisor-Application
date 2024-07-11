@@ -33,6 +33,7 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplineEntities = await _unitOfWork.Discipline.GetAllDisciplines();
                 if (disciplineEntities is null || !disciplineEntities.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "The Discipline list is empty";
                     response.Success = true;
                     return response;
@@ -64,6 +65,7 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplineEntity = await _unitOfWork.Discipline.GetDisciplineById(id);
                 if (disciplineEntity == null)
                 {
+                    response.Data = "Empty";
                     response.Message = "Discipline not found";
                     response.Success = false;
                     return response;
@@ -91,6 +93,7 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplineEntities = await _unitOfWork.Discipline.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status);
                 if (disciplineEntities is null || disciplineEntities.Count == 0)
                 {
+                    response.Data = "Empty";
                     response.Message = "No Discipline matches the search criteria";
                     response.Success = true;
                 }
@@ -123,6 +126,15 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<DisciplineResponse>();
             try
             {
+                // Check if StartDate is greater than EndDate
+                if (request.StartDate > request.EndDate)
+                {
+                    response.Data = "Empty";
+                    response.Message = "StartDate cannot be greater than EndDate";
+                    response.Success = false;
+                    return response;
+                }
+
                 var disciplineEntity = new Discipline
                 {
                     ViolationId = request.ViolationId,
@@ -141,6 +153,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
+                response.Data = "Empty";
                 response.Message = "Create Discipline failed: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -161,6 +174,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Check if StartDate is greater than EndDate
+                if (request.StartDate > request.EndDate)
+                {
+                    response.Data = "Empty";
+                    response.Message = "StartDate cannot be greater than EndDate";
+                    response.Success = false;
+                    return response;
+                }
                 existingDiscipline.ViolationId = request.ViolationId ?? existingDiscipline.ViolationId;
                 existingDiscipline.PennaltyId = request.PennaltyId ?? existingDiscipline.PennaltyId;
                 existingDiscipline.Description = request.Description ?? existingDiscipline.Description;
@@ -204,6 +225,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
+                response.Data = "Empty";
                 response.Message = "Oops! Something went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;

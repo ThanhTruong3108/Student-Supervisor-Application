@@ -27,6 +27,10 @@ namespace StudentSupervisorService.Service.Implement
                     var uploadParams = new ImageUploadParams
                     {
                         File = new FileDescription(image.FileName, stream),
+                        Transformation = new Transformation()
+                            .Width(1000).Crop("scale").Chain()
+                            .Quality(50).Chain()
+                            .FetchFormat("auto")
                     };
                     uploadResult = await cloudinary.UploadAsync(uploadParams);
                 }
