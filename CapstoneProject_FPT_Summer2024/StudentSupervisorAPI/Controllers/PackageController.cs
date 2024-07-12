@@ -63,12 +63,22 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfPackage>>> CreatePackage(PackageRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var createdPackage = await _service.CreatePackage(request);
             return createdPackage == null ? NotFound() : Ok(createdPackage);
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfPackage>>> UpdatePackage(int id, PackageRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var updatedPackage = await _service.UpdatePackage(id, request);
             return updatedPackage == null ? NotFound() : Ok(updatedPackage);
         }
