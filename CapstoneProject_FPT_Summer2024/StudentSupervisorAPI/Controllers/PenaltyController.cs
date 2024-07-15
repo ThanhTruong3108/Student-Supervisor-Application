@@ -87,5 +87,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataResponse<PenaltyResponse>>> DeletePenalty(int id)
+        {
+            try
+            {
+                var penaltyResponse = await penaltyService.DeletePenalty(id);
+                return Ok(penaltyResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
