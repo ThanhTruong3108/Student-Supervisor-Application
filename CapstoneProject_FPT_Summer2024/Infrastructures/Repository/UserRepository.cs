@@ -19,6 +19,7 @@ namespace Infrastructures.Repository
         {
             return _context.Users
                 .Include(r => r.Role)
+                .Include(s => s.School)
                 .FirstOrDefault(u => u.Phone.Equals(phone));
         }
 
