@@ -3,11 +3,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.YearPackageResponse;
 using StudentSupervisorService.Models.Request.YearPackageRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/year-packages")]
     [ApiController]
+    [Authorize]
     public class YearPackageController : ControllerBase
     {
         private YearPackageService _service;

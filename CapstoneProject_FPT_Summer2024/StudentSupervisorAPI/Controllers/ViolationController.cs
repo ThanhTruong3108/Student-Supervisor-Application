@@ -4,12 +4,14 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using Domain.Enums.Status;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/violations")]
     [ApiController]
     [RequestSizeLimit(104857600)]
+    [Authorize]
     public class ViolationController : ControllerBase
     {
         private ViolationService _service;

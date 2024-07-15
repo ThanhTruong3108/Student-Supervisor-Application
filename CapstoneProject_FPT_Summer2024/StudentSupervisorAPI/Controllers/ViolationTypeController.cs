@@ -4,11 +4,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 using StudentSupervisorService.Models.Request.ViolationTypeRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/violation-types")]
     [ApiController]
+    [Authorize]
     public class ViolationTypeController : ControllerBase
     {
         private ViolationTypeService _service;

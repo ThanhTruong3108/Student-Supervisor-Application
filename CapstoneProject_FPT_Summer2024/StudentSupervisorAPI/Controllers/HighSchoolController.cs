@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.HighSchoolRequest;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
@@ -13,6 +14,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/highschools")]
     [ApiController]
+    [Authorize]
     public class HighSchoolController : ControllerBase
     {
         private HighSchoolService _service;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
 using StudentSupervisorService.Models.Response;
@@ -9,6 +10,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/evaluations")]
     [ApiController]
+    [Authorize]
     public class EvaluationController : ControllerBase
     {
         private readonly EvaluationService evaluationService;

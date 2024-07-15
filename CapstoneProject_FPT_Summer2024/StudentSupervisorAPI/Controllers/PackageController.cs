@@ -5,11 +5,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.PackageResponse;
 using StudentSupervisorService.Models.Request.PackageRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/packages")]
     [ApiController]
+    [Authorize]
     public class PackageController : ControllerBase
     {
         private PackageService _service;

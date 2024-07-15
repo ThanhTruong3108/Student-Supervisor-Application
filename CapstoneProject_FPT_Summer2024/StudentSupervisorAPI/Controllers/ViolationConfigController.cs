@@ -3,11 +3,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationConfigResponse;
 using StudentSupervisorService.Models.Request.ViolationConfigRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/violation-configs")]
     [ApiController]
+    [Authorize]
     public class ViolationConfigController : ControllerBase
     {
         private ViolationConfigService _service;

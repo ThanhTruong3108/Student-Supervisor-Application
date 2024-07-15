@@ -1,4 +1,5 @@
 ﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
@@ -10,6 +11,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/patrol-schedules")]
     [ApiController]
+    [Authorize]
     public class PatrolScheduleController : ControllerBase
     {
         private readonly PatrolScheduleService patrolScheduleService;

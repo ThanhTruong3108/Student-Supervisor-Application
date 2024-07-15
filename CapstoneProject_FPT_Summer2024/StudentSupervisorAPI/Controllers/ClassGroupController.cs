@@ -5,11 +5,13 @@ using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
 using Domain.Enums.Status;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/class-groups")]
     [ApiController]
+    [Authorize]
     public class ClassGroupController : ControllerBase
     {
         private readonly ClassGroupService classGroupService;

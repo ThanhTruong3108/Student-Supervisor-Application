@@ -3,11 +3,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/teachers")]
     [ApiController]
+    [Authorize]
     public class TeacherController : ControllerBase
     {
         private TeacherService _service;

@@ -4,11 +4,13 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/violation-groups")]
     [ApiController]
+    [Authorize]
     public class ViolationGroupController : ControllerBase
     {
         private ViolationGroupService _service;

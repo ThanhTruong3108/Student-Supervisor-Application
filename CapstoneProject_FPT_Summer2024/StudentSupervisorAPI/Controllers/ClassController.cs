@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.ClassRequest;
@@ -10,6 +11,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/classes")]
     [ApiController]
+    [Authorize]
     public class ClassController : ControllerBase
     {
         private readonly ClassService classService;

@@ -3,11 +3,13 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.PackageTypeResponse;
 using StudentSupervisorService.Models.Request.PackageTypeRequest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/package-types")]
     [ApiController]
+    [Authorize]
     public class PackageTypeController : ControllerBase
     {
         private PackageTypeService _service;

@@ -1,4 +1,5 @@
 ﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
@@ -12,6 +13,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/registered-schools")]
     [ApiController]
+    [Authorize]
     public class RegisteredSchoolController : ControllerBase
     {
         private readonly RegisteredSchoolService registeredSchoolService;

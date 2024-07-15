@@ -5,11 +5,13 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.StudentResponse;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response.ClassGroupResponse;
+using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/students")]
     [ApiController]
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly StudentService studentService;

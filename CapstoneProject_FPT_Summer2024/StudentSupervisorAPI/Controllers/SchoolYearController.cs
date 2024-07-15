@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
@@ -8,6 +9,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/school-years")]
     [ApiController]
+    [Authorize]
     public class SchoolYearController : ControllerBase
     {
         private SchoolYearService _service;
