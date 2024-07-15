@@ -10,7 +10,7 @@ namespace StudentSupervisorService.Service
 {
     public interface LoginService
     {
-        Task<(bool success, string message, string token, int? schoolId, string? schoolName)> Login(LoginModel login, bool isAdmin);
+        Task<(bool success, string message, string token)> Login(LoginModel login, bool isAdmin);
         void Logout(string token);
     }
 }

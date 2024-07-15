@@ -27,11 +27,11 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            var (success, message, token, schoolId, schoolName) = await _loginService.Login(login, false);
+            var (success, message, token) = await _loginService.Login(login, false);
 
             if (success)
             {
-                return Ok(new { token, schoolId, schoolName });
+                return Ok(new { token });
             }
 
             return Unauthorized(new { message });

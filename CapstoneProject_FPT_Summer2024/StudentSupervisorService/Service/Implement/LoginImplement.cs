@@ -30,13 +30,13 @@ namespace StudentSupervisorService.Service.Implement
             _tokenBlacklistService = tokenBlacklistService;
         }
 
-        public async Task<(bool success, string message, string token, int? schoolId, string? schoolName)> Login(LoginModel login, bool isAdmin)
+        public async Task<(bool success, string message, string token)> Login(LoginModel login, bool isAdmin)
         {
             var admin = await AuthenticateAdmin(login);
             if (admin != null)
             {
                 var token = GenerateToken(admin, true);
-                return (true, "Login successful", token, null, null);
+                return (true, "Login successful", token);
             }
 
 
@@ -44,7 +44,7 @@ namespace StudentSupervisorService.Service.Implement
             if (user != null)
             {
                 var token = GenerateToken(user, false);
-                return (true, "Login successful", token, user.SchoolId, user.School?.Name);
+                return (true, "Login successful", token);
             }
 
             var existingAdmin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
@@ -52,9 +52,9 @@ namespace StudentSupervisorService.Service.Implement
 
             if (existingAdmin == null && existingUser == null)
             {
-                return (false, "Invalid phone number.", null, null, null);
+                return (false, "Invalid phone number.", null);
             }
-            return (false, "Invalid password.", null, null, null);
+            return (false, "Invalid password.", null);
         }
 
         public void Logout(string token)
@@ -88,13 +88,18 @@ namespace StudentSupervisorService.Service.Implement
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, user.Role.RoleName),
-            new Claim("SchoolId", user.School?.SchoolId.ToString() ?? string.Empty),
-            new Claim("SchoolName", user.School?.Name ?? string.Empty)
-        };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Role, user.Role.RoleName)
+            };
+
+            // Add School claims only if the user is not an admin
+            if (!isAdmin)
+            {
+                claims.Add(new Claim("SchoolId", user.School?.SchoolId.ToString() ?? string.Empty));
+                claims.Add(new Claim("SchoolName", user.School?.Name ?? string.Empty));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
