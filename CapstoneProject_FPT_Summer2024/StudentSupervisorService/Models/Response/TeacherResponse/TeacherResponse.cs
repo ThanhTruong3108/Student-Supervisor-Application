@@ -17,6 +17,7 @@ namespace StudentSupervisorService.Models.Response.TeacherResponse
         public bool Sex { get; set; }
         public string? Address { get; set; }
         public byte RoleId { get; set; }
+        public string Status { get; set; } = null!;
 
     }
 }
