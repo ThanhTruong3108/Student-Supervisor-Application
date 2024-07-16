@@ -80,23 +80,43 @@ namespace StudentSupervisorService.Service.Implement
             return _mapper.Map<TeacherResponse>(teacher);
         }
 
-        public async Task DeleteTeacher(int id)
+        public async Task<DataResponse<TeacherResponse>> DeleteTeacher(int id)
         {
-            var teacher = await _unitOfWork.Teacher.GetTeacherByIdWithUser(id);
-            if (teacher == null)
+            var response = new DataResponse<TeacherResponse>();
+            try
             {
-                throw new Exception("Cannot find Teacher by id " + id);
-            }
+                var teacher = await _unitOfWork.Teacher.GetTeacherByIdWithUser(id);
+                if (teacher == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find Teacher with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
 
-            if (teacher.User == null)
+                if (teacher.User == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Associated User not found for Teacher with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                teacher.User.Status = UserStatusEnums.INACTIVE.ToString();
+                _unitOfWork.User.Update(teacher.User);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "Teacher deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
             {
-                throw new Exception("Associated User not found for Teacher id " + id);
+                response.Message = "Delete Teacher failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
             }
-
-            teacher.User.Status = UserStatusEnums.INACTIVE.ToString();
-
-            _unitOfWork.User.Update(teacher.User);
-            _unitOfWork.Save();
+            return response;
         }
 
         public async Task<DataResponse<List<TeacherResponse>>> GetAllTeachers(string sortOrder)

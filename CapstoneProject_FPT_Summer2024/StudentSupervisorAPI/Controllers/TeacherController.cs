@@ -91,15 +91,29 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<TeacherResponse>>> UpdateTeacher(int id, RequestOfTeacher request)
         {
-            var updatedTeacher = await _service.UpdateTeacher(id, request);
-            return updatedTeacher == null ? NotFound() : Ok(updatedTeacher);
+            try
+            {
+                var updatedTeacher = await _service.UpdateTeacher(id, request);
+                return Ok(updatedTeacher);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTeacher(int id)
         {
-            var deletedTeacher = _service.DeleteTeacher(id);
-            return deletedTeacher == null ? NoContent() : Ok(deletedTeacher);
+            try
+            {
+                var deletedTeacher = _service.DeleteTeacher(id);
+                return Ok(deletedTeacher);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
