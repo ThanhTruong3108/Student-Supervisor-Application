@@ -63,29 +63,57 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost("principal")]
         public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreatePrincipal(RequestOfUser request)
         {
-            var createdPrincipal = await _service.CreatePrincipal(request);
-            return createdPrincipal == null ? NotFound() : Ok(createdPrincipal);
+            try
+            {
+                var createdPrincipal = await _service.CreatePrincipal(request);
+                return createdPrincipal == null ? NotFound() : Ok(createdPrincipal);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("school_admin")]
         public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreateSchoolAdmin(RequestOfUser request)
         {
-            var createdSchoolAdmin = await _service.CreateSchoolAdmin(request);
-            return createdSchoolAdmin == null ? NotFound() : Ok(createdSchoolAdmin);
+            try
+            {
+                var createdSchoolAdmin = await _service.CreateSchoolAdmin(request);
+                return createdSchoolAdmin == null ? NotFound() : Ok(createdSchoolAdmin);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfUser>>> UpdateSchoolYear(int id, RequestOfUser request)
         {
-            var updatedUser = await _service.UpdateUser(id, request);
-            return updatedUser == null ? NotFound() : Ok(updatedUser);
+            try
+            {
+                var updatedUser = await _service.UpdateUser(id, request);
+                return updatedUser == null ? NotFound() : Ok(updatedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var deletedUser = _service.DeleteUser(id);
-            return deletedUser == null ? NoContent() : Ok(deletedUser);
+            try
+            {
+                var deletedUser = _service.DeleteUser(id);
+                return deletedUser == null ? NoContent() : Ok(deletedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

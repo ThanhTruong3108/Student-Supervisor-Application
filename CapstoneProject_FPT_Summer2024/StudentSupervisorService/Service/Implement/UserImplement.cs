@@ -106,16 +106,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task<DataResponse<ResponseOfUser>> DeleteUser(int userId)
         {
-            var user = _unitOfWork.User.GetById(userId);
-            if (user is null)
+            var response = new DataResponse<ResponseOfUser>();
+            try
             {
-                throw new Exception("Can not found by" + userId);
+                var user = _unitOfWork.User.GetById(userId);
+                if (user is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find User with ID: " + userId;
+                    response.Success = false;
+                    return response;
+                }
+
+                user.Status = UserStatusEnums.INACTIVE.ToString();
+                _unitOfWork.User.Update(user);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "User deleted successfully";
+                response.Success = true;
             }
-            user.Status = UserStatusEnums.INACTIVE.ToString();
-            _unitOfWork.User.Update(user);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                response.Message = "Delete User failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response; ;
         }
 
         public async Task<DataResponse<List<ResponseOfUser>>> GetAllUsers(string sortOrder)
