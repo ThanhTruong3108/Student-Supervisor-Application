@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.HighSchoolRequest;
-using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.HighschoolResponse;
-using StudentSupervisorService.Models.Response.SchoolYearResponse;
 using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
 using StudentSupervisorService.Service;
@@ -72,21 +70,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfHighSchool>>> CreateHighSchool(RequestOfHighSchool request)
         {
-            var createdHighSchool = await _service.CreateHighSchool(request);
-            return createdHighSchool == null ? NotFound() : Ok(createdHighSchool);
+            try
+            {
+                var createdHighSchool = await _service.CreateHighSchool(request);
+                return Ok(createdHighSchool);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfHighSchool>>> UpdateHighSchool(int id, RequestOfHighSchool request)
         {
-            var updatedHighSchool = await _service.UpdateHighSchool(id, request);
-            return updatedHighSchool == null ? NotFound() : Ok(updatedHighSchool);
+            try
+            {
+                var updatedHighSchool = await _service.UpdateHighSchool(id, request);
+                return Ok(updatedHighSchool);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteHighSchool(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfHighSchool>>> DeleteHighSchool(int id)
         {
-            var deletedHighSchool = _service.DeleteHighSchool(id);
-            return deletedHighSchool == null ? NoContent() : Ok(deletedHighSchool);
+            try
+            {
+                var deletedHighSchool = await _service.DeleteHighSchool(id);
+                return Ok(deletedHighSchool);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("users/{id}")]

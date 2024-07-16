@@ -11,7 +11,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfHighSchool>> GetHighSchoolById(int id);
         Task<DataResponse<List<ResponseOfHighSchool>>> SearchHighSchools(string? code, string? name, string? city, string? address, string? phone, string sortOrder);
         Task<DataResponse<ResponseOfHighSchool>> CreateHighSchool(RequestOfHighSchool request);
-        Task DeleteHighSchool(int id);
+        Task<DataResponse<ResponseOfHighSchool>> DeleteHighSchool(int id);
         Task<DataResponse<ResponseOfHighSchool>> UpdateHighSchool(int id, RequestOfHighSchool request);
     }
 }

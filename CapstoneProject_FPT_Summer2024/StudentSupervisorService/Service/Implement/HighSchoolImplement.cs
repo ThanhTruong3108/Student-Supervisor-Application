@@ -59,16 +59,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteHighSchool(int id)
+        public async Task<DataResponse<ResponseOfHighSchool>> DeleteHighSchool(int id)
         {
-            var highSchool = _unitOfWork.HighSchool.GetById(id);
-            if (highSchool is null)
+            var response = new DataResponse<ResponseOfHighSchool>();
+            try
             {
-                throw new Exception("Can not found by" + id);
+                var highSchool = _unitOfWork.HighSchool.GetById(id);
+                if (highSchool is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find HighSchool with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                highSchool.Status = HighSchoolStatusEnums.INACTIVE.ToString();
+                _unitOfWork.HighSchool.Update(highSchool);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "HighSchool deleted successfully";
+                response.Success = true;
             }
-            highSchool.Status = HighSchoolStatusEnums.INACTIVE.ToString();
-            _unitOfWork.HighSchool.Update(highSchool);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                response.Message = "Delete HighSchool failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ResponseOfHighSchool>>> GetAllHighSchools(string sortOrder)
