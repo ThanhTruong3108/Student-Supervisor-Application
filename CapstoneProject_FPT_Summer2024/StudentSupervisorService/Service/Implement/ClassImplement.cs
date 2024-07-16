@@ -126,6 +126,7 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     SchoolYearId = request.SchoolYearId,
                     ClassGroupId = request.ClassGroupId,
+                    TeacherId = request.TeacherId,
                     Code = request.Code,
                     Name = request.Name,
                     TotalPoint = request.TotalPoint
@@ -169,6 +170,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingClass.SchoolYearId = request.SchoolYearId ?? existingClass.SchoolYearId;
                 existingClass.ClassGroupId = request.ClassGroupId ?? existingClass.ClassGroupId;
+                existingClass.TeacherId = request.TeacherId ?? existingClass.TeacherId;
                 existingClass.Code = request.Code ?? existingClass.Code;
                 existingClass.Name = request.Name ?? existingClass.Name;
                 existingClass.TotalPoint = request.TotalPoint ?? existingClass.TotalPoint;

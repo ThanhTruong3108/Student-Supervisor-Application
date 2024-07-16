@@ -135,7 +135,6 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     ClassId = request.ClassId,
                     StudentId = request.StudentId,
-                    TeacherId = request.TeacherId,
                     EnrollDate = request.EnrollDate,
                     IsSupervisor = false,
                     StartDate = DateTime.Now,
@@ -174,7 +173,6 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingStudentInClass.ClassId = request.ClassId ?? existingStudentInClass.ClassId;
                 existingStudentInClass.StudentId = request.StudentId ?? existingStudentInClass.StudentId;
-                existingStudentInClass.TeacherId = request.TeacherId ?? existingStudentInClass.TeacherId;
                 existingStudentInClass.EnrollDate = request.EnrollDate ?? existingStudentInClass.EnrollDate;
                 existingStudentInClass.IsSupervisor = request.IsSupervisor ?? existingStudentInClass.IsSupervisor;
                 existingStudentInClass.StartDate = request.StartDate ?? existingStudentInClass.StartDate;

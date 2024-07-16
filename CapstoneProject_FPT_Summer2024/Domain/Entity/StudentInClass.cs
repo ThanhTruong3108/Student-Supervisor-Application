@@ -10,7 +10,6 @@ public partial class StudentInClass
     public int ClassId { get; set; }
 
     public int StudentId { get; set; }
-    public int TeacherId { get; set; }
 
     public DateTime? EnrollDate { get; set; }
 
@@ -27,8 +26,6 @@ public partial class StudentInClass
     public virtual Class Class { get; set; } = null!;
 
     public virtual Student Student { get; set; } = null!;
-
-    public virtual Teacher Teacher { get; set; } = null!;
 
     public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
 }

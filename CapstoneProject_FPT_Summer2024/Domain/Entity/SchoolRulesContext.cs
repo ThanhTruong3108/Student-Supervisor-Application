@@ -118,6 +118,11 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.SchoolYearId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Class_SchoolYear");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Class_Teacher");
         });
 
         modelBuilder.Entity<ClassGroup>(entity =>
@@ -386,7 +391,6 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.StartDate).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
 
             entity.HasOne(d => d.Class).WithMany(p => p.StudentInClasses)
                 .HasForeignKey(d => d.ClassId)
@@ -397,11 +401,6 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentInClass_Student");
-
-            entity.HasOne(d => d.Teacher).WithMany(p => p.StudentInClasses)
-                .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_StudentInClass_Teacher");
         });
 
         modelBuilder.Entity<StudentSupervisor>(entity =>

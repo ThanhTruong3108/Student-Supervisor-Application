@@ -10,6 +10,7 @@ public partial class Class
     public int SchoolYearId { get; set; }
 
     public int ClassGroupId { get; set; }
+    public int? TeacherId { get; set; }
 
     public string? Code { get; set; }
 
@@ -24,6 +25,8 @@ public partial class Class
     public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
 
     public virtual SchoolYear SchoolYear { get; set; } = null!;
+
+    public virtual Teacher? Teacher { get; set; } = null!;
 
     public virtual ICollection<StudentInClass> StudentInClasses { get; set; } = new List<StudentInClass>();
 
