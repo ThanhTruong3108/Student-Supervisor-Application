@@ -57,6 +57,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (schoolYear.Status == SchoolYearStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "SchoolYear is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 schoolYear.Status = SchoolYearStatusEnums.INACTIVE.ToString();
                 _unitOfWork.SchoolYear.Update(schoolYear);
                 _unitOfWork.Save();

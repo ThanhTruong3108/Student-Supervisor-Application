@@ -54,6 +54,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (violationConfig.Status == ViolationConfigStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "ViolationConfig is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 violationConfig.Status = ViolationConfigStatusEnums.INACTIVE.ToString();
                 _unitOfWork.ViolationConfig.Update(violationConfig);
                 _unitOfWork.Save();

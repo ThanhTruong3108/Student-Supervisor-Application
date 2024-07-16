@@ -73,6 +73,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (highSchool.Status == HighSchoolStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "HighSchool is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 highSchool.Status = HighSchoolStatusEnums.INACTIVE.ToString();
                 _unitOfWork.HighSchool.Update(highSchool);
                 _unitOfWork.Save();

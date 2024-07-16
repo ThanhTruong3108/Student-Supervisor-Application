@@ -314,6 +314,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (violation.Status == ViolationStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Violation is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 violation.Status = ViolationStatusEnums.INACTIVE.ToString();
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();

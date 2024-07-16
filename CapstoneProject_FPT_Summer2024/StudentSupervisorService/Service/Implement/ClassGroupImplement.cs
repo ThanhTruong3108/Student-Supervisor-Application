@@ -190,6 +190,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingClassGroup.Status == ClassGroupStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "ClassGroup is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.ClassGroup.DeleteClassGroup(id);
                 response.Data = "Empty";
                 response.Message = "ClassGroup deleted successfully";

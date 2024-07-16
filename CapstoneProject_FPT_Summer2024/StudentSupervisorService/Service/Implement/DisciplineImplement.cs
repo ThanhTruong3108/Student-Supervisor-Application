@@ -218,6 +218,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingDiscipline.Status == DisciplineStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "Discipline is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.Discipline.DeleteDiscipline(id);
                 response.Data = "Empty";
                 response.Message = "Discipline deleted successfully";

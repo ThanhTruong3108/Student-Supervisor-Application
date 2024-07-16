@@ -196,6 +196,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingPenalty.Status == PenaltyStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "Penalty is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.Penalty.DeletePenalty(id);
                 response.Data = "Empty";
                 response.Message = "Penalty deleted successfully";

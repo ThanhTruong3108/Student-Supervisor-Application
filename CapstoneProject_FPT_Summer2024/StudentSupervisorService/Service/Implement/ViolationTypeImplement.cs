@@ -62,6 +62,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (vioType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "ViolationType is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
                 _unitOfWork.ViolationType.Update(vioType);
                 _unitOfWork.Save();

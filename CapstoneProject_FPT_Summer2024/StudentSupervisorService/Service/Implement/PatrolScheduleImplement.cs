@@ -200,6 +200,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingPSchedule.Status == PatrolScheduleStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "PatrolSchedule is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.PatrolSchedule.DeletePatrolSchedule(id);
                 response.Data = "Empty";
                 response.Message = "PatrolSchedule deleted successfully";

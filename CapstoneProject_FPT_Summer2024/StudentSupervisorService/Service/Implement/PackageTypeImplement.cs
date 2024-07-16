@@ -53,6 +53,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (packageType.Status == PackageTypeStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "PackageType is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 packageType.Status = PackageTypeStatusEnums.INACTIVE.ToString();
                 _unitOfWork.PackageType.Update(packageType);
                 _unitOfWork.Save();

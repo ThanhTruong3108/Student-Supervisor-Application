@@ -102,6 +102,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if(teacher.User.Status == UserStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "User associated with Teacher is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 teacher.User.Status = UserStatusEnums.INACTIVE.ToString();
                 _unitOfWork.User.Update(teacher.User);
                 _unitOfWork.Save();

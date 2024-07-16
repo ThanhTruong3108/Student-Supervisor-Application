@@ -208,6 +208,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingStudentInClass.Status == StudentInClassStatusEnums.UNENROLLED.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "StudentInClass is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.StudentInClass.DeleteStudentInClass(id);
                 response.Data = "Empty";
                 response.Message = "StudentInClass deleted successfully";

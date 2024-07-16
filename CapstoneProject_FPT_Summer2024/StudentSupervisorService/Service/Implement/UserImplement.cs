@@ -120,6 +120,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (user.Status == UserStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "User is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 user.Status = UserStatusEnums.INACTIVE.ToString();
                 _unitOfWork.User.Update(user);
                 _unitOfWork.Save();

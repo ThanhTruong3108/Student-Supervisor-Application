@@ -193,6 +193,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingEvaluationDetail.Status == EvaluationDetailStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "EvaluationDetail is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.EvaluationDetail.DeleteEvaluationDetail(id);
                 response.Data = "Empty";
                 response.Message = "EvaluationDetail deleted successfully";

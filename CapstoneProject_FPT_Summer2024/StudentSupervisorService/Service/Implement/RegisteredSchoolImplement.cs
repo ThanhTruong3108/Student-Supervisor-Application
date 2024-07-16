@@ -194,6 +194,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                if (existingRegisteredSchool.Status == RegisteredSchoolStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = null;
+                    response.Message = "RegisteredSchool is already deleted";
+                    response.Success = false;
+                    return response;
+                }
+
                 await _unitOfWork.RegisteredSchool.DeleteRegisteredSchool(id);
                 response.Data = "Empty";
                 response.Message = "RegisteredSchool deleted successfully";

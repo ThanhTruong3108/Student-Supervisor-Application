@@ -59,6 +59,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (yearPackage.Status == YearPackageStatusEnums.EXPIRED.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "YearPackage is already deleted.";
+                    response.Success = false;
+                    return response;
+                }
+
                 yearPackage.Status = YearPackageStatusEnums.EXPIRED.ToString();
                 _unitOfWork.YearPackage.Update(yearPackage);
                 _unitOfWork.Save();
