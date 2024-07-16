@@ -86,7 +86,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePackage(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfPackage>>> DeletePackage(int id)
         {
             try
             {

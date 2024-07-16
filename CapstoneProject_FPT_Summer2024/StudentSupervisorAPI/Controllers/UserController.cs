@@ -103,7 +103,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUser(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfUser>>> DeleteUser(int id)
         {
             try
             {

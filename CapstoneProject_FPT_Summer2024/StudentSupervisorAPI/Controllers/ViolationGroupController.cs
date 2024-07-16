@@ -63,21 +63,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfVioGroup>>> CreateVioGroup(RequestOfVioGroup request)
         {
-            var createdVioGroup = await _service.CreateVioGroup(request);
-            return createdVioGroup == null ? NotFound() : Ok(createdVioGroup);
+            try
+            {
+                var createdVioGroup = await _service.CreateVioGroup(request);
+                return createdVioGroup == null ? NotFound() : Ok(createdVioGroup);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfVioGroup>>> UpdateVioGroup(int id, RequestOfVioGroup request)
         {
-            var updatedVioGroup = await _service.UpdateVioGroup(id, request);
-            return updatedVioGroup == null ? NotFound() : Ok(updatedVioGroup);
+            try
+            {
+                var updatedVioGroup = await _service.UpdateVioGroup(id, request);
+                return updatedVioGroup == null ? NotFound() : Ok(updatedVioGroup);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteVioGroup(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfVioGroup>>> DeleteVioGroup(int id)
         {
-            var deletedVioGroup = _service.DeleteVioGroup(id);
-            return deletedVioGroup == null ? NoContent() : Ok(deletedVioGroup);
+            try
+            {
+                var deletedVioGroup = _service.DeleteVioGroup(id);
+                return deletedVioGroup == null ? NoContent() : Ok(deletedVioGroup);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
