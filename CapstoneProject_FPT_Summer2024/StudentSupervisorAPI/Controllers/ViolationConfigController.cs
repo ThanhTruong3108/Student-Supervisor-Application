@@ -62,21 +62,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> CreateViolationConfig(RequestOfViolationConfig request)
         {
-            var createdViolationConfig = await _service.CreateViolationConfig(request);
-            return createdViolationConfig == null ? NotFound() : Ok(createdViolationConfig);
+            try
+            {
+                var createdViolationConfig = await _service.CreateViolationConfig(request);
+                return createdViolationConfig == null ? NotFound() : Ok(createdViolationConfig);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> UpdateViolationConfig(int id, RequestOfViolationConfig request)
         {
-            var updatedViolationConfig = await _service.UpdateViolationConfig(id, request);
-            return updatedViolationConfig == null ? NotFound() : Ok(updatedViolationConfig);
+            try
+            {
+                var updatedViolationConfig = await _service.UpdateViolationConfig(id, request);
+                return updatedViolationConfig == null ? NotFound() : Ok(updatedViolationConfig);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteViolation(int id)
         {
-            var deletedViolationConfig = _service.DeleteViolationConfig(id);
-            return deletedViolationConfig == null ? NoContent() : Ok(deletedViolationConfig);
+            try
+            {
+                var deletedViolationConfig = _service.DeleteViolationConfig(id);
+                return deletedViolationConfig == null ? NoContent() : Ok(deletedViolationConfig);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -40,17 +40,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteViolationConfig(int id)
+        public async Task<DataResponse<ViolationConfigResponse>> DeleteViolationConfig(int id)
         {
-            var violationConfig = _unitOfWork.ViolationConfig.GetById(id);
-            if (violationConfig is null)
+            var response = new DataResponse<ViolationConfigResponse>();
+            try
             {
-                throw new Exception("Can not found by" + id);
-            }
-            violationConfig.Status = ViolationConfigStatusEnums.INACTIVE.ToString();
+                var violationConfig = _unitOfWork.ViolationConfig.GetById(id);
+                if (violationConfig is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find ViolationConfig with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
 
-            _unitOfWork.ViolationConfig.Update(violationConfig);
-            _unitOfWork.Save();
+                violationConfig.Status = ViolationConfigStatusEnums.INACTIVE.ToString();
+                _unitOfWork.ViolationConfig.Update(violationConfig);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "ViolationConfig deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Delete ViolationConfig failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ViolationConfigResponse>>> GetAllViolationConfigs(string sortOrder)
