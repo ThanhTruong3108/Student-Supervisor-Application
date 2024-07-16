@@ -62,31 +62,52 @@ namespace StudentSupervisorService.Service.Implement
             return _mapper.Map<StudentSupervisorResponse>(studentSupervisor);
         }
 
-        public async Task DeleteStudentSupervisor(int id)
+        public async Task<DataResponse<StudentSupervisorResponse>> DeleteStudentSupervisor(int id)
         {
-            var stuSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorById(id);
-            if (stuSupervisor == null)
+            var response = new DataResponse<StudentSupervisorResponse>();
+            try
             {
-                throw new Exception("Cannot find StudentSupervisor by id " + id);
-            }
+                var stuSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorById(id);
+                if (stuSupervisor == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find StudentSupervisor with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
 
-            if (stuSupervisor.User == null)
+                if (stuSupervisor.User == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Associated User not found for StudentSupervisor with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                stuSupervisor.User.Status = UserStatusEnums.INACTIVE.ToString();
+                _unitOfWork.User.Update(stuSupervisor.User);
+
+                // Cập nhật Supervisor cho StudentInClass tương ứng
+                var studentInClass = _unitOfWork.StudentInClass.GetById(stuSupervisor.StudentInClassId.Value);
+                if (studentInClass != null)
+                {
+                    studentInClass.IsSupervisor = false;
+                    _unitOfWork.StudentInClass.Update(studentInClass);
+                }
+
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "StudentSupervisor deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
             {
-                throw new Exception("Associated User not found for StudentSupervisor id " + id);
+                response.Message = "Delete StudentSupervisor failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
             }
-
-            stuSupervisor.User.Status = UserStatusEnums.INACTIVE.ToString();
-            _unitOfWork.User.Update(stuSupervisor.User);
-
-            // Cập nhật Supervisor cho StudentInClass tương ứng
-            var studentInClass = _unitOfWork.StudentInClass.GetById(stuSupervisor.StudentInClassId.Value);
-            if (studentInClass != null)
-            {
-                studentInClass.IsSupervisor = false;
-                _unitOfWork.StudentInClass.Update(studentInClass);
-            }
-
-            _unitOfWork.Save();
+            return response;
         }
 
         public async Task<DataResponse<List<StudentSupervisorResponse>>> GetAllStudentSupervisors(string sortOrder)
