@@ -48,16 +48,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteVioType(int id)
+        public async Task<DataResponse<ResponseOfVioType>> DeleteVioType(int id)
         {
-            var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
-            if (vioType is null)
+            var response = new DataResponse<ResponseOfVioType>();
+            try
             {
-                throw new Exception("Can not found by" + id);
+                var vioType = _unitOfWork.ViolationType.GetById(id);
+                if (vioType is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find ViolationType with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
+                _unitOfWork.ViolationType.Update(vioType);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "ViolationType deleted successfully";
+                response.Success = true;
             }
-            vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
-            _unitOfWork.ViolationType.Update(vioType);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                response.Message = "Delete ViolationType failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(string sortOrder)

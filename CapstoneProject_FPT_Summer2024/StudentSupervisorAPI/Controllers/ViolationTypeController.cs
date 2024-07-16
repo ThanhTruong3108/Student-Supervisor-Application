@@ -64,21 +64,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfVioType>>> CreateVioType(RequestOfVioType request)
         {
-            var createdVioTypes = await _service.CreateVioType(request);
-            return createdVioTypes == null ? NotFound() : Ok(createdVioTypes);
+            try
+            {
+                var createdVioTypes = await _service.CreateVioType(request);
+                return createdVioTypes == null ? NotFound() : Ok(createdVioTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfVioType>>> UpdateVioType(int id, RequestOfVioType request)
         {
-            var updatedVioTypes = await _service.UpdateVioType(id, request);
-            return updatedVioTypes == null ? NotFound() : Ok(updatedVioTypes);
+            try
+            {
+                var updatedVioTypes = await _service.UpdateVioType(id, request);
+                return updatedVioTypes == null ? NotFound() : Ok(updatedVioTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteVioType(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfVioType>>> DeleteVioType(int id)
         {
-            var deletedVioTypes = _service.DeleteVioType(id);
-            return deletedVioTypes == null ? NoContent() : Ok(deletedVioTypes);
+            try
+            {
+                var deletedVioTypes = _service.DeleteVioType(id);
+                return deletedVioTypes == null ? NoContent() : Ok(deletedVioTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

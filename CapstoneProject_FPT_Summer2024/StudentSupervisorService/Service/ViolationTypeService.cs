@@ -9,7 +9,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(string sortOrder);
         Task<DataResponse<ResponseOfVioType>> GetVioTypeById(int id);
         Task<DataResponse<ResponseOfVioType>> CreateVioType(RequestOfVioType request);
-        Task DeleteVioType(int id);
+        Task<DataResponse<ResponseOfVioType>> DeleteVioType(int id);
         Task<DataResponse<ResponseOfVioType>> UpdateVioType(int id, RequestOfVioType request);
         Task<DataResponse<List<ResponseOfVioType>>> SearchVioTypes(int? vioGroupId, string? name, string sortOrder);
     }
