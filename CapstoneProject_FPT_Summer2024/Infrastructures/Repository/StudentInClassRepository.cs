@@ -89,5 +89,10 @@ namespace Infrastructures.Repository
             _context.Entry(studentInClassEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> IsStudentEnrolledInAnyClass(int studentId)
+        {
+            return await _context.StudentInClasses.AnyAsync(sic => sic.StudentId == studentId && sic.Status == StudentInClassStatusEnums.ENROLLED.ToString());
+        }
     }
 }

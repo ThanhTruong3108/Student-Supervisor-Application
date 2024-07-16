@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<StudentInClass> CreateStudentInClass(StudentInClass studentInClassEntity);
         Task<StudentInClass> UpdateStudentInClass(StudentInClass studentInClassEntity);
         Task DeleteStudentInClass(int id);
+        Task<bool> IsStudentEnrolledInAnyClass(int studentId);
     }
 }

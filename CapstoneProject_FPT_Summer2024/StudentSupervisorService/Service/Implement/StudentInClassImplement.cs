@@ -124,6 +124,13 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<StudentInClassResponse>();
             try
             {
+                if (await _unitOfWork.StudentInClass.IsStudentEnrolledInAnyClass(request.StudentId))
+                {
+                    response.Message = "Student is already enrolled in a class.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var studentInClassEntity = new StudentInClass
                 {
                     ClassId = request.ClassId,
