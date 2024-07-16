@@ -32,23 +32,34 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
 
-                // Kiểm tra xem code đã tồn tại hay chưa
-                var existingHighSchool = _unitOfWork.HighSchool.Find(h => h.Code == request.Code).FirstOrDefault();
+                // Kiểm tra xem code, name, phone đã tồn tại hay chưa
+                var existingHighSchool = _unitOfWork.HighSchool.Find(
+                                        h => h.Code == request.Code ||
+                                        h.Name == request.Name ||
+                                        h.Phone == request.Phone).FirstOrDefault();
                 if (existingHighSchool != null)
                 {
-                    response.Message = "Code already exists.";
+                    response.Data = "Empty";
+                    response.Message = "HighSchool is already exists.";
                     response.Success = false;
                     return response;
                 }
 
                 var createHighSchool = _mapper.Map<HighSchool>(request);
+                var registerSchool = new RegisteredSchool
+                {
+                    SchoolId = createHighSchool.SchoolId,
+                    RegisteredDate = DateTime.Now,
+                    Status = RegisteredSchoolStatusEnums.ACTIVE.ToString()
+                };
+                createHighSchool.RegisteredSchools.Add(registerSchool);
                 createHighSchool.Status = HighSchoolStatusEnums.ACTIVE.ToString();
 
                 _unitOfWork.HighSchool.Add(createHighSchool);
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfHighSchool>(createHighSchool);
-                response.Message = "Create Successfully.";
+                response.Message = "Create HighSchool Successfully.";
                 response.Success = true;
             }
             catch (Exception ex)
