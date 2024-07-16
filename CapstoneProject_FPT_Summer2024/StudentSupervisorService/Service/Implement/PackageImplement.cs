@@ -41,16 +41,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeletePackage(int id)
+        public async Task<DataResponse<ResponseOfPackage>> DeletePackage(int id)
         {
-            var vioGroup = _unitOfWork.Package.GetById(id);
-            if (vioGroup is null)
+            var response = new DataResponse<ResponseOfPackage>();
+            try
             {
-                throw new Exception("Can not found by" + id);
+                var package = _unitOfWork.Package.GetById(id);
+                if (package is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find Package with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                package.Status = PackageStatusEnums.INACTIVE.ToString();
+                _unitOfWork.Package.Update(package);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "Package deleted successfully";
+                response.Success = true;
             }
-            vioGroup.Status = PackageStatusEnums.INACTIVE.ToString();
-            _unitOfWork.Package.Update(vioGroup);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                response.Message = "Delete Package failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ResponseOfPackage>>> GetAllPackages(string sortOrder)
