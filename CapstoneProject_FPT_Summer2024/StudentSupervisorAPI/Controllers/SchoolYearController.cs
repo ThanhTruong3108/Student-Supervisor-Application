@@ -62,21 +62,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfSchoolYear>>> CreateSchoolYear(RequestCreateSchoolYear request)
         {
-            var createdSchoolYear = await _service.CreateSchoolYear(request);
-            return createdSchoolYear == null ? NotFound() : Ok(createdSchoolYear);
+            try
+            {
+                var createdSchoolYear = await _service.CreateSchoolYear(request);
+                return Ok(createdSchoolYear);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfSchoolYear>>> UpdateSchoolYear(int id, RequestCreateSchoolYear request)
         {
-            var updatedSchoolYear = await _service.UpdateSchoolYear(id, request);
-            return updatedSchoolYear == null ? NotFound() : Ok(updatedSchoolYear);
+            try
+            {
+                var updatedSchoolYear = await _service.UpdateSchoolYear(id, request);
+                return Ok(updatedSchoolYear);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSchoolYear(int id)
         {
-            var deletedSchoolYear = _service.DeleteSchoolYear(id);
-            return deletedSchoolYear == null ? NoContent() : Ok(deletedSchoolYear);
+            try
+            {
+                var deletedSchoolYear = _service.DeleteSchoolYear(id);
+                return deletedSchoolYear == null ? NoContent() : Ok(deletedSchoolYear);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -6,11 +6,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.SchoolYearRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.SchoolYearResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -47,17 +43,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteSchoolYear(int id)
+        public async Task<DataResponse<ResponseOfSchoolYear>> DeleteSchoolYear(int id)
         {
-            var schoolYear = _unitOfWork.SchoolYear.GetById(id);
-            if (schoolYear is null)
+            var response = new DataResponse<ResponseOfSchoolYear>();
+            try
             {
-                throw new Exception("Can not found by" + id);
-            }
-            schoolYear.Status = SchoolYearStatusEnums.INACTIVE.ToString();
+                var schoolYear = _unitOfWork.SchoolYear.GetById(id);
+                if (schoolYear is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find SchoolYear with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
 
-            _unitOfWork.SchoolYear.Update(schoolYear);
-            _unitOfWork.Save();
+                schoolYear.Status = SchoolYearStatusEnums.INACTIVE.ToString();
+                _unitOfWork.SchoolYear.Update(schoolYear);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "SchoolYear deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Delete SchoolYear failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(string sortOrder)

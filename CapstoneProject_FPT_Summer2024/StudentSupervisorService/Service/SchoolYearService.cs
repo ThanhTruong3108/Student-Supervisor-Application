@@ -14,7 +14,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfSchoolYear>>> GetAllSchoolYears(string sortOrder);
         Task<DataResponse<ResponseOfSchoolYear>> GetSchoolYearById(int id);
         Task<DataResponse<ResponseOfSchoolYear>> CreateSchoolYear(RequestCreateSchoolYear request);
-        Task DeleteSchoolYear(int id);
+        Task<DataResponse<ResponseOfSchoolYear>> DeleteSchoolYear(int id);
         Task<DataResponse<ResponseOfSchoolYear>> UpdateSchoolYear(int id, RequestCreateSchoolYear request);
         Task<DataResponse<List<ResponseOfSchoolYear>>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate, string sortOrder);
         Task<DataResponse<List<ResponseOfSchoolYear>>> GetSchoolYearBySchoolId(int schoolId);
