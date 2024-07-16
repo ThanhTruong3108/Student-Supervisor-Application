@@ -26,16 +26,22 @@ VALUES
     (2, 1, 'BT001', 'School_Admin', '8412367890', 'password123', N'123 Đường A, Quận B, Hà Nội', 'ACTIVE'),
     (3, 1, 'BT002', 'Principal', '8412367891', 'password123', N'456 Đường C, Quận D, Hà Nội', 'ACTIVE'),
     (4, 1, 'BT003', 'Supervisor', '8412367892', 'password123', N'789 Đường E, Quận F, Hà Nội', 'ACTIVE'),
-    (5, 1, 'BT004', 'Teacher', '8412367893', 'password123', N'321 Đường G, Quận H, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT005', 'Stu_Supervisor', '8412367894', 'password123', N'654 Đường I, Quận J, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT006', 'Stu_Supervisor2', '8412345678', 'password123', N'Hồ Chí Minh', 'ACTIVE');
+    (5, 1, 'BT004', 'Teacher1', '8412367893', 'password123', N'321 Đường G, Quận H, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT005', 'Teacher2', '8412367888', 'password123', N'322 Đường A, Quận C, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT006', 'Teacher3', '8412367877', 'password123', N'323 Đường B, Quận A, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT007', 'Teacher4', '8412367866', 'password123', N'324 Đường M, Quận N, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT008', 'Stu_Supervisor', '8412367894', 'password123', N'654 Đường I, Quận J, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT009', 'Stu_Supervisor2', '8412345678', 'password123', N'652 Đường I, Quận O, TP.HCM', 'ACTIVE');
 
 
 -- Chèn 6 bản ghi mẫu vào bảng Teacher
 INSERT INTO [SchoolRules].[dbo].[Teacher] ([UserID], [SchoolID], [Sex])
 VALUES
 (3, 1, 'False'),
-(4, 1, 'True');
+(4, 1, 'True'),
+(5, 1, 'False'),
+(6, 1, 'True'),
+(7, 1, 'False');
 
 
 -- Chèn 6 bản ghi mẫu vào bảng StudentSupervisor
@@ -46,7 +52,7 @@ VALUES
 
 
 -- Chèn 4 bản ghi mẫu vào bảng SchoolYear
-INSERT INTO [dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
+INSERT INTO [SchoolRules].[dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
 VALUES 
     (1, 2021, '2021-09-01', '2022-06-30', 'FINISHED'),
     (1, 2022, '2022-09-01', '2023-06-30', 'ONGOING'),
@@ -63,7 +69,7 @@ VALUES
 
 
 -- Chèn 20 bản ghi mẫu vào bảng Student
-INSERT INTO [dbo].[Student] ([SchoolID], [Code], [Name], [Sex], [Birthday], [Address], [Phone])
+INSERT INTO [SchoolRules].[dbo].[Student] ([SchoolID], [Code], [Name], [Sex], [Birthday], [Address], [Phone])
 VALUES
 (1, 'BT001', 'Nguyen Van A', 1, '2005-01-15', '123 Nguyen Trai, Ha Noi', '8412345678'),
 (1, 'BT002', 'Tran Thi B', 0, '2006-03-22', '456 Le Loi, Ha Noi', '8412345679'),
@@ -101,41 +107,41 @@ VALUES
 
 
 -- Chèn 20 bản ghi mẫu vào bảng StudentInClass
-INSERT INTO [dbo].[StudentInClass] ([ClassID], [StudentID], [EnrollDate], [IsSupervisor], [StartDate], [EndDate], [NumberOfViolation], [Status])
+INSERT INTO [SchoolRules].[dbo].[StudentInClass] ([ClassID], [StudentID], [TeacherID] , [EnrollDate], [IsSupervisor], [StartDate], [EndDate], [NumberOfViolation], [Status])
 VALUES
-(1, 1, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(2, 2, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(3, 3, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(4, 4, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(1, 5, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(2, 6, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(3, 7, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(4, 8, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(1, 9, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(2, 10, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(3, 11, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(4, 12, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(1, 13, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(2, 14, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(3, 15, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(4, 16, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(1, 17, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(2, 18, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(3, 19, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED '),
-(4, 20, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED ');
+(1, 1, 1, '2021-09-01', 1, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(2, 2, 2, '2021-09-01', 1, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(3, 3, 3, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(4, 4, 4, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED '),
+(1, 5, 1, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(2, 6, 2, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(3, 7, 3, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(4, 8, 4, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED '),
+(1, 9, 1, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(2, 10, 2, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(3, 11, 3, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(4, 12, 4, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED '),
+(1, 13, 1, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(2, 14, 2, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(3, 15, 3, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(4, 16, 4, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED '),
+(1, 17, 1, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(2, 18, 2, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(3, 19, 3, '2021-09-01', 0, '2021-09-01', '2022-05-31', 0, 'ENROLLED '),
+(4, 20, 4, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED ');
 
 -- Chèn 6 bản ghi mẫu vào bảng ViolationGroup
-INSERT INTO [dbo].[ViolationGroup] ([SchoolID], [Name], [Description], [Status])
+INSERT INTO [SchoolRules].[dbo].[ViolationGroup] ([SchoolID], [Code], [Name] ,[Description], [Status])
 VALUES
-(1, N'Vi phạm chuyên cần', N'Không tuân thủ quy định về sự hiện diện và tham gia hoạt động của nhà trường.', 'ACTIVE'),
-(1, N'Vi phạm nề nếp', N'Không tuân thủ quy định chung về trật tự, nề nếp trong trường học.', 'ACTIVE'),
-(1, N'Vi phạm học tập - thi cử', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-(1, N'Vi phạm đạo đức', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
-(1, N'Vi phạm môi trường và tài sản chung', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
-(1, N'Vi phạm tác phong', N'Không tuân thủ quy định về tác phong, lối sống trong trường học.', 'ACTIVE');
+(1, 'VG001', N'Vi phạm chuyên cần' , N'Không tuân thủ quy định về sự hiện diện và tham gia hoạt động của nhà trường.', 'ACTIVE'),
+(1, 'VG002', N'Vi phạm nề nếp' , N'Không tuân thủ quy định chung về trật tự, nề nếp trong trường học.', 'ACTIVE'),
+(1, 'VG003', N'Vi phạm học tập - thi cử' , N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
+(1, 'VG004', N'Vi phạm đạo đức' , N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
+(1, 'VG005', N'Vi phạm môi trường và tài sản chung' ,N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
+(1, 'VG006', N'Vi phạm tác phong' , N'Không tuân thủ quy định về tác phong, lối sống trong trường học.', 'ACTIVE');
 
 -- Chèn 58 bản ghi mẫu vào bảng ViolationType
-INSERT INTO [dbo].[ViolationType] ([ViolationGroupID], [Name], [Description], [Status])
+INSERT INTO [SchoolRules].[dbo].[ViolationType] ([ViolationGroupID], [Name], [Description], [Status])
 VALUES
 -- Vi phạm chuyên cần
 (1, N'Nghỉ học có phép/không phép', N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
@@ -209,7 +215,7 @@ VALUES
 (6, N'Trang điểm quá lố', N'Không tuân thủ quy định về tác phong.', 'ACTIVE');
 
 -- Chèn 40 bản ghi mẫu vào bảng Violation
-INSERT INTO [dbo].[Violation] ([ClassID], [ViolationTypeID], [StudentInClassID], [TeacherID], [Name], [Description], [Date], [CreatedAt], [CreatedBy], [UpdatedAt], [UpdatedBy], [Status])
+INSERT INTO [SchoolRules].[dbo].[Violation] ([ClassID], [ViolationTypeID], [StudentInClassID], [TeacherID], [Name], [Description], [Date], [CreatedAt], [CreatedBy], [UpdatedAt], [UpdatedBy], [Status])
 VALUES
 -- Class 1 Violations
 (1, 6, 1, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2021-01-10 10:30:00', '2021-01-10', 1, NULL, NULL, 'PENDING'),
@@ -262,13 +268,13 @@ VALUES
 
 
 -- Chèn 40 bản ghi mẫu vào bảng Penalty
-INSERT INTO [SchoolRules].[dbo].[Penalty] ([SchoolID], [Name], [Description], [Status])
+INSERT INTO [SchoolRules].[dbo].[Penalty] ([SchoolID], [Code], [Name] , [Description], [Status])
 VALUES
-(1, N'Cảnh cáo', N'Cảnh cáo bằng lời hoặc văn bản.', 'ACTIVE'),
-(1, N'Phạt lao động', N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', 'ACTIVE'),
-(1, N'Phạt viết bài kiểm điểm', N'Yêu cầu học sinh viết bài kiểm điểm.', 'ACTIVE'),
-(1, N'Phạt đuổi học', N'Đuổi học tạm thời hoặc vĩnh viễn.', 'ACTIVE'),
-(1, N'Phạt đình chỉ', N'Đình chỉ học tập trong một khoảng thời gian.', 'ACTIVE');
+(1, 'PT001', N'Cảnh cáo' , N'Cảnh cáo bằng lời hoặc văn bản.', 'ACTIVE'),
+(1, 'PT002', N'Phạt lao động' , N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', 'ACTIVE'),
+(1, 'PT003', N'Phạt viết bài kiểm điểm' , N'Yêu cầu học sinh viết bài kiểm điểm.', 'ACTIVE'),
+(1, 'PT004', N'Phạt đuổi học' , N'Đuổi học tạm thời hoặc vĩnh viễn.', 'ACTIVE'),
+(1, 'PT005', N'Phạt đình chỉ' ,N'Đình chỉ học tập trong một khoảng thời gian.', 'ACTIVE');
 
 
 
@@ -326,7 +332,7 @@ VALUES
 
 
 -- Chèn 58 bản ghi mẫu vào bảng ViolationConfig
-INSERT INTO [dbo].[ViolationConfig] ([ViolationTypeID], [MinusPoints], [Description], [Status])
+INSERT INTO [SchoolRules].[dbo].[ViolationConfig] ([ViolationTypeID], [MinusPoints], [Description], [Status])
 VALUES
 -- Vi phạm chuyên cần
 (1, 5, N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
@@ -582,7 +588,7 @@ VALUES
 (4, 22, N'Đạo văn', '2022-09-01', '2023-06-30', -20);
 
 --Chèn 40 bản ghi mẫu vào bảng EvaluationDetails
-INSERT INTO EvaluationDetail (ClassID, EvaluationID, Status)
+INSERT INTO [SchoolRules].[dbo].[EvaluationDetail] (ClassID, EvaluationID, Status)
 VALUES 
     (1, 1, 'ACTIVE'),
     (1, 2, 'ACTIVE'),
