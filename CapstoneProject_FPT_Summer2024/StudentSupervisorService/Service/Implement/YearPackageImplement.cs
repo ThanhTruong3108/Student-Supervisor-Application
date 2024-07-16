@@ -45,17 +45,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeleteYearPackage(int id)
+        public async Task<DataResponse<ResponseOfYearPackage>> DeleteYearPackage(int id)
         {
-            var yearPackage = _unitOfWork.YearPackage.GetById(id);
-            if (yearPackage is null)
+            var response = new DataResponse<ResponseOfYearPackage>();
+            try
             {
-                throw new Exception("Can not found by" + id);
-            }
-            yearPackage.Status = YearPackageStatusEnums.EXPIRED.ToString();
+                var yearPackage = _unitOfWork.YearPackage.GetById(id);
+                if (yearPackage is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find YearPackage with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
 
-            _unitOfWork.YearPackage.Update(yearPackage);
-            _unitOfWork.Save();
+                yearPackage.Status = YearPackageStatusEnums.EXPIRED.ToString();
+                _unitOfWork.YearPackage.Update(yearPackage);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "YearPackage deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Delete YearPackage failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<ResponseOfYearPackage>>> GetAllYearPackages(string sortOrder)

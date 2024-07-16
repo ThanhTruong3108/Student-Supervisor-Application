@@ -62,21 +62,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfYearPackage>>> CreateYearPackage(RequestOfYearPackage request)
         {
-            var createdYearPackage = await _service.CreateYearPackage(request);
-            return createdYearPackage == null ? NotFound() : Ok(createdYearPackage);
+            try
+            {
+                var createdYearPackage = await _service.CreateYearPackage(request);
+                return createdYearPackage == null ? NotFound() : Ok(createdYearPackage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfYearPackage>>> UpdateYearPackage(int id, RequestOfYearPackage request)
         {
-            var updatedYearPackage = await _service.UpdateYearPackage(id, request);
-            return updatedYearPackage == null ? NotFound() : Ok(updatedYearPackage);
+            try
+            {
+                var updatedYearPackage = await _service.UpdateYearPackage(id, request);
+                return updatedYearPackage == null ? NotFound() : Ok(updatedYearPackage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteYearPackage(int id)
+        public async Task<ActionResult<DataResponse<ResponseOfYearPackage>>> DeleteYearPackage(int id)
         {
-            var deletedYearPackage = _service.DeleteYearPackage(id);
-            return deletedYearPackage == null ? NoContent() : Ok(deletedYearPackage);
+            try
+            {
+                var deletedYearPackage = await _service.DeleteYearPackage(id);
+                return deletedYearPackage == null ? NoContent() : Ok(deletedYearPackage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
