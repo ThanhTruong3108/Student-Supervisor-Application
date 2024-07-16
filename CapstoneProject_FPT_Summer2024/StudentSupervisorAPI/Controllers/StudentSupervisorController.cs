@@ -95,7 +95,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedStuSuper = _service.DeleteStudentSupervisor(id);
+                var deletedStuSuper = await _service.DeleteStudentSupervisor(id);
                 return deletedStuSuper == null ? NoContent() : Ok(deletedStuSuper);
             }
             catch (Exception ex)

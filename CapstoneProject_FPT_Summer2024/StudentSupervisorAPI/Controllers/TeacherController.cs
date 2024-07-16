@@ -107,7 +107,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedTeacher = _service.DeleteTeacher(id);
+                var deletedTeacher = await _service.DeleteTeacher(id);
                 return Ok(deletedTeacher);
             }
             catch (Exception ex)

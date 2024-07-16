@@ -91,7 +91,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedViolationConfig = _service.DeleteViolationConfig(id);
+                var deletedViolationConfig = await _service.DeleteViolationConfig(id);
                 return deletedViolationConfig == null ? NoContent() : Ok(deletedViolationConfig);
             }
             catch (Exception ex)

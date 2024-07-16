@@ -91,7 +91,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedSchoolYear = _service.DeleteSchoolYear(id);
+                var deletedSchoolYear = await _service.DeleteSchoolYear(id);
                 return deletedSchoolYear == null ? NoContent() : Ok(deletedSchoolYear);
             }
             catch (Exception ex)

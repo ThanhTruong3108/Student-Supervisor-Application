@@ -90,7 +90,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedPackage = _service.DeletePackage(id);
+                var deletedPackage = await _service.DeletePackage(id);
                 return Ok(deletedPackage);
             }
             catch (Exception ex)

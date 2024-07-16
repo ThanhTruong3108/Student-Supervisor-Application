@@ -93,7 +93,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var deletedVioTypes = _service.DeleteVioType(id);
+                var deletedVioTypes = await _service.DeleteVioType(id);
                 return deletedVioTypes == null ? NoContent() : Ok(deletedVioTypes);
             }
             catch (Exception ex)
