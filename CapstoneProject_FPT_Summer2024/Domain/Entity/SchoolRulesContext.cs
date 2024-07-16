@@ -33,6 +33,7 @@ public partial class SchoolRulesContext : DbContext
     public virtual DbSet<ImageUrl> ImageUrls { get; set; }
 
     public virtual DbSet<Package> Packages { get; set; }
+
     public virtual DbSet<PackageType> PackageTypes { get; set; }
 
     public virtual DbSet<PatrolSchedule> PatrolSchedules { get; set; }
@@ -66,7 +67,7 @@ public partial class SchoolRulesContext : DbContext
     public virtual DbSet<YearPackage> YearPackages { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-         => optionsBuilder.UseSqlServer(GetConnectionString());
+            => optionsBuilder.UseSqlServer(GetConnectionString());
 
     private string GetConnectionString()
     {
@@ -243,16 +244,14 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Package");
 
             entity.Property(e => e.PackageId).HasColumnName("PackageID");
-            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
             entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.PackageType).WithMany(p => p.Packages)
-            .HasForeignKey(d => d.PackageTypeId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_Package_PackageType");
-
+                .HasForeignKey(d => d.PackageTypeId)
+                .HasConstraintName("FK_Package_PackageType");
         });
 
         modelBuilder.Entity<PackageType>(entity =>
@@ -260,8 +259,8 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("PackageType");
 
             entity.Property(e => e.PackageTypeId).HasColumnName("PackageTypeID");
-            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(200);
+            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Status).HasMaxLength(50);
         });
 
@@ -302,6 +301,7 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Penalty");
 
             entity.Property(e => e.PenaltyId).HasColumnName("PenaltyID");
+            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
@@ -386,6 +386,7 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.StartDate).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.StudentId).HasColumnName("StudentID");
+            entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
 
             entity.HasOne(d => d.Class).WithMany(p => p.StudentInClasses)
                 .HasForeignKey(d => d.ClassId)
@@ -396,6 +397,11 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentInClass_Student");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.StudentInClasses)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StudentInClass_Teacher");
         });
 
         modelBuilder.Entity<StudentSupervisor>(entity =>
@@ -411,11 +417,6 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_StudentSupervisor_User");
-
-            entity.HasOne(d => d.StudentInClass)
-                .WithMany()
-                .HasForeignKey(d => d.StudentInClassId)
-                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Teacher>(entity =>
@@ -518,6 +519,7 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("ViolationGroup");
 
             entity.Property(e => e.ViolationGroupId).HasColumnName("ViolationGroupID");
+            entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Description).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.SchoolId).HasColumnName("SchoolID");

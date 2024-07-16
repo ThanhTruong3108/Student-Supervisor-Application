@@ -27,6 +27,7 @@ namespace StudentSupervisorService.Service.Implement
                 var createvioGroup = new ViolationGroup
                 {
                     SchoolId = request.SchoolId,
+                    Code = request.VioGroupCode,
                     Name = request.VioGroupName,
                     Description = request.Description,
                     Status = ViolationGroupStatusEnums.ACTIVE.ToString()
@@ -230,6 +231,7 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 vioGroup.SchoolId = request.SchoolId;
+                vioGroup.Code = request.VioGroupCode;
                 vioGroup.Name = request.VioGroupName;
                 vioGroup.Description = request.Description;
 

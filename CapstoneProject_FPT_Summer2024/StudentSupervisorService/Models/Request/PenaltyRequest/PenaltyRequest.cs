@@ -9,6 +9,7 @@ namespace StudentSupervisorService.Models.Request.PenaltyRequest
     public class PenaltyCreateRequest
     {
         public int SchoolId { get; set; }
+        public string? Code { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
     }
@@ -17,6 +18,7 @@ namespace StudentSupervisorService.Models.Request.PenaltyRequest
     {
         public int PenaltyId { get; set; }
         public int? SchoolId { get; set; }
+        public string? Code { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
     }

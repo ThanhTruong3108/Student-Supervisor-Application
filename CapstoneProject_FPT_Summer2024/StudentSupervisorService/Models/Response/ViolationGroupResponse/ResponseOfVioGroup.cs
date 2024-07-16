@@ -12,6 +12,7 @@ namespace StudentSupervisorService.Models.Response.ViolationGroupResponse
 
         public int? SchoolId { get; set; }
         public string SchoolName { get; set; } = null!;
+        public string? VioGroupCode { get; set; }
 
         public string VioGroupName { get; set; } = null!;
 

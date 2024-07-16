@@ -153,6 +153,7 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<ViolationGroup, ResponseOfVioGroup>()
                  .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
+              .ForMember(re => re.VioGroupCode, act => act.MapFrom(src => src.Code))
               .ForMember(re => re.VioGroupName, act => act.MapFrom(src => src.Name));
 
             CreateMap<RequestOfVioGroup, ViolationGroup>();

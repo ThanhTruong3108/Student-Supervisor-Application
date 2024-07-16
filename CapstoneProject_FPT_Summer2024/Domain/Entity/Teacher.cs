@@ -20,4 +20,5 @@ public partial class Teacher
     public virtual User User { get; set; } = null!;
 
     public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
+    public virtual ICollection<StudentInClass> StudentInClasses { get; set; } = new List<StudentInClass>();
 }

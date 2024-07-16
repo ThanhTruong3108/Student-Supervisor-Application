@@ -8,6 +8,7 @@ public partial class ViolationGroup
     public int ViolationGroupId { get; set; }
 
     public int? SchoolId { get; set; }
+    public string? Code { get; set; }
 
     public string Name { get; set; } = null!;
 

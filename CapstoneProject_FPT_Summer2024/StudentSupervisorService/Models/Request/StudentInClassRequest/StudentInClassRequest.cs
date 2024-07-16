@@ -10,6 +10,7 @@ namespace StudentSupervisorService.Models.Request.StudentInClassRequest
     {
         public int ClassId { get; set; }
         public int StudentId { get; set; }
+        public int TeacherId { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool IsSupervisor { get; set; }
         public DateTime? StartDate { get; set; }
@@ -22,6 +23,7 @@ namespace StudentSupervisorService.Models.Request.StudentInClassRequest
         public int StudentInClassId { get; set; }
         public int? ClassId { get; set; }
         public int? StudentId { get; set; }
+        public int? TeacherId { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool? IsSupervisor { get; set; }
         public DateTime? StartDate { get; set; }
