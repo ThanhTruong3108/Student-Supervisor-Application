@@ -39,16 +39,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task DeletePackageType(int id)
+        public async Task<DataResponse<PackageTypeResponse>> DeletePackageType(int id)
         {
-            var packageType = _unitOfWork.PackageType.GetById(id);
-            if (packageType is null)
+            var response = new DataResponse<PackageTypeResponse>();
+            try
             {
-                throw new Exception("Can not found by" + id);
+                var packageType = _unitOfWork.PackageType.GetById(id);
+                if (packageType is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find PackageType with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                packageType.Status = PackageTypeStatusEnums.INACTIVE.ToString();
+                _unitOfWork.PackageType.Update(packageType);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "PackageType deleted successfully";
+                response.Success = true;
             }
-            packageType.Status = PackageTypeStatusEnums.INACTIVE.ToString();
-            _unitOfWork.PackageType.Update(packageType);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                response.Message = "Delete PackageType failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<PackageTypeResponse>>> GetAllPackageTypes(string sortOrder)

@@ -9,7 +9,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<PackageTypeResponse>>> GetAllPackageTypes(string sortOrder);
         Task<DataResponse<PackageTypeResponse>> GetPackageTypeById(int id);
         Task<DataResponse<PackageTypeResponse>> CreatePackageType(PackageTypeRequest request);
-        Task DeletePackageType(int id);
+        Task<DataResponse<PackageTypeResponse>> DeletePackageType(int id);
         Task<DataResponse<PackageTypeResponse>> UpdatePackageType(int id, PackageTypeRequest request);
         Task<DataResponse<List<PackageTypeResponse>>> SearchPackageTypes(string? name, string sortOrder);
     }

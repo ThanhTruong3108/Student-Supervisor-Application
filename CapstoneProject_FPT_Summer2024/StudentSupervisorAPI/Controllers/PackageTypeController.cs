@@ -62,21 +62,42 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<DataResponse<PackageTypeResponse>>> CreatePackageType(PackageTypeRequest request)
         {
-            var createdPackageTypes = await _service.CreatePackageType(request);
-            return createdPackageTypes == null ? NotFound() : Ok(createdPackageTypes);
+            try
+            {
+                var createdPackageTypes = await _service.CreatePackageType(request);
+                return createdPackageTypes == null ? NotFound() : Ok(createdPackageTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<PackageTypeResponse>>> UpdatePackageType(int id, PackageTypeRequest request)
         {
-            var updatedPackageType = await _service.UpdatePackageType(id, request);
-            return updatedPackageType == null ? NotFound() : Ok(updatedPackageType);
+            try
+            {
+                var updatedPackageType = await _service.UpdatePackageType(id, request);
+                return updatedPackageType == null ? NotFound() : Ok(updatedPackageType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeletePackageType(int id)
         {
-            var deletedPackageTypes = _service.DeletePackageType(id);
-            return deletedPackageTypes == null ? NoContent() : Ok(deletedPackageTypes);
+            try
+            {
+                var deletedPackageTypes = await _service.DeletePackageType(id);
+                return deletedPackageTypes == null ? NoContent() : Ok(deletedPackageTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
