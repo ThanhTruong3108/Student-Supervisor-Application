@@ -107,5 +107,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<EvaluationDetailResponse>>>> GetEvaluationDetailsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var evalDetails = await evaluationDetailService.GetEvaluationDetailsBySchoolId(schoolId);
+                return Ok(evalDetails);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

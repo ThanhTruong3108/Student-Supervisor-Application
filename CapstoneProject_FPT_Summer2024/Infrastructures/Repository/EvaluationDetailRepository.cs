@@ -74,5 +74,15 @@ namespace Infrastructures.Repository
             _context.Entry(evaluationDetailEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<EvaluationDetail>> GetEvaluationDetailsBySchoolId(int schoolId)
+        {
+            return await _context.EvaluationDetails
+                .Include(ed => ed.Evaluation)
+                    .ThenInclude(e => e.SchoolYear)
+                .Include(ed => ed.Class)
+                .Where(ed => ed.Evaluation.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
+        }
     }
 }

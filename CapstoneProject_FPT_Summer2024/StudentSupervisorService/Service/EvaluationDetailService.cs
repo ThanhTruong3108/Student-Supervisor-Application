@@ -1,11 +1,6 @@
 ﻿using StudentSupervisorService.Models.Request.EvaluationDetailRequest;
 using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service
 {
@@ -17,5 +12,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<EvaluationDetailResponse>> CreateEvaluationDetail(EvaluationDetailCreateRequest request);
         Task<DataResponse<EvaluationDetailResponse>> UpdateEvaluationDetail(EvaluationDetailUpdateRequest request);
         Task<DataResponse<EvaluationDetailResponse>> DeleteEvaluationDetail(int id);
+        Task<DataResponse<List<EvaluationDetailResponse>>> GetEvaluationDetailsBySchoolId(int schoolId);
     }
 }

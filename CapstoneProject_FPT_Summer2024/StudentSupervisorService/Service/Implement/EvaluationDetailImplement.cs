@@ -5,13 +5,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.EvaluationDetailRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -211,6 +205,33 @@ namespace StudentSupervisorService.Service.Implement
             {
                 response.Message = "Oops! Something went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<EvaluationDetailResponse>>> GetEvaluationDetailsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<EvaluationDetailResponse>>();
+            try
+            {
+                var evaluationDetails = await _unitOfWork.EvaluationDetail.GetEvaluationDetailsBySchoolId(schoolId);
+                if (evaluationDetails == null || !evaluationDetails.Any())
+                {
+                    response.Message = "No EvaluationDetails found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var evaluationDetailDTOs = _mapper.Map<List<EvaluationDetailResponse>>(evaluationDetails);
+                    response.Data = evaluationDetailDTOs;
+                    response.Message = "EvaluationDetails found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

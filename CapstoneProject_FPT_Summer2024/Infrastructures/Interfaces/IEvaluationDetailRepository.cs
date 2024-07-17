@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<EvaluationDetail> CreateEvaluationDetail(EvaluationDetail evaluationDetailEntity);
         Task<EvaluationDetail> UpdateEvaluationDetail(EvaluationDetail evaluationDetailEntity);
         Task DeleteEvaluationDetail(int id);
+        Task<List<EvaluationDetail>> GetEvaluationDetailsBySchoolId(int schoolId);
     }
 }
