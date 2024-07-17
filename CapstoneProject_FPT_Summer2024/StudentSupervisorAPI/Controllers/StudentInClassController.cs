@@ -113,6 +113,20 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> GetStudentInClassesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var studentInClasses = await studentInClassService.GetStudentInClassesBySchoolId(schoolId);
+                return Ok(studentInClasses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("change-class")]
         public async Task<ActionResult<DataResponse<StudentInClassResponse>>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId)
         {

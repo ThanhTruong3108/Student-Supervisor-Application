@@ -4,13 +4,8 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -274,6 +269,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Data = "Empty";
                 response.Message = "Change failed: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<StudentInClassResponse>>> GetStudentInClassesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<StudentInClassResponse>>();
+            try
+            {
+                var studentInClasses = await _unitOfWork.StudentInClass.GetStudentInClassesBySchoolId(schoolId);
+                if (studentInClasses == null || !studentInClasses.Any())
+                {
+                    response.Message = "No StudentInClasses found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var studentInClassDTOs = _mapper.Map<List<StudentInClassResponse>>(studentInClasses);
+                    response.Data = studentInClassDTOs;
+                    response.Message = "StudentInClasses found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

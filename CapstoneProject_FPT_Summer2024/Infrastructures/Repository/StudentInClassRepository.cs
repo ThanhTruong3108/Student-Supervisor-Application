@@ -18,6 +18,7 @@ namespace Infrastructures.Repository
         public async Task<List<StudentInClass>> GetAllStudentInClass()
         {
             return await _context.StudentInClasses
+                .Include(v => v.Class)
                 .Include(s => s.Student)
                 .ToListAsync();
         }
@@ -25,6 +26,7 @@ namespace Infrastructures.Repository
         public async Task<StudentInClass> GetStudentInClassById(int id)
         {
             return await _context.StudentInClasses
+                .Include(v => v.Class)
                 .Include(s => s.Student)
                 .FirstOrDefaultAsync(x => x.StudentInClassId == id);
         }
@@ -66,7 +68,10 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Contains(status));
             }
 
-            return await query.Include(s => s.Student).ToListAsync();
+            return await query
+                .Include(v => v.Class)
+                .Include(s => s.Student)
+                .ToListAsync();
         }
         public async Task<StudentInClass> CreateStudentInClass(StudentInClass studentInClassEntity)
         {
@@ -93,6 +98,15 @@ namespace Infrastructures.Repository
         public async Task<bool> IsStudentEnrolledInAnyClass(int studentId)
         {
             return await _context.StudentInClasses.AnyAsync(sic => sic.StudentId == studentId && sic.Status == StudentInClassStatusEnums.ENROLLED.ToString());
+        }
+
+        public async Task<List<StudentInClass>> GetStudentInClassesBySchoolId(int schoolId)
+        {
+            return await _context.StudentInClasses
+                .Include(v => v.Class)
+                .Include(v => v.Student)
+                .Where(v => v.Student.SchoolId == schoolId)
+                .ToListAsync();
         }
     }
 }

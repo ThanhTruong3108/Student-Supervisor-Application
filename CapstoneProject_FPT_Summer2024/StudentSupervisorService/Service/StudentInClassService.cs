@@ -1,11 +1,6 @@
 ﻿using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
 using StudentSupervisorService.Models.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service
 {
@@ -26,6 +21,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<StudentInClassResponse>> CreateStudentInClass(StudentInClassCreateRequest request);
         Task<DataResponse<StudentInClassResponse>> UpdateStudentInClass(StudentInClassUpdateRequest request);
         Task<DataResponse<StudentInClassResponse>> DeleteStudentInClass(int id);
+        Task<DataResponse<List<StudentInClassResponse>>> GetStudentInClassesBySchoolId(int schoolId);
         Task<DataResponse<StudentInClassResponse>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId);
     }
 }
