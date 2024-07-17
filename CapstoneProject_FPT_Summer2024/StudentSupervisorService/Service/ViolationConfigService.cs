@@ -12,5 +12,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ViolationConfigResponse>> DeleteViolationConfig(int id);
         Task<DataResponse<ViolationConfigResponse>> UpdateViolationConfig(int id, RequestOfViolationConfig request);
         Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? vioTypeId, int? minusPoints, string sortOrder);
+        Task<DataResponse<List<ViolationConfigResponse>>> GetViolationConfigsBySchoolId(int schoolId);
     }
 }

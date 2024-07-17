@@ -139,6 +139,33 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ViolationConfigResponse>>> GetViolationConfigsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ViolationConfigResponse>>();
+            try
+            {
+                var violationConfigs = await _unitOfWork.ViolationConfig.GetViolationConfigsBySchoolId(schoolId);
+                if (violationConfigs == null || !violationConfigs.Any())
+                {
+                    response.Message = "No ViolationConfigs found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var vioConfigDTOs = _mapper.Map<List<ViolationConfigResponse>>(violationConfigs);
+                    response.Data = vioConfigDTOs;
+                    response.Message = "ViolationConfigs found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? vioTypeId, int? minusPoints, string sortOrder)
         {
             var response = new DataResponse<List<ViolationConfigResponse>>();
