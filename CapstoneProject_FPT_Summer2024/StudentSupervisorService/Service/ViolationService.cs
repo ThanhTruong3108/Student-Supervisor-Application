@@ -32,5 +32,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfViolation>>> GetPendingViolations();
         Task<DataResponse<List<ResponseOfViolation>>> GetRejectedViolations();
         Task<DataResponse<List<ResponseOfViolation>>> GetInactiveViolations();
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId);
     }
 }

@@ -5,7 +5,6 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using System.Net;
 using static System.Net.Mime.MediaTypeNames;
@@ -621,6 +620,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsBySchoolId(schoolId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Message = "No Violations found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
+                    response.Data = violationDTOS;
+                    response.Message = "Violations found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
     }

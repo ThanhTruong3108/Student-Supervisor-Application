@@ -32,6 +32,6 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetPendingViolations();
         Task<List<Violation>> GetRejectedViolations();
         Task<List<Violation>> GetInactiveViolations();
-
+        Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
     }
 }
