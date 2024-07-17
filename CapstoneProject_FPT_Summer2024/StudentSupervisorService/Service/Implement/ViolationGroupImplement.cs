@@ -2,6 +2,7 @@
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Infrastructures.Repository.UnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
@@ -24,6 +25,14 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var createvioGroup = new ViolationGroup
                 {
                     SchoolId = request.SchoolId,
@@ -226,6 +235,14 @@ namespace StudentSupervisorService.Service.Implement
                 if (vioGroup is null)
                 {
                     response.Message = "Can not found ViolationGroup";
+                    response.Success = false;
+                    return response;
+                }
+
+                var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
                     response.Success = false;
                     return response;
                 }

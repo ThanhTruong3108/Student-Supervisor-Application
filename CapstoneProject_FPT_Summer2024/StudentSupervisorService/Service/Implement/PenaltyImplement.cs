@@ -3,6 +3,7 @@ using Azure.Core;
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Infrastructures.Repository.UnitOfWork;
 using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.PenaltyRequest;
 using StudentSupervisorService.Models.Response;
@@ -126,6 +127,14 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<PenaltyResponse>();
             try
             {
+                var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyCreateRequest.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var penaltyEntity = new Penalty
                 {
                     SchoolId = penaltyCreateRequest.SchoolId,
@@ -160,6 +169,14 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Penalty not found";
+                    response.Success = false;
+                    return response;
+                }
+
+                var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyUpdateRequest.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Code already in use!";
                     response.Success = false;
                     return response;
                 }
