@@ -1,11 +1,6 @@
 ﻿using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 using StudentSupervisorService.Models.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service
 {
@@ -24,5 +19,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<PatrolScheduleResponse>> CreatePatrolSchedule(PatrolScheduleCreateRequest request);
         Task<DataResponse<PatrolScheduleResponse>> UpdatePatrolSchedule(PatrolScheduleUpdateRequest request);
         Task<DataResponse<PatrolScheduleResponse>> DeletePatrolSchedule(int id);
+        Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesBySchoolId(int schoolId);
     }
 }

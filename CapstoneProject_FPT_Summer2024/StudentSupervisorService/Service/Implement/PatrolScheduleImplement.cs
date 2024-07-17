@@ -4,14 +4,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassResponse;
-using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -218,6 +211,33 @@ namespace StudentSupervisorService.Service.Implement
             {
                 response.Message = "Oops! Something went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<PatrolScheduleResponse>>();
+            try
+            {
+                var patrolSchedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesBySchoolId(schoolId);
+                if (patrolSchedules == null || !patrolSchedules.Any())
+                {
+                    response.Message = "No PatrolSchedules found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var patrolScheduleDTOs = _mapper.Map<List<PatrolScheduleResponse>>(patrolSchedules);
+                    response.Data = patrolScheduleDTOs;
+                    response.Message = "PatrolSchedules found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

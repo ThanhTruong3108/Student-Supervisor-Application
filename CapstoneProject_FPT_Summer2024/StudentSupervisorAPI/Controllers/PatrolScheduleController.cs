@@ -110,5 +110,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
         }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> GetPatrolSchedulesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var patrolSchedules = await patrolScheduleService.GetPatrolSchedulesBySchoolId(schoolId);
+                return Ok(patrolSchedules);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

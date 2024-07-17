@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<PatrolSchedule> CreatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
         Task<PatrolSchedule> UpdatePatrolSchedule(PatrolSchedule patrolScheduleEntity);
         Task DeletePatrolSchedule(int id);
+        Task<List<PatrolSchedule>> GetPatrolSchedulesBySchoolId(int schoolId);
     }
 }
