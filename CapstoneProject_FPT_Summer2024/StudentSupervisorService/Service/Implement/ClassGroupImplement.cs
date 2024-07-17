@@ -35,8 +35,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 classGroupEntities = sortOrder == "desc"
-                    ? classGroupEntities.OrderByDescending(r => r.ClassGroupName).ToList()
-                    : classGroupEntities.OrderBy(r => r.ClassGroupName).ToList();
+                    ? classGroupEntities.OrderByDescending(r => r.ClassGroupId).ToList()
+                    : classGroupEntities.OrderBy(r => r.ClassGroupId).ToList();
 
                 response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
                 response.Message = "List ClassGroup";
@@ -77,13 +77,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
+        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(int? schoolId, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
         {
             var response = new DataResponse<List<ClassGroupResponse>>();
 
             try
             {
-                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(schoolId, name, hall, slot, time, status);
+                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(schoolId, hall, slot, time, status);
                 if (classGroupEntities is null || classGroupEntities.Count == 0)
                 {
                     response.Message = "No ClassGroup matches the search criteria";
@@ -93,11 +93,11 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     if (sortOrder == "desc")
                     {
-                        classGroupEntities = classGroupEntities.OrderByDescending(r => r.ClassGroupName).ToList();
+                        classGroupEntities = classGroupEntities.OrderByDescending(r => r.ClassGroupId).ToList();
                     }
                     else
                     {
-                        classGroupEntities = classGroupEntities.OrderBy(r => r.ClassGroupName).ToList();
+                        classGroupEntities = classGroupEntities.OrderBy(r => r.ClassGroupId).ToList();
                     }
                     response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
                     response.Message = "List ClassGroups";
@@ -120,7 +120,6 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroupEntity = new ClassGroup
                 {
                     SchoolId = request.SchoolId,
-                    ClassGroupName = request.ClassGroupName,
                     Hall = request.Hall,
                     Slot = request.Slot,
                     Time = request.Time,
@@ -156,7 +155,6 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingClassGroup.SchoolId = request.SchoolId ?? existingClassGroup.SchoolId;
-                existingClassGroup.ClassGroupName = request.ClassGroupName ?? existingClassGroup.ClassGroupName;
                 existingClassGroup.Hall = request.Hall ?? existingClassGroup.Hall;
                 existingClassGroup.Slot = request.Slot ?? existingClassGroup.Slot;
                 existingClassGroup.Time = request.Time ?? existingClassGroup.Time;

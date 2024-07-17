@@ -12,6 +12,7 @@ namespace StudentSupervisorService.Models.Request.ClassRequest
         public int ClassGroupId { get; set; }
         public int? TeacherId { get; set; }
         public string? Code { get; set; }
+        public int Grade { get; set; }
         public string Name { get; set; }
         public int TotalPoint { get; set; }
     }
@@ -23,6 +24,7 @@ namespace StudentSupervisorService.Models.Request.ClassRequest
         public int? ClassGroupId { get; set; }
         public int? TeacherId { get; set; }
         public string? Code { get; set; }
+        public int? Grade { get; set; }
         public string? Name { get; set; }
         public int? TotalPoint { get; set; }
     }

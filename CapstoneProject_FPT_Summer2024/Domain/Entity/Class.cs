@@ -13,6 +13,7 @@ public partial class Class
     public int? TeacherId { get; set; }
 
     public string? Code { get; set; }
+    public int Grade { get; set; }
 
     public string Name { get; set; } = null!;
 

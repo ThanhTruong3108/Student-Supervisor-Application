@@ -9,8 +9,6 @@ public partial class ClassGroup
 
     public int? SchoolId { get; set; }
 
-    public string ClassGroupName { get; set; } = null!;
-
     public string Hall { get; set; } = null!;
 
     public int? Slot { get; set; }

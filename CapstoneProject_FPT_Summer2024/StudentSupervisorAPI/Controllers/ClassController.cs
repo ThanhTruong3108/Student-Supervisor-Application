@@ -11,7 +11,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/classes")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ClassController : ControllerBase
     {
         private readonly ClassService classService;
@@ -52,12 +52,13 @@ namespace StudentSupervisorAPI.Controllers
             int? classGroupId, 
             string? code, 
             string? name, 
+            int? grade,
             int? totalPoint,
             string? sortOrder)
         {
             try
             {
-                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, name, totalPoint, sortOrder);
+                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, grade, name, totalPoint, sortOrder);
                 return Ok(classesReponse);
             } catch (Exception ex)
             {

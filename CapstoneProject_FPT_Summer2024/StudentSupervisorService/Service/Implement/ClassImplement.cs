@@ -75,13 +75,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? name, int? totalPoint, string sortOrder)
+        public async Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, int? grade, string? name, int? totalPoint, string sortOrder)
         {
             var response = new DataResponse<List<ClassResponse>>();
 
             try
             {
-                var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, name, totalPoint);
+                var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, grade, name, totalPoint);
                 if (classEntities is null || classEntities.Count == 0)
                 {
                     response.Message = "No Class matches the search criteria";
@@ -122,12 +122,21 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name).FirstOrDefault();
+                if (isExistName != null)
+                {
+                    response.Message = "Name already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var classEntity = new Class
                 {
                     SchoolYearId = request.SchoolYearId,
                     ClassGroupId = request.ClassGroupId,
                     TeacherId = request.TeacherId,
                     Code = request.Code,
+                    Grade = request.Grade,
                     Name = request.Name,
                     TotalPoint = request.TotalPoint
                 };
@@ -168,10 +177,19 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name && s.ClassId != request.ClassId).FirstOrDefault();
+                if (isExistName != null)
+                {
+                    response.Message = "Name already in use!";
+                    response.Success = false;
+                    return response;
+                }
+
                 existingClass.SchoolYearId = request.SchoolYearId ?? existingClass.SchoolYearId;
                 existingClass.ClassGroupId = request.ClassGroupId ?? existingClass.ClassGroupId;
                 existingClass.TeacherId = request.TeacherId ?? existingClass.TeacherId;
                 existingClass.Code = request.Code ?? existingClass.Code;
+                existingClass.Grade = request.Grade ?? existingClass.Grade;
                 existingClass.Name = request.Name ?? existingClass.Name;
                 existingClass.TotalPoint = request.TotalPoint ?? existingClass.TotalPoint;
 

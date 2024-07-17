@@ -9,6 +9,7 @@ namespace StudentSupervisorService.Models.Response.ClassResponse
         public int? TeacherId { get; set; }
         public string? TeacherName { get; set; }
         public string? Code { get; set; }
+        public int Grade { get; set; }
         public string? Name { get; set; }
         public int? TotalPoint { get; set; }
     }

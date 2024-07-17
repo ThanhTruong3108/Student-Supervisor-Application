@@ -29,17 +29,13 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ClassGroupId == id);
         }
 
-        public async Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status)
+        public async Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? hall, int? slot, TimeSpan? time, string? status)
         {
             var query = _context.ClassGroups.AsQueryable();
 
             if (schoolId.HasValue)
             {
                 query = query.Where(p => p.SchoolId == schoolId.Value);
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.ClassGroupName.Contains(name));
             }
             if (!string.IsNullOrEmpty(hall))
             {

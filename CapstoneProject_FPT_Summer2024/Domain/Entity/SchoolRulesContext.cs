@@ -106,6 +106,7 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.ClassId).HasColumnName("ClassID");
             entity.Property(e => e.ClassGroupId).HasColumnName("ClassGroupID");
             entity.Property(e => e.Code).HasMaxLength(50);
+            entity.Property(e => e.Grade).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(70);
             entity.Property(e => e.SchoolYearId).HasColumnName("SchoolYearID");
 
@@ -130,7 +131,6 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("ClassGroup");
 
             entity.Property(e => e.ClassGroupId).HasColumnName("ClassGroupID");
-            entity.Property(e => e.ClassGroupName).HasMaxLength(50);
             entity.Property(e => e.Hall).HasMaxLength(20);
             entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
             entity.Property(e => e.Status).HasMaxLength(50);

@@ -9,7 +9,6 @@ namespace StudentSupervisorService.Models.Request.ClassGroupRequest
     public class ClassGroupCreateRequest
     {
         public int SchoolId { get; set; }
-        public string ClassGroupName { get; set; }
         public string Hall { get; set; }
         public int Slot { get; set; }
         public TimeSpan Time { get; set; }
@@ -19,7 +18,6 @@ namespace StudentSupervisorService.Models.Request.ClassGroupRequest
     {
         public int ClassGroupID { get; set; }
         public int? SchoolId { get; set; }
-        public string? ClassGroupName { get; set; }
         public string? Hall { get; set; }
         public int? Slot { get; set; }  
         public TimeSpan? Time { get; set; }

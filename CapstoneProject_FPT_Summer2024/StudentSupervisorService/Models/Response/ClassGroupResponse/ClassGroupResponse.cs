@@ -10,7 +10,6 @@ namespace StudentSupervisorService.Models.Response.ClassGroupResponse
     {
         public int ClassGroupId { get; set; }
         public int? SchoolId { get; set; }
-        public string? ClassGroupName { get; set; }
         public string? Hall { get; set; }
         public int? Slot { get; set; }
         public TimeSpan? Time { get; set; }

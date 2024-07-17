@@ -34,7 +34,7 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ClassId == id);
         }
 
-        public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? name, int? totalPoint)
+        public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, int? grade, string? name, int? totalPoint)
         {
             var query = _context.Classes.AsQueryable();
 
@@ -49,6 +49,10 @@ namespace Infrastructures.Repository
             if (!string.IsNullOrEmpty(code))
             {
                 query = query.Where(p => p.Code.Contains(code));
+            }
+            if (grade != null)
+            {
+                query = query.Where(p => p.Grade == grade);
             }
             if (!string.IsNullOrEmpty(name))
             {

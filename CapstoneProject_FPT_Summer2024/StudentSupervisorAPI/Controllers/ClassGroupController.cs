@@ -61,7 +61,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var classGroupsResponse = await classGroupService.SearchClassGroups(schoolId, classGroupName, hall, slot, time, status.ToString(), sortOrder);
+                var classGroupsResponse = await classGroupService.SearchClassGroups(schoolId, hall, slot, time, status.ToString(), sortOrder);
                 return Ok(classGroupsResponse);
             }
             catch (Exception ex)
