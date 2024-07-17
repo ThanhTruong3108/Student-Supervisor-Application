@@ -6,6 +6,7 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using Microsoft.AspNetCore.Authorization;
+using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -97,6 +98,20 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var deletedStuSuper = await _service.DeleteStudentSupervisor(id);
                 return deletedStuSuper == null ? NoContent() : Ok(deletedStuSuper);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<StudentSupervisorResponse>>>> GetStudentSupervisorsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var stuSupers = await _service.GetStudentSupervisorsBySchoolId(schoolId);
+                return Ok(stuSupers);
             }
             catch (Exception ex)
             {

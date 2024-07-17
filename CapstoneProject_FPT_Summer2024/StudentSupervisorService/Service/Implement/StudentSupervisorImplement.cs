@@ -178,6 +178,33 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<StudentSupervisorResponse>>> GetStudentSupervisorsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<StudentSupervisorResponse>>();
+            try
+            {
+                var studentSupervisors = await _unitOfWork.StudentSupervisor.GetStudentSupervisorsBySchoolId(schoolId);
+                if (studentSupervisors == null || !studentSupervisors.Any())
+                {
+                    response.Message = "No StudentSupervisors found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var stuSupervisorDTOs = _mapper.Map<List<StudentSupervisorResponse>>(studentSupervisors);
+                    response.Data = stuSupervisorDTOs;
+                    response.Message = "StudentSupervisors found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<List<StudentSupervisorResponse>>> SearchStudentSupervisors(int? userId, int? studentInClassId, string sortOrder)
         {
             var response = new DataResponse<List<StudentSupervisorResponse>>();

@@ -31,6 +31,15 @@ namespace Infrastructures.Repository
               .FirstOrDefault(s => s.StudentSupervisorId == id);
         }
 
+        public async Task<List<StudentSupervisor>> GetStudentSupervisorsBySchoolId(int schoolId)
+        {
+            return await _context.StudentSupervisors
+                .Include(v => v.StudentInClass)
+                .Include(v => v.User)
+                .Where(v => v.User.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
         public async Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, int? studentInClassId)
         {
             var query = _context.StudentSupervisors.AsQueryable();
