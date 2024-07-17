@@ -32,6 +32,15 @@ namespace Infrastructures.Repository
                 .FirstOrDefault();
         }
 
+        public async Task<List<YearPackage>> GetYearPackagesBySchoolId(int schoolId)
+        {
+            return await _context.YearPackages
+                .Include(v => v.Package)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
         public async Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId, int? minNumberOfStudent, int? maxNumberOfStudent)
         {
             var query = _context.YearPackages.AsQueryable();

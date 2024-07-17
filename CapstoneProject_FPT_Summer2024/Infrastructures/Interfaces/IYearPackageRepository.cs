@@ -13,5 +13,6 @@ namespace Infrastructures.Interfaces
         Task<List<YearPackage>> GetAllYearPackages();
         Task<YearPackage> GetYearPackageById(int id);
         Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId, int? minNumberOfStudent, int? maxNumberOfStudent);
+        Task<List<YearPackage>> GetYearPackagesBySchoolId(int schoolId);
     }
 }

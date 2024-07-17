@@ -99,5 +99,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfYearPackage>>>> GetYearPackagesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var yearPackages = await _service.GetYearPackagesBySchoolId(schoolId);
+                return Ok(yearPackages);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

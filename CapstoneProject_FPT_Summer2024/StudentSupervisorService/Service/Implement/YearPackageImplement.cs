@@ -144,6 +144,33 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfYearPackage>>> GetYearPackagesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfYearPackage>>();
+            try
+            {
+                var yearPackages = await _unitOfWork.YearPackage.GetYearPackagesBySchoolId(schoolId);
+                if (yearPackages == null || !yearPackages.Any())
+                {
+                    response.Message = "No YearPackages found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var yearPackageDTOs = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
+                    response.Data = yearPackageDTOs;
+                    response.Message = "YearPackages found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<List<ResponseOfYearPackage>>> SearchYearPackages(int? schoolYearId, int? packageId, int? minNumberOfStudent, int? maxNumberOfStudent, string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfYearPackage>>();
