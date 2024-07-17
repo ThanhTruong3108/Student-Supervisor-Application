@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 
 namespace StudentSupervisorService.Service
 {
@@ -17,5 +18,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<EvaluationResponse>> CreateEvaluation(EvaluationCreateRequest request);
         Task<DataResponse<EvaluationResponse>> UpdateEvaluation(EvaluationUpdateRequest request);
         Task<DataResponse<EvaluationResponse>> DeleteEvaluation(int id);
+        Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId);
     }
 }

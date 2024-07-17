@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using Domain.Entity;
-using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.EvaluationResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -184,9 +178,61 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public Task<DataResponse<EvaluationResponse>> DeleteEvaluation(int id)
+        public async Task<DataResponse<EvaluationResponse>> DeleteEvaluation(int id)
         {
-            throw new NotImplementedException();
-        }      
+            var response = new DataResponse<EvaluationResponse>();
+            try
+            {
+                var evaluation = _unitOfWork.Evaluation.GetById(id);
+                if (evaluation is null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Cannot find Evaluation with ID: " + id;
+                    response.Success = false;
+                    return response;
+                }
+
+                _unitOfWork.Evaluation.Remove(evaluation);
+                _unitOfWork.Save();
+
+                response.Data = "Empty";
+                response.Message = "Evaluation deleted successfully";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Delete Evaluation failed: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<EvaluationResponse>>();
+            try
+            {
+                var evaluations = await _unitOfWork.Evaluation.GetEvaluationsBySchoolId(schoolId);
+                if (evaluations == null || !evaluations.Any())
+                {
+                    response.Message = "No Evaluations found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var evaluationDTOS = _mapper.Map<List<EvaluationResponse>>(evaluations);
+                    response.Data = evaluationDTOS;
+                    response.Message = "Evaluations found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

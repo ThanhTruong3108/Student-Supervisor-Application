@@ -17,12 +17,18 @@ namespace Infrastructures.Repository
 
         public async Task<List<Evaluation>> GetAllEvaluations()
         {
-            return await _context.Evaluations.ToListAsync();
+            return await _context.Evaluations
+                .Include(v => v.ViolationConfig)
+                .Include(v => v.SchoolYear)
+                .ToListAsync();
         }
 
         public async Task<Evaluation> GetEvaluationById(int id)
         {
-            return await _context.Evaluations.FirstOrDefaultAsync(x => x.EvaluationId == id);
+            return await _context.Evaluations
+                .Include(v => v.ViolationConfig)
+                .Include(v => v.SchoolYear)
+                .FirstOrDefaultAsync(x => x.EvaluationId == id);
         }
 
         public async Task<List<Evaluation>> SearchEvaluations(int? schoolYearId, int? violationConfigID, string? desciption, DateTime? from, DateTime? to, short? point)
@@ -70,9 +76,13 @@ namespace Infrastructures.Repository
             return evaluationEntity;
         }
 
-        public async Task DeleteEvaluation(int id)
+        public async Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId)
         {
-
+            return await _context.Evaluations
+                .Include(v => v.ViolationConfig)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
         }
     }
 }

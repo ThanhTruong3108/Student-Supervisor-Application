@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
 using StudentSupervisorService.Models.Response;
@@ -89,6 +88,34 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var evaluationResponse = await evaluationService.UpdateEvaluation(request);
                 return Ok(evaluationResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<DataResponse<EvaluationResponse>>> DeleteEvaluation(int id)
+        {
+            try
+            {
+                var deleteEvaluation = await evaluationService.DeleteEvaluation(id);
+                return deleteEvaluation == null ? NoContent() : Ok(deleteEvaluation);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<EvaluationResponse>>>> GetEvaluationsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var evaluations = await evaluationService.GetEvaluationsBySchoolId(schoolId);
+                return Ok(evaluations);
             }
             catch (Exception ex)
             {
