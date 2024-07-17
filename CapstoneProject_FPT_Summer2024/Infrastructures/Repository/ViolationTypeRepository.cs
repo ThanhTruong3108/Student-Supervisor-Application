@@ -26,9 +26,9 @@ namespace Infrastructures.Repository
         public async Task<List<ViolationType>> GetViolationTypesBySchoolId(int schoolId)
         {
             return await _context.ViolationTypes
-            .Include(v => v.ViolationGroup)
-            .Where(v => v.ViolationGroup.SchoolId == schoolId)
-            .ToListAsync();
+                .Include(v => v.ViolationGroup)
+                .Where(v => v.ViolationGroup.SchoolId == schoolId)
+                .ToListAsync();
         }
 
         public async Task<ViolationType> GetVioTypeById(int id)

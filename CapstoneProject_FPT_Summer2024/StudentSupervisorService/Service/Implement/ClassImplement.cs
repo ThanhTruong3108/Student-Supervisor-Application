@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
-using Infrastructures.Repository.UnitOfWork;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
@@ -230,6 +229,33 @@ namespace StudentSupervisorService.Service.Implement
             {
                 response.Message = "Oops! Something went wrong.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<ClassResponse>>> GetClassesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ClassResponse>>();
+            try
+            {
+                var classes = await _unitOfWork.Class.GetClasssBySchoolId(schoolId);
+                if (classes == null || !classes.Any())
+                {
+                    response.Message = "No Classes found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var classDTOs = _mapper.Map<List<ClassResponse>>(classes);
+                    response.Data = classDTOs;
+                    response.Message = "Classes found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

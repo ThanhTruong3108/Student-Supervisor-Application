@@ -88,5 +88,16 @@ namespace Infrastructures.Repository
             _context.Classes.Remove(classEntity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<Class>> GetClasssBySchoolId(int schoolId)
+        {
+            return await _context.Classes
+                .Include(c => c.ClassGroup)
+                .Include(t => t.Teacher)
+                    .ThenInclude(u => u.User)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
+        }
     }
 }

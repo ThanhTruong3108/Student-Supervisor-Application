@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<Class> CreateClass(Class classEntity);
         Task<Class> UpdateClass(Class classEntity);
         Task DeleteClass(int id);
+        Task<List<Class>> GetClasssBySchoolId(int schoolId);
     }
 }

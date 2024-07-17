@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassResponse;
@@ -11,7 +8,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/classes")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class ClassController : ControllerBase
     {
         private readonly ClassService classService;
@@ -100,6 +97,20 @@ namespace StudentSupervisorAPI.Controllers
                 var classResponse = await classService.DeleteClass(id);
                 return Ok(classResponse);
             } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<ClassResponse>>>> GetClassesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var classes = await classService.GetClassesBySchoolId(schoolId);
+                return Ok(classes);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
