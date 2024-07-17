@@ -16,12 +16,22 @@ namespace Infrastructures.Repository
 
         public async Task<List<Class>> GetAllClasses()
         {
-            return await _context.Classes.ToListAsync();
+            return await _context.Classes
+                .Include(s => s.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(t => t.Teacher)
+                    .ThenInclude(u => u.User)
+                .ToListAsync();
         }
 
         public async Task<Class> GetClassById(int id)
         {
-            return await _context.Classes.FirstOrDefaultAsync(x => x.ClassId == id);
+            return await _context.Classes
+                .Include(s => s.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(t => t.Teacher)
+                    .ThenInclude(u => u.User)
+                .FirstOrDefaultAsync(x => x.ClassId == id);
         }
 
         public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, string? name, int? totalPoint)
@@ -49,7 +59,12 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.TotalPoint == totalPoint);
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(s => s.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(t => t.Teacher)
+                    .ThenInclude(u => u.User)
+                .ToListAsync();
         }
         public async Task<Class> CreateClass(Class classEntity)
         {
