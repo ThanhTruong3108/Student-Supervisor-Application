@@ -5,13 +5,8 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.RegisteredSchoolRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.RegisteredSchoolResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -214,6 +209,35 @@ namespace StudentSupervisorService.Service.Implement
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<RegisteredSchoolResponse>>> GetRegisteredSchoolsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<RegisteredSchoolResponse>>();
+
+            try
+            {
+                var registeredSchools = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolsBySchoolId(schoolId);
+                if (registeredSchools == null || !registeredSchools.Any())
+                {
+                    response.Message = "No RegisteredSchools found for the specified SchoolId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var registeredSchoolDTOs = _mapper.Map<List<RegisteredSchoolResponse>>(registeredSchools);
+                    response.Data = registeredSchoolDTOs;
+                    response.Message = "RegisteredSchools found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
             return response;
         }
     }

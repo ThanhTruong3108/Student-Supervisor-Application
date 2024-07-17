@@ -6,13 +6,7 @@ using Infrastructures.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.StudentResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -229,6 +223,35 @@ namespace StudentSupervisorService.Service.Implement
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<StudentResponse>>> GetStudentsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<StudentResponse>>();
+
+            try
+            {
+                var students = await unitOfWork.Student.GetStudentsBySchoolId(schoolId);
+                if (students == null || !students.Any())
+                {
+                    response.Message = "No Students found for the specified SchoolId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var studentDTO = mapper.Map<List<StudentResponse>>(students);
+                    response.Data = studentDTO;
+                    response.Message = "Students found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
             return response;
         }
     }

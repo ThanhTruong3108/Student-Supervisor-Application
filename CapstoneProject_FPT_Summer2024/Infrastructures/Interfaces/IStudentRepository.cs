@@ -17,5 +17,6 @@ namespace Infrastructures.Interfaces
         Task<Student> CreateStudent(Student studentEntity);
         Task<Student> UpdateStudent(Student studentEntity);
         Task DeleteStudent(int id);
+        Task<List<Student>> GetStudentsBySchoolId(int schoolId);
     }
 }

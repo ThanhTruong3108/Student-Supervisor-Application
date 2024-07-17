@@ -17,12 +17,18 @@ namespace Infrastructures.Repository
 
         public async Task<List<EvaluationDetail>> GetAllEvaluationDetails()
         {
-            return await _context.EvaluationDetails.ToListAsync();
+            return await _context.EvaluationDetails
+                .Include(c => c.Class)
+                .Include(c => c.Evaluation)
+                .ToListAsync();
         }
 
         public async Task<EvaluationDetail> GetEvaluationDetailById(int id)
         {
-            return await _context.EvaluationDetails.FirstOrDefaultAsync(x => x.EvaluationDetailId == id);
+            return await _context.EvaluationDetails
+                .Include(c => c.Class)
+                .Include(c => c.Evaluation)
+                .FirstOrDefaultAsync(x => x.EvaluationDetailId == id);
         }
 
         public async Task<List<EvaluationDetail>> SearchEvaluationDetails(int? classId, int? evaluationId, string? status)
@@ -42,7 +48,10 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Equals(status));
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(c => c.Class)
+                .Include(c => c.Evaluation)
+                .ToListAsync();
         }
         public async Task<EvaluationDetail> CreateEvaluationDetail(EvaluationDetail evaluationDetailEntity)
         {

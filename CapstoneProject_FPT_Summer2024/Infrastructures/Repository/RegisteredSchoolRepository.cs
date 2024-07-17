@@ -17,12 +17,16 @@ namespace Infrastructures.Repository
 
         public async Task<List<RegisteredSchool>> GetAllRegisteredSchools()
         {
-            return await _context.RegisteredSchools.ToListAsync();
+            return await _context.RegisteredSchools
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<RegisteredSchool> GetRegisteredSchoolById(int id)
         {
-            return await _context.RegisteredSchools.FirstOrDefaultAsync(x => x.RegisteredId == id);
+            return await _context.RegisteredSchools
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(x => x.RegisteredId == id);
         }
 
         public async Task<List<RegisteredSchool>> SearchRegisteredSchools(int? schoolId, DateTime? registerdDate, string? description, string? status)
@@ -45,7 +49,9 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.Status.Equals(status));
             }
-            return await query.ToListAsync();
+            return await query
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<RegisteredSchool> CreateRegisteredSchool(RegisteredSchool registeredSchoolEntity)
@@ -68,6 +74,14 @@ namespace Infrastructures.Repository
             registeredSchool.Status = RegisteredSchoolStatusEnums.INACTIVE.ToString();
             _context.Entry(registeredSchool).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<RegisteredSchool>> GetRegisteredSchoolsBySchoolId(int schoolId)
+        {
+            return await _context.RegisteredSchools
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
         }
     }
 }

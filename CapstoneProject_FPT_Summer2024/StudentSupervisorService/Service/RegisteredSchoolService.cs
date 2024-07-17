@@ -11,5 +11,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<RegisteredSchoolResponse>> CreateRegisteredSchool(RegisteredSchoolCreateRequest registeredSchoolCreateRequest);
         Task<DataResponse<RegisteredSchoolResponse>> UpdateRegisteredSchool(RegisteredSchoolUpdateRequest registeredSchoolUpdateRequest);
         Task<DataResponse<RegisteredSchoolResponse>> DeleteRegisteredSchool(int id);
+        Task<DataResponse<List<RegisteredSchoolResponse>>> GetRegisteredSchoolsBySchoolId(int schoolId);
     }
 }

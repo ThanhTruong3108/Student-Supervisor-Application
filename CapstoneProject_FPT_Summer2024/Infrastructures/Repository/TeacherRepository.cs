@@ -36,14 +36,26 @@ namespace Infrastructures.Repository
         public async Task<Teacher> GetTeacherByIdWithUser(int id)
         {
             return _context.Teachers
-                .Include(t => t.User)
+                .Include(c => c.User)
+                .Include(c => c.School)
                 .FirstOrDefault(t => t.TeacherId == id);
         }
 
         public async Task<Teacher> GetTeacherByUserId(int id)
         {
             return _context.Teachers
+                .Include(c => c.User)
+                .Include(c => c.School)
                 .FirstOrDefault(i => i.UserId == id);
+        }
+
+        public async Task<List<Teacher>> GetTeachersBySchoolId(int schoolId)
+        {
+            return await _context.Teachers
+                .Include(c => c.User)
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
         }
 
         public async Task<List<Teacher>> SearchTeachers(int? schoolId, int? userId, bool sex)

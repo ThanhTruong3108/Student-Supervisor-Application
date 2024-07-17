@@ -1,11 +1,7 @@
 ﻿using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StudentSupervisorService.Service
 {
@@ -25,5 +21,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<StudentResponse>> CreateStudent(StudentCreateRequest studentCreateRequest);
         Task<DataResponse<StudentResponse>> UpdateStudent(StudentUpdateRequest studentUpdateRequest);
         Task<DataResponse<StudentResponse>> DeleteStudent(int studentId);
+        Task<DataResponse<List<StudentResponse>>> GetStudentsBySchoolId(int schoolId);
     }
 }

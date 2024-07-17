@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<ClassGroup> CreateClassGroup(ClassGroup classGroupEntity);
         Task<ClassGroup> UpdateClassGroup(ClassGroup classGroupEntity);
         Task DeleteClassGroup(int id);
+        Task<List<ClassGroup>> GetClassGroupsBySchoolId(int schoolId);
     }
 }

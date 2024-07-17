@@ -17,12 +17,16 @@ namespace Infrastructures.Repository
 
         public async Task<List<Penalty>> GetAllPenalties()
         {
-            return await _context.Penalties.ToListAsync();
+            return await _context.Penalties
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<Penalty> GetPenaltyById(int id)
         {
-            return await _context.Penalties.FirstOrDefaultAsync(x => x.PenaltyId == id);
+            return await _context.Penalties
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(x => x.PenaltyId == id);
         }
 
         public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description, string? status)
@@ -46,7 +50,9 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Equals(status));
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<Penalty> CreatePenalty(Penalty penaltyEntity)
@@ -69,6 +75,14 @@ namespace Infrastructures.Repository
             penaltyEntity.Status = PenaltyStatusEnums.INACTIVE.ToString();
             _context.Entry(penaltyEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }   
+        }
+
+        public async Task<List<Penalty>> GetPenaltiesBySchoolId(int schoolId)
+        {
+            return await _context.Penalties
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
+        }
     }
 }

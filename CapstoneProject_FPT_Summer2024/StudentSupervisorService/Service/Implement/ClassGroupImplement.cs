@@ -212,5 +212,34 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<List<ClassGroupResponse>>> GetClassGroupsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ClassGroupResponse>>();
+
+            try
+            {
+                var classGroups = await _unitOfWork.ClassGroup.GetClassGroupsBySchoolId(schoolId);
+                if (classGroups == null || !classGroups.Any())
+                {
+                    response.Message = "No ClassGroups found for the specified SchoolId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var classGroupDTO = _mapper.Map<List<ClassGroupResponse>>(classGroups);
+                    response.Data = classGroupDTO;
+                    response.Message = "ClassGroups found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

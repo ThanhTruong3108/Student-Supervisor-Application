@@ -100,5 +100,18 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroupsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var vioGroups = await _service.GetVioGroupsBySchoolId(schoolId);
+                return Ok(vioGroups);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

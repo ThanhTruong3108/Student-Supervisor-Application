@@ -19,5 +19,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ClassGroupResponse>> CreateClassGroup(ClassGroupCreateRequest classGroupCreateRequest);
         Task<DataResponse<ClassGroupResponse>> UpdateClassGroup(ClassGroupUpdateRequest classGroupUpdateRequest);
         Task<DataResponse<ClassGroupResponse>> DeleteClassGroup(int id);
+        Task<DataResponse<List<ClassGroupResponse>>> GetClassGroupsBySchoolId(int schoolId);
     }
 }

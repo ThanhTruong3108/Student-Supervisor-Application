@@ -17,12 +17,16 @@ namespace Infrastructures.Repository
 
         public async Task<List<ClassGroup>> GetAllClassGroups()
         {
-            return await _context.ClassGroups.ToListAsync();
+            return await _context.ClassGroups
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<ClassGroup> GetClassGroupById(int id)
         {
-            return await _context.ClassGroups.FirstOrDefaultAsync(x => x.ClassGroupId == id);
+            return await _context.ClassGroups
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(x => x.ClassGroupId == id);
         }
 
         public async Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? name, string? hall, int? slot, TimeSpan? time, string? status)
@@ -55,7 +59,9 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Equals(status));
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(c => c.School)
+                .ToListAsync();
         }
 
         public async Task<ClassGroup> CreateClassGroup(ClassGroup classGroupEntity)
@@ -79,5 +85,12 @@ namespace Infrastructures.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<ClassGroup>> GetClassGroupsBySchoolId(int schoolId)
+        {
+            return await _context.ClassGroups
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
+        }
     }
 }

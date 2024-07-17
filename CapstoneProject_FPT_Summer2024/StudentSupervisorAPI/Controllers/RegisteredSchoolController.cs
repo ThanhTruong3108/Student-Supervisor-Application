@@ -7,6 +7,7 @@ using StudentSupervisorService.Models.Request.RegisteredSchoolRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.RegisteredSchoolResponse;
+using StudentSupervisorService.Models.Response.UserResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -104,6 +105,19 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var registeredSchoolsResponse = await registeredSchoolService.DeleteRegisteredSchool(id);
                 return Ok(registeredSchoolsResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<RegisteredSchoolResponse>>>> GetRegisteredSchoolsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var registeredSchools = await registeredSchoolService.GetRegisteredSchoolsBySchoolId(schoolId);
+                return Ok(registeredSchools);
             }
             catch (Exception ex)
             {

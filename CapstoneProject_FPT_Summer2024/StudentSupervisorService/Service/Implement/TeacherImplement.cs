@@ -187,6 +187,35 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<TeacherResponse>>> GetTeachersBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<TeacherResponse>>();
+
+            try
+            {
+                var teachers = await _unitOfWork.Teacher.GetTeachersBySchoolId(schoolId);
+                if (teachers == null || !teachers.Any())
+                {
+                    response.Message = "No Teachers found for the specified SchoolId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var teacherDTOs = _mapper.Map<List<TeacherResponse>>(teachers);
+                    response.Data = teacherDTOs;
+                    response.Message = "Teachers found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
         public async Task<DataResponse<List<TeacherResponse>>> SearchTeachers(int? schoolId, int? userId, bool sex, string sortOrder)
         {
             var response = new DataResponse<List<TeacherResponse>>();

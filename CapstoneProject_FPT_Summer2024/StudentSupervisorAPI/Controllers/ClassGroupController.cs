@@ -6,6 +6,7 @@ using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Request.ClassGroupRequest;
 using Domain.Enums.Status;
 using Microsoft.AspNetCore.Authorization;
+using StudentSupervisorService.Models.Response.UserResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -104,6 +105,19 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var classGroupResponse = await classGroupService.DeleteClassGroup(id);
                 return Ok(classGroupResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetClassGroupsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var users = await classGroupService.GetClassGroupsBySchoolId(schoolId);
+                return Ok(users);
             }
             catch (Exception ex)
             {

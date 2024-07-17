@@ -19,5 +19,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<PenaltyResponse>> CreatePenalty(PenaltyCreateRequest penaltyCreateRequest);
         Task<DataResponse<PenaltyResponse>> UpdatePenalty(PenaltyUpdateRequest penaltyUpdateRequest);
         Task<DataResponse<PenaltyResponse>> DeletePenalty(int id);
+        Task<DataResponse<List<PenaltyResponse>>> GetPenaltiesBySchoolId(int schoolId);
     }
 }

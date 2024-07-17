@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<RegisteredSchool> CreateRegisteredSchool(RegisteredSchool registeredSchoolEntity);
         Task<RegisteredSchool> UpdateRegisteredSchool(RegisteredSchool registeredSchoolEntity);
         Task DeleteRegisteredSchool(int id);
+        Task<List<RegisteredSchool>> GetRegisteredSchoolsBySchoolId(int schoolId);
     }
 }

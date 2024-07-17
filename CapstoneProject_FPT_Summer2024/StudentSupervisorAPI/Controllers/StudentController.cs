@@ -4,7 +4,6 @@ using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.StudentResponse;
 using StudentSupervisorService.Models.Request.StudentRequest;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using Microsoft.AspNetCore.Authorization;
 
 namespace StudentSupervisorAPI.Controllers
@@ -109,6 +108,20 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message + (ex.InnerException != null ? ex.InnerException.Message : ""));
+            }
+        }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> GetStudentsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var students = await studentService.GetStudentsBySchoolId(schoolId);
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 

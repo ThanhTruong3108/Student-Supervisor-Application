@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<Penalty> CreatePenalty(Penalty penaltyEntity);
         Task<Penalty> UpdatePenalty(Penalty penaltyEntity);
         Task DeletePenalty(int id);
+        Task<List<Penalty>> GetPenaltiesBySchoolId(int schoolId);
     }
 }

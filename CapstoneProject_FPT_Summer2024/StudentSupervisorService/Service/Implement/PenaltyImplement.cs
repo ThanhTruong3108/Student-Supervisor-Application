@@ -3,18 +3,9 @@ using Azure.Core;
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
-using Infrastructures.Repository.UnitOfWork;
-using Microsoft.Data.SqlClient;
 using StudentSupervisorService.Models.Request.PenaltyRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassResponse;
-using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.PenaltyResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -235,6 +226,35 @@ namespace StudentSupervisorService.Service.Implement
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<PenaltyResponse>>> GetPenaltiesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<PenaltyResponse>>();
+
+            try
+            {
+                var penalties = await _unitOfWork.Penalty.GetPenaltiesBySchoolId(schoolId);
+                if (penalties == null || !penalties.Any())
+                {
+                    response.Message = "No Penaltys found for the specified SchoolId.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var penaltyDTOs = _mapper.Map<List<PenaltyResponse>>(penalties);
+                    response.Data = penaltyDTOs;
+                    response.Message = "Penaltys found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+
             return response;
         }
     }

@@ -2,11 +2,6 @@
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructures.Repository
 {
@@ -99,6 +94,14 @@ namespace Infrastructures.Repository
             return _context.Students
                 .Include(s => s.School)
                 .FirstOrDefault(x => x.Code == code);
+        }
+
+        public async Task<List<Student>> GetStudentsBySchoolId(int schoolId)
+        {
+            return await _context.Students
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
         }
     }
 }
