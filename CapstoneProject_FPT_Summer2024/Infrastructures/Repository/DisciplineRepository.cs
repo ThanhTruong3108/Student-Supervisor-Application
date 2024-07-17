@@ -96,5 +96,13 @@ namespace Infrastructures.Repository
                 .Where(v => v.Pennalty.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task<Discipline> GetDisciplineByViolationId(int violationId)
+        {
+            return _context.Disciplines
+                .Include(v => v.Violation)
+                .Include(v => v.Pennalty)
+                .FirstOrDefault(x => x.ViolationId == violationId);
+        }
     }
 }

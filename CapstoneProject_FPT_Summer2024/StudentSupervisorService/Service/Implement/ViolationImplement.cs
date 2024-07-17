@@ -238,6 +238,19 @@ namespace StudentSupervisorService.Service.Implement
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
+                //// Tạo Discipline cho Violation tương ứng
+                //var disciplineEntity = new Discipline
+                //{
+                //    ViolationId = violationEntity.ViolationId,
+                //    PennaltyId = 1, // Set a default PennaltyId or fetch based on some logic
+                //    Description = violationEntity.Name,
+                //    StartDate = DateTime.Now,
+                //    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
+                //    Status = DisciplineStatusEnums.PENDING.ToString()
+                //};
+                //// Save Discipline to database
+                //await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+
                 // Increase NumberOfViolation in StudentInClass
                 var studentInClass = _unitOfWork.StudentInClass.GetById(violationEntity.StudentInClassId.Value);
                 if (studentInClass != null)
@@ -355,6 +368,19 @@ namespace StudentSupervisorService.Service.Implement
 
                 violation.Status = ViolationStatusEnums.APPROVED.ToString();
                 await _unitOfWork.Violation.UpdateViolation(violation);
+
+                //// Tạo Discipline cho Violation tương ứng
+                //var disciplineEntity = new Discipline
+                //{
+                //    ViolationId = violation.ViolationId,
+                //    PennaltyId = 1, // Set a default PennaltyId or fetch based on some logic
+                //    Description = violation.Name,
+                //    StartDate = DateTime.Now,
+                //    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
+                //    Status = DisciplineStatusEnums.PENDING.ToString()
+                //};
+                //// Save Discipline to database
+                //await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
 
                 // Increase NumberOfViolation in StudentInClass
                 var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
