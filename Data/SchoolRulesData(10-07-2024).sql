@@ -65,11 +65,11 @@ VALUES
 
 
 -- Chèn 3 bản ghi mẫu vào bảng ClassGroup
-INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [ClassGroupName], [Hall], [Slot], [Time], [Status])
+INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [Hall], [Slot], [Time], [Status])
 VALUES
-    (1, N'Khối 10', N'Hội trường A', '1', '07:00:00', 'ACTIVE'),
-    (1, N'Khối 11', N'Hội trường B', '1', '07:00:00', 'ACTIVE'),
-    (1, N'Khối 12', N'Hội trường C', '1', '07:00:00', 'ACTIVE');
+    (1, N'Hội trường A', '1', '07:00:00', 'ACTIVE'),
+    (1, N'Hội trường B', '1', '07:00:00', 'ACTIVE'),
+    (1, N'Hội trường C', '1', '07:00:00', 'ACTIVE');
 
 
 -- Chèn 20 bản ghi mẫu vào bảng Student
@@ -98,14 +98,14 @@ VALUES
 
 
 -- Chèn 6 bản ghi mẫu vào bảng Class 
-INSERT INTO [SchoolRules].[dbo].[Class] (SchoolYearID, ClassGroupID, TeacherID, Code, Name, TotalPoint)
+INSERT INTO [SchoolRules].[dbo].[Class] (SchoolYearID, ClassGroupID, TeacherID, Code, Grade, Name, TotalPoint)
 VALUES 
-	(1, 1, 2, 'TE001', '10A1', 100),
-	(1, 2, 3, 'EL001', '11A1', 100),
-	(1, 3, 4, 'TW001', '12A1', 100),
-	(2, 1, 5, 'TE002', '10A1', 100),
-	(2, 2, 6, 'EL002', '11A1', 100),
-	(2, 3, 7, 'TW002', '12A1', 100);
+	(1, 1, 2, 'TE001', 10, '10A1', 100),
+	(1, 2, 3, 'EL001', 11, '11A1', 100),
+	(1, 3, 4, 'TW001', 12, '12A1', 100),
+	(2, 1, 5, 'TE002', 10, '10A1', 100),
+	(2, 2, 6, 'EL002', 11, '11A1', 100),
+	(2, 3, 7, 'TW002', 12, '12A1', 100);
 
 
 
