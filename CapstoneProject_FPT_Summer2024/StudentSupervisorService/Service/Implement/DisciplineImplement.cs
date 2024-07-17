@@ -4,13 +4,7 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Models.Response.ClassGroupResponse;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -240,6 +234,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
             return response;
-        } 
+        }
+
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<DisciplineResponse>>();
+            try
+            {
+                var disciplines = await _unitOfWork.Discipline.GetDisciplinesBySchoolId(schoolId);
+                if (disciplines == null || !disciplines.Any())
+                {
+                    response.Message = "No Disciplines found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var disciplineDTOs = _mapper.Map<List<DisciplineResponse>>(disciplines);
+                    response.Data = disciplineDTOs;
+                    response.Message = "Disciplines found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

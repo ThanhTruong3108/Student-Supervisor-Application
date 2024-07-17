@@ -17,12 +17,18 @@ namespace Infrastructures.Repository
 
         public async Task<List<Discipline>> GetAllDisciplines()
         {
-            return await _context.Disciplines.ToListAsync();
+            return await _context.Disciplines
+                .Include(v => v.Violation)
+                .Include(v => v.Pennalty)
+                .ToListAsync();
         }
 
         public async Task<Discipline> GetDisciplineById(int id)
         {
-            return await _context.Disciplines.FirstOrDefaultAsync(x => x.DisciplineId == id);
+            return await _context.Disciplines
+                .Include(v => v.Violation)
+                .Include(v => v.Pennalty)
+                .FirstOrDefaultAsync(x => x.DisciplineId == id);
         }
 
         public async Task<List<Discipline>> SearchDisciplines(int? violationId, int? penaltyId, string? description, DateTime? startDate, DateTime? endDate, string? status)
@@ -54,7 +60,10 @@ namespace Infrastructures.Repository
                 query = query.Where(p => p.Status.Equals(status));
             }
 
-            return await query.ToListAsync();
+            return await query
+                .Include(v => v.Violation)
+                .Include(v => v.Pennalty)
+                .ToListAsync();
         }
 
         public async Task<Discipline> CreateDiscipline(Discipline disciplineEntity)
@@ -77,6 +86,15 @@ namespace Infrastructures.Repository
             disciplineEntity.Status = DisciplineStatusEnums.INACTIVE.ToString();
             _context.Entry(disciplineEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId)
+        {
+            return await _context.Disciplines
+                .Include(v => v.Violation)
+                .Include(v => v.Pennalty)
+                .Where(v => v.Pennalty.SchoolId == schoolId)
+                .ToListAsync();
         }
     }
 }

@@ -16,5 +16,6 @@ namespace Infrastructures.Interfaces
         Task<Discipline> CreateDiscipline(Discipline disciplineEntity);
         Task<Discipline> UpdateDiscipline(Discipline disciplineEntity);
         Task DeleteDiscipline(int id);
+        Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId);
     }
 }

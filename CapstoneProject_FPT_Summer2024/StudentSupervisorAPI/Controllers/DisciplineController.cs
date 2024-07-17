@@ -110,5 +110,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var disciplines = await disciplineService.GetDisciplinesBySchoolId(schoolId);
+                return Ok(disciplines);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
