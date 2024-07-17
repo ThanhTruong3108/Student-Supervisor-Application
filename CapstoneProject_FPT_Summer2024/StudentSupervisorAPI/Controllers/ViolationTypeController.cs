@@ -101,5 +101,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("school/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetViolationTypesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var vioTypes = await _service.GetViolationTypesBySchoolId(schoolId);
+                return Ok(vioTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

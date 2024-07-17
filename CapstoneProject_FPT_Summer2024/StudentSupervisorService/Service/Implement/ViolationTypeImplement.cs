@@ -123,6 +123,33 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfVioType>>> GetViolationTypesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfVioType>>();
+            try
+            {
+                var violationTypes = await _unitOfWork.ViolationType.GetViolationTypesBySchoolId(schoolId);
+                if (violationTypes == null || !violationTypes.Any())
+                {
+                    response.Message = "No ViolationTypes found for the specified SchoolId";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationTypeDTOs = _mapper.Map<List<ResponseOfVioType>>(violationTypes);
+                    response.Data = violationTypeDTOs;
+                    response.Message = "ViolationTypes found";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfVioType>> GetVioTypeById(int id)
         {
             var response = new DataResponse<ResponseOfVioType>();
