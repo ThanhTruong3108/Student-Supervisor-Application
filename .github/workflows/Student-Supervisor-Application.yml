@@ -5,10 +5,10 @@ on:
       - main
 env:
   AZURE_WEBAPP_NAME: Student-Supervisor-Application
-  AZURE_WEBAPP_PACKAGE_PATH: StudentSupervisorAPI/publish
+  AZURE_WEBAPP_PACKAGE_PATH: CapstoneProject_FPT_Summer2024/StudentSupervisorAPI/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 7.0.x
-  WORKING_DIRECTORY: StudentSupervisorAPI
+  WORKING_DIRECTORY: CapstoneProject_FPT_Summer2024/StudentSupervisorAPI
 jobs:
   build:
     runs-on: windows-latest
@@ -18,11 +18,11 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-      - name: Display root directory structure for debugging
+      - name: Hiển thị cấu trúc thư mục gốc để kiểm tra lỗi
         run: dir
-      - name: Display full directory structure for debugging
+      - name: Hiển thị toàn bộ cấu trúc thư mục để kiểm tra lỗi
         run: Get-ChildItem -Recurse
-      - name: Display StudentSupervisorAPI directory structure for debugging
+      - name: Hiển thị cấu trúc thư mục StudentSupervisorAPI để kiểm tra lỗi
         run: dir "${{ env.WORKING_DIRECTORY }}"
         continue-on-error: true
       - name: Restore
