@@ -91,7 +91,8 @@ namespace StudentSupervisorService.Service.Implement
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, user.Role.RoleName)
+                new Claim(ClaimTypes.Role, user.Role.RoleName),
+                new Claim("UserId", user.UserId.ToString())
             };
 
             // Add School claims only if the user is not an admin

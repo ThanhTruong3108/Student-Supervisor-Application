@@ -67,9 +67,9 @@ namespace StudentSupervisorAPI.Cofiguration
                     OnMessageReceived = context =>
                     {
                         var tokenBlacklistService = context.HttpContext.RequestServices.GetRequiredService<TokenBlacklistService>();
-                        var token = context.Token;
+                        var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
 
-                        if (token != null && tokenBlacklistService.IsTokenBlacklisted(token))
+                        if (!string.IsNullOrEmpty(token) && tokenBlacklistService.IsTokenBlacklisted(token))
                         {
                             context.Fail("This token is blacklisted.");
                         }
@@ -87,5 +87,6 @@ namespace StudentSupervisorAPI.Cofiguration
                 };
             });
         }
+
     }
 }
