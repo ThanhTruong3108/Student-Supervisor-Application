@@ -92,12 +92,12 @@ namespace StudentSupervisorService.Service.Implement
                 new Claim(JwtRegisteredClaimNames.Sub, user.Phone),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, user.Role.RoleName),
-                new Claim("UserId", user.UserId.ToString())
             };
 
             // Add School claims only if the user is not an admin
             if (!isAdmin)
             {
+                claims.Add(new Claim("UserId", user.UserId.ToString()));
                 claims.Add(new Claim("SchoolId", user.School?.SchoolId.ToString() ?? string.Empty));
                 claims.Add(new Claim("SchoolName", user.School?.Name ?? string.Empty));
             }
