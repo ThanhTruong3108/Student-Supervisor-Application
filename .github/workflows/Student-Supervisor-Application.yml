@@ -18,8 +18,13 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-      - name: Display directory structure for debugging
+      - name: Display root directory structure for debugging
+        run: dir
+      - name: Display full directory structure for debugging
+        run: Get-ChildItem -Recurse
+      - name: Display StudentSupervisorAPI directory structure for debugging
         run: dir "${{ env.WORKING_DIRECTORY }}"
+        continue-on-error: true
       - name: Restore
         run: dotnet restore ${{ env.WORKING_DIRECTORY }}/StudentSupervisorAPI.csproj
       - name: Build
