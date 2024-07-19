@@ -17,7 +17,7 @@ namespace StudentSupervisorService.Models.Request.CheckoutRequest
         [Required(ErrorMessage = "The BuyerName field is required.")]
         public string BuyerName { get; set; }
 
-        [Required(ErrorMessage = "The ItemData field is required.")]
-        public ItemData Item { get; set; }
+        [Required(ErrorMessage = "The PackageID field is required.")]
+        public int PackageID { get; set; }
     }
 }

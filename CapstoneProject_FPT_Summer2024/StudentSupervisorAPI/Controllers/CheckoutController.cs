@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Net.payOS;
 using Net.payOS.Types;
 using StudentSupervisorService.Models.Request.CheckoutRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.CheckoutResponse;
 using StudentSupervisorService.PayOSConfig;
+using StudentSupervisorService.Service;
 using System;
 
 namespace StudentSupervisorAPI.Controllers
@@ -14,15 +16,13 @@ namespace StudentSupervisorAPI.Controllers
     [ApiController]
     public class CheckoutController : ControllerBase
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly PayOS _payOS;
-        private readonly PayOSConfig _payOSConfig;
+        private CheckoutService _checkoutService;
 
-        public CheckoutController(PayOS payOS, IHttpContextAccessor httpContextAccessor, PayOSConfig payOSConfig)
+        public CheckoutController(PayOS payOS, CheckoutService checkoutService)
         {
             _payOS = payOS;
-            _httpContextAccessor = httpContextAccessor;
-            _payOSConfig = payOSConfig;
+            _checkoutService = checkoutService;
         }
 
         [HttpGet("history")]
@@ -46,24 +46,12 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
-                List<ItemData> items = new List<ItemData> { new ItemData(request.Item.name, 1, request.Item.price) };
-                PaymentData paymentData = new PaymentData(
-                    orderCode,
-                    request.Item.price * 1,
-                    "Thanh toan don hang",
-                    items,
-                    _payOSConfig.GetCancelUrl(),
-                    _payOSConfig.GetReturnUrl());
-                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
-
-                Console.WriteLine("orderCode: " + orderCode);
-                return Ok(new DataResponse<CreatePaymentResult> { Data = createPayment, Message = "success", Success = true });
+                var checkoutResponse = await _checkoutService.CreateCheckout(request);
+                return Ok(checkoutResponse);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                return BadRequest(new DataResponse<string> { Data = "Empty", Message = ex.Message, Success = false });
+                return BadRequest(ex.Message);
             }
         }
     }

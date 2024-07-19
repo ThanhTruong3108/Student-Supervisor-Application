@@ -38,6 +38,7 @@ namespace StudentSupervisorService
 
             //Add DI Container
             services.AddTransient<StudentSupervisorService.PayOSConfig.PayOSConfig>();
+            services.AddTransient<CheckoutService, CheckoutImplement>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
