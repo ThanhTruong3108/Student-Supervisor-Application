@@ -9,7 +9,7 @@ public partial class Discipline
 
     public int ViolationId { get; set; }
 
-    public int PennaltyId { get; set; }
+    public int? PennaltyId { get; set; }
 
     public string? Description { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Discipline
 
     public string Status { get; set; } = null!;
 
-    public virtual Penalty Pennalty { get; set; } = null!;
+    public virtual Penalty? Pennalty { get; set; } = null!;
 
     public virtual Violation Violation { get; set; } = null!;
 }
