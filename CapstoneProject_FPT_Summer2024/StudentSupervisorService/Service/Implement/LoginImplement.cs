@@ -36,7 +36,7 @@ namespace StudentSupervisorService.Service.Implement
             if (admin != null)
             {
                 var token = GenerateToken(admin, true);
-                return (true, "Login successful", token);
+                return (true, "Đăng nhập thành công!", token);
             }
 
 
@@ -44,7 +44,7 @@ namespace StudentSupervisorService.Service.Implement
             if (user != null)
             {
                 var token = GenerateToken(user, false);
-                return (true, "Login successful", token);
+                return (true, "Đăng nhập thành công!", token);
             }
 
             var existingAdmin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
@@ -52,9 +52,9 @@ namespace StudentSupervisorService.Service.Implement
 
             if (existingAdmin == null && existingUser == null)
             {
-                return (false, "Invalid phone number.", null);
+                return (false, "Số điện thoại không hợp lệ !!", null);
             }
-            return (false, "Invalid password.", null);
+            return (false, "Mật khẩu không hợp lệ !!", null);
         }
 
         public void Logout(string token)

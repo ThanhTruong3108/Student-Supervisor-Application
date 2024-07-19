@@ -8,7 +8,7 @@ namespace StudentSupervisorService.Service
     {
         Task<DataResponse<List<StudentSupervisorResponse>>> GetAllStudentSupervisors(string sortOrder);
         Task<DataResponse<StudentSupervisorResponse>> GetStudentSupervisorById(int id);
-        Task<StudentSupervisorResponse> CreateAccountStudentSupervisor(StudentSupervisorRequest request);
+        Task<DataResponse<StudentSupervisorResponse>> CreateAccountStudentSupervisor(StudentSupervisorRequest request);
         Task<DataResponse<StudentSupervisorResponse>> DeleteStudentSupervisor(int id);
         Task<DataResponse<StudentSupervisorResponse>> UpdateStudentSupervisor(int id, StudentSupervisorRequest request);
         Task<DataResponse<List<StudentSupervisorResponse>>> SearchStudentSupervisors(int? userId, int? studentInClassId, string sortOrder);

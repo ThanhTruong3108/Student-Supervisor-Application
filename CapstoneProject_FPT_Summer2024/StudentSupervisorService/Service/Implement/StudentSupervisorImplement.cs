@@ -3,6 +3,7 @@ using Domain.Entity;
 using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Microsoft.AspNetCore.Http.HttpResults;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
@@ -20,47 +21,62 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
         }
 
-        public async Task<StudentSupervisorResponse> CreateAccountStudentSupervisor(StudentSupervisorRequest request)
+        public async Task<DataResponse<StudentSupervisorResponse>> CreateAccountStudentSupervisor(StudentSupervisorRequest request)
         {
-            // Check if the phone number already exists
-            var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
-            if (isExist != null)
+            var response = new DataResponse<StudentSupervisorResponse>();
+            try
             {
-                throw new Exception("Phone already in use!");
-            }
-
-            var studentSupervisor = new StudentSupervisor
-            {
-                StudentInClassId = request.StudentInClassId,
-                Description = request.Description,
-                User = new User
+                // Check if the phone number already exists
+                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                if (isExist != null)
                 {
-                    SchoolId = request.SchoolId,
-                    Code = request.Code,
-                    Name = request.SupervisorName,
-                    // Prepend "84" if not already present
-                    Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
-                    Password = request.Password,
-                    Address = request.Address,
-                    RoleId = (byte)RoleAccountEnum.STUDENT_SUPERVISOR,
-                    Status = UserStatusEnums.ACTIVE.ToString()
+                    throw new Exception("Số điện thoại đã được sử dụng !!");
                 }
-            };
 
-            _unitOfWork.StudentSupervisor.Add(studentSupervisor);
+                var studentSupervisor = new StudentSupervisor
+                {
+                    StudentInClassId = request.StudentInClassId,
+                    Description = request.Description,
+                    User = new User
+                    {
+                        SchoolId = request.SchoolId,
+                        Code = request.Code,
+                        Name = request.SupervisorName,
+                        // Prepend "84" if not already present
+                        Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
+                        Password = request.Password,
+                        Address = request.Address,
+                        RoleId = (byte)RoleAccountEnum.STUDENT_SUPERVISOR,
+                        Status = UserStatusEnums.ACTIVE.ToString()
+                    }
+                };
 
-            // Cập nhật Supervisor cho StudentInClass tương ứng
-            var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
-            if (studentInClass != null)
-            {
-                studentInClass.IsSupervisor = true;
-                _unitOfWork.StudentInClass.Update(studentInClass);
+                _unitOfWork.StudentSupervisor.Add(studentSupervisor);
+
+                // Cập nhật Supervisor cho StudentInClass tương ứng
+                var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
+                if (studentInClass != null)
+                {
+                    studentInClass.IsSupervisor = true;
+                    _unitOfWork.StudentInClass.Update(studentInClass);
+                }
+
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<StudentSupervisorResponse>(studentSupervisor);
+                response.Message = "Sao đỏ được tạo thành công";
+                response.Success = true;
             }
-
-            _unitOfWork.Save();
-
-            return _mapper.Map<StudentSupervisorResponse>(studentSupervisor);
+            catch (Exception ex)
+            {
+                response.Message = "Tạo Sao đỏ không thành công: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
+
+
 
         public async Task<DataResponse<StudentSupervisorResponse>> DeleteStudentSupervisor(int id)
         {
@@ -71,7 +87,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (stuSupervisor == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find StudentSupervisor with ID: " + id;
+                    response.Message = "Không thể tìm thấy Sao đỏ có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -79,7 +95,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (stuSupervisor.User == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Associated User not found for StudentSupervisor with ID: " + id;
+                    response.Message = "Không tìm thấy tài khoản được liên kết cho Sao đỏ có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -87,7 +103,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (stuSupervisor.User.Status == UserStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "User associated with StudentSupervisor is already deleted.";
+                    response.Message = "Tài khoản liên kết với Sao đỏ đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -106,12 +122,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "StudentSupervisor deleted successfully";
+                response.Message = "Sao đỏ đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete StudentSupervisor failed: " + ex.Message
+                response.Message = "Xóa Sao đỏ không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -127,7 +143,7 @@ namespace StudentSupervisorService.Service.Implement
                 var stuSupervisors = await _unitOfWork.StudentSupervisor.GetAllStudentSupervisors();
                 if (stuSupervisors is null || !stuSupervisors.Any())
                 {
-                    response.Message = "The StudentSupervisor list is empty";
+                    response.Message = "Danh sách Sao đỏ trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -142,12 +158,12 @@ namespace StudentSupervisorService.Service.Implement
                     stuSuperDTO = stuSuperDTO.OrderBy(r => r.StudentSupervisorId).ToList();
                 }
                 response.Data = stuSuperDTO;
-                response.Message = "List StudentSupervisors";
+                response.Message = "Danh sách các Sao đỏ";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -163,7 +179,7 @@ namespace StudentSupervisorService.Service.Implement
                 var stuSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorById(id);
                 if (stuSupervisor is null)
                 {
-                    throw new Exception("The StudentSupervisor does not exist");
+                    throw new Exception("Sao đỏ không tồn tại");
                 }
                 response.Data = _mapper.Map<StudentSupervisorResponse>(stuSupervisor);
                 response.Message = $"StudentSupervisorId {stuSupervisor.StudentSupervisorId}";
@@ -171,7 +187,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -186,20 +202,20 @@ namespace StudentSupervisorService.Service.Implement
                 var studentSupervisors = await _unitOfWork.StudentSupervisor.GetStudentSupervisorsBySchoolId(schoolId);
                 if (studentSupervisors == null || !studentSupervisors.Any())
                 {
-                    response.Message = "No StudentSupervisors found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Sao đỏ nào cho SchoolId được chỉ định";
                     response.Success = false;
                 }
                 else
                 {
                     var stuSupervisorDTOs = _mapper.Map<List<StudentSupervisorResponse>>(studentSupervisors);
                     response.Data = stuSupervisorDTOs;
-                    response.Message = "StudentSupervisors found";
+                    response.Message = "Tìm thấy Sao đỏ";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -214,7 +230,7 @@ namespace StudentSupervisorService.Service.Implement
                 var stuSupervisors = await _unitOfWork.StudentSupervisor.SearchStudentSupervisors(userId, studentInClassId);
                 if (stuSupervisors is null || stuSupervisors.Count == 0)
                 {
-                    response.Message = "No StudentSupervisor found matching the criteria";
+                    response.Message = "Không tìm thấy Sao đỏ nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -232,13 +248,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = stuSupervisorDTO;
-                    response.Message = "StudentSupervisors found";
+                    response.Message = "Tìm thấy Sao đỏ";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -254,7 +270,7 @@ namespace StudentSupervisorService.Service.Implement
                 var studentSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorById(id);
                 if (studentSupervisor == null)
                 {
-                    response.Message = "Cannot find StudentSupervisor";
+                    response.Message = "Không thể tìm thấy Sao đỏ";
                     response.Success = false;
                     return response;
                 }
@@ -263,7 +279,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != studentSupervisor.UserId).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã tài khoản đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -272,7 +288,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistPhone = _unitOfWork.User.Find(u => u.Phone == request.Phone && u.UserId != studentSupervisor.UserId).FirstOrDefault();
                 if (isExistPhone != null)
                 {
-                    response.Message = "Phone already in use!";
+                    response.Message = "Số điện thoại tài khoản đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -296,11 +312,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<StudentSupervisorResponse>(studentSupervisor);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Sao đỏ thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Cập nhật Sao đỏ không thành công: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

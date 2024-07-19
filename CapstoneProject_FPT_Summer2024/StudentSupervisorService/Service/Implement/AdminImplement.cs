@@ -24,7 +24,7 @@ namespace StudentSupervisorService.Service.Implement
                 var users = await _unitOfWork.Admin.GetAllAdmins();
                 if (users is null || !users.Any())
                 {
-                    response.Message = "The Admin list is empty";
+                    response.Message = "Danh sách Admin trống";
                     response.Success = true;
                     return response;
                 }
@@ -39,12 +39,12 @@ namespace StudentSupervisorService.Service.Implement
                     userDTO = userDTO.OrderBy(r => r.AdminId).ToList();
                 }
                 response.Data = userDTO;
-                response.Message = "List Admins";
+                response.Message = "Danh sách Admin";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

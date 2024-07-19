@@ -29,12 +29,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.ViolationConfig.Add(createViolationConfig);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ViolationConfigResponse>(createViolationConfig);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Cấu hình vi phạm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Tạo Cấu hình vi phạm thất bại: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -49,7 +50,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violationConfig is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find ViolationConfig with ID: " + id;
+                    response.Message = "Không thể tìm thấy Cấu hình vi phạm có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -57,7 +58,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violationConfig.Status == ViolationConfigStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "ViolationConfig is already deleted.";
+                    response.Message = "Cấu hình vi phạm đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -67,12 +68,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "ViolationConfig deleted successfully";
+                response.Message = "Cấu hình vi phạm đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete ViolationConfig failed: " + ex.Message
+                response.Message = "Xóa cấu hình vi phạm không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -88,7 +89,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioConfigs = await _unitOfWork.ViolationConfig.GetAllViolationConfigs();
                 if (vioConfigs is null || !vioConfigs.Any())
                 {
-                    response.Message = "The ViolationConfig list is empty";
+                    response.Message = "Danh sách Cấu hình Vi phạm trống";
                     response.Success = true;
                     return response;
                 }
@@ -103,12 +104,12 @@ namespace StudentSupervisorService.Service.Implement
                     vioConfigDTO = vioConfigDTO.OrderBy(r => r.ViolationConfigId).ToList();
                 }
                 response.Data = vioConfigDTO;
-                response.Message = "List ViolationConfig";
+                response.Message = "Danh sách các cấu hình vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -124,7 +125,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violationConfig = await _unitOfWork.ViolationConfig.GetViolationConfigById(id);
                 if (violationConfig is null)
                 {
-                    throw new Exception("The ViolationConfig does not exist");
+                    throw new Exception("Cấu hình vi phạm không tồn tại");
                 }
                 response.Data = _mapper.Map<ViolationConfigResponse>(violationConfig);
                 response.Message = $"ViolationConfigId {violationConfig.ViolationConfigId}";
@@ -132,7 +133,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -147,20 +148,20 @@ namespace StudentSupervisorService.Service.Implement
                 var violationConfigs = await _unitOfWork.ViolationConfig.GetViolationConfigsBySchoolId(schoolId);
                 if (violationConfigs == null || !violationConfigs.Any())
                 {
-                    response.Message = "No ViolationConfigs found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Cấu hình vi phạm nào cho SchoolId được chỉ định!!";
                     response.Success = false;
                 }
                 else
                 {
                     var vioConfigDTOs = _mapper.Map<List<ViolationConfigResponse>>(violationConfigs);
                     response.Data = vioConfigDTOs;
-                    response.Message = "ViolationConfigs found";
+                    response.Message = "Tìm thấy cấu hình vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -175,7 +176,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violationConfigs = await _unitOfWork.ViolationConfig.SearchViolationConfigs(vioTypeId, minusPoints);
                 if (violationConfigs is null || violationConfigs.Count == 0)
                 {
-                    response.Message = "No ViolationConfig found matching the criteria";
+                    response.Message = "Không tìm thấy cấu hình vi phạm nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -193,13 +194,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = violationConfigDTO;
-                    response.Message = "ViolationConfigs found";
+                    response.Message = "Tìm thấy cấu hình vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -215,7 +216,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = _unitOfWork.ViolationConfig.GetById(id);
                 if (violation is null)
                 {
-                    response.Message = "Can not found Violation";
+                    response.Message = "Không thể tìm thấy Cấu hình Vi phạm!!";
                     response.Success = false;
                     return response;
                 }
@@ -229,11 +230,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ViolationConfigResponse>(violation);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Cấu hình Vi phạm thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Cập nhật Cấu hình vi phạm thất bại: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

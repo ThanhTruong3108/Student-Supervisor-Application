@@ -13,7 +13,7 @@ namespace StudentSupervisorService.Service.Implement
         public void BlacklistToken(string token)
         {
             _blacklistedTokens.Add(token);
-            Console.WriteLine($"Token blacklisted: {token}");
+            Console.WriteLine($"Mã Token bị liệt vào danh sách đen: {token}");
         }
 
         public bool IsTokenBlacklisted(string token)
@@ -21,7 +21,7 @@ namespace StudentSupervisorService.Service.Implement
             bool isBlacklisted = _blacklistedTokens.Contains(token);
             if (isBlacklisted)
             {
-                Console.WriteLine($"Token is blacklisted: {token}");
+                Console.WriteLine($"Mã Token bị đưa vào danh sách đen: {token}");
             }
             return isBlacklisted;
         }

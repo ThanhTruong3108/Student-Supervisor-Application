@@ -28,7 +28,7 @@ namespace StudentSupervisorService.Service.Implement
                 var penaltyEntities = await _unitOfWork.Penalty.GetAllPenalties();
                 if (penaltyEntities is null || !penaltyEntities.Any())
                 {
-                    response.Message = "The Penalty list is empty";
+                    response.Message = "Danh sách Hình phạt trống!";
                     response.Success = true;
                     return response;
                 }
@@ -38,12 +38,12 @@ namespace StudentSupervisorService.Service.Implement
                     : penaltyEntities.OrderBy(r => r.PenaltyId).ToList();
 
                 response.Data = _mapper.Map<List<PenaltyResponse>>(penaltyEntities);
-                response.Message = "List Penalty";
+                response.Message = "Danh sách các Hình phạt";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -58,18 +58,18 @@ namespace StudentSupervisorService.Service.Implement
                 var penaltyEntity = await _unitOfWork.Penalty.GetPenaltyById(id);
                 if (penaltyEntity == null)
                 {
-                    response.Message = "Penalty not found";
+                    response.Message = "Không tìm thấy Hình phạt";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<PenaltyResponse>(penaltyEntity);
-                response.Message = "Found a Penalty";
+                response.Message = "Tìm thấy Hình phạt";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -85,7 +85,7 @@ namespace StudentSupervisorService.Service.Implement
                 var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, name, description, status);
                 if (penaltyEntities is null || penaltyEntities.Count == 0)
                 {
-                    response.Message = "No Penalty matches the search criteria";
+                    response.Message = "Không có Hình phạt nào phù hợp với tiêu chí tìm kiếm!!";
                     response.Success = true;
                 }
                 else
@@ -99,13 +99,13 @@ namespace StudentSupervisorService.Service.Implement
                         penaltyEntities = penaltyEntities.OrderBy(r => r.PenaltyId).ToList();
                     }
                     response.Data = _mapper.Map<List<PenaltyResponse>>(penaltyEntities);
-                    response.Message = "List Penalty";
+                    response.Message = "Danh sách hình phạt";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -121,7 +121,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyCreateRequest.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã Hình phạt đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -138,12 +138,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Penalty.CreatePenalty(penaltyEntity);
 
                 response.Data = _mapper.Map<PenaltyResponse>(created);
-                response.Message = "Penalty created successfully";
+                response.Message = "Hình phạt được tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Create Penalty failed: " + ex.Message
+                response.Message = "Tạo Hình phạt không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -159,7 +159,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPenalty == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Penalty not found";
+                    response.Message = "Không tìm thấy Hình phạt";
                     response.Success = false;
                     return response;
                 }
@@ -167,7 +167,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyUpdateRequest.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã Hình phạt đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -180,13 +180,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Penalty.UpdatePenalty(existingPenalty);
 
                 response.Data = _mapper.Map<PenaltyResponse>(existingPenalty);
-                response.Message = "Penalty updated successfully";
+                response.Message = "Đã cập nhật Hình phạt thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update Penalty failed: " + ex.Message
+                response.Message = "Cập nhật hình phạt không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -202,7 +202,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPenalty == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Penalty not found";
+                    response.Message = "Không tìm thấy hình phạt!!";
                     response.Success = false;
                     return response;
                 }
@@ -210,19 +210,19 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPenalty.Status == PenaltyStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "Penalty is already deleted";
+                    response.Message = "Hình phạt đã được xóa!!";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.Penalty.DeletePenalty(id);
                 response.Data = "Empty";
-                response.Message = "Penalty deleted successfully";
+                response.Message = "Hình phạt đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -238,20 +238,20 @@ namespace StudentSupervisorService.Service.Implement
                 var penalties = await _unitOfWork.Penalty.GetPenaltiesBySchoolId(schoolId);
                 if (penalties == null || !penalties.Any())
                 {
-                    response.Message = "No Penaltys found for the specified SchoolId.";
+                    response.Message = "Không tìm thấy Hình phạt nào cho SchoolId được chỉ định!!";
                     response.Success = false;
                 }
                 else
                 {
                     var penaltyDTOs = _mapper.Map<List<PenaltyResponse>>(penalties);
                     response.Data = penaltyDTOs;
-                    response.Message = "Penaltys found";
+                    response.Message = "Đã tìm thấy Hình phạt";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

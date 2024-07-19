@@ -38,7 +38,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                throw new Exception("Upload image failed: " + ex.Message
+                throw new Exception("Tải hình ảnh lên không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
         }
@@ -53,7 +53,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
                        {
-                throw new Exception("Delete image failed: " + ex.Message
+                throw new Exception("Xóa hình ảnh không thành công: " + ex.Message
                                        + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
         }

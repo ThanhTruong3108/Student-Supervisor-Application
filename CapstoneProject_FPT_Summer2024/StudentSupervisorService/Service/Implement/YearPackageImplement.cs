@@ -34,12 +34,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.YearPackage.Add(createYearPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfYearPackage>(createYearPackage);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Gói năm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Tạo Gói năm thất bại.: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -54,7 +55,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (yearPackage is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find YearPackage with ID: " + id;
+                    response.Message = "Không thể tìm thấy Gói năm có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -62,7 +63,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (yearPackage.Status == YearPackageStatusEnums.EXPIRED.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "YearPackage is already deleted.";
+                    response.Message = "Gói năm đã bị xóa";
                     response.Success = false;
                     return response;
                 }
@@ -72,12 +73,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "YearPackage deleted successfully";
+                response.Message = "Gói năm đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete YearPackage failed: " + ex.Message
+                response.Message = "Xóa Gói năm không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -93,7 +94,7 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackages = await _unitOfWork.YearPackage.GetAllYearPackages();
                 if (yearPackages is null || !yearPackages.Any())
                 {
-                    response.Message = "The YearPackage list is empty";
+                    response.Message = "Danh sách Gói năm trống";
                     response.Success = true;
                     return response;
                 }
@@ -108,12 +109,12 @@ namespace StudentSupervisorService.Service.Implement
                     yearPackageDTO = yearPackageDTO.OrderBy(r => r.YearPackageId).ToList();
                 }
                 response.Data = yearPackageDTO;
-                response.Message = "List YearPackages";
+                response.Message = "Danh sách các Gói năm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -129,7 +130,7 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackage = await _unitOfWork.YearPackage.GetYearPackageById(id);
                 if (yearPackage is null)
                 {
-                    throw new Exception("The YearPackage does not exist");
+                    throw new Exception("Gói Năm không tồn tại");
                 }
                 response.Data = _mapper.Map<ResponseOfYearPackage>(yearPackage);
                 response.Message = $"YearPackageId {yearPackage.YearPackageId}";
@@ -137,7 +138,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -152,20 +153,20 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackages = await _unitOfWork.YearPackage.GetYearPackagesBySchoolId(schoolId);
                 if (yearPackages == null || !yearPackages.Any())
                 {
-                    response.Message = "No YearPackages found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Gói Năm nào cho SchoolId được chỉ định";
                     response.Success = false;
                 }
                 else
                 {
                     var yearPackageDTOs = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
                     response.Data = yearPackageDTOs;
-                    response.Message = "YearPackages found";
+                    response.Message = "Tìm thấy Gói năm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -180,7 +181,7 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackages = await _unitOfWork.YearPackage.SearchYearPackages(schoolYearId, packageId, minNumberOfStudent, maxNumberOfStudent);
                 if (yearPackages is null || yearPackages.Count == 0)
                 {
-                    response.Message = "No YearPackage found matching the criteria";
+                    response.Message = "Không tìm thấy Gói năm nào phù hợp với tiêu chí";
                     response.Success = true;
                 }
                 else
@@ -198,13 +199,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = yearPackageDTO;
-                    response.Message = "YearPackages found";
+                    response.Message = "Tìm thấy Gói năm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -220,7 +221,7 @@ namespace StudentSupervisorService.Service.Implement
                 var yearPackage = _unitOfWork.YearPackage.GetById(id);
                 if (yearPackage is null)
                 {
-                    response.Message = "Can not found YearPackage";
+                    response.Message = "Không thể tìm thấy Gói năm";
                     response.Success = false;
                     return response;
                 }
@@ -235,11 +236,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfYearPackage>(yearPackage);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Gói năm thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Cập nhật Gói năm thất bại.: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

@@ -30,7 +30,7 @@ namespace StudentSupervisorService.Service.Implement
                 var registeredSchoolEntities = await _unitOfWork.RegisteredSchool.GetAllRegisteredSchools();
                 if (registeredSchoolEntities is null || !registeredSchoolEntities.Any())
                 {
-                    response.Message = "The RegisteredSchool list is empty";
+                    response.Message = "Danh sách Trường đã đăng ký trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -40,13 +40,13 @@ namespace StudentSupervisorService.Service.Implement
                     : registeredSchoolEntities.OrderBy(r => r.RegisteredDate).ToList();
 
                 response.Data = _mapper.Map<List<RegisteredSchoolResponse>>(registeredSchoolEntities);
-                response.Message = "List RegisteredSchool";
+                response.Message = "Danh sách các trường đã đăng ký";
                 response.Success = true;
 
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -61,18 +61,18 @@ namespace StudentSupervisorService.Service.Implement
                 var registeredSchoolEntity = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolById(id);
                 if (registeredSchoolEntity == null)
                 {
-                    response.Message = "RegisteredSchool not found";
+                    response.Message = "Không tìm thấy Trường đã đăng ký!!";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<RegisteredSchoolResponse>(registeredSchoolEntity);
-                response.Message = "Found a RegisteredSchool";
+                response.Message = "Tìm thấy Trường đã đăng ký";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -88,7 +88,7 @@ namespace StudentSupervisorService.Service.Implement
                 var registeredSchoolEntities = await _unitOfWork.RegisteredSchool.SearchRegisteredSchools(schoolId, registerdDate, description, status);
                 if (registeredSchoolEntities is null || registeredSchoolEntities.Count == 0)
                 {
-                    response.Message = "No RegisteredSchool matches the search criteria";
+                    response.Message = "Không có Trường đã đăng ký nào phù hợp với tiêu chí tìm kiếm";
                     response.Success = true;
                 }
                 else
@@ -102,13 +102,13 @@ namespace StudentSupervisorService.Service.Implement
                         registeredSchoolEntities = registeredSchoolEntities.OrderBy(r => r.RegisteredDate).ToList();
                     }
                     response.Data = _mapper.Map<List<RegisteredSchoolResponse>>(registeredSchoolEntities);
-                    response.Message = "List RegisteredSchool";
+                    response.Message = "Danh sách Trường đã đăng ký";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -130,12 +130,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.RegisteredSchool.CreateRegisteredSchool(registeredSchoolEntity);
 
                 response.Data = _mapper.Map<RegisteredSchoolResponse>(created);
-                response.Message = "RegisteredSchool created successfully";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Create RegisteredSchool failed: " + ex.Message
+                response.Message = "Tạo không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -151,7 +151,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingRegisteredSchool == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "RegisteredSchool not found";
+                    response.Message = "Không tìm thấy Trường đã đăng ký!!";
                     response.Success = false;
                     return response;
                 }
@@ -163,13 +163,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.RegisteredSchool.UpdateRegisteredSchool(existingRegisteredSchool);
 
                 response.Data = _mapper.Map<RegisteredSchoolResponse>(existingRegisteredSchool);
-                response.Message = "RegisteredSchool updated successfully";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update RegisteredSchool failed: " + ex.Message
+                response.Message = "Cập nhật không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -185,7 +185,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingRegisteredSchool == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "RegisteredSchool not found";
+                    response.Message = "Không tìm thấy Trường đã đăng ký!!";
                     response.Success = false;
                     return response;
                 }
@@ -193,19 +193,19 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingRegisteredSchool.Status == RegisteredSchoolStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "RegisteredSchool is already deleted";
+                    response.Message = "Trường đã đăng ký đã bị xóa";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.RegisteredSchool.DeleteRegisteredSchool(id);
                 response.Data = "Empty";
-                response.Message = "RegisteredSchool deleted successfully";
+                response.Message = "Đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -221,20 +221,20 @@ namespace StudentSupervisorService.Service.Implement
                 var registeredSchools = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolsBySchoolId(schoolId);
                 if (registeredSchools == null || !registeredSchools.Any())
                 {
-                    response.Message = "No RegisteredSchools found for the specified SchoolId.";
+                    response.Message = "Không tìm thấy Trường đã đăng ký nào cho SchoolId được chỉ định.";
                     response.Success = false;
                 }
                 else
                 {
                     var registeredSchoolDTOs = _mapper.Map<List<RegisteredSchoolResponse>>(registeredSchools);
                     response.Data = registeredSchoolDTOs;
-                    response.Message = "RegisteredSchools found";
+                    response.Message = "Các trường đã đăng ký được tìm thấy";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

@@ -28,7 +28,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã Nhóm vi phạm đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -45,12 +45,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
                 var created = await _unitOfWork.ViolationGroup.GetViolationGroupById(createvioGroup.ViolationGroupId);
                 response.Data = _mapper.Map<ResponseOfVioGroup>(created);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Nhóm vi phạm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Tạo Nhóm vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -66,7 +66,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (vioGroup is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find ViolationGroup with ID: " + id;
+                    response.Message = "Không thể tìm thấy Nhóm vi phạm có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -74,7 +74,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (vioGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "ViolationGroup is already deleted.";
+                    response.Message = "Nhóm vi phạm đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -84,12 +84,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "ViolationGroup deleted successfully";
+                response.Message = "Nhóm vi phạm đã được xóa thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete ViolationGroup failed: " + ex.Message
+                response.Message = "Xóa nhóm vi phạm không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -105,7 +105,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroup = await _unitOfWork.ViolationGroup.GetAllViolationGroups();
                 if (vioGroup is null || !vioGroup.Any())
                 {
-                    response.Message = "The ViolationGroup list is empty";
+                    response.Message = "Danh sách Nhóm vi phạm trống";
                     response.Success = true;
                     return response;
                 }
@@ -120,12 +120,12 @@ namespace StudentSupervisorService.Service.Implement
                     vioGroupDTO = vioGroupDTO.OrderBy(r => r.ViolationGroupId).ToList();
                 }
                 response.Data = vioGroupDTO;
-                response.Message = "List ViolationGroups";
+                response.Message = "Danh sách các nhóm vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -141,7 +141,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroup = await _unitOfWork.ViolationGroup.GetViolationGroupById(id);
                 if (vioGroup is null)
                 {
-                    throw new Exception("The ViolationGroup does not exist");
+                    throw new Exception("Nhóm vi phạm không tồn tại");
                 }
                 response.Data = _mapper.Map<ResponseOfVioGroup>(vioGroup);
                 response.Message = $"ViolationGroupId {vioGroup.ViolationGroupId}";
@@ -149,7 +149,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -164,21 +164,21 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroups = await _unitOfWork.ViolationGroup.GetViolationGroupBySchoolId(schoolId);
                 if(vioGroups == null || !vioGroups.Any())
                 {
-                    response.Message = "No ViolationGroups found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Nhóm vi phạm nào cho SchoolId được chỉ định!!";
                     response.Success = false;
                 }
                 else
                 {
                     var violationGroupDTOs = _mapper.Map<List<ResponseOfVioGroup>>(vioGroups);
                     response.Data = violationGroupDTOs;
-                    response.Message = "ViolationGroups found";
+                    response.Message = "Nhóm vi phạm được tìm thấy";
                     response.Success = true;
 
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -194,7 +194,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroups = await _unitOfWork.ViolationGroup.SearchViolationGroups(schoolId, name);
                 if (vioGroups is null || vioGroups.Count == 0)
                 {
-                    response.Message = "No ViolationGroup found matching the criteria";
+                    response.Message = "Không tìm thấy Nhóm vi phạm nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -212,13 +212,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = vioGroupDTO;
-                    response.Message = "ViolationGroups found";
+                    response.Message = "Nhóm vi phạm được tìm thấy";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -234,7 +234,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioGroup = await _unitOfWork.ViolationGroup.GetViolationGroupById(id);
                 if (vioGroup is null)
                 {
-                    response.Message = "Can not found ViolationGroup";
+                    response.Message = "Không thể tìm thấy Nhóm vi phạm";
                     response.Success = false;
                     return response;
                 }
@@ -242,7 +242,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã nhóm vi phạm đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -257,11 +257,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfVioGroup>(vioGroup);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Cập nhật thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

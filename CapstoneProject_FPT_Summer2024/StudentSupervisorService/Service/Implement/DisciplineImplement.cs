@@ -28,7 +28,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (disciplineEntities is null || !disciplineEntities.Any())
                 {
                     response.Data = "Empty";
-                    response.Message = "The Discipline list is empty";
+                    response.Message = "Danh sách Kỷ luật trống";
                     response.Success = true;
                     return response;
                 }
@@ -38,13 +38,13 @@ namespace StudentSupervisorService.Service.Implement
                     : disciplineEntities.OrderBy(r => r.DisciplineId).ToList();
 
                 response.Data = _mapper.Map<List<DisciplineResponse>>(disciplineEntities);
-                response.Message = "List Discipline";
+                response.Message = "Danh sách các Kỷ luật";
                 response.Success = true;
 
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -60,18 +60,18 @@ namespace StudentSupervisorService.Service.Implement
                 if (disciplineEntity == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Discipline not found";
+                    response.Message = "Không tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<DisciplineResponse>(disciplineEntity);
-                response.Message = "Found a Discipline";
+                response.Message = "Tìm thấy Kỷ luật";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -88,7 +88,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (disciplineEntities is null || disciplineEntities.Count == 0)
                 {
                     response.Data = "Empty";
-                    response.Message = "No Discipline matches the search criteria";
+                    response.Message = "Không có Kỷ luật nào phù hợp với tiêu chí tìm kiếm !!";
                     response.Success = true;
                 }
                 else
@@ -102,13 +102,13 @@ namespace StudentSupervisorService.Service.Implement
                         disciplineEntities = disciplineEntities.OrderBy(r => r.DisciplineId).ToList();
                     }
                     response.Data = _mapper.Map<List<DisciplineResponse>>(disciplineEntities);
-                    response.Message = "List Discipline";
+                    response.Message = "Danh sách Kỷ luật";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -124,7 +124,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (request.StartDate > request.EndDate)
                 {
                     response.Data = "Empty";
-                    response.Message = "StartDate cannot be greater than EndDate";
+                    response.Message = "Ngày bắt đầu không được lớn hơn Ngày kết thúc";
                     response.Success = false;
                     return response;
                 }
@@ -142,13 +142,13 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
 
                 response.Data = _mapper.Map<DisciplineResponse>(created);
-                response.Message = "Discipline created successfully";
+                response.Message = "Kỷ luật được tạo thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Create Discipline failed: " + ex.Message
+                response.Message = "Tạo kỷ luật không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -163,7 +163,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingDiscipline == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Discipline not found";
+                    response.Message = "Không tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
@@ -172,7 +172,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (request.StartDate > request.EndDate)
                 {
                     response.Data = "Empty";
-                    response.Message = "StartDate cannot be greater than EndDate";
+                    response.Message = "Ngày bắt đầu không được lớn hơn Ngày kết thúc";
                     response.Success = false;
                     return response;
                 }
@@ -186,13 +186,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Discipline.UpdateDiscipline(existingDiscipline);
 
                 response.Data = _mapper.Map<DisciplineResponse>(existingDiscipline);
-                response.Message = "Discipline updated successfully";
+                response.Message = "Kỷ luật được cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update Discipline failed: " + ex.Message
+                response.Message = "Cập nhật Kỷ luật không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -208,7 +208,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingDiscipline == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Discipline not found";
+                    response.Message = "Không tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
@@ -216,20 +216,20 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingDiscipline.Status == DisciplineStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "Discipline is already deleted";
+                    response.Message = "Kỷ luật đã bị xóa!";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.Discipline.DeleteDiscipline(id);
                 response.Data = "Empty";
-                response.Message = "Discipline deleted successfully";
+                response.Message = "Kỷ luật đã được xóa thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -244,20 +244,20 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplines = await _unitOfWork.Discipline.GetDisciplinesBySchoolId(schoolId);
                 if (disciplines == null || !disciplines.Any())
                 {
-                    response.Message = "No Disciplines found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Kỷ luật nào cho SchoolId được chỉ định";
                     response.Success = false;
                 }
                 else
                 {
                     var disciplineDTOs = _mapper.Map<List<DisciplineResponse>>(disciplines);
                     response.Data = disciplineDTOs;
-                    response.Message = "Disciplines found";
+                    response.Message = "Kỷ luật được tìm thấy";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

@@ -30,12 +30,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Package.Add(createPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfPackage>(createPackage);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Gói thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -50,7 +50,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (package is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find Package with ID: " + id;
+                    response.Message = "Không thể tìm thấy Gói có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -58,7 +58,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (package.Status == PackageStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Package is already deleted.";
+                    response.Message = "Gói đã bị xóa !";
                     response.Success = false;
                     return response;
                 }
@@ -68,12 +68,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Package deleted successfully";
+                response.Message = "Gói đã được xóa thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete Package failed: " + ex.Message
+                response.Message = "Xóa Gói không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -89,7 +89,7 @@ namespace StudentSupervisorService.Service.Implement
                 var package = await _unitOfWork.Package.GetAllPackages();
                 if (package is null || !package.Any())
                 {
-                    response.Message = "The Package list is empty";
+                    response.Message = "Danh sách Gói trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -104,12 +104,12 @@ namespace StudentSupervisorService.Service.Implement
                     packageDTO = packageDTO.OrderBy(r => r.PackageId).ToList();
                 }
                 response.Data = packageDTO;
-                response.Message = "List Packages";
+                response.Message = "Danh sách các Gói";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -125,7 +125,7 @@ namespace StudentSupervisorService.Service.Implement
                 var package = await _unitOfWork.Package.GetPackageById(id);
                 if (package is null)
                 {
-                    throw new Exception("The Package does not exist");
+                    throw new Exception("Gói không tồn tại");
                 }
                 response.Data = _mapper.Map<ResponseOfPackage>(package);
                 response.Message = $"PackageId {package.PackageId}";
@@ -133,7 +133,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -149,7 +149,7 @@ namespace StudentSupervisorService.Service.Implement
                 var packages = await _unitOfWork.Package.SearchPackages(packageTypeId ,name, totalStudents, totalViolations ,minPrice, maxPrice);
                 if (packages is null || packages.Count == 0)
                 {
-                    response.Message = "No Package found matching the criteria";
+                    response.Message = "Không tìm thấy Gói nào phù hợp với tiêu chí";
                     response.Success = true;
                 }
                 else
@@ -167,13 +167,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = packageDTO;
-                    response.Message = "Packages found";
+                    response.Message = "Tìm thấy Gói";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -189,7 +189,7 @@ namespace StudentSupervisorService.Service.Implement
                 var package = _unitOfWork.Package.GetById(id);
                 if (package is null)
                 {
-                    response.Message = "Can not found Package";
+                    response.Message = "Không thể tìm thấy Gói!!";
                     response.Success = false;
                     return response;
                 }
@@ -206,11 +206,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfPackage>(package);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Gói thành công!";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

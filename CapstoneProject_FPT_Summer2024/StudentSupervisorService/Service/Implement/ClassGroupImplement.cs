@@ -29,7 +29,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroupEntities = await _unitOfWork.ClassGroup.GetAllClassGroups();
                 if (classGroupEntities is null || !classGroupEntities.Any())
                 {
-                    response.Message = "The ClassGroup list is empty";
+                    response.Message = "Danh sách nhóm lớp trống!";
                     response.Success = true;
                     return response;
                 }
@@ -39,13 +39,13 @@ namespace StudentSupervisorService.Service.Implement
                     : classGroupEntities.OrderBy(r => r.ClassGroupId).ToList();
 
                 response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
-                response.Message = "List ClassGroup";
+                response.Message = "Danh sách các nhóm lớp";
                 response.Success = true;
 
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -59,18 +59,18 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroupEntity = await _unitOfWork.ClassGroup.GetClassGroupById(id);
                 if (classGroupEntity == null)
                 {
-                    response.Message = "ClassGroup not found";
+                    response.Message = "Không thể tìm thấy nhóm lớp !!";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<ClassGroupResponse>(classGroupEntity);
-                response.Message = "Found a ClassGroup";
+                response.Message = "Đã tìm thấy nhóm lớp";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -86,7 +86,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(schoolId, hall, slot, time, status);
                 if (classGroupEntities is null || classGroupEntities.Count == 0)
                 {
-                    response.Message = "No ClassGroup matches the search criteria";
+                    response.Message = "Không có nhóm lớp nào phù hợp với tiêu chí tìm kiếm !!";
                     response.Success = true;
                 }
                 else
@@ -100,13 +100,13 @@ namespace StudentSupervisorService.Service.Implement
                         classGroupEntities = classGroupEntities.OrderBy(r => r.ClassGroupId).ToList();
                     }
                     response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
-                    response.Message = "List ClassGroups";
+                    response.Message = "Danh sách nhóm lớp";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -129,12 +129,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.ClassGroup.CreateClassGroup(classGroupEntity);
 
                 response.Data = _mapper.Map<ClassGroupResponse>(created);
-                response.Message = "ClassGroup created successfully";
+                response.Message = "nhóm lớp được tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Create ClassGroup failed: " + ex.Message
+                response.Message = "Tạo nhóm lớp thất bại: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -149,7 +149,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingClassGroup == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "ClassGroup not found";
+                    response.Message = "Không tìm thấy nhóm lớp !!";
                     response.Success = false;
                     return response;
                 }
@@ -162,13 +162,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.ClassGroup.UpdateClassGroup(existingClassGroup);
 
                 response.Data = _mapper.Map<ClassGroupResponse>(existingClassGroup);
-                response.Message = "ClassGroup updated successfully";
+                response.Message = "nhóm lớp được cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update ClassGroup failed: " + ex.Message
+                response.Message = "Cập nhật nhóm lớp không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -184,7 +184,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingClassGroup == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "ClassGroup not found";
+                    response.Message = "Không tìm thấy nhóm lớp !!";
                     response.Success = false;
                     return response;
                 }
@@ -192,19 +192,19 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingClassGroup.Status == ClassGroupStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "ClassGroup is already deleted";
+                    response.Message = "nhóm lớp đã bị xóa!!";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.ClassGroup.DeleteClassGroup(id);
                 response.Data = "Empty";
-                response.Message = "ClassGroup deleted successfully";
+                response.Message = "nhóm lớp đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -220,20 +220,20 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroups = await _unitOfWork.ClassGroup.GetClassGroupsBySchoolId(schoolId);
                 if (classGroups == null || !classGroups.Any())
                 {
-                    response.Message = "No ClassGroups found for the specified SchoolId.";
+                    response.Message = "Không tìm thấy nhóm lớp nào cho SchoolId được chỉ định !!";
                     response.Success = false;
                 }
                 else
                 {
                     var classGroupDTO = _mapper.Map<List<ClassGroupResponse>>(classGroups);
                     response.Data = classGroupDTO;
-                    response.Message = "ClassGroups found";
+                    response.Message = "Nhóm lớp đã được tìm thấy";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

@@ -27,7 +27,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classEntities = await _unitOfWork.Class.GetAllClasses();
                 if (classEntities is null || !classEntities.Any())
                 {
-                    response.Message = "The Class list is empty";
+                    response.Message = "Danh sách lớp học trống!";
                     response.Success = true;
                     return response;
                 }
@@ -37,12 +37,12 @@ namespace StudentSupervisorService.Service.Implement
                     : classEntities.OrderBy(r => r.ClassId).ToList();
 
                 response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
-                response.Message = "List Classes";
+                response.Message = "Danh sách các lớp học";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -57,17 +57,17 @@ namespace StudentSupervisorService.Service.Implement
                 var classEntity = await _unitOfWork.Class.GetClassById(id);
                 if (classEntity == null)
                 {
-                    response.Message = "Class not found";
+                    response.Message = "Không tìm thấy lớp học !!";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<ClassResponse>(classEntity);
-                response.Message = "Found a Class";
+                response.Message = "Đã tìm thấy lớp học";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -83,7 +83,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, grade, name, totalPoint);
                 if (classEntities is null || classEntities.Count == 0)
                 {
-                    response.Message = "No Class matches the search criteria";
+                    response.Message = "Không có lớp nào phù hợp với tiêu chí tìm kiếm !!";
                     response.Success = true;
                 } else
                 {
@@ -95,12 +95,12 @@ namespace StudentSupervisorService.Service.Implement
                         classEntities = classEntities.OrderBy(r => r.ClassId).ToList();
                     }
                     response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
-                    response.Message = "List Classes";
+                    response.Message = "Danh sách lớp học";
                     response.Success = true;
                 }
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -116,7 +116,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã lớp đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -124,7 +124,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name).FirstOrDefault();
                 if (isExistName != null)
                 {
-                    response.Message = "Name already in use!";
+                    response.Message = "Tên lớp đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -143,11 +143,11 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Class.CreateClass(classEntity);
 
                 response.Data = _mapper.Map<ClassResponse>(created);
-                response.Message = "Class created successfully";
+                response.Message = "Lớp được tạo thành công";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Create Class failed: " + ex.Message
+                response.Message = "Tạo lớp không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -162,8 +162,8 @@ namespace StudentSupervisorService.Service.Implement
                 var existingClass = await _unitOfWork.Class.GetClassById(request.ClassId);
                 if (existingClass == null)
                 {
-                    response.Data = "Empty";
-                    response.Message = "Class not found";
+                    response.Data = "Trống";
+                    response.Message = "Không tìm thấy lớp học !!";
                     response.Success = false;
                     return response;
                 }
@@ -171,7 +171,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code && s.ClassId != request.ClassId).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã lớp đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -179,7 +179,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name && s.ClassId != request.ClassId).FirstOrDefault();
                 if (isExistName != null)
                 {
-                    response.Message = "Name already in use!";
+                    response.Message = "Tên lớp đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -195,13 +195,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Class.UpdateClass(existingClass);
 
                 response.Data = _mapper.Map<ClassResponse>(existingClass);
-                response.Message = "Class updated successfully";
+                response.Message = "Lớp được cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update Class failed: " + ex.Message
+                response.Message = "Cập nhật lớp không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -217,17 +217,17 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingClass == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Class not found";
+                    response.Message = "Không tìm thấy lớp học !!";
                     response.Success = false;
                     return response;
                 }
                 await _unitOfWork.Class.DeleteClass(id);
                 response.Data = "Empty";
-                response.Message = "Class deleted successfully";
+                response.Message = "Lớp đã được xóa thành công !!";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -242,20 +242,20 @@ namespace StudentSupervisorService.Service.Implement
                 var classes = await _unitOfWork.Class.GetClasssBySchoolId(schoolId);
                 if (classes == null || !classes.Any())
                 {
-                    response.Message = "No Classes found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Lớp nào cho SchoolId được chỉ định";
                     response.Success = false;
                 }
                 else
                 {
                     var classDTOs = _mapper.Map<List<ClassResponse>>(classes);
                     response.Data = classDTOs;
-                    response.Message = "Classes found";
+                    response.Message = "Đã tìm thấy lớp học";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

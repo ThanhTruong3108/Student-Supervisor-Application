@@ -40,7 +40,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingHighSchool != null)
                 {
                     response.Data = "Empty";
-                    response.Message = "HighSchool is already exists.";
+                    response.Message = "Trường trung học phổ thông đã tồn tại !!";
                     response.Success = false;
                     return response;
                 }
@@ -59,12 +59,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfHighSchool>(createHighSchool);
-                response.Message = "Create HighSchool Successfully.";
+                response.Message = "Tạo Trường trung học phổ thông thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -79,7 +79,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (highSchool is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find HighSchool with ID: " + id;
+                    response.Message = "Không thể tìm thấy Trường trung học phổ thông có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -87,7 +87,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (highSchool.Status == HighSchoolStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "HighSchool is already deleted.";
+                    response.Message = "Trường trung học phổ thông đã bị xóa !!";
                     response.Success = false;
                     return response;
                 }
@@ -97,12 +97,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "HighSchool deleted successfully";
+                response.Message = "Trường trung học phổ thông đã được xóa thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete HighSchool failed: " + ex.Message
+                response.Message = "Xóa Trường trung học thất bại: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -118,7 +118,7 @@ namespace StudentSupervisorService.Service.Implement
                 var highSchool = await _unitOfWork.HighSchool.GetAllHighSchools();
                 if (highSchool is null || !highSchool.Any())
                 {
-                    response.Message = "The HighSchool list is empty";
+                    response.Message = "Danh sách Trường trung học phổ thông trống !!";
                     response.Success = true;
                     return response;
                 }
@@ -133,12 +133,12 @@ namespace StudentSupervisorService.Service.Implement
                     highSchoolDTO = highSchoolDTO.OrderBy(r => r.SchoolId).ToList();
                 }
                 response.Data = highSchoolDTO;
-                response.Message = "List HighSchools";
+                response.Message = "Danh sách các Trường trung học phổ thông";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -154,7 +154,7 @@ namespace StudentSupervisorService.Service.Implement
                 var highSchool = await _unitOfWork.HighSchool.GetHighSchoolById(id);
                 if (highSchool is null)
                 {
-                    throw new Exception("The highschool does not exist");
+                    throw new Exception("Trường Trung học phổ thông không tồn tại !!");
                 }
                 response.Data = _mapper.Map<ResponseOfHighSchool>(highSchool);
                 response.Message = $"SchoolId {highSchool.SchoolId}";
@@ -162,7 +162,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -178,7 +178,7 @@ namespace StudentSupervisorService.Service.Implement
                 var highSchools = await _unitOfWork.HighSchool.SearchHighSchools(code, name, city, address, phone);
                 if (highSchools is null || highSchools.Count == 0)
                 {
-                    response.Message = "No HighSchools found matching the criteria";
+                    response.Message = "Không tìm thấy tTrường trung học phổ thông nào phù hợp với tiêu chí !!";
                     response.Success = true;
                 }
                 else
@@ -196,13 +196,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = highSchoolDTO;
-                    response.Message = "HighSchool found";
+                    response.Message = "Tìm thấy Trường trung học phổ thông!";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -218,7 +218,7 @@ namespace StudentSupervisorService.Service.Implement
                 var highSchool = _unitOfWork.HighSchool.GetById(id);
                 if (highSchool is null)
                 {
-                    response.Message = "Can not found HighSchool";
+                    response.Message = "Không thể tìm thấy Trường trung học phổ thông!!";
                     response.Success = false;
                     return response;
                 }
@@ -226,7 +226,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.HighSchool.Find(h => h.Code == request.Code && h.SchoolId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã trường đã được sử dụng";
                     response.Success = false;
                     return response;
                 }
@@ -241,11 +241,11 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfHighSchool>(highSchool);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật thành công!!";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

@@ -28,7 +28,7 @@ namespace StudentSupervisorService.Service.Implement
                 var pScheduleEntities = await _unitOfWork.PatrolSchedule.GetAllPatrolSchedules();
                 if (pScheduleEntities is null || !pScheduleEntities.Any())
                 {
-                    response.Message = "The PatrolSchedule list is empty";
+                    response.Message = "Danh sách Lịch tuần tra trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -38,13 +38,13 @@ namespace StudentSupervisorService.Service.Implement
                     : pScheduleEntities.OrderBy(r => r.ScheduleId).ToList();
 
                 response.Data = _mapper.Map<List<PatrolScheduleResponse>>(pScheduleEntities);
-                response.Message = "List PatrolSchedule";
+                response.Message = "Danh sách các lịch tuần tra";
                 response.Success = true;
 
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -59,18 +59,18 @@ namespace StudentSupervisorService.Service.Implement
                 var pScheduleEntity = await _unitOfWork.PatrolSchedule.GetPatrolScheduleById(id);
                 if (pScheduleEntity == null)
                 {
-                    response.Message = "PatrolSchedule not found";
+                    response.Message = "Không tìm thấy Lịch tuần tra!!";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = _mapper.Map<PatrolScheduleResponse>(pScheduleEntity);
-                response.Message = "Found a PatrolSchedule";
+                response.Message = "Đã tìm thấy Lịch tuần tra.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -86,7 +86,7 @@ namespace StudentSupervisorService.Service.Implement
                 var pScheduleEntities = await _unitOfWork.PatrolSchedule.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, status);
                 if (pScheduleEntities is null || pScheduleEntities.Count == 0)
                 {
-                    response.Message = "No PatrolSchedule matches the search criteria";
+                    response.Message = "Không có Lịch tuần tra phù hợp với tiêu chí tìm kiếm!!";
                     response.Success = true;
                 }
                 else
@@ -100,13 +100,13 @@ namespace StudentSupervisorService.Service.Implement
                         pScheduleEntities = pScheduleEntities.OrderBy(r => r.ScheduleId).ToList();
                     }
                     response.Data = _mapper.Map<List<PatrolScheduleResponse>>(pScheduleEntities);
-                    response.Message = "List PatrolSchedule";
+                    response.Message = "Danh sách Lịch tuần tra";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -131,12 +131,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.PatrolSchedule.CreatePatrolSchedule(pScheduleEntity);
 
                 response.Data = _mapper.Map<PatrolScheduleResponse>(created);
-                response.Message = "PatrolSchedule created successfully";
+                response.Message = "Lịch tuần tra được tạo thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Create PatrolSchedule failed: " + ex.Message
+                response.Message = "Tạo Lịch tuần tra không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -152,7 +152,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPatrolSchedule == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "PatrolSchedule not found";
+                    response.Message = "Không tìm thấy Lịch tuần tra !";
                     response.Success = false;
                     return response;
                 }
@@ -167,13 +167,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.PatrolSchedule.UpdatePatrolSchedule(existingPatrolSchedule);
 
                 response.Data = _mapper.Map<PatrolScheduleResponse>(existingPatrolSchedule);
-                response.Message = "PatrolSchedule updated successfully";
+                response.Message = "Lịch tuần tra được cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update PatrolSchedule failed: " + ex.Message
+                response.Message = "Cập nhật Lịch tuần tra không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -189,7 +189,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPSchedule == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "PatrolSchedule not found";
+                    response.Message = "Không tìm thấy Lịch tuần tra !";
                     response.Success = false;
                     return response;
                 }
@@ -197,19 +197,19 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingPSchedule.Status == PatrolScheduleStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "PatrolSchedule is already deleted";
+                    response.Message = "Lịch tuần tra đã bị xóa";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.PatrolSchedule.DeletePatrolSchedule(id);
                 response.Data = "Empty";
-                response.Message = "PatrolSchedule deleted successfully";
+                response.Message = "Lịch tuần tra đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -224,20 +224,20 @@ namespace StudentSupervisorService.Service.Implement
                 var patrolSchedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesBySchoolId(schoolId);
                 if (patrolSchedules == null || !patrolSchedules.Any())
                 {
-                    response.Message = "No PatrolSchedules found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Lịch tuần tra nào cho SchoolId được chỉ định!!";
                     response.Success = false;
                 }
                 else
                 {
                     var patrolScheduleDTOs = _mapper.Map<List<PatrolScheduleResponse>>(patrolSchedules);
                     response.Data = patrolScheduleDTOs;
-                    response.Message = "PatrolSchedules found";
+                    response.Message = "Đã tìm thấy Lịch tuần tra";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

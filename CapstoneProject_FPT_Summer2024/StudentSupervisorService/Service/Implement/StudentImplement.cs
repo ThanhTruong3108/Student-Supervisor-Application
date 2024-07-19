@@ -28,7 +28,7 @@ namespace StudentSupervisorService.Service.Implement
                 var studentEntities = await unitOfWork.Student.GetAllStudents();
                 if (studentEntities is null || !studentEntities.Any())
                 {
-                    response.Message = "The Student list is empty";
+                    response.Message = "Danh sách học sinh trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -38,12 +38,12 @@ namespace StudentSupervisorService.Service.Implement
                     : studentEntities.OrderBy(r => r.StudentId).ToList();
 
                 response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
-                response.Message = "List Students";
+                response.Message = "Danh sách các học sinh";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -58,18 +58,18 @@ namespace StudentSupervisorService.Service.Implement
                 var studentEntity = await unitOfWork.Student.GetStudentById(id);
                 if (studentEntity == null)
                 {
-                    response.Message = "Student not found";
+                    response.Message = "Không tìm thấy học sinh!!";
                     response.Success = false;
                     return response;
                 }
 
                 response.Data = mapper.Map<StudentResponse>(studentEntity);
-                response.Message = "Found a Student";
+                response.Message = "Tìm thấy học sinh";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -85,7 +85,7 @@ namespace StudentSupervisorService.Service.Implement
                 var studentEntities = await unitOfWork.Student.SearchStudents(schoolId, code, name, sex, birthday, address, phone);
                 if (studentEntities is null || studentEntities.Count == 0)
                 {
-                    response.Message = "No Student matches the search criteria";
+                    response.Message = "Không có Học sinh nào phù hợp với tiêu chí tìm kiếm";
                     response.Success = true;
                 }
                 else
@@ -99,13 +99,13 @@ namespace StudentSupervisorService.Service.Implement
                         studentEntities = studentEntities.OrderBy(r => r.StudentId).ToList();
                     }
                     response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
-                    response.Message = "List Students";
+                    response.Message = "Danh sách học sinh";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -121,7 +121,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = unitOfWork.Student.Find(s => s.Code == request.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã học sinh đã được sử dụng";
                     response.Success = false;
                     return response;
                 }
@@ -140,12 +140,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await unitOfWork.Student.CreateStudent(studentEntity);
 
                 response.Data = mapper.Map<StudentResponse>(created);
-                response.Message = "Student created successfully";
+                response.Message = "Học sinh đã được tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Student Class failed: " + ex.Message
+                response.Message = "Tạo học sinh thất bại: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -161,7 +161,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingStudent == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Student not found";
+                    response.Message = "Không tìm thấy Học sinh";
                     response.Success = false;
                     return response;
                 }
@@ -169,7 +169,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = unitOfWork.Student.Find(s => s.Code == request.Code && s.StudentId != request.StudentId).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Code already in use!";
+                    response.Message = "Mã học sinh đã được sử dụng !!";
                     response.Success = false;
                     return response;
                 }
@@ -185,13 +185,13 @@ namespace StudentSupervisorService.Service.Implement
                 await unitOfWork.Student.UpdateStudent(existingStudent);
 
                 response.Data = mapper.Map<StudentResponse>(existingStudent);
-                response.Message = "Student updated successfully";
+                response.Message = "Học sinh được cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Update Student failed: " + ex.Message
+                response.Message = "Cập nhật học sinh thất bại: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -207,19 +207,19 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingStudent == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Student not found";
+                    response.Message = "Không tìm thấy Học sinh";
                     response.Success = false;
                     return response;
                 }
                 await unitOfWork.Student.DeleteStudent(studentId);
                 response.Data = "Empty";
-                response.Message = "Student deleted successfully";
+                response.Message = "Học sinh đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Xóa học sinh không thành công.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -235,20 +235,20 @@ namespace StudentSupervisorService.Service.Implement
                 var students = await unitOfWork.Student.GetStudentsBySchoolId(schoolId);
                 if (students == null || !students.Any())
                 {
-                    response.Message = "No Students found for the specified SchoolId.";
+                    response.Message = "Không tìm thấy Học sinh nào cho SchoolId được chỉ định.";
                     response.Success = false;
                 }
                 else
                 {
                     var studentDTO = mapper.Map<List<StudentResponse>>(students);
                     response.Data = studentDTO;
-                    response.Message = "Students found";
+                    response.Message = "Tìm thấy Học sinh";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 

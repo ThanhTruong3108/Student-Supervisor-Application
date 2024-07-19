@@ -32,12 +32,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.SchoolYear.Add(createSchoolYear);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfSchoolYear>(createSchoolYear);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Năm học thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Tạo Năm học không thành công: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -52,7 +53,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (schoolYear is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find SchoolYear with ID: " + id;
+                    response.Message = "Không thể tìm thấy Năm học có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -60,7 +61,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (schoolYear.Status == SchoolYearStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "SchoolYear is already deleted.";
+                    response.Message = "Năm học đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -70,12 +71,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "SchoolYear deleted successfully";
+                response.Message = "Năm học đã được xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete SchoolYear failed: " + ex.Message
+                response.Message = "Xóa năm học không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -91,7 +92,7 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYears = await _unitOfWork.SchoolYear.GetAllSchoolYears();
                 if (schoolYears is null || !schoolYears.Any())
                 {
-                    response.Message = "The SchoolYear list is empty";
+                    response.Message = "Danh sách Năm học trống";
                     response.Success = true;
                     return response;
                 }
@@ -106,12 +107,12 @@ namespace StudentSupervisorService.Service.Implement
                     schoolYearDTO = schoolYearDTO.OrderBy(r => r.SchoolYearId).ToList();
                 }
                 response.Data = schoolYearDTO;
-                response.Message = "List SchoolYears";
+                response.Message = "Danh sách các Năm học";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -127,7 +128,7 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYear = await _unitOfWork.SchoolYear.GetSchoolYearById(id);
                 if (schoolYear is null)
                 {
-                    throw new Exception("The schoolyear does not exist");
+                    throw new Exception("Năm học không tồn tại!!");
                 }
                 response.Data = _mapper.Map<ResponseOfSchoolYear>(schoolYear);
                 response.Message = $"SchoolYearId {schoolYear.SchoolYearId}";
@@ -135,7 +136,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -151,7 +152,7 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYears = await _unitOfWork.SchoolYear.GetSchoolYearBySchoolId(schoolId);
                 if(schoolYears == null || !schoolYears.Any())
                 {
-                    response.Message = "No SchoolYears found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Năm học nào cho SchoolId được chỉ định!!";
                     response.Success = false;
 
                 }
@@ -159,13 +160,13 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     var schoolYearDTO = _mapper.Map<List<ResponseOfSchoolYear>>(schoolYears);
                     response.Data = schoolYearDTO;
-                    response.Message = "SchoolYears found";
+                    response.Message = "Năm học được tìm thấy";
                     response.Success = true;
                 }
             }
             catch(Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return  response;
@@ -180,7 +181,7 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYears = await _unitOfWork.SchoolYear.SearchSchoolYears(year, startDate, endDate);
                 if (schoolYears is null || schoolYears.Count == 0)
                 {   
-                    response.Message = "No SchoolYears found matching the criteria";
+                    response.Message = "Không tìm thấy Năm học nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -198,13 +199,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = schoolYearDTO;
-                    response.Message = "SchoolYears found";
+                    response.Message = "Năm học được tìm thấy";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -220,7 +221,7 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYear = _unitOfWork.SchoolYear.GetById(id);
                 if (schoolYear is null)
                 {
-                    response.Message = "Can not found schoolYear";
+                    response.Message = "Không tìm thấy năm học!!";
                     response.Success = false;
                     return response;
                 }
@@ -232,11 +233,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfSchoolYear>(schoolYear);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Năm học thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Data = "Empty";
+                response.Message = "Cập nhật Năm học không thành công: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

@@ -33,7 +33,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violations is null || !violations.Any())
                 {
                     response.Data = "Empty";
-                    response.Message = "The Violation list is empty";
+                    response.Message = "Danh sách vi phạm trống";
                     response.Success = true;
                     return response;
                 }
@@ -48,13 +48,13 @@ namespace StudentSupervisorService.Service.Implement
                     vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
                 }
                 response.Data = vioDTO;
-                response.Message = "List Violations";
+                response.Message = "Danh sách các vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -72,9 +72,9 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "The Violation does not exist";
+                    response.Message = "Vi phạm không tồn tại";
                     response.Success = false;
-                    throw new Exception("The Violation does not exist");
+                    throw new Exception("Vi phạm không tồn tại");
                 }
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Message = $"ViolationId {violation.ViolationId}";
@@ -82,7 +82,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -109,7 +109,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violations is null || violations.Count == 0)
                 {
                     response.Data = "Empty";
-                    response.Message = "No Violation found matching the criteria";
+                    response.Message = "Không tìm thấy vi phạm nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -127,13 +127,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = violationDTO;
-                    response.Message = "Violations found";
+                    response.Message = "Đã tìm thấy vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -175,7 +175,7 @@ namespace StudentSupervisorService.Service.Implement
                                 ViolationId = violationEntity.ViolationId,
                                 Url = uploadResult.SecureUrl.AbsoluteUri,
                                 Name = uploadResult.PublicId,
-                                Description = "Image of " + violationEntity.ViolationId + " Violation"
+                                Description = "Hình ảnh của " + violationEntity.ViolationId + " vi phạm"
                             });
                         }
                     }
@@ -184,12 +184,12 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo vi phạm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Tạo vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -230,7 +230,7 @@ namespace StudentSupervisorService.Service.Implement
                                 ViolationId = violationEntity.ViolationId,
                                 Url = uploadResult.SecureUrl.AbsoluteUri,
                                 Name = uploadResult.PublicId,
-                                Description = "Image of " + violationEntity.ViolationId + " Violation"
+                                Description = "Hình ảnh của " + violationEntity.ViolationId + " vi phạm"
                             });
                         }
                     }
@@ -261,12 +261,12 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo vi phạm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Tạo vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -282,7 +282,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Violation not found";
+                    response.Message = "Không tìm thấy vi phạm!!";
                     response.Success = false;
                     return response;
                 }
@@ -300,13 +300,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
-                response.Message = "Violation updated successfully";
+                response.Message = "Đã cập nhật vi phạm thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Violation Discipline failed: " + ex.Message
+                response.Message = "Vi phạm cập nhật không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -322,7 +322,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Violation not found";
+                    response.Message = "Không tìm thấy vi phạm!!";
                     response.Success = false;
                     return response;
                 }
@@ -330,7 +330,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation.Status == ViolationStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Violation is already deleted.";
+                    response.Message = "Vi phạm đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -340,12 +340,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Violation deleted successfully";
+                response.Message = "Xóa vi phạm thành công.";
                 response.Success = true;
             } catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Xóa vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -361,7 +361,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
                 if (violation is null)
                 {
-                    response.Message = "Can not found Violation";
+                    response.Message = "Không thể tìm thấy vi phạm!!";
                     response.Success = false;
                     return response;
                 }
@@ -393,11 +393,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Approve Violation Successfully.";
+                response.Message = "Đã phê duyệt vi phạm thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Phê duyệt vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -413,7 +413,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
                 if (violation is null)
                 {
-                    response.Message = "Can not found Violation";
+                    response.Message = "Không thể tìm thấy Vi phạm!!";
                     response.Success = false;
                     return response;
                 }
@@ -432,11 +432,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Rejected Violation Successfully.";
+                response.Message = "Từ chối vi phạm thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message
+                response.Message = "Từ chối vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -451,19 +451,19 @@ namespace StudentSupervisorService.Service.Implement
                 var student = await _unitOfWork.Student.GetStudentByCode(studentCode);
                 if (student == null)
                 {
-                    response.Message = "Student not found";
+                    response.Message = "Học sinh không tìm thấy!!";
                     response.Success = false;
                     return response;
                 }
 
                 var violations = await _unitOfWork.Violation.GetViolationsByStudentId(student.StudentId);
                 response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Message = "List Violations";
+                response.Message = "Danh sách vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -478,7 +478,7 @@ namespace StudentSupervisorService.Service.Implement
                 var studentEntity = await _unitOfWork.Student.GetStudentByCode(studentCode);
                 if (studentEntity == null)
                 {
-                    response.Message = "Student not found";
+                    response.Message = "Học sinh không tìm thấy!!";
                     response.Success = false;
                     return response;
                 }
@@ -487,19 +487,19 @@ namespace StudentSupervisorService.Service.Implement
                 var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(studentEntity.SchoolId, year);
                 if (schoolYear == null)
                 {
-                    response.Message = $"School year {year} not found for student";
+                    response.Message = $"Năm học {year} của học sinh không tìm thấy!!";
                     response.Success = false;
                     return response;
                 }
 
                 var violations = await _unitOfWork.Violation.GetViolationsByStudentIdAndYear(studentEntity.StudentId, schoolYear.SchoolYearId);
                 response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Message = "List Violations";
+                response.Message = "Danh sách vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -514,19 +514,19 @@ namespace StudentSupervisorService.Service.Implement
                 var studentEntity = await _unitOfWork.Student.GetStudentByCode(studentCode);
                 if (studentEntity == null)
                 {
-                    response.Message = "Student not found";
+                    response.Message = "Học sinh không tìm thấy!!";
                     response.Success = false;
                     return response;
                 }
 
                 var violations = await _unitOfWork.Violation.GetViolationCountByYear(studentEntity.StudentId);
                 response.Data = violations;
-                response.Message = "Violation Count by Year";
+                response.Message = "Số lượng vi phạm theo năm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -542,19 +542,19 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetApprovedViolations();
                 if (violations is null || !violations.Any())
                 {
-                    response.Message = "No Approved violations found";
+                    response.Message = "Không tìm thấy vi phạm đã được phê duyệt!!";
                     response.Success = true;
                     return response;
                 }
 
                 var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Data = violationDTO;
-                response.Message = "List of Approved violations";
+                response.Message = "Danh sách các vi phạm được phê duyệt";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -571,19 +571,19 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetPendingViolations();
                 if (violations is null || !violations.Any())
                 {
-                    response.Message = "No Pending violations found";
+                    response.Message = "Không tìm thấy vi phạm đang chờ xử lý!!";
                     response.Success = true;
                     return response;
                 }
 
                 var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Data = violationDTO;
-                response.Message = "List of Pending violations";
+                response.Message = "Danh sách vi phạm đang chờ xử lý";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -600,19 +600,19 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetRejectedViolations();
                 if (violations is null || !violations.Any())
                 {
-                    response.Message = "No Rejected violations found";
+                    response.Message = "Không tìm thấy vi phạm bị từ chối nào!!";
                     response.Success = true;
                     return response;
                 }
 
                 var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Data = violationDTO;
-                response.Message = "List of Rejected violations";
+                response.Message = "Danh sách các vi phạm bị từ chối";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -629,19 +629,19 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetInactiveViolations();
                 if (violations is null || !violations.Any())
                 {
-                    response.Message = "No InActive violations found";
+                    response.Message = "Không tìm thấy vi phạm đã bị xóa nào!!";
                     response.Success = true;
                     return response;
                 }
 
                 var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Data = violationDTO;
-                response.Message = "List of InActive violations";
+                response.Message = "Danh sách vi phạm đã bị xóa";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -657,20 +657,20 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.Violation.GetViolationsBySchoolId(schoolId);
                 if (violations == null || !violations.Any())
                 {
-                    response.Message = "No Violations found for the specified SchoolId";
+                    response.Message = "Không tìm thấy vi phạm nào đối với SchoolId được chỉ định";
                     response.Success = false;
                 }
                 else
                 {
                     var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
                     response.Data = violationDTOS;
-                    response.Message = "Violations found";
+                    response.Message = "Đã tìm thấy vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;

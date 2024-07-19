@@ -37,12 +37,13 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
                 var created = await _unitOfWork.ViolationType.GetVioTypeById(createVioType.ViolationTypeId);
                 response.Data = _mapper.Map<ResponseOfVioType>(created);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Loại vi phạm thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Tạo Loại vi phạm thất bại.: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
@@ -57,7 +58,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (vioType is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find ViolationType with ID: " + id;
+                    response.Message = "Không thể tìm thấy Loại vi phạm có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -65,7 +66,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (vioType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "ViolationType is already deleted.";
+                    response.Message = "Loại vi phạm đã bị xóa.";
                     response.Success = false;
                     return response;
                 }
@@ -75,12 +76,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "ViolationType deleted successfully";
+                response.Message = "Loại vi phạm đã được xóa thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete ViolationType failed: " + ex.Message
+                response.Message = "Xóa Loại vi phạm không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -96,7 +97,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioTypes = await _unitOfWork.ViolationType.GetAllVioTypes();
                 if (vioTypes is null || !vioTypes.Any())
                 {
-                    response.Message = "The ViolationType list is empty";
+                    response.Message = "Danh sách Loại vi phạm trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -111,12 +112,12 @@ namespace StudentSupervisorService.Service.Implement
                     vioTypeDTO = vioTypeDTO.OrderBy(r => r.ViolationTypeId).ToList();
                 }
                 response.Data = vioTypeDTO;
-                response.Message = "List ViolationTypes";
+                response.Message = "Liệt kê các loại vi phạm";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -131,20 +132,20 @@ namespace StudentSupervisorService.Service.Implement
                 var violationTypes = await _unitOfWork.ViolationType.GetViolationTypesBySchoolId(schoolId);
                 if (violationTypes == null || !violationTypes.Any())
                 {
-                    response.Message = "No ViolationTypes found for the specified SchoolId";
+                    response.Message = "Không tìm thấy Loại vi phạm nào cho SchoolId được chỉ định!!";
                     response.Success = false;
                 }
                 else
                 {
                     var violationTypeDTOs = _mapper.Map<List<ResponseOfVioType>>(violationTypes);
                     response.Data = violationTypeDTOs;
-                    response.Message = "ViolationTypes found";
+                    response.Message = "Đã tìm thấy các loại vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -159,7 +160,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
                 if (vioType is null)
                 {
-                    throw new Exception("The ViolationType does not exist");
+                    throw new Exception("Loại vi phạm không tồn tại!!");
                 }
                 response.Data = _mapper.Map<ResponseOfVioType>(vioType);
                 response.Message = $"ViolationTypeId {vioType.ViolationTypeId}";
@@ -167,7 +168,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -183,7 +184,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violations = await _unitOfWork.ViolationType.SearchVioTypes(vioGroupId, name);
                 if (violations is null || violations.Count == 0)
                 {
-                    response.Message = "No ViolationType found matching the criteria";
+                    response.Message = "Không tìm thấy Loại vi phạm nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -201,13 +202,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = vioTypeDTO;
-                    response.Message = "ViolationTypes found";
+                    response.Message = "Đã tìm thấy các loại vi phạm";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -223,7 +224,7 @@ namespace StudentSupervisorService.Service.Implement
                 var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
                 if (vioType is null)
                 {
-                    response.Message = "Can not found ViolationType";
+                    response.Message = "Không thể tìm thấy Loại vi phạm";
                     response.Success = false;
                     return response;
                 }
@@ -236,11 +237,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfVioType>(vioType);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Cập nhật thất bại.: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
 

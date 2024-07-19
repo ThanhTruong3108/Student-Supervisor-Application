@@ -28,12 +28,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.PackageType.Add(createPackageType);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<PackageTypeResponse>(createPackageType);
-                response.Message = "Create Successfully.";
+                response.Message = "Tạo Loại gói thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -48,7 +48,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (packageType is null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Cannot find PackageType with ID: " + id;
+                    response.Message = "Không thể tìm thấy Loại gói có ID: " + id;
                     response.Success = false;
                     return response;
                 }
@@ -56,7 +56,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (packageType.Status == PackageTypeStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "PackageType is already deleted.";
+                    response.Message = "Loại gói đã bị xóa rồi !!";
                     response.Success = false;
                     return response;
                 }
@@ -66,12 +66,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "PackageType deleted successfully";
+                response.Message = "Loại gói đã được xoá thành công !!";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Delete PackageType failed: " + ex.Message
+                response.Message = "Xóa Loại gói không thành công: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -87,7 +87,7 @@ namespace StudentSupervisorService.Service.Implement
                 var packageTypes = await _unitOfWork.PackageType.GetAllPackageTypes();
                 if (packageTypes is null || !packageTypes.Any())
                 {
-                    response.Message = "The PackageType list is empty";
+                    response.Message = "Danh sách Loại gói trống!!";
                     response.Success = true;
                     return response;
                 }
@@ -102,12 +102,12 @@ namespace StudentSupervisorService.Service.Implement
                     packageTypeDTO = packageTypeDTO.OrderBy(r => r.PackageTypeId).ToList();
                 }
                 response.Data = packageTypeDTO;
-                response.Message = "List PackageTypes";
+                response.Message = "Danh sách các Loại gói";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -123,7 +123,7 @@ namespace StudentSupervisorService.Service.Implement
                 var packageType = await _unitOfWork.PackageType.GetPackageTypeById(id);
                 if (packageType is null)
                 {
-                    throw new Exception("The PackageType does not exist");
+                    throw new Exception("PackageType không tồn tại!!");
                 }
                 response.Data = _mapper.Map<PackageTypeResponse>(packageType);
                 response.Message = $"PackageTypeId {packageType.PackageTypeId}";
@@ -131,7 +131,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -147,7 +147,7 @@ namespace StudentSupervisorService.Service.Implement
                 var packageTypes = await _unitOfWork.PackageType.SearchPackageTypes(name);
                 if (packageTypes is null || packageTypes.Count == 0)
                 {
-                    response.Message = "No PackageType found matching the criteria";
+                    response.Message = "Không tìm thấy Loại gói nào phù hợp với tiêu chí!!";
                     response.Success = true;
                 }
                 else
@@ -165,13 +165,13 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     response.Data = vioTypeDTO;
-                    response.Message = "PackageTypes found";
+                    response.Message = "Tìm thấy Loại gói";
                     response.Success = true;
                 }
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Something went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
@@ -187,7 +187,7 @@ namespace StudentSupervisorService.Service.Implement
                 var packageType = _unitOfWork.PackageType.GetById(id);
                 if (packageType is null)
                 {
-                    response.Message = "Can not found PackageType";
+                    response.Message = "Không tìm được Loại gói";
                     response.Success = false;
                     return response;
                 }
@@ -199,11 +199,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<PackageTypeResponse>(packageType);
                 response.Success = true;
-                response.Message = "Update Successfully.";
+                response.Message = "Cập nhật Loại gói thành công.";
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
                 response.Success = false;
             }
 
