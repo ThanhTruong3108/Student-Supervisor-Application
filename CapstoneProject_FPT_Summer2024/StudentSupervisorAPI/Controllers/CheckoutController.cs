@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Net.payOS;
 using Net.payOS.Types;
+using StudentSupervisorService.Models.Request.CheckoutRequest;
 using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.CheckoutResponse;
 using StudentSupervisorService.PayOSConfig;
+using StudentSupervisorService.Service;
+using System;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -12,31 +17,41 @@ namespace StudentSupervisorAPI.Controllers
     public class CheckoutController : ControllerBase
     {
         private readonly PayOS _payOS;
+        private CheckoutService _checkoutService;
 
-        public CheckoutController(PayOS payOS)
+        public CheckoutController(PayOS payOS, CheckoutService checkoutService)
         {
             _payOS = payOS;
+            _checkoutService = checkoutService;
         }
 
-        [HttpGet("create")]
-        public async Task<IActionResult> CreatePaymentLink()
+        [HttpGet("history")]
+        public async Task<IActionResult> Get([FromQuery] CheckoutResponse queryParams)
+        {
+            Console.WriteLine($"Code: {queryParams.Code}");
+            Console.WriteLine($"ID: {queryParams.Id}");
+            Console.WriteLine($"Cancel: {queryParams.Cancel}");
+            Console.WriteLine($"Status: {queryParams.Status}");
+            Console.WriteLine($"Order Code: {queryParams.OrderCode}");
+            if (queryParams.OrderCode != null)
+            {
+                PaymentLinkInformation paymentLinkInfomation = await _payOS.getPaymentLinkInformation(queryParams.OrderCode);
+                return Ok("PaymentLinkInformation: " + paymentLinkInfomation);
+            }
+            return BadRequest("OrderCode is null");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePaymentLink([FromBody] CreateCheckoutRequest request)
         {
             try
             {
-                int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
-                ItemData item = new ItemData("Mì tôm hảo hảo ly", 1, 2000);
-                List<ItemData> items = new List<ItemData>();
-                items.Add(item);
-                PaymentData paymentData = new PaymentData(orderCode, 2000, "Thanh toan don hang", items, PayOSConfig.CANCEL_URL, PayOSConfig.RETURN_URL);
-
-                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
-
-                return Redirect(createPayment.checkoutUrl);
+                var checkoutResponse = await _checkoutService.CreateCheckout(request);
+                return Ok(checkoutResponse);
             }
-            catch (System.Exception exception)
+            catch (Exception ex)
             {
-                Console.WriteLine(exception);
-                return Ok(new Response(-1, "fail", null));
+                return BadRequest(ex.Message);
             }
         }
     }

@@ -17,7 +17,7 @@ public partial class Package
 
     public int? TotalViolations { get; set; }
 
-    public int? Price { get; set; }
+    public int Price { get; set; }
 
     public string? Status { get; set; }
 

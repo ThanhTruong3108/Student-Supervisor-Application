@@ -189,7 +189,7 @@ namespace StudentSupervisorService.Service.Implement
                 var package = _unitOfWork.Package.GetById(id);
                 if (package is null)
                 {
-                    response.Message = "Không thể tìm thấy Gói!!";
+                    response.Message = "Không tìm thấy Gói Package";
                     response.Success = false;
                     return response;
                 }
@@ -199,7 +199,7 @@ namespace StudentSupervisorService.Service.Implement
                 package.Description = request.Description;
                 package.TotalStudents = request.TotalStudents;
                 package.TotalViolations = request.TotalViolations;
-                package.Price = request.Price;
+                package.Price = request.Price ?? package.Price;
 
                 _unitOfWork.Package.Update(package);
                 _unitOfWork.Save();
