@@ -14,9 +14,6 @@ namespace StudentSupervisorService.Models.Request.CheckoutRequest
         [Range(1000, int.MaxValue, ErrorMessage = "Amount must be > 1000")]
         public int Amount { get; set; }
 
-        [Required(ErrorMessage = "The BuyerName field is required.")]
-        public string BuyerName { get; set; }
-
         [Required(ErrorMessage = "The PackageID field is required.")]
         public int PackageID { get; set; }
     }
