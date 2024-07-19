@@ -37,6 +37,8 @@ namespace StudentSupervisorService
             });
 
             //Add DI Container
+            services.AddTransient<StudentSupervisorService.PayOSConfig.PayOSConfig>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<IAdminRepository, AdminRepository>();

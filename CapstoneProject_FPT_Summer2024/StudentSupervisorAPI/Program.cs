@@ -21,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add DI Services
 builder.Services.AddDIServices(builder.Configuration);
 builder.Services.AddSingleton(payOS);
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
