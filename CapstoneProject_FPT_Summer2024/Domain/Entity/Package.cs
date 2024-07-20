@@ -20,6 +20,7 @@ public partial class Package
     public int Price { get; set; }
 
     public string? Status { get; set; }
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual PackageType PackageType { get; set; } = null!;
 

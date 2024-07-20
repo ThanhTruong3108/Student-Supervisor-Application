@@ -244,6 +244,30 @@ public partial class SchoolRulesContext : DbContext
                 .HasConstraintName("FK_ImageURL_Violation");
         });
 
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.ToTable("Order");
+
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.CounterAccountBankName).HasMaxLength(100);
+            entity.Property(e => e.CounterAccountName).HasMaxLength(100);
+            entity.Property(e => e.CounterAccountNumber).HasMaxLength(50);
+            entity.Property(e => e.Description).HasMaxLength(200);
+            entity.Property(e => e.PackageId).HasColumnName("PackageID");
+            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+
+            entity.HasOne(d => d.Package).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.PackageId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Package");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_User");
+        });
+
         modelBuilder.Entity<Package>(entity =>
         {
             entity.ToTable("Package");
