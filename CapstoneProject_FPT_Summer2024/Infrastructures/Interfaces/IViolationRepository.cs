@@ -33,5 +33,7 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetRejectedViolations();
         Task<List<Violation>> GetInactiveViolations();
         Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
+        Task<List<Violation>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null);
+        Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className);
     }
 }

@@ -675,5 +675,72 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByMonthAndWeek(year, month, weekNumber);
+                if (violations == null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = weekNumber.HasValue ? "Không có vi phạm nào trong tuần này" : "Không có vi phạm nào trong tháng này";
+                    response.Success = true;
+                    return response;
+                }
+
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = vioDTO;
+                response.Message = weekNumber.HasValue ? "Danh sách vi phạm trong tuần" : "Danh sách vi phạm trong tháng";
+                response.Success = true;
+            }
+            catch (ArgumentException ex)
+            {
+                response.Data = "Empty";
+                response.Message = ex.Message;
+                response.Success = false;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(short year, string className)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(year, className);
+                if (violations == null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không có vi phạm nào trong lớp này";
+                    response.Success = true;
+                    return response;
+                }
+
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Data = vioDTO;
+                response.Message = "Danh sách vi phạm trong lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

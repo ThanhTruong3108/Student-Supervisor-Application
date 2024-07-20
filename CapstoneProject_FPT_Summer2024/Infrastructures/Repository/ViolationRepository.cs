@@ -249,5 +249,74 @@ namespace Infrastructures.Repository
                 .Where(ed => ed.Teacher.School.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task<List<Violation>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year);
+            if (schoolYear == null)
+                return new List<Violation>();
+
+            DateTime startDate;
+            DateTime endDate;
+
+            if (weekNumber.HasValue)
+            {
+                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
+                    throw new ArgumentException("Số tuần không hợp lệ!!!");
+
+                startDate = GetStartOfWeekInMonth(schoolYear.StartDate.Year, month, weekNumber.Value);
+                endDate = startDate.AddDays(7);
+            }
+            else
+            {
+                startDate = new DateTime(schoolYear.StartDate.Year, month, 1);
+                endDate = startDate.AddMonths(1);
+            }
+
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Date >= startDate && v.Date < endDate)
+                .ToListAsync();
+        }
+
+        private DateTime GetStartOfWeekInMonth(int year, int month, int weekNumber)
+        {
+            var startOfMonth = new DateTime(year, month, 1);
+            return startOfMonth.AddDays((weekNumber - 1) * 7);
+        }
+
+        private bool IsValidWeekNumberInMonth(int year, int month, int weekNumber)
+        {
+            var startOfMonth = new DateTime(year, month, 1);
+            var daysInMonth = DateTime.DaysInMonth(year, month);
+            var maxWeeksInMonth = (int)Math.Ceiling(daysInMonth / 7.0);
+            return weekNumber >= 1 && weekNumber <= maxWeeksInMonth;
+        }
+
+        public async Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year);
+            if (schoolYear == null)
+                return new List<Violation>();
+
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.Teacher)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Class.SchoolYearId == schoolYear.SchoolYearId && v.Class.Name == className)
+                .ToListAsync();
+        }
     }
 }
