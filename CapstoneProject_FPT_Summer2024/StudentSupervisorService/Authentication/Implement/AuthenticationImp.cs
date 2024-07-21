@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -54,11 +55,26 @@ namespace StudentSupervisorService.Authentication.Implement
                 new Claim("Id", user.UserId.ToString()),
                 new Claim(ClaimTypes.Role, role)
             }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddHours(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyBytes), SecurityAlgorithms.HmacSha256)
             };
             var token = jwtTokenHandler.CreateToken(tokenDescription);
             return jwtTokenHandler.WriteToken(token);
+        }
+
+        public int? GetUserIdFromContext(HttpContext context)
+        {
+            var identity = context.User.Identity as ClaimsIdentity;
+            if (identity == null) return null;
+            var userClaims = identity.Claims;
+            var userIdClaim = userClaims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+
+            if (userIdClaim == null) return null;
+            if (int.TryParse(userIdClaim, out int userId))
+            {
+                return userId;
+            }
+            return null;
         }
     }
 

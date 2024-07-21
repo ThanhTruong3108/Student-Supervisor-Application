@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,15 @@ namespace Infrastructures.Repository
 
         public async Task<HighSchool> GetHighSchoolById(int id)
         {
-            return _context.HighSchools.FirstOrDefault(r => r.SchoolId == id);
+            return await _context.HighSchools.FirstOrDefaultAsync(r => r.SchoolId == id);
+        }
+
+        //get highschool by code or name
+        public async Task<HighSchool> GetHighSchoolByCodeOrName(string? code, string? name)
+        {
+            return await _context.HighSchools
+                .Where(u => u.Code.Equals(code) || u.Name.Equals(name))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<HighSchool>> SearchHighSchools(string? code, string? name, string? city, string? address, string? phone)
@@ -55,6 +64,13 @@ namespace Infrastructures.Repository
             }
             
             return await query.ToListAsync();
+        }
+
+        public async Task<HighSchool> CreateHighSchool(HighSchool entity)
+        {
+            await _context.HighSchools.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }

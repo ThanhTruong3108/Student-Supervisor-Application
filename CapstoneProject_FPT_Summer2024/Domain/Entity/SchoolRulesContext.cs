@@ -31,6 +31,7 @@ public partial class SchoolRulesContext : DbContext
     public virtual DbSet<HighSchool> HighSchools { get; set; }
 
     public virtual DbSet<ImageUrl> ImageUrls { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Package> Packages { get; set; }
 

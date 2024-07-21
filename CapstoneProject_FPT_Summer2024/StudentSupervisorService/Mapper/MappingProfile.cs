@@ -40,6 +40,8 @@ using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
 using StudentSupervisorService.Models.Request.PackageTypeRequest;
 using StudentSupervisorService.Models.Response.PackageTypeResponse;
 using StudentSupervisorService.Models.Response.AdminResponse;
+using StudentSupervisorService.Models.Response.OrderResponse;
+using StudentSupervisorService.Models.Request.OrderRequest;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -56,7 +58,15 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Student, StudentResponse>();
             CreateMap<RequestOfHighSchool, HighSchool>();
             CreateMap<Penalty, PenaltyResponse>();
-            CreateMap<RegisteredSchool, RegisteredSchoolResponse>();
+            CreateMap<RegisteredSchool, RegisteredSchoolResponse>()
+                .ForMember(re => re.Status, act => act.MapFrom(src => src.Status))
+                .ForMember(re => re.SchoolCode, act => act.MapFrom(src => src.School.Code))
+                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name))
+                .ForMember(re => re.City, act => act.MapFrom(src => src.School.City))
+                .ForMember(re => re.Address, act => act.MapFrom(src => src.School.Address))
+                .ForMember(re => re.Phone, act => act.MapFrom(src => src.School.Phone))
+                .ForMember(re => re.WebURL, act => act.MapFrom(src => src.School.WebUrl));
+
             CreateMap<Discipline, DisciplineResponse>();
             CreateMap<Evaluation, EvaluationResponse>();
             CreateMap<EvaluationDetail, EvaluationDetailResponse>();
@@ -65,6 +75,14 @@ namespace StudentSupervisorService.Mapper
 
 
             //------------------------------------------------------------------------------------------------------------       
+            CreateMap<OrderResponse, Order>();
+            CreateMap<OrderCreateRequest, Order>();
+            CreateMap<OrderUpdateRequest, Order>();
+            CreateMap<OrderUpdateRequest, OrderResponse>();
+            CreateMap<OrderResponse, OrderUpdateRequest>();
+            CreateMap<Order, OrderResponse>()
+                .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name));
+
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
 

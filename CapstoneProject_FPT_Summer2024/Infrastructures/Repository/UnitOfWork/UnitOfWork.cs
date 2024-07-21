@@ -33,6 +33,7 @@ namespace Infrastructures.Repository.UnitOfWork
             RegisteredSchool = new RegisteredSchoolRepository(_context);
             HighSchool = new HighSchoolRepository(_context);
             SchoolYear = new SchoolYearRepository(_context);
+            Order = new OrderRepository(_context);
             StudentInClass = new StudentInClassRepository(_context);
             Student = new StudentRepository(_context);
             StudentSupervisor = new StudentSupervisorRepository(_context);
@@ -59,6 +60,7 @@ namespace Infrastructures.Repository.UnitOfWork
         public IRegisteredSchoolRepository RegisteredSchool { get; }
         public IHighSchoolRepository HighSchool { get; }
         public ISchoolYearRepository SchoolYear { get; }
+        public IOrderRepository Order { get; }
         public IStudentInClassRepository StudentInClass { get; }
         public IStudentRepository Student { get; }
         public IStudentSupervisorRepository StudentSupervisor { get; }
