@@ -68,7 +68,7 @@ namespace Infrastructures.Repository
 
         public async Task<Student> UpdateStudent(Student studentEntity)
         {
-            _context.Students.Update(studentEntity);
+            _context.Entry(studentEntity).CurrentValues.SetValues(studentEntity);
             await _context.SaveChangesAsync();
             return studentEntity;
         }

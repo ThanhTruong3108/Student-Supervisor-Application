@@ -33,7 +33,18 @@ namespace Infrastructures.Repository
             return await _context.Orders
                 .Include(s => s.Package)
                 .Include(c => c.User)
+                    .ThenInclude(c => c.School)
                 .FirstOrDefaultAsync(x => x.OrderCode == orderCode);
+        }
+
+        // get school id from order code
+        public async Task<int> GetSchoolIdByOrderCode(int orderCode)
+        {
+            var order = await _context.Orders
+                .Include(c => c.User)
+                    .ThenInclude(c => c.School)
+                .FirstOrDefaultAsync(x => x.OrderCode == orderCode);
+            return order.User.School.SchoolId;
         }
         public async Task<List<Order>> GetOrdersByUserId(int userId)
         {

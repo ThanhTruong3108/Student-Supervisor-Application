@@ -70,5 +70,12 @@ namespace Infrastructures.Repository
                 .Include(s => s.Package)
                 .ToListAsync();
         }
+
+        public async Task<YearPackage> CreateYearPackage(YearPackage entity)
+        {
+            await _context.YearPackages.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
     }
 }
