@@ -67,7 +67,10 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Phone, act => act.MapFrom(src => src.School.Phone))
                 .ForMember(re => re.WebURL, act => act.MapFrom(src => src.School.WebUrl));
 
-            CreateMap<Discipline, DisciplineResponse>();
+            CreateMap<Discipline, DisciplineResponse>()
+                .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Code))
+                .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Name));
+
             CreateMap<Evaluation, EvaluationResponse>();
             CreateMap<EvaluationDetail, EvaluationDetailResponse>();
             CreateMap<StudentInClass, StudentInClassResponse>()

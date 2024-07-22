@@ -19,6 +19,8 @@ namespace Infrastructures.Repository
         {
             return await _context.Disciplines
                 .Include(v => v.Violation)
+                    .ThenInclude(c => c.StudentInClass)
+                    .ThenInclude(c => c.Student)
                 .Include(v => v.Pennalty)
                 .ToListAsync();
         }
@@ -27,6 +29,8 @@ namespace Infrastructures.Repository
         {
             return await _context.Disciplines
                 .Include(v => v.Violation)
+                    .ThenInclude(c => c.StudentInClass)
+                    .ThenInclude(c => c.Student)
                 .Include(v => v.Pennalty)
                 .FirstOrDefaultAsync(x => x.DisciplineId == id);
         }
@@ -62,6 +66,8 @@ namespace Infrastructures.Repository
 
             return await query
                 .Include(v => v.Violation)
+                    .ThenInclude(c => c.StudentInClass)
+                    .ThenInclude(c => c.Student)
                 .Include(v => v.Pennalty)
                 .ToListAsync();
         }
@@ -92,6 +98,8 @@ namespace Infrastructures.Repository
         {
             return await _context.Disciplines
                 .Include(v => v.Violation)
+                    .ThenInclude(c => c.StudentInClass)
+                    .ThenInclude(c => c.Student)
                 .Include(v => v.Pennalty)
                 .Where(v => v.Pennalty.SchoolId == schoolId)
                 .ToListAsync();
@@ -101,6 +109,8 @@ namespace Infrastructures.Repository
         {
             return _context.Disciplines
                 .Include(v => v.Violation)
+                    .ThenInclude(c => c.StudentInClass)
+                    .ThenInclude(c => c.Student)
                 .Include(v => v.Pennalty)
                 .FirstOrDefault(x => x.ViolationId == violationId);
         }
