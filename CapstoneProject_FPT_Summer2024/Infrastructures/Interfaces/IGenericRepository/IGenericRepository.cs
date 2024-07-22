@@ -18,5 +18,6 @@ namespace Infrastructures.Interfaces.IGenericRepository
         void Update(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
+        void DetachLocal(T entity, object id);
     }
 }
