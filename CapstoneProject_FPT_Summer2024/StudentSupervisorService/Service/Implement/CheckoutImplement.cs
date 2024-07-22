@@ -123,7 +123,7 @@ namespace StudentSupervisorService.Service.Implement
                         Status = OrderStatusEnum.PAID.ToString()
                     };
 
-                    // thêm 1 Package vào YearlyPackage của HighSchool
+                    // thêm 1 Package vào YearPackage của HighSchool
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
                     response.Data = updated;
