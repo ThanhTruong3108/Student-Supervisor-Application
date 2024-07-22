@@ -16,6 +16,8 @@ using StudentSupervisorService.Service.Implement;
 using StudentSupervisorService.Mapper;
 using Microsoft.EntityFrameworkCore.Internal;
 using StudentSupervisorService.CloudinaryConfig;
+using StudentSupervisorService.Authentication;
+using StudentSupervisorService.Authentication.Implement;
 
 namespace StudentSupervisorService
 {
@@ -37,8 +39,11 @@ namespace StudentSupervisorService
             });
 
             //Add DI Container
-            services.AddTransient<StudentSupervisorService.PayOSConfig.PayOSConfig>();
+            services.AddTransient<PayOSConfig.PayOSConfig>();
             services.AddTransient<CheckoutService, CheckoutImplement>();
+            services.AddTransient<OrderService, OrderImplement>();
+
+            services.AddTransient<IAuthentication, AuthenticationImp>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 

@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace StudentSupervisorService.Authentication
         bool Verify(string hashPassword, string inputPassword);
         string Hash(string password);
         string GenerateToken(User user, string secretKey, string role);
+        int? GetUserIdFromContext(HttpContext context);
     }
 
 }

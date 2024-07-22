@@ -119,17 +119,60 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<RegisteredSchoolResponse>();
             try
             {
-                var registeredSchoolEntity = new RegisteredSchool
+                var existedActiveSchool = await _unitOfWork.RegisteredSchool.GetActiveSchoolsBySchoolCodeOrName(
+                    request.SchoolCode, request.SchoolName);
+                // trường học đã tồn tại và đang ACTIVE
+                if (existedActiveSchool != null)
                 {
-                    SchoolId = request.SchoolId,
-                    RegisteredDate = request.RegisteredDate,
-                    Description = request.Description,
-                    Status = RegisteredSchoolStatusEnums.ACTIVE.ToString()
-                };
+                    response.Data = "Empty";
+                    response.Message = "Trường học đã tồn tại và đang hoạt động";
+                    response.Success = false;
+                    return response;
+                }
+                
+                var existedInactiveSchool = await _unitOfWork.RegisteredSchool.GetInactiveSchoolsBySchoolCodeOrName(
+                    request.SchoolCode, request.SchoolName);
+                // trường học chưa tồn tại trong registeredschool & highschool
+                if (existedInactiveSchool == null)
+                {
+                    // insert highschool trước
+                    var schoolEntity = new HighSchool
+                    {
+                        Code = request.SchoolCode,
+                        Name = request.SchoolName,
+                        City = request.City,
+                        Address = request.Address,
+                        Phone = request.Phone,
+                        WebUrl = request.WebURL,
+                        Status = HighSchoolStatusEnums.ACTIVE.ToString()
+                    };
+                    var createdSchool = await _unitOfWork.HighSchool.CreateHighSchool(schoolEntity);
+                    // insert registeredschool sau
+                    var registeredSchoolEntity = new RegisteredSchool
+                    {
+                        SchoolId = createdSchool.SchoolId,
+                        RegisteredDate = request.RegisteredDate,
+                        Description = request.Description,
+                        Status = RegisteredSchoolStatusEnums.ACTIVE.ToString()
+                    };
+                    var createdRegisterSchool = await _unitOfWork.RegisteredSchool.CreateRegisteredSchool(registeredSchoolEntity);
+                    response.Data = _mapper.Map<RegisteredSchoolResponse>(createdRegisterSchool);
+                }
+                // trường học đã tồn tại trong highschool nhưng INACTIVE trong registeredschool
+                // ko cần insert highschool, chỉ cần insert registeredschool
+                else
+                {
+                    var registeredSchoolEntity = new RegisteredSchool
+                    {
+                        SchoolId = existedInactiveSchool.SchoolId,
+                        RegisteredDate = request.RegisteredDate,
+                        Description = request.Description,
+                        Status = RegisteredSchoolStatusEnums.ACTIVE.ToString()
+                    };
+                    var createdRegisterSchool = await _unitOfWork.RegisteredSchool.CreateRegisteredSchool(registeredSchoolEntity);
+                    response.Data = _mapper.Map<RegisteredSchoolResponse>(createdRegisterSchool);
+                }
 
-                var created = await _unitOfWork.RegisteredSchool.CreateRegisteredSchool(registeredSchoolEntity);
-
-                response.Data = _mapper.Map<RegisteredSchoolResponse>(created);
                 response.Message = "Tạo thành công";
                 response.Success = true;
             }
@@ -147,22 +190,37 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<RegisteredSchoolResponse>();
             try
             {
-                var existingRegisteredSchool = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolById(request.RegisteredId);
-                if (existingRegisteredSchool == null)
+                var existing = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolById(request.RegisteredId);
+                if (existing == null)
                 {
                     response.Data = "Empty";
                     response.Message = "Không tìm thấy Trường đã đăng ký!!";
                     response.Success = false;
                     return response;
                 }
-                existingRegisteredSchool.SchoolId = request.SchoolId ?? existingRegisteredSchool.SchoolId;
-                existingRegisteredSchool.RegisteredDate = request.RegisteredDate ?? existingRegisteredSchool.RegisteredDate;
-                existingRegisteredSchool.Description = request.Description ?? existingRegisteredSchool.Description;
-                existingRegisteredSchool.Status = request.Status ?? existingRegisteredSchool.Status;
+                // đã tồn tại trường học trong bảng highschool (theo Code & Name)
+                var existedSchool = await _unitOfWork.HighSchool.GetHighSchoolByCodeOrName(request.SchoolCode, request.SchoolName);
+                if (existedSchool != null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Mã trường học hoặc tên trường học đã tồn tại";
+                    response.Success = false;
+                    return response;
+                }
 
-                await _unitOfWork.RegisteredSchool.UpdateRegisteredSchool(existingRegisteredSchool);
+                existing.RegisteredDate = request.RegisteredDate ?? existing.RegisteredDate;
+                existing.Description = request.Description ?? existing.Description;
+                existing.Status = request.Status ?? existing.Status;
+                existing.School.Code = request.SchoolCode ?? existing.School.Code;
+                existing.School.Name = request.SchoolName ?? existing.School.Name;
+                existing.School.City = request.City ?? existing.School.City;
+                existing.School.Address = request.Address ?? existing.School.Address;
+                existing.School.Phone = request.Phone ?? existing.School.Phone;
+                existing.School.WebUrl = request.WebURL ?? existing.School.WebUrl;
 
-                response.Data = _mapper.Map<RegisteredSchoolResponse>(existingRegisteredSchool);
+                await _unitOfWork.RegisteredSchool.UpdateRegisteredSchool(existing);
+
+                response.Data = _mapper.Map<RegisteredSchoolResponse>(existing);
                 response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
@@ -182,25 +240,18 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var existingRegisteredSchool = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolById(id);
-                if (existingRegisteredSchool == null)
+                if (existingRegisteredSchool == null ||
+                    existingRegisteredSchool.Status == RegisteredSchoolStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Không tìm thấy Trường đã đăng ký!!";
-                    response.Success = false;
-                    return response;
-                }
-
-                if (existingRegisteredSchool.Status == RegisteredSchoolStatusEnums.INACTIVE.ToString())
-                {
-                    response.Data = null;
-                    response.Message = "Trường đã đăng ký đã bị xóa";
+                    response.Message = "Trường học không tồn tại hoặc đã bị xóa";
                     response.Success = false;
                     return response;
                 }
 
                 await _unitOfWork.RegisteredSchool.DeleteRegisteredSchool(id);
                 response.Data = "Empty";
-                response.Message = "Đã được xóa thành công";
+                response.Message = "Xóa Trường học thành công";
                 response.Success = true;
             }
             catch (Exception ex)

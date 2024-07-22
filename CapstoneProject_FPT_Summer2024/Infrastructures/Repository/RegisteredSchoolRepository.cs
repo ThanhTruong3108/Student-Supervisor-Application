@@ -29,6 +29,26 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.RegisteredId == id);
         }
 
+        //get active status registeredschool by school name or school code 
+        public async Task<RegisteredSchool> GetActiveSchoolsBySchoolCodeOrName(string? schoolCode, string? schoolName)
+        {
+            return await _context.RegisteredSchools
+                .Where(u => u.School.Code.Equals(schoolCode) || u.School.Name.Equals(schoolName))
+                .Where(u => u.Status.Equals(RegisteredSchoolStatusEnums.ACTIVE.ToString()))
+                .Include(c => c.School)
+                .FirstOrDefaultAsync();
+        }
+
+        //get inactive status registeredschool by school name or school code 
+        public async Task<RegisteredSchool> GetInactiveSchoolsBySchoolCodeOrName(string? schoolCode, string? schoolName)
+        {
+            return await _context.RegisteredSchools
+                .Where(u => u.School.Code.Equals(schoolCode) || u.School.Name.Equals(schoolName))
+                .Where(u => u.Status.Equals(RegisteredSchoolStatusEnums.INACTIVE.ToString()))
+                .Include(c => c.School)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<List<RegisteredSchool>> SearchRegisteredSchools(int? schoolId, DateTime? registerdDate, string? description, string? status)
         {
             var query = _context.RegisteredSchools.AsQueryable();

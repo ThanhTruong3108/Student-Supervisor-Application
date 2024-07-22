@@ -111,8 +111,7 @@ namespace Domain.Enums.Status
     public enum HighSchoolStatusEnums
     {
         ACTIVE,
-        INACTIVE,
-        BANNED
+        INACTIVE
     }
 
     public enum AdminStatusEnums
@@ -125,5 +124,12 @@ namespace Domain.Enums.Status
     {
         ACTIVE,
         INACTIVE,
+    }
+
+    public enum OrderStatusEnum
+    {
+        PENDING,
+        PAID,
+        CANCELLED
     }
 }
