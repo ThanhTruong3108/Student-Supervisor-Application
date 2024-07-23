@@ -156,8 +156,6 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
                     Status = ViolationStatusEnums.PENDING.ToString()
                 };
 
@@ -211,8 +209,6 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now,
                     Status = ViolationStatusEnums.APPROVED.ToString()
                 };
 
@@ -294,7 +290,6 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
-                violation.UpdatedAt = DateTime.Now;
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
