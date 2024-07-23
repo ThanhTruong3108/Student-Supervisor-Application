@@ -14,6 +14,12 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
 {
     public class RequestOfCreateViolation
     {
+        [Required(ErrorMessage = "The SchoolId field is required.")]
+        public int SchoolId { get; set; }
+
+        [Required(ErrorMessage = "The Year field is required.")]
+        public short Year { get; set; }
+
         [Required(ErrorMessage = "The ClassId field is required.")]
         public int ClassId { get; set; }
 

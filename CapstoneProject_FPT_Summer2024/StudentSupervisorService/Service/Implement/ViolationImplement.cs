@@ -147,6 +147,40 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên học không tồn tại hoặc không thuộc về trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Thời gian vi phạm không nằm trong khoảng thời gian của niên học.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the class belongs to the school and school year
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != schoolYear.SchoolYearId || classEntity.SchoolYear.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên học hoặc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType belongs to the school
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
@@ -181,6 +215,7 @@ namespace StudentSupervisorService.Service.Implement
                         }
                     }
                 }
+
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
@@ -202,6 +237,40 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên học không tồn tại hoặc không thuộc về trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Thời gian vi phạm không nằm trong khoảng thời gian của niên học.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the class belongs to the school and school year
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != schoolYear.SchoolYearId || classEntity.SchoolYear.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên học hoặc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType belongs to the school
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
@@ -243,7 +312,7 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplineEntity = new Discipline
                 {
                     ViolationId = violationEntity.ViolationId,
-                    PennaltyId = null, // Set a default PennaltyId or fetch based on some logic
+                    PennaltyId = null, 
                     Description = violationEntity.Name,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now.AddDays(7), // Set default EndDate
