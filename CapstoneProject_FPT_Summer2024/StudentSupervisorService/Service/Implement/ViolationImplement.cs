@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Domain.Entity;
+using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationRequest;
@@ -731,13 +732,13 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsByMonthAndWeek(year, month, weekNumber);
+                var violations = await _unitOfWork.Violation.GetViolationsByMonthAndWeek(schoolId, year, month, weekNumber);
                 if (violations == null || !violations.Any())
                 {
                     response.Data = "Empty";
@@ -768,13 +769,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(short year, string className)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(short year, string className, int schoolId)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(year, className);
+                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(year, className, schoolId);
                 if (violations == null || !violations.Any())
                 {
                     response.Data = "Empty";
@@ -786,6 +787,65 @@ namespace StudentSupervisorService.Service.Implement
                 var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
                 response.Data = vioDTO;
                 response.Message = "Danh sách vi phạm trong lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+        public async Task<DataResponse<List<ViolationTypeSummary>>> GetTopFrequentViolations(short year, int schoolId)
+        {
+            var response = new DataResponse<List<ViolationTypeSummary>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetTopFrequentViolations(year, schoolId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Data = new List<ViolationTypeSummary>();
+                    response.Message = "Không có vi phạm thường xuyên trong năm học này";
+                    response.Success = true;
+                    return response;
+                }
+
+                response.Data = violations;
+                response.Message = "Danh sách top 3 vi phạm thường xuyên trong năm học";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = new List<ViolationTypeSummary>();
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ClassViolationSummary>>> GetClassesWithMostViolations(short year, int schoolId)
+        {
+            var response = new DataResponse<List<ClassViolationSummary>>();
+
+            try
+            {
+                var classViolations = await _unitOfWork.Violation.GetClassesWithMostViolations(year, schoolId);
+                if (classViolations == null || !classViolations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không có lớp nào với nhiều vi phạm trong năm học này";
+                    response.Success = true;
+                    return response;
+                }
+
+                response.Data = classViolations;
+                response.Message = "Danh sách lớp có nhiều vi phạm trong năm học";
                 response.Success = true;
             }
             catch (Exception ex)
