@@ -359,37 +359,69 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
-                if (violation is null)
+                if (violation == null)
                 {
                     response.Message = "Không thể tìm thấy vi phạm!!";
                     response.Success = false;
                     return response;
                 }
 
-                violation.Status = ViolationStatusEnums.APPROVED.ToString();
-                await _unitOfWork.Violation.UpdateViolation(violation);
-
-                // Tạo Discipline cho Violation tương ứng
-                var disciplineEntity = new Discipline
+                if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
                 {
-                    ViolationId = violation.ViolationId,
-                    PennaltyId = null, // Set a default PennaltyId or fetch based on some logic
-                    Description = violation.Name,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
-                    Status = DisciplineStatusEnums.PENDING.ToString()
-                };
+                    response.Message = "Vi phạm đã ở trạng thái Approved.";
+                    response.Success = false;
+                    return response;
+                }
 
-                await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+                // Kiểm tra xem Discipline tương ứng với Vioation đó đã được tạo chưa
+                var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
+
+                if (violation.Status == ViolationStatusEnums.PENDING.ToString())
+                {
+                    if (discipline == null)
+                    {
+                        // Nếu chưa có thì tạo mới một Discipline tương ứng với Violation đó
+                        var disciplineEntity = new Discipline
+                        {
+                            ViolationId = violation.ViolationId,
+                            PennaltyId = null,
+                            Description = violation.Name,
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(7), 
+                            Status = DisciplineStatusEnums.PENDING.ToString()
+                        };
+                        await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+                    }
+                }
+                else if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
+                {
+                    if (discipline != null)
+                    {
+                        // Nếu Discipline tương ứng với Violation đó đã được tạo nhưng Violation bị Rejected dẫn đến Status Discipline = INACTIVE
+                        // => Update lại Status của Discipline đó thành PENDING
+                        _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                        discipline.Status = DisciplineStatusEnums.PENDING.ToString();
+                        await _unitOfWork.Discipline.UpdateDiscipline(discipline);
+                    }
+                }
+
+                // Detach the existing tracked instance of the Violation entity
+                _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
+
+                // Đồng thời cập nhật lại Status của Violation thành APPROVED
+                violation.Status = ViolationStatusEnums.APPROVED.ToString();
+                _unitOfWork.Violation.Update(violation);
 
                 // Increase NumberOfViolation in StudentInClass
-                var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
+                var studentInClass = await _unitOfWork.StudentInClass.GetStudentInClassById(violation.StudentInClassId.Value);
                 if (studentInClass != null)
                 {
+                    _unitOfWork.StudentInClass.DetachLocal(studentInClass, studentInClass.StudentInClassId);
                     studentInClass.NumberOfViolation = (studentInClass.NumberOfViolation ?? 0) + 1;
                     _unitOfWork.StudentInClass.Update(studentInClass);
-                    _unitOfWork.Save();
                 }
+
+                _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
