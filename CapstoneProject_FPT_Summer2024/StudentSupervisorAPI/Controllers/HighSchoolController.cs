@@ -16,15 +16,9 @@ namespace StudentSupervisorAPI.Controllers
     public class HighSchoolController : ControllerBase
     {
         private HighSchoolService _service;
-        private UserService _userService;
-        private ViolationGroupService _violationGroupService;
-        private SchoolYearService _schoolYearService;
-        public HighSchoolController(HighSchoolService service, UserService userService, ViolationGroupService violationGroupService, SchoolYearService schoolYearService)
+        public HighSchoolController(HighSchoolService service)
         {
             _service = service;
-            _userService = userService;
-            _violationGroupService = violationGroupService;
-            _schoolYearService = schoolYearService;
         }
 
         [HttpGet]
@@ -107,48 +101,5 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("users/{id}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfUser>>>> GetUsersBySchoolId(int id)
-        {
-            try
-            {
-                var users = await _userService.GetUsersBySchoolId(id);
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [HttpGet("violation-groups/{id}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetViolationGroupsBySchoolId(int id)
-        {
-            try
-            {
-                var vioGroups = await _violationGroupService.GetVioGroupsBySchoolId(id);
-                return Ok(vioGroups);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
-        [HttpGet("school-years/{id}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetSchoolYearsBySchoolId(int id)
-        {
-            try
-            {
-                var schoolYears = await _schoolYearService.GetSchoolYearBySchoolId(id);
-                return Ok(schoolYears);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
     }
 }
