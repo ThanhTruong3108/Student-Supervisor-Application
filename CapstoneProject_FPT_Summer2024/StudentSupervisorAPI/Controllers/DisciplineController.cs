@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -118,6 +119,33 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var disciplines = await disciplineService.GetDisciplinesBySchoolId(schoolId);
                 return Ok(disciplines);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/executing")]
+        public async Task<ActionResult<DataResponse<DisciplineResponse>>> ExecutingDiscipline(int id)
+        {
+            try
+            {
+                var discipline = await disciplineService.ExecutingDiscipline(id);
+                return Ok(discipline);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("{id}/done")]
+        public async Task<ActionResult<DataResponse<DisciplineResponse>>> DoneDiscipline(int id)
+        {
+            try
+            {
+                var discipline = await disciplineService.DoneDiscipline(id);
+                return Ok(discipline);
             }
             catch (Exception ex)
             {

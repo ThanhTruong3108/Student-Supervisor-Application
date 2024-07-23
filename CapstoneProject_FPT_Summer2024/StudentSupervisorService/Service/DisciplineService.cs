@@ -21,5 +21,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<DisciplineResponse>> UpdateDiscipline(DisciplineUpdateRequest request);
         Task<DataResponse<DisciplineResponse>> DeleteDiscipline(int id);
         Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySchoolId(int schoolId);
+        Task<DataResponse<DisciplineResponse>> ExecutingDiscipline(int disciplineId);
+        Task<DataResponse<DisciplineResponse>> DoneDiscipline(int disciplineId);
     }
 }

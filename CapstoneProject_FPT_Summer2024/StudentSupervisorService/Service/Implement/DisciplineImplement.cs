@@ -262,5 +262,99 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<DisciplineResponse>> ExecutingDiscipline(int disciplineId)
+        {
+            var response = new DataResponse<DisciplineResponse>();
+
+            try
+            {
+                var discipline = await _unitOfWork.Discipline.GetDisciplineById(disciplineId); 
+                if (discipline == null)
+                {
+                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the status is already EXECUTING
+                if (discipline.Status == DisciplineStatusEnums.EXECUTING.ToString())
+                {
+                    response.Message = "Kỷ luật đã ở trạng thái EXECUTING";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the status is PENDING
+                if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
+                {
+                    response.Message = "Trạng thái kỷ luật không phải là PENDING, không thể chuyển thành EXECUTING !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                discipline.Status = DisciplineStatusEnums.EXECUTING.ToString();
+                _unitOfWork.Discipline.Update(discipline);
+                _unitOfWork.Save(); 
+
+                response.Data = _mapper.Map<DisciplineResponse>(discipline);
+                response.Success = true;
+                response.Message = "Executing kỷ luật thành công";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Executing kỷ luật thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<DisciplineResponse>> DoneDiscipline(int disciplineId)
+        {
+            var response = new DataResponse<DisciplineResponse>();
+
+            try
+            {
+                var discipline = await _unitOfWork.Discipline.GetDisciplineById(disciplineId);
+                if (discipline == null)
+                {
+                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the status is already DONE
+                if (discipline.Status == DisciplineStatusEnums.DONE.ToString())
+                {
+                    response.Message = "Kỷ luật đã ở trạng thái DONE";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the status is EXECUTING
+                if (discipline.Status != DisciplineStatusEnums.EXECUTING.ToString())
+                {
+                    response.Message = "Trạng thái kỷ luật không phải là EXECUTING, không thể chuyển thành DONE !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                discipline.Status = DisciplineStatusEnums.DONE.ToString();
+                _unitOfWork.Discipline.Update(discipline);
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<DisciplineResponse>(discipline);
+                response.Success = true;
+                response.Message = "kỷ luật đã được thực hiện xong.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Done kỷ luật không thành công.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }
