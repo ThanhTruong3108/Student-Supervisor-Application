@@ -43,7 +43,6 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
 
     public class RequestOfUpdateViolation
     {
-        //public int ViolationId { get; set; }
         public int ClassId { get; set; }
 
         public int ViolationTypeId { get; set; }

@@ -357,6 +357,32 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != violation.Class.SchoolYearId || classEntity.ClassGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên học hoặc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                var schoolYear = await _unitOfWork.SchoolYear.GetSchoolYearById(classEntity.SchoolYearId);
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Ngày vi phạm không nằm trong khoảng thời gian của niên học.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Update the violation details
                 violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
