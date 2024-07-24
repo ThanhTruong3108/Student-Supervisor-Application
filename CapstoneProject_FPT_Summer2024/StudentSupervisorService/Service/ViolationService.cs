@@ -9,8 +9,8 @@ namespace StudentSupervisorService.Service
     {
         Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(string sortOrder);
         Task<DataResponse<ResponseOfViolation>> GetViolationById(int id);
-        Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(RequestOfCreateViolation request);
-        Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(RequestOfCreateViolation request);
+        Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(int userId, RequestOfCreateViolation request);
+        Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(int userId, RequestOfCreateViolation request);
         Task<DataResponse<ResponseOfViolation>> ApproveViolation(int id);
         Task<DataResponse<ResponseOfViolation>> RejectViolation(int id);
         Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id);

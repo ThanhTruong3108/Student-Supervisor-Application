@@ -12,10 +12,10 @@ namespace Infrastructures.Interfaces
     {
         Task<List<SchoolYear>> GetAllSchoolYears();
         Task<SchoolYear> GetSchoolYearById(int id);
-        Task<SchoolYear> GetSchoolYearBySchoolIdAndYear(int schoolId, short year);
-        Task<SchoolYear> GetOngoingSchoolYearBySchoolIdAndYear(int schoolId, short year);
+        Task<SchoolYear> GetSchoolYearBySchoolIdAndYear(int schoolId, int year);
+        Task<SchoolYear> GetOngoingSchoolYearBySchoolIdAndYear(int schoolId, int year);
         Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate);
         Task<List<SchoolYear>> GetSchoolYearBySchoolId(int schoolId);
-        Task<SchoolYear> GetYearBySchoolYearId(int schoolId, short year);
+        Task<SchoolYear> GetYearBySchoolYearId(int schoolId, int year);
     }
 }

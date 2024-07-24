@@ -18,11 +18,13 @@ namespace StudentSupervisorService.Service.Implement
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ImageUrlService _imageUrlService;
-        public ViolationImplement(IUnitOfWork unitOfWork, IMapper mapper, ImageUrlService imageUrlService)
+        private readonly ValidationService _validationService;
+        public ViolationImplement(IUnitOfWork unitOfWork, IMapper mapper, ImageUrlService imageUrlService, ValidationService validationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _imageUrlService = imageUrlService;
+            _validationService = validationService;
         }
         public async Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(string sortOrder)
         {
@@ -142,11 +144,20 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(RequestOfCreateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(int userId, RequestOfCreateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                // validate trong năm đó trường có đăng ký gói VALID nào ko
+                if (!await _validationService.IsAnyValidPackageInSpecificYear(request.SchoolId, request.Year))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Trường chưa đăng ký gói nào hoặc không có gói nào còn hạn";
+                    response.Success = false;
+                    return response;
+                }
+
                 var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
                 if (schoolYear == null)
                 {
@@ -238,11 +249,20 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(RequestOfCreateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(int userId, RequestOfCreateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                // validate trong năm đó trường có đăng ký gói VALID nào ko
+                if (!await _validationService.IsAnyValidPackageInSpecificYear(request.SchoolId, request.Year))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Trường chưa đăng ký gói nào hoặc không có gói nào còn hạn";
+                    response.Success = false;
+                    return response;
+                }
+
                 var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
                 if (schoolYear == null)
                 {

@@ -13,11 +13,13 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ValidationService _validationService;
 
-        public StudentInClassImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        public StudentInClassImplement(IUnitOfWork unitOfWork, IMapper mapper, ValidationService validationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _validationService = validationService;
         }
 
         public async Task<DataResponse<List<StudentInClassResponse>>> GetAllStudentInClass(string sortOrder)
@@ -119,6 +121,8 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<StudentInClassResponse>();
             try
             {
+                // 
+
                 // Student trùng mã Code trước đó => ko cho create
                 var existedStudentByCode = await _unitOfWork.Student.GetStudentByCode(request.Code);
                 if (existedStudentByCode != null)

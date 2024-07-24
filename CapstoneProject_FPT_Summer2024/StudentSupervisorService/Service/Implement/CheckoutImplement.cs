@@ -23,12 +23,10 @@ namespace StudentSupervisorService.Service.Implement
         private readonly PayOS _payOS;
         private readonly PayOSConfig.PayOSConfig _payOSConfig;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public CheckoutImplement(IUnitOfWork unitOfWork, IMapper mapper, OrderService orderService,
+        public CheckoutImplement(IUnitOfWork unitOfWork, OrderService orderService,
             PayOS payOS, PayOSConfig.PayOSConfig payOSConfig)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _payOS = payOS;
             _payOSConfig = payOSConfig;
             _orderService = orderService;

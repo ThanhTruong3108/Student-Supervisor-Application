@@ -194,11 +194,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                package.PackageId = request.PackageTypeId;
+                package.PackageTypeId = request.PackageTypeId;
                 package.Name = request.Name;
-                package.Description = request.Description;
-                package.TotalStudents = request.TotalStudents;
-                package.TotalViolations = request.TotalViolations;
+                package.Description = request.Description ?? package.Description;
+                package.TotalStudents = request.TotalStudents ?? package.TotalStudents;
+                package.TotalViolations = request.TotalViolations ?? package.TotalViolations;
                 package.Price = request.Price ?? package.Price;
 
                 _unitOfWork.Package.Update(package);

@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,26 @@ namespace Infrastructures.Repository
                 .Include(v => v.Package)
                 .Include(v => v.SchoolYear)
                 .Where(v => v.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
+        // Get YearPackage with VALID Status By SchoolYearId
+        public async Task<YearPackage> GetValidYearPackageBySchoolYearId(int schoolYearId)
+        {
+            return await _context.YearPackages
+                .Include(v => v.Package)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
+                .FirstOrDefaultAsync();
+        }
+
+        // Get List YearPackage with VALID Status By SchoolYearId
+        public async Task<List<YearPackage>> GetListValidYearPackageBySchoolYearId(int schoolYearId)
+        {
+            return await _context.YearPackages
+                .Include(v => v.Package)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
                 .ToListAsync();
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudentSupervisorService.Models.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,10 @@ namespace StudentSupervisorService.Service
         //              all pakage của School trong năm đó(YearPackage)
         //            - Trước khi import Violation, phải so all Violation của 1 trường rồi so vs TotalViolation
         //              trong all pakage của School trong năm đó(YearPackage)
+        Task<bool> IsAnyValidPackageInSpecificYear(int schoolId, int year);
+        // lấy jwt userid => lấy schoolid => lấy schoolyearid đang ONGOING theo schoolid và year từ violation
+        // => kiếm trong yearpackage bằng schoolyearid xem có package nào VALID ko
+
+        Task<bool> IsTotalStudentLessThanTotalStudentOfAllYearPackage(int schoolId, int year);
     }
 }
