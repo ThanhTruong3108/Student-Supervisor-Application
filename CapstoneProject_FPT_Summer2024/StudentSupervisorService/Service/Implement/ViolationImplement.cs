@@ -181,6 +181,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
@@ -267,6 +275,14 @@ namespace StudentSupervisorService.Service.Implement
                 if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
                 {
                     response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
                     response.Success = false;
                     return response;
                 }
@@ -369,6 +385,14 @@ namespace StudentSupervisorService.Service.Implement
                 if (violationType == null || violationType.ViolationGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
                 {
                     response.Message = "Loại vi phạm không thuộc trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
                     response.Success = false;
                     return response;
                 }
