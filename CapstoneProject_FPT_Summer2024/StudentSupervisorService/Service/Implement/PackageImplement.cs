@@ -35,7 +35,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Message = "Tạo Gói thất bại.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -210,7 +210,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Message = "Cập nhật Gói thất bại.\n" + ex.Message;
                 response.Success = false;
             }
 
