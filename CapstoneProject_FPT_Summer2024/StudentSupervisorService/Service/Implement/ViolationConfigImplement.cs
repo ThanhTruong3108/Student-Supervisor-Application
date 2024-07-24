@@ -24,6 +24,14 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
+                if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Không thể tạo Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var createViolationConfig = _mapper.Map<ViolationConfig>(request);
                 createViolationConfig.Status = ViolationConfigStatusEnums.ACTIVE.ToString();
                 _unitOfWork.ViolationConfig.Add(createViolationConfig);
@@ -217,6 +225,14 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation is null)
                 {
                     response.Message = "Không thể tìm thấy Cấu hình Vi phạm!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
+                if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Không thể cập nhật Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
                     response.Success = false;
                     return response;
                 }
