@@ -15,10 +15,10 @@ VALUES
 
 
 -- Chèn 2 bản ghi mẫu vào bảng HighSchool
-INSERT INTO [SchoolRules].[dbo].[HighSchool] ([Code], [Name], [City], [Address], [Phone], [WebURL], [Status])
+INSERT INTO [SchoolRules].[dbo].[HighSchool] ([Code], [Name], [City], [Address], [Phone], [WebURL])
 VALUES
-	('HS001', N'THPT Bình Thắng', N'TP.HCM', N'Dĩ An', '8487654321', 'http://www.thptbt.edu.vn', 'ACTIVE'),
-	('HS002', N'THPT Bình An', N'Hà Nội', N'Hồ Gươm', '8487654322', 'http://www.thptba.edu.vn', 'ACTIVE');
+	('HS001', N'THPT Bình Thắng', N'TP.HCM', N'Dĩ An', '8487654321', 'http://www.thptbt.edu.vn'),
+	('HS002', N'THPT Bình An', N'Hà Nội', N'Hồ Gươm', '8487654322', 'http://www.thptba.edu.vn');
 
 
 
@@ -1444,31 +1444,31 @@ VALUES
 
 
 -- Chèn 16 bản ghi mẫu vào bảng YearPackage
-INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [NumberOfStudent], [Status])
+INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [Status])
 VALUES
     -- Dữ liệu cho năm học 2021
-    (1, 1, 450, 'EXPIRED'),
-    (1, 2, 850, 'EXPIRED'),
-    (1, 3, 0, 'EXPIRED'),
-    (1, 4, 90, 'EXPIRED'),
+    (1, 1, 'EXPIRED'),
+    (1, 2, 'EXPIRED'),
+    (1, 3, 'EXPIRED'),
+    (1, 4, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2022
-    (2, 1, 460, 'VALID'),
-    (2, 2, 880, 'VALID'),
-    (2, 3, 0, 'VALID'),
-    (2, 4, 95, 'VALID'),
+    (2, 1, 'VALID'),
+    (2, 2, 'VALID'),
+    (2, 3, 'VALID'),
+    (2, 4, 'VALID'),
 
     -- Dữ liệu cho năm học 2023
-    (3, 1, 470, 'EXPIRED'),
-    (3, 2, 890, 'EXPIRED'),
-    (3, 3, 0, 'EXPIRED'),
-    (3, 4, 100, 'EXPIRED'),
+    (3, 1, 'EXPIRED'),
+    (3, 2, 'EXPIRED'),
+    (3, 3, 'EXPIRED'),
+    (3, 4, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
-    (4, 1, 480, 'VALID'),
-    (4, 2, 900, 'VALID'),
-    (4, 3, 0, 'VALID'),
-    (4, 4, 110, 'VALID');
+    (4, 1, 'VALID'),
+    (4, 2, 'VALID'),
+    (4, 3, 'VALID'),
+    (4, 4, 'VALID');
 -- Chèn 12 bản ghi mẫu vào bảng PatrolSchedule
 INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [SupervisorID], [TeacherID], [From], [To], [Status])
 VALUES
