@@ -1144,28 +1144,28 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [NumberOfStudent], [Status])
 VALUES
     -- Dữ liệu cho năm học 2021
-    (1, 1, 450, 'VALID  '),
-    (1, 2, 850, 'VALID  '),
-    (1, 3, 0, 'VALID  '),
-    (1, 4, 90, 'VALID '),
+    (1, 1, 450, 'EXPIRED'),
+    (1, 2, 850, 'EXPIRED'),
+    (1, 3, 0, 'EXPIRED'),
+    (1, 4, 90, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2022
-    (2, 1, 460, 'VALID '),
-    (2, 2, 880, 'VALID '),
-    (2, 3, 0, 'VALID '),
-    (2, 4, 95, 'ACTIVE'),
+    (2, 1, 460, 'VALID'),
+    (2, 2, 880, 'VALID'),
+    (2, 3, 0, 'VALID'),
+    (2, 4, 95, 'VALID'),
 
     -- Dữ liệu cho năm học 2023
-    (3, 1, 470, 'VALID '),
-    (3, 2, 890, 'VALID '),
-    (3, 3, 0, 'VALID '),
-    (3, 4, 100, 'VALID '),
+    (3, 1, 470, 'EXPIRED'),
+    (3, 2, 890, 'EXPIRED'),
+    (3, 3, 0, 'EXPIRED'),
+    (3, 4, 100, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
-    (4, 1, 480, 'VALID '),
-    (4, 2, 900, 'VALID '),
-    (4, 3, 0, 'VALID '),
-    (4, 4, 110, 'VALID ');
+    (4, 1, 480, 'VALID'),
+    (4, 2, 900, 'VALID'),
+    (4, 3, 0, 'VALID'),
+    (4, 4, 110, 'VALID');
 -- Chèn 12 bản ghi mẫu vào bảng PatrolSchedule
 INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [SupervisorID], [TeacherID], [From], [To], [Status])
 VALUES
