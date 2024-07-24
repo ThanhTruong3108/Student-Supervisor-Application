@@ -11,6 +11,7 @@ namespace StudentSupervisorService.Models.Response.DisciplineResponse
         public int DisciplineId { get; set; }
         public int ViolationId { get; set; }
         public int PennaltyId { get; set; }
+        public string? PenaltyName { get; set; } 
         public string? StudentCode { get; set; }
         public string? StudentName { get; set; }
         public string? Description { get; set; }
