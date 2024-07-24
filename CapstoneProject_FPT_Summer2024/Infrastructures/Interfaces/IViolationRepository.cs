@@ -38,10 +38,9 @@ namespace Infrastructures.Interfaces
         //--------------------------DASHBOARD-----------------------------------------------------------------------------------------------------------
 
         Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null);
-        Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId);
-        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId);
-        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId);
-        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId);
-        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId);
+        Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className);
+        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year);
+        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year);
+        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null);
     }
-}

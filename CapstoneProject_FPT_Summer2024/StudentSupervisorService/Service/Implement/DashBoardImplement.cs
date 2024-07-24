@@ -57,13 +57,13 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(short year, string className, int schoolId)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(int schoolId, short year, string className)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(year, className, schoolId);
+                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(schoolId, year, className);
                 if (violations == null || !violations.Any())
                 {
                     response.Data = "Empty";
@@ -87,13 +87,13 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
-        public async Task<DataResponse<List<ViolationTypeSummary>>> GetTopFrequentViolations(short year, int schoolId)
+        public async Task<DataResponse<List<ViolationTypeSummary>>> GetTopFrequentViolations(int schoolId, short year)
         {
             var response = new DataResponse<List<ViolationTypeSummary>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetTopFrequentViolations(year, schoolId);
+                var violations = await _unitOfWork.Violation.GetTopFrequentViolations(schoolId, year);
                 if (violations == null || !violations.Any())
                 {
                     response.Data = new List<ViolationTypeSummary>();
@@ -117,28 +117,28 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassViolationSummary>>> GetClassesWithMostViolations(short year, int schoolId)
+        public async Task<DataResponse<List<ClassViolationSummary>>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null)
         {
             var response = new DataResponse<List<ClassViolationSummary>>();
 
             try
             {
-                var classViolations = await _unitOfWork.Violation.GetClassesWithMostViolations(year, schoolId);
+                var classViolations = await _unitOfWork.Violation.GetClassesWithMostViolations(schoolId, year, month, weekNumber);
                 if (classViolations == null || !classViolations.Any())
                 {
-                    response.Data = "Empty";
-                    response.Message = "Không có lớp nào với nhiều vi phạm trong năm học này";
+                    response.Data = new List<ClassViolationSummary>();
+                    response.Message = "Không có lớp nào với nhiều vi phạm trong khoảng thời gian này";
                     response.Success = true;
                     return response;
                 }
 
                 response.Data = classViolations;
-                response.Message = "Danh sách lớp có nhiều vi phạm trong năm học";
+                response.Message = "Danh sách lớp có nhiều vi phạm trong khoảng thời gian này";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Data = "Empty";
+                response.Data = new List<ClassViolationSummary>();
                 response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -147,13 +147,14 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentViolationCount>>> GetTop5StudentsWithMostViolations(short year, int schoolId)
+
+        public async Task<DataResponse<List<StudentViolationCount>>> GetTop5StudentsWithMostViolations(int schoolId, short year)
         {
             var response = new DataResponse<List<StudentViolationCount>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetTop5StudentsWithMostViolations(year, schoolId);
+                var violations = await _unitOfWork.Violation.GetTop5StudentsWithMostViolations(schoolId, year);
                 if (violations == null || !violations.Any())
                 {
                     response.Data = "Empty";
@@ -177,28 +178,28 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassViolationDetail>>> GetClassWithMostStudentViolations(short year, int schoolId)
+        public async Task<DataResponse<List<ClassViolationDetail>>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null)
         {
             var response = new DataResponse<List<ClassViolationDetail>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetClassWithMostStudentViolations(year, schoolId);
+                var violations = await _unitOfWork.Violation.GetClassWithMostStudentViolations(schoolId, year, month, weekNumber);
                 if (violations == null || !violations.Any())
                 {
-                    response.Data = "Empty";
-                    response.Message = "Không có lớp nào có học sinh vi phạm trong năm học này";
+                    response.Data = new List<ClassViolationDetail>();
+                    response.Message = "Không có lớp nào có học sinh vi phạm trong khoảng thời gian này";
                     response.Success = true;
                     return response;
                 }
 
                 response.Data = violations;
-                response.Message = "Lớp có số lượng học sinh vi phạm nhiều nhất";
+                response.Message = "Lớp có số lượng học sinh vi phạm nhiều nhất trong khoảng thời gian này";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Data = "Empty";
+                response.Data = new List<ClassViolationDetail>();
                 response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
