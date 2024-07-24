@@ -268,49 +268,5 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("by-month-and-week")]
-        public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
-        {
-            var response = await _service.GetViolationsByMonthAndWeek(schoolId, year, month, weekNumber);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-        [HttpGet("by-year-and-classname")]
-        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] short year, [FromQuery] string className, [FromQuery] int schoolId)
-        {
-            var response = await _service.GetViolationsByYearAndClassName(year, className, schoolId);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-        [HttpGet("top-frequent-violations")]
-        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] short year, [FromQuery] int schoolId)
-        {
-            var response = await _service.GetTopFrequentViolations(year, schoolId);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-        [HttpGet("classes-with-most-violations")]
-        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] short year, [FromQuery] int schoolId)
-        {
-            var response = await _service.GetClassesWithMostViolations(year, schoolId);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
     }
 }

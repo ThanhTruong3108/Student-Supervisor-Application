@@ -34,9 +34,14 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetRejectedViolations();
         Task<List<Violation>> GetInactiveViolations();
         Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
+
+        //--------------------------DASHBOARD-----------------------------------------------------------------------------------------------------------
+
         Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null);
         Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId);
         Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId);
         Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId);
+        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId);
+        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId);
     }
 }

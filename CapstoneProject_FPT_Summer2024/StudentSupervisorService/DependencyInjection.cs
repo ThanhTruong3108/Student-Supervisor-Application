@@ -119,6 +119,7 @@ namespace StudentSupervisorService
             services.AddTransient<IYearPackageRepository, YearPackageRepository>();
             services.AddTransient<YearPackageService, YearPackageImplement>();
 
+            services.AddTransient<DashBoardService, DashBoardImplement>();
 
             services.AddTransient<IServiceCollection, ServiceCollection>();
 

@@ -253,8 +253,7 @@ namespace Infrastructures.Repository
 
         public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
         {
-            var schoolYear = await _context.SchoolYears
-        .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<Violation>();
@@ -297,7 +296,7 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(v => v.Date >= startDate && v.Date < endDate)
+                .Where(v => v.Date >= startDate && v.Date < endDate && v.Status == "APPROVED")
                 .ToListAsync();
         }
 
@@ -317,8 +316,7 @@ namespace Infrastructures.Repository
 
         public async Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId)
         {
-            var schoolYear = await _context.SchoolYears
-                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<Violation>();
@@ -335,25 +333,26 @@ namespace Infrastructures.Repository
                 .Where(v => v.Class.SchoolYearId == schoolYear.SchoolYearId
                     && v.Class.Name == className
                     && v.Date >= schoolYear.StartDate
-                    && v.Date <= schoolYear.EndDate)
+                    && v.Date <= schoolYear.EndDate
+                    && v.Status == "APPROVED")
                 .ToListAsync();
         }
 
+
         public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId)
         {
-            var schoolYear = await _context.SchoolYears
-                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ViolationTypeSummary>();
 
             return await _context.Violations
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate)
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
                 .GroupBy(v => v.ViolationTypeId)
                 .Select(g => new ViolationTypeSummary
                 {
                     ViolationTypeId = g.Key,
-                    ViolationTypeName = g.First().ViolationType.Name, // Assuming ViolationType is loaded
+                    ViolationTypeName = g.First().ViolationType.Name,
                     ViolationCount = g.Count()
                 })
                 .OrderByDescending(vts => vts.ViolationCount)
@@ -361,17 +360,17 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+
         public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId)
         {
-            var schoolYear = await _context.SchoolYears
-                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ClassViolationSummary>();
 
             return await _context.Violations
                 .Include(c => c.Class)
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate)
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
                 .GroupBy(v => v.ClassId)
                 .Select(g => new ClassViolationSummary
                 {
@@ -380,7 +379,64 @@ namespace Infrastructures.Repository
                     ViolationCount = g.Count()
                 })
                 .OrderByDescending(cvs => cvs.ViolationCount)
+                .Take(3)
                 .ToListAsync();
         }
+
+
+
+        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<StudentViolationCount>();
+
+            return await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.StudentInClass.Student)
+                .Select(g => new StudentViolationCount
+                {
+                    StudentId = g.Key.StudentId,
+                    FullName = g.Key.Name,
+                    ViolationCount = g.Count()
+                })
+                .OrderByDescending(svc => svc.ViolationCount)
+                .Take(5)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<ClassViolationDetail>();
+
+            var violations = await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.Class)
+                .Select(g => new ClassViolationDetail
+                {
+                    ClassId = g.Key.ClassId,
+                    ClassName = g.Key.Name,
+                    StudentCount = g.Select(v => v.StudentInClass.StudentId).Distinct().Count(),
+                    Students = g.Select(v => v.StudentInClass.Student)
+                                .Distinct()
+                                .Select(s => new StudentDetail
+                                {
+                                    StudentId = s.StudentId,
+                                    StudentCode = s.Code,
+                                    FullName = s.Name
+                                }).ToList()
+                })
+                .OrderByDescending(cvc => cvc.StudentCount)
+                .ToListAsync();
+
+            return violations;
+        }
+
+
     }
 }
