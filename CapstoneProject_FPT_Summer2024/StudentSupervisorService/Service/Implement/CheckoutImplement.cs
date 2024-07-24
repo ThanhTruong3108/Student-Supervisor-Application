@@ -12,6 +12,7 @@ using StudentSupervisorService.Models.Request.CheckoutRequest;
 using StudentSupervisorService.Models.Response.OrderResponse;
 using StudentSupervisorService.Models.Request.OrderRequest;
 using Domain.Enums.Status;
+using Domain.Entity;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -22,12 +23,10 @@ namespace StudentSupervisorService.Service.Implement
         private readonly PayOS _payOS;
         private readonly PayOSConfig.PayOSConfig _payOSConfig;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public CheckoutImplement(IUnitOfWork unitOfWork, IMapper mapper, OrderService orderService,
+        public CheckoutImplement(IUnitOfWork unitOfWork, OrderService orderService,
             PayOS payOS, PayOSConfig.PayOSConfig payOSConfig)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _payOS = payOS;
             _payOSConfig = payOSConfig;
             _orderService = orderService;
@@ -123,7 +122,28 @@ namespace StudentSupervisorService.Service.Implement
                         Status = OrderStatusEnum.PAID.ToString()
                     };
 
-                    // thêm 1 Package vào YearlyPackage của HighSchool
+                    // lấy order hiện tại
+                    var currentOrder = await _unitOfWork.Order.GetOrderByOrderCode((int)queryParams.OrderCode);
+                    // lấy schoolId từ currentOrder
+                    var schoolId = currentOrder.User.School.SchoolId;
+                    // lấy SchoolYear đang ONGOING theo schoolId và year (từ currentOrder)
+                    var schoolYear = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(schoolId, (short)currentOrder.Date.Value.Year);
+                    // nếu không có SchoolYear nào đang ONGOING thì trả về thông báo lỗi
+                    if (schoolYear == null)
+                    {
+                        response.Data = "Empty";
+                        response.Message = "Không có SchoolYear năm "+ currentOrder.Date.Value.Year + " đang ONGOING";
+                        response.Success = false;
+                        return response;
+                    }
+                    // nếu có => thêm 1 Package vào YearPackage của HighSchool
+                    await _unitOfWork.YearPackage.CreateYearPackage(
+                        new YearPackage
+                        {
+                            SchoolYearId = schoolYear.SchoolYearId,
+                            PackageId = currentOrder.PackageId,
+                            Status = YearPackageStatusEnums.VALID.ToString()
+                        });
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
                     response.Data = updated;

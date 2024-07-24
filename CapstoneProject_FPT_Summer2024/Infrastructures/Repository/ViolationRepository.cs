@@ -107,6 +107,8 @@ namespace Infrastructures.Repository
 
         public async Task<Violation> CreateViolation(Violation violationEntity)
         {
+            violationEntity.CreatedAt = DateTime.Now;
+            violationEntity.UpdatedAt = DateTime.Now;
             await _context.Violations.AddAsync(violationEntity);
             await _context.SaveChangesAsync();
             return violationEntity;
@@ -114,6 +116,7 @@ namespace Infrastructures.Repository
 
         public async Task<Violation> UpdateViolation(Violation violationEntity)
         {
+            violationEntity.UpdatedAt = DateTime.Now;
             _context.Violations.Update(violationEntity);
             _context.Entry(violationEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();

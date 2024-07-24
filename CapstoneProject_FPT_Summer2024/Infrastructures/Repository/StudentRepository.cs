@@ -23,6 +23,14 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.StudentId == id);
         }
 
+        // get the number of students in a school by schoolId
+        public async Task<int> GetNumberOfStudentsBySchoolId(int schoolId)
+        {
+            return await _context.Students
+                .Where(s => s.SchoolId == schoolId)
+                .CountAsync();
+        }
+
         public async Task<List<Student>> SearchStudents(int? schoolId, string? code, string? name, bool? sex, DateTime? birthday, string? address, string? phone)
         {
             var query = _context.Students.AsQueryable();
@@ -68,7 +76,7 @@ namespace Infrastructures.Repository
 
         public async Task<Student> UpdateStudent(Student studentEntity)
         {
-            _context.Students.Update(studentEntity);
+            _context.Entry(studentEntity).CurrentValues.SetValues(studentEntity);
             await _context.SaveChangesAsync();
             return studentEntity;
         }

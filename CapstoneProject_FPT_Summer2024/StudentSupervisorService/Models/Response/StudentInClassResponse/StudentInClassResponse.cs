@@ -11,7 +11,12 @@ namespace StudentSupervisorService.Models.Response.StudentInClassResponse
         public int StudentInClassId { get; set; }
         public int ClassId { get; set; }
         public int StudentId { get; set; }
+        public string? StudentCode { get; set; }
         public string? StudentName { get; set; }
+        public bool? Sex { get; set; }
+        public DateTime? Birthday { get; set; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
         public DateTime? EnrollDate { get; set; }
         public bool? IsSupervisor { get; set; }
         public DateTime? StartDate { get; set; }

@@ -42,6 +42,7 @@ namespace StudentSupervisorService
             services.AddTransient<PayOSConfig.PayOSConfig>();
             services.AddTransient<CheckoutService, CheckoutImplement>();
             services.AddTransient<OrderService, OrderImplement>();
+            services.AddTransient<ValidationService, ValidationImplement>();
 
             services.AddTransient<IAuthentication, AuthenticationImp>();
 

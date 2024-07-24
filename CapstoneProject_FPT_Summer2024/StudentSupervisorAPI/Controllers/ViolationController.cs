@@ -5,6 +5,7 @@ using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using Domain.Enums.Status;
 using Microsoft.AspNetCore.Authorization;
+using StudentSupervisorService.Authentication;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -15,9 +16,11 @@ namespace StudentSupervisorAPI.Controllers
     public class ViolationController : ControllerBase
     {
         private ViolationService _service;
-        public ViolationController(ViolationService service)
+        private IAuthentication _authenService;
+        public ViolationController(ViolationService service, IAuthentication authenService)
         {
             _service = service;
+            _authenService = authenService;
         }
 
         [HttpGet]
@@ -77,7 +80,13 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var createdViolation = await _service.CreateViolationForStudentSupervisor(request);
+                // Lấy userId từ JWT
+                var userId = _authenService.GetUserIdFromContext(HttpContext);
+                if (userId == null)
+                {
+                    return Unauthorized("Không lấy được UserID từ JWT");
+                }
+                var createdViolation = await _service.CreateViolationForStudentSupervisor((int)userId, request);
                 return Ok(createdViolation);
             }
             catch (Exception ex)
@@ -92,7 +101,13 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var createdViolation = await _service.CreateViolationForSupervisor(request);
+                // Lấy userId từ JWT
+                var userId = _authenService.GetUserIdFromContext(HttpContext);
+                if (userId == null)
+                {
+                    return Unauthorized("Không lấy được UserID từ JWT");
+                }
+                var createdViolation = await _service.CreateViolationForSupervisor((int)userId, request);
                 return Ok(createdViolation);
             }
             catch (Exception ex)

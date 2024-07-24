@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -37,11 +38,28 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<SchoolYear> GetYearBySchoolYearId(int schoolId, short year)
+        public async Task<SchoolYear> GetYearBySchoolYearId(int schoolId, int year)
         {
             return _context.SchoolYears
                 .Include(c => c.School)
                 .FirstOrDefault(s => s.SchoolId == schoolId && s.Year == year);
+        }
+
+        public async Task<SchoolYear> GetSchoolYearBySchoolIdAndYear(int schoolId, int year)
+        {
+            return await _context.SchoolYears
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(s => s.SchoolId == schoolId && s.Year == year);
+        }
+
+        // get school year which status is ONGOING by school id and year
+        public async Task<SchoolYear> GetOngoingSchoolYearBySchoolIdAndYear(int schoolId, int year)
+        {
+            return await _context.SchoolYears
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(s => s.SchoolId == schoolId 
+                                    && s.Year == year 
+                                    && s.Status == SchoolYearStatusEnums.ONGOING.ToString());
         }
 
         public async Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate)

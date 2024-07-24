@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,26 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        // Get YearPackage with VALID Status By SchoolYearId
+        public async Task<YearPackage> GetValidYearPackageBySchoolYearId(int schoolYearId)
+        {
+            return await _context.YearPackages
+                .Include(v => v.Package)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
+                .FirstOrDefaultAsync();
+        }
+
+        // Get List YearPackage with VALID Status By SchoolYearId
+        public async Task<List<YearPackage>> GetListValidYearPackageBySchoolYearId(int schoolYearId)
+        {
+            return await _context.YearPackages
+                .Include(v => v.Package)
+                .Include(v => v.SchoolYear)
+                .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
+                .ToListAsync();
+        }
+
         public async Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId, int? minNumberOfStudent, int? maxNumberOfStudent)
         {
             var query = _context.YearPackages.AsQueryable();
@@ -69,6 +90,13 @@ namespace Infrastructures.Repository
                 .Include(s => s.SchoolYear)
                 .Include(s => s.Package)
                 .ToListAsync();
+        }
+
+        public async Task<YearPackage> CreateYearPackage(YearPackage entity)
+        {
+            await _context.YearPackages.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }
