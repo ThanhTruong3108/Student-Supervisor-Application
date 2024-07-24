@@ -219,7 +219,6 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.Code).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Phone).HasMaxLength(12);
-            entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.WebUrl)
                 .HasMaxLength(500)
                 .HasColumnName("WebURL");

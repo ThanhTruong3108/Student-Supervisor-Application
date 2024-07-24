@@ -144,7 +144,6 @@ namespace StudentSupervisorService.Service.Implement
                         Address = request.Address,
                         Phone = request.Phone,
                         WebUrl = request.WebURL,
-                        Status = HighSchoolStatusEnums.ACTIVE.ToString()
                     };
                     var createdSchool = await _unitOfWork.HighSchool.CreateHighSchool(schoolEntity);
                     // insert registeredschool sau

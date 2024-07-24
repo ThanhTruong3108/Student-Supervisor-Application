@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StudentSupervisorService.Models.Response;
-using StudentSupervisorService.Service;
-using StudentSupervisorService.Models.Response.YearPackageResponse;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.YearPackageRequest;
-using Microsoft.AspNetCore.Authorization;
+using StudentSupervisorService.Models.Response;
+using StudentSupervisorService.Models.Response.YearPackageResponse;
+using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -46,11 +46,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> SearchYearPackages(int? schoolYearId = null, int? packageId = null, int? minNumberOfStudent = null, int? maxNumberOfStudent = null, string sortOrder = "asc")
+        public async Task<IActionResult> SearchYearPackages(int? schoolYearId = null, int? packageId = null, string sortOrder = "asc")
         {
             try
             {
-                var yearPackages = await _service.SearchYearPackages(schoolYearId, packageId, minNumberOfStudent, maxNumberOfStudent, sortOrder);
+                var yearPackages = await _service.SearchYearPackages(schoolYearId, packageId, sortOrder);
                 return Ok(yearPackages);
             }
             catch (Exception ex)

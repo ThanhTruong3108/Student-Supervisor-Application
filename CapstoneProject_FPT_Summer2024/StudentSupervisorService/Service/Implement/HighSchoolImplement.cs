@@ -53,7 +53,6 @@ namespace StudentSupervisorService.Service.Implement
                     Status = RegisteredSchoolStatusEnums.ACTIVE.ToString()
                 };
                 createHighSchool.RegisteredSchools.Add(registerSchool);
-                createHighSchool.Status = HighSchoolStatusEnums.ACTIVE.ToString();
 
                 _unitOfWork.HighSchool.Add(createHighSchool);
                 _unitOfWork.Save();
@@ -84,16 +83,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                if (highSchool.Status == HighSchoolStatusEnums.INACTIVE.ToString())
-                {
-                    response.Data = "Empty";
-                    response.Message = "Trường trung học phổ thông đã bị xóa !!";
-                    response.Success = false;
-                    return response;
-                }
-
-                highSchool.Status = HighSchoolStatusEnums.INACTIVE.ToString();
-                _unitOfWork.HighSchool.Update(highSchool);
+                _unitOfWork.HighSchool.Remove(highSchool);
                 _unitOfWork.Save();
 
                 response.Data = "Empty";

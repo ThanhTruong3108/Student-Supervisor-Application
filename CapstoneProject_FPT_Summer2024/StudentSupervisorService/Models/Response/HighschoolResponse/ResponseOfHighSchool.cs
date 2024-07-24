@@ -20,7 +20,5 @@ namespace StudentSupervisorService.Models.Response.HighschoolResponse
         public string? Phone { get; set; }
 
         public string? WebUrl { get; set; }
-
-        public string Status { get; set; } = null!;
     }
 }
