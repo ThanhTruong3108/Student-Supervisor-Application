@@ -31,6 +31,14 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
+                if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Không thể tạo Loại vi phạm vì ViolationGroup không tồn tại hoặc đã bị vô hiệu hóa.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var createVioType = _mapper.Map<ViolationType>(request);
                 createVioType.Status = ViolationTypeStatusEnums.ACTIVE.ToString();
                 _unitOfWork.ViolationType.Add(createVioType);
@@ -221,6 +229,14 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
+                if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Không thể cập nhật Loại vi phạm vì ViolationGroup không tồn tại hoặc đã bị vô hiệu hóa.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
                 if (vioType is null)
                 {

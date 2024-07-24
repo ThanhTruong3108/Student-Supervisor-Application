@@ -56,5 +56,15 @@ namespace Infrastructures.Repository.GenericRepository
         {
             _dbSet.RemoveRange(entities);
         }
+        public void DetachLocal(T entity, object id)
+        {
+            var local = _dbSet.Local.FirstOrDefault(entry => entry.GetType().GetProperty("Id").GetValue(entry, null).Equals(id));
+            if (local != null)
+            {
+                _context.Entry(local).State = EntityState.Detached;
+            }
+
+            _context.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

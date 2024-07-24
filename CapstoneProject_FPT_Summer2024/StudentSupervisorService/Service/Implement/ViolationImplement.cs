@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Azure.Core;
 using Domain.Entity;
+using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationRequest;
@@ -146,6 +147,48 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên khóa không tồn tại hoặc không thuộc về trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Thời gian vi phạm không nằm trong khoảng thời gian của niên khóa.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the class belongs to the school and school year
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != schoolYear.SchoolYearId || classEntity.SchoolYear.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên khóa hoặc trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType belongs to the school
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
@@ -178,6 +221,7 @@ namespace StudentSupervisorService.Service.Implement
                         }
                     }
                 }
+
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
@@ -199,6 +243,48 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
+                var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(request.SchoolId, request.Year);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên khóa không tồn tại hoặc không thuộc về trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Thời gian vi phạm không nằm trong khoảng thời gian của niên khóa.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the class belongs to the school and school year
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != schoolYear.SchoolYearId || classEntity.SchoolYear.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên khóa hoặc trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType belongs to the school
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
@@ -234,18 +320,18 @@ namespace StudentSupervisorService.Service.Implement
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
-                //// Tạo Discipline cho Violation tương ứng
-                //var disciplineEntity = new Discipline
-                //{
-                //    ViolationId = violationEntity.ViolationId,
-                //    PennaltyId = 1, // Set a default PennaltyId or fetch based on some logic
-                //    Description = violationEntity.Name,
-                //    StartDate = DateTime.Now,
-                //    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
-                //    Status = DisciplineStatusEnums.PENDING.ToString()
-                //};
-                //// Save Discipline to database
-                //await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+                // Tạo Discipline cho Violation tương ứng
+                var disciplineEntity = new Discipline
+                {
+                    ViolationId = violationEntity.ViolationId,
+                    PennaltyId = null, 
+                    Description = violationEntity.Name,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
+                    Status = DisciplineStatusEnums.PENDING.ToString()
+                };
+ 
+                await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
 
                 // Increase NumberOfViolation in StudentInClass
                 var studentInClass = _unitOfWork.StudentInClass.GetById(violationEntity.StudentInClassId.Value);
@@ -283,6 +369,40 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null || classEntity.SchoolYearId != violation.Class.SchoolYearId || classEntity.ClassGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                {
+                    response.Message = "Lớp học không thuộc niên khóa hoặc trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
+                if (violationType == null || violationType.ViolationGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                {
+                    response.Message = "Loại vi phạm không thuộc trường được đăng ký.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the ViolationType status
+                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm không còn được thực thi.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate the violation date
+                var schoolYear = await _unitOfWork.SchoolYear.GetSchoolYearById(classEntity.SchoolYearId);
+                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
+                {
+                    response.Message = "Ngày vi phạm không nằm trong khoảng thời gian của niên khóa.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Update the violation details
                 violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
@@ -354,37 +474,69 @@ namespace StudentSupervisorService.Service.Implement
             try
             {
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
-                if (violation is null)
+                if (violation == null)
                 {
                     response.Message = "Không thể tìm thấy vi phạm!!";
                     response.Success = false;
                     return response;
                 }
 
-                violation.Status = ViolationStatusEnums.APPROVED.ToString();
-                await _unitOfWork.Violation.UpdateViolation(violation);
+                if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
+                {
+                    response.Message = "Vi phạm đã ở trạng thái Approved.";
+                    response.Success = false;
+                    return response;
+                }
 
-                //// Tạo Discipline cho Violation tương ứng
-                //var disciplineEntity = new Discipline
-                //{
-                //    ViolationId = violation.ViolationId,
-                //    PennaltyId = 1, // Set a default PennaltyId or fetch based on some logic
-                //    Description = violation.Name,
-                //    StartDate = DateTime.Now,
-                //    EndDate = DateTime.Now.AddDays(7), // Set default EndDate
-                //    Status = DisciplineStatusEnums.PENDING.ToString()
-                //};
-                //// Save Discipline to database
-                //await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+                // Kiểm tra xem Discipline tương ứng với Vioation đó đã được tạo chưa
+                var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
+
+                if (violation.Status == ViolationStatusEnums.PENDING.ToString())
+                {
+                    if (discipline == null)
+                    {
+                        // Nếu chưa có thì tạo mới một Discipline tương ứng với Violation đó
+                        var disciplineEntity = new Discipline
+                        {
+                            ViolationId = violation.ViolationId,
+                            PennaltyId = null,
+                            Description = violation.Name,
+                            StartDate = DateTime.Now,
+                            EndDate = DateTime.Now.AddDays(7), 
+                            Status = DisciplineStatusEnums.PENDING.ToString()
+                        };
+                        await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
+                    }
+                }
+                else if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
+                {
+                    if (discipline != null)
+                    {
+                        // Nếu Discipline tương ứng với Violation đó đã được tạo nhưng Violation bị Rejected dẫn đến Status Discipline = INACTIVE
+                        // => Update lại Status của Discipline đó thành PENDING
+                        _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                        discipline.Status = DisciplineStatusEnums.PENDING.ToString();
+                        await _unitOfWork.Discipline.UpdateDiscipline(discipline);
+                    }
+                }
+
+                // Detach the existing tracked instance of the Violation entity
+                _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
+
+                // Đồng thời cập nhật lại Status của Violation thành APPROVED
+                violation.Status = ViolationStatusEnums.APPROVED.ToString();
+                _unitOfWork.Violation.Update(violation);
 
                 // Increase NumberOfViolation in StudentInClass
-                var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
+                var studentInClass = await _unitOfWork.StudentInClass.GetStudentInClassById(violation.StudentInClassId.Value);
                 if (studentInClass != null)
                 {
+                    _unitOfWork.StudentInClass.DetachLocal(studentInClass, studentInClass.StudentInClassId);
                     studentInClass.NumberOfViolation = (studentInClass.NumberOfViolation ?? 0) + 1;
                     _unitOfWork.StudentInClass.Update(studentInClass);
-                    _unitOfWork.Save();
                 }
+
+                _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
@@ -413,21 +565,45 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                violation.Status = ViolationStatusEnums.REJECTED.ToString();
-                await _unitOfWork.Violation.UpdateViolation(violation);
-
-                // Decrease NumberOfViolation in StudentInClass
-                var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
-                if (studentInClass != null && studentInClass.NumberOfViolation > 0)
+                // Check if the violation is currently in Approved status
+                if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
                 {
-                    studentInClass.NumberOfViolation -= 1;
-                    _unitOfWork.StudentInClass.Update(studentInClass);
-                    _unitOfWork.Save();
-                }
+                    // Detach the existing violation entity to avoid tracking issues
+                    _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
 
-                response.Data = _mapper.Map<ResponseOfViolation>(violation);
-                response.Success = true;
-                response.Message = "Từ chối vi phạm thành công.";
+                    // Update violation status to Rejected
+                    violation.Status = ViolationStatusEnums.REJECTED.ToString();
+                    await _unitOfWork.Violation.UpdateViolation(violation);
+
+                    // Update Discipline status to INACTIVE
+                    var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
+                    if (discipline != null)
+                    {
+                        _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                        discipline.Status = DisciplineStatusEnums.INACTIVE.ToString();
+                        await _unitOfWork.Discipline.UpdateDiscipline(discipline);
+                    }
+
+                    // Decrease NumberOfViolation in StudentInClass
+                    var studentInClass = _unitOfWork.StudentInClass.GetById(violation.StudentInClassId.Value);
+                    if (studentInClass != null && studentInClass.NumberOfViolation > 0)
+                    {
+                        _unitOfWork.StudentInClass.DetachLocal(studentInClass, studentInClass.StudentInClassId);
+                        studentInClass.NumberOfViolation -= 1;
+                        _unitOfWork.StudentInClass.Update(studentInClass);
+                    }
+
+                    _unitOfWork.Save();
+
+                    response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                    response.Success = true;
+                    response.Message = "Từ chối vi phạm thành công.";
+                }
+                else
+                {
+                    response.Message = "Trạng thái vi phạm đang không phải Approved, Không thể rejected.";
+                    response.Success = false;
+                }
             }
             catch (Exception ex)
             {
@@ -670,72 +846,6 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null)
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
 
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetViolationsByMonthAndWeek(year, month, weekNumber);
-                if (violations == null || !violations.Any())
-                {
-                    response.Data = "Empty";
-                    response.Message = weekNumber.HasValue ? "Không có vi phạm nào trong tuần này" : "Không có vi phạm nào trong tháng này";
-                    response.Success = true;
-                    return response;
-                }
-
-                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = vioDTO;
-                response.Message = weekNumber.HasValue ? "Danh sách vi phạm trong tuần" : "Danh sách vi phạm trong tháng";
-                response.Success = true;
-            }
-            catch (ArgumentException ex)
-            {
-                response.Data = "Empty";
-                response.Message = ex.Message;
-                response.Success = false;
-            }
-            catch (Exception ex)
-            {
-                response.Data = "Empty";
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByYearAndClassName(short year, string className)
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
-
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetViolationsByYearAndClassName(year, className);
-                if (violations == null || !violations.Any())
-                {
-                    response.Data = "Empty";
-                    response.Message = "Không có vi phạm nào trong lớp này";
-                    response.Success = true;
-                    return response;
-                }
-
-                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = vioDTO;
-                response.Message = "Danh sách vi phạm trong lớp";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Data = "Empty";
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
     }
 }

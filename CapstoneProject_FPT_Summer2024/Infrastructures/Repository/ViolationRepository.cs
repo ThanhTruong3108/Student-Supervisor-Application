@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
@@ -253,11 +254,20 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Violation>> GetViolationsByMonthAndWeek(short year, int month, int? weekNumber = null)
+        public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
             if (schoolYear == null)
                 return new List<Violation>();
+
+            var monthStartDate = new DateTime(year, month, 1);
+            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+
+            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            {
+                throw new ArgumentException("Tháng này không thuộc năm học " + year);
+            }
 
             DateTime startDate;
             DateTime endDate;
@@ -272,9 +282,13 @@ namespace Infrastructures.Repository
             }
             else
             {
-                startDate = new DateTime(schoolYear.StartDate.Year, month, 1);
-                endDate = startDate.AddMonths(1);
+                startDate = monthStartDate;
+                endDate = monthStartDate.AddMonths(1);
             }
+
+            // Ensure the dates are within the school year's timeframe
+            startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
+            endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             return await _context.Violations
                 .Include(i => i.ImageUrls)
@@ -285,7 +299,7 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(v => v.Date >= startDate && v.Date < endDate)
+                .Where(v => v.Date >= startDate && v.Date < endDate && v.Status == "APPROVED")
                 .ToListAsync();
         }
 
@@ -303,9 +317,10 @@ namespace Infrastructures.Repository
             return weekNumber >= 1 && weekNumber <= maxWeeksInMonth;
         }
 
-        public async Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className)
+        public async Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year);
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
             if (schoolYear == null)
                 return new List<Violation>();
 
@@ -318,8 +333,113 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(v => v.Class.SchoolYearId == schoolYear.SchoolYearId && v.Class.Name == className)
+                .Where(v => v.Class.SchoolYearId == schoolYear.SchoolYearId
+                    && v.Class.Name == className
+                    && v.Date >= schoolYear.StartDate
+                    && v.Date <= schoolYear.EndDate
+                    && v.Status == "APPROVED")
                 .ToListAsync();
         }
+
+
+        public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<ViolationTypeSummary>();
+
+            return await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.ViolationTypeId)
+                .Select(g => new ViolationTypeSummary
+                {
+                    ViolationTypeId = g.Key,
+                    ViolationTypeName = g.First().ViolationType.Name,
+                    ViolationCount = g.Count()
+                })
+                .OrderByDescending(vts => vts.ViolationCount)
+                .Take(3)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<ClassViolationSummary>();
+
+            return await _context.Violations
+                .Include(c => c.Class)
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.ClassId)
+                .Select(g => new ClassViolationSummary
+                {
+                    ClassId = g.Key,
+                    ClassName = g.First().Class.Name,
+                    ViolationCount = g.Count()
+                })
+                .OrderByDescending(cvs => cvs.ViolationCount)
+                .Take(3)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<StudentViolationCount>();
+
+            return await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.StudentInClass.Student)
+                .Select(g => new StudentViolationCount
+                {
+                    StudentId = g.Key.StudentId,
+                    FullName = g.Key.Name,
+                    ViolationCount = g.Count()
+                })
+                .OrderByDescending(svc => svc.ViolationCount)
+                .Take(5)
+                .ToListAsync();
+        }
+
+
+        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId)
+        {
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<ClassViolationDetail>();
+
+            var violations = await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => v.Class)
+                .Select(g => new ClassViolationDetail
+                {
+                    ClassId = g.Key.ClassId,
+                    ClassName = g.Key.Name,
+                    StudentCount = g.Select(v => v.StudentInClass.StudentId).Distinct().Count(),
+                    Students = g.Select(v => v.StudentInClass.Student)
+                                .Distinct()
+                                .Select(s => new StudentDetail
+                                {
+                                    StudentId = s.StudentId,
+                                    StudentCode = s.Code,
+                                    FullName = s.Name
+                                }).ToList()
+                })
+                .OrderByDescending(cvc => cvc.StudentCount)
+                .ToListAsync();
+
+            return violations;
+        }
+
+
     }
 }

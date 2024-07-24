@@ -268,26 +268,5 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("by-month-and-week")]
-        public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
-        {
-            var response = await _service.GetViolationsByMonthAndWeek(year, month, weekNumber);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-        [HttpGet("by-year-and-classname")]
-        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] short year, [FromQuery] string className)
-        {
-            var response = await _service.GetViolationsByYearAndClassName(year, className);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
     }
 }
