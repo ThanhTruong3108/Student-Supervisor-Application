@@ -154,12 +154,12 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-        public async Task<DataResponse<DisciplineResponse>> UpdateDiscipline(DisciplineUpdateRequest request)
+        public async Task<DataResponse<DisciplineResponse>> UpdateDiscipline(int id, DisciplineUpdateRequest request)
         {
             var response = new DataResponse<DisciplineResponse>();
             try
             {
-                var existingDiscipline = await _unitOfWork.Discipline.GetDisciplineById(request.DisciplineId);
+                var existingDiscipline = await _unitOfWork.Discipline.GetDisciplineById(id);
                 if (existingDiscipline == null)
                 {
                     response.Data = "Empty";
@@ -168,20 +168,17 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Check if StartDate is greater than EndDate
-                if (request.StartDate > request.EndDate)
+                // Check if StartDate is greater than or equal EndDate
+                if (request.StartDate >= request.EndDate)
                 {
                     response.Data = "Empty";
-                    response.Message = "Ngày bắt đầu không được lớn hơn Ngày kết thúc";
+                    response.Message = "Ngày bắt đầu không được lớn hơn hoặc bằng Ngày kết thúc";
                     response.Success = false;
                     return response;
                 }
-                existingDiscipline.ViolationId = request.ViolationId ?? existingDiscipline.ViolationId;
                 existingDiscipline.PennaltyId = request.PennaltyId ?? existingDiscipline.PennaltyId;
-                existingDiscipline.Description = request.Description ?? existingDiscipline.Description;
                 existingDiscipline.StartDate = request.StartDate ?? existingDiscipline.StartDate;
                 existingDiscipline.EndDate = request.EndDate ?? existingDiscipline.EndDate;
-                existingDiscipline.Status = request.Status.ToString() ?? existingDiscipline.Status;
 
                 await _unitOfWork.Discipline.UpdateDiscipline(existingDiscipline);
 

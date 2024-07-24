@@ -85,11 +85,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<DataResponse<DisciplineResponse>>> UpdateDiscipline(DisciplineUpdateRequest request)
+        public async Task<ActionResult<DataResponse<DisciplineResponse>>> UpdateDiscipline(int id, DisciplineUpdateRequest request)
         {
             try
             {
-                var disciplineResponse = await disciplineService.UpdateDiscipline(request);
+                var disciplineResponse = await disciplineService.UpdateDiscipline(id, request);
                 return Ok(disciplineResponse);
             }
             catch (Exception ex)
