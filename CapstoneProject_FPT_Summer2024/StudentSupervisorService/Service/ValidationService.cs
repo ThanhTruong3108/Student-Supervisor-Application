@@ -13,6 +13,7 @@ namespace StudentSupervisorService.Service
         //            - Update Status của SchoolYear thành FINISHED khi hết năm đó
         //            - Update Status của YearPackage thành EXPIRED khi hết hạn
         //            - Update Status của Discipline thành DONE khi EndDate < DateTime.Now
+        //            - Update Status của Violation thành APPROVED khi GVCN ko duyệt sau 1 ngày
         // 
         // Validate:  - Khi trường tạo SchoolYear mới, sau đó bắt buộc phải đăng ký 1 Package
         //            - Trước khi import Student, phải so total student vs TotalStudent trong
@@ -22,7 +23,5 @@ namespace StudentSupervisorService.Service
         Task<bool> IsAnyValidPackageInSpecificYear(int schoolId, int year);
         // lấy jwt userid => lấy schoolid => lấy schoolyearid đang ONGOING theo schoolid và year từ violation
         // => kiếm trong yearpackage bằng schoolyearid xem có package nào VALID ko
-
-        Task<bool> IsTotalStudentLessThanTotalStudentOfAllYearPackage(int schoolId, int year);
     }
 }

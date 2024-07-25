@@ -52,7 +52,7 @@ namespace StudentSupervisorService.Service.Implement
                 return result;
             }
             catch (Exception ex)
-                       {
+            {
                 throw new Exception("Xóa hình ảnh không thành công: " + ex.Message
                                        + (ex.InnerException != null ? ex.InnerException.Message : ""));
             }
