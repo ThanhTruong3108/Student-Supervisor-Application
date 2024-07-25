@@ -159,7 +159,7 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
 VALUES 
     (1, 2021, '2021-09-01', '2022-06-30', 'FINISHED'),
-    (1, 2022, '2022-09-01', '2023-06-30', 'FINISHED'),
+    (1, 2022, '2022-09-01', '2023-06-30', 'ONGOING'),
 
     (2, 2023, '2023-09-01', '2024-06-30', 'FINISHED'),
     (2, 2024, '2024-09-01', '2025-06-30', 'ONGOING');
