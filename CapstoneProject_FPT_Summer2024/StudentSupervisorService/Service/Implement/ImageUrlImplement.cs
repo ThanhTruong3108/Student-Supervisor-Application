@@ -1,8 +1,11 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Domain.Entity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using StudentSupervisorService.CloudinaryConfig;
+using System.Net;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace StudentSupervisorService.Service.Implement

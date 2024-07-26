@@ -4,6 +4,8 @@ using Domain.Entity;
 using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationResponse;
@@ -225,6 +227,7 @@ namespace StudentSupervisorService.Service.Implement
                             violationEntity.ImageUrls.Add(new ImageUrl
                             {
                                 ViolationId = violationEntity.ViolationId,
+                                PublicId = uploadResult.PublicId,
                                 Url = uploadResult.SecureUrl.AbsoluteUri,
                                 Name = uploadResult.PublicId,
                                 Description = "Hình ảnh của " + violationEntity.ViolationId + " vi phạm"
@@ -330,6 +333,7 @@ namespace StudentSupervisorService.Service.Implement
                             violationEntity.ImageUrls.Add(new ImageUrl
                             {
                                 ViolationId = violationEntity.ViolationId,
+                                PublicId = uploadResult.PublicId,
                                 Url = uploadResult.SecureUrl.AbsoluteUri,
                                 Name = uploadResult.PublicId,
                                 Description = "Hình ảnh của " + violationEntity.ViolationId + " vi phạm"
@@ -429,6 +433,44 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
+                // update hình ảnh nếu có
+                if (request.Images != null)
+                {
+                    // xóa hình ảnh cũ
+                    foreach (var imageUrl in violation.ImageUrls)
+                    {
+                        var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
+                        if (deleteResult.StatusCode != HttpStatusCode.OK)
+                        {
+                            await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
+                            throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                        }
+                    }
+                    // xóa ảnh cũ của violation
+                    violation.ImageUrls.Clear();
+                    // upload ảnh mới
+                    var first2Images = request.Images.Take(2).ToList(); // just take the first 2 images to upload
+                    foreach (var image in first2Images)
+                    {
+                        // upload ảnh lên Cloudinary
+                        var uploadResult = await _imageUrlService.UploadImage(image);
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            violation.ImageUrls.Add(new ImageUrl
+                            {
+                                ViolationId = violation.ViolationId,
+                                PublicId = uploadResult.PublicId,
+                                Url = uploadResult.SecureUrl.AbsoluteUri,
+                                Name = uploadResult.PublicId,
+                                Description = "Hình ảnh của " + violation.ViolationId + " vi phạm"
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Failed to upload image {image.FileName}");
+                        }
+                    }
+                }
 
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
@@ -750,7 +792,5 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-
-
     }
 }
