@@ -15,8 +15,6 @@ public partial class Teacher
 
     public virtual ICollection<ClassGroup> ClassGroups { get; set; } = new List<ClassGroup>();
 
-    public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
-
     public virtual HighSchool School { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;

@@ -18,6 +18,7 @@ public partial class Class
     public string Name { get; set; } = null!;
 
     public int TotalPoint { get; set; }
+    public string? Status { get; set; }
 
     public virtual ClassGroup ClassGroup { get; set; } = null!;
 

@@ -12,5 +12,6 @@ namespace StudentSupervisorService.Models.Response.ClassResponse
         public int Grade { get; set; }
         public string? Name { get; set; }
         public int? TotalPoint { get; set; }
+        public string? Status { get; set; }
     }
 }

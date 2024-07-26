@@ -295,9 +295,9 @@ public partial class SchoolRulesContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Status).HasMaxLength(50);
             entity.Property(e => e.SupervisorId).HasColumnName("SupervisorID");
-            entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
             entity.Property(e => e.Time).HasPrecision(0);
             entity.Property(e => e.To).HasColumnType("date");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.Class).WithMany(p => p.PatrolSchedules)
                 .HasForeignKey(d => d.ClassId)
@@ -309,10 +309,9 @@ public partial class SchoolRulesContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PatrolSchedule_StudentSupervisor1");
 
-            entity.HasOne(d => d.Teacher).WithMany(p => p.PatrolSchedules)
-                .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_PatrolSchedule_Teacher");
+            entity.HasOne(d => d.User).WithMany(p => p.PatrolSchedules)
+                 .HasForeignKey(d => d.UserId)
+                 .HasConstraintName("FK_PatrolSchedule_User");
         });
 
         modelBuilder.Entity<Penalty>(entity =>

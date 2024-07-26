@@ -22,7 +22,10 @@ public partial class User
     public string? Address { get; set; }
 
     public string Status { get; set; } = null!;
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
 
     public virtual Role Role { get; set; } = null!;
 
@@ -31,5 +34,6 @@ public partial class User
     public virtual ICollection<StudentSupervisor> StudentSupervisors { get; set; } = new List<StudentSupervisor>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+
     public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
 }
