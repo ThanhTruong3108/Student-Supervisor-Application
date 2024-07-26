@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,16 @@ namespace Infrastructures.Repository
                .Include(c => c.School)
                .Include(c => c.Role)
                .FirstOrDefault(s => s.UserId == id);
+        }
+
+        public async Task<User> GetActiveSchoolAdminBySchoolId(int schoolId)
+        {
+            return await _context.Users
+                .Include(c => c.Role)
+                .Include(c => c.School)
+                .FirstOrDefaultAsync(u => u.SchoolId == schoolId 
+                                    && u.Status.Equals(UserStatusEnums.ACTIVE.ToString())    
+                                    && u.Role.RoleName.Equals(RoleEnum.SCHOOL_ADMIN.ToString()));
         }
 
         public async Task<List<User>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone)

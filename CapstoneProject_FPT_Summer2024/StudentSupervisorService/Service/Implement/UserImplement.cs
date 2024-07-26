@@ -70,6 +70,16 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                // nếu trường đó đã có 1 acc SchoolAdmin ACTIVE thì ko cho tạo
+                if (request.SchoolId.HasValue)
+                {
+                    var existedSchoolAdmin = await _unitOfWork.User.GetActiveSchoolAdminBySchoolId(request.SchoolId.Value);
+                    if (existedSchoolAdmin != null)
+                    {
+                        throw new Exception("Trường đã có một tài khoản SchoolAdmin ACTIVE");
+                    }
+                }
+
                 var isExistPhone = await _unitOfWork.User.GetAccountByPhone(request.Phone);
                 if (isExistPhone != null)
                 {

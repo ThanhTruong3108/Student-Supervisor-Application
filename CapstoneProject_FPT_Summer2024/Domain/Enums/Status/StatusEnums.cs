@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums.Status
 {
+    public enum ClassStatusEnums
+    {
+        ACTIVE,
+        INACTIVE,
+    }
+
     public enum ClassGroupStatusEnums
     {
         ACTIVE,
@@ -132,4 +138,5 @@ namespace Domain.Enums.Status
         PAID,
         CANCELLED
     }
+
 }
