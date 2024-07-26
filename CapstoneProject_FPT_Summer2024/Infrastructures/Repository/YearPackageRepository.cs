@@ -62,7 +62,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId, int? minNumberOfStudent, int? maxNumberOfStudent)
+        public async Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId)
         {
             var query = _context.YearPackages.AsQueryable();
 
@@ -74,16 +74,6 @@ namespace Infrastructures.Repository
             if (packageId.HasValue)
             {
                 query = query.Where(p => p.PackageId == packageId.Value);
-            }
-
-            if (minNumberOfStudent.HasValue)
-            {
-                query = query.Where(p => p.NumberOfStudent >= minNumberOfStudent.Value);
-            }
-
-            if (maxNumberOfStudent.HasValue)
-            {
-                query = query.Where(p => p.NumberOfStudent <= maxNumberOfStudent.Value);
             }
 
             return await query

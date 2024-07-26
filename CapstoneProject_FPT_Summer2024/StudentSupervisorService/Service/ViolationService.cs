@@ -19,7 +19,7 @@ namespace StudentSupervisorService.Service
                 int? classId,
                 int? violationTypeId,
                 int? studentInClassId,
-                int? teacherId,
+                int? userId,
                 string? name,
                 string? description,
                 DateTime? date,
@@ -29,10 +29,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year);
         Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode);
-        Task<DataResponse<List<ResponseOfViolation>>> GetApprovedViolations();
-        Task<DataResponse<List<ResponseOfViolation>>> GetPendingViolations();
-        Task<DataResponse<List<ResponseOfViolation>>> GetRejectedViolations();
-        Task<DataResponse<List<ResponseOfViolation>>> GetInactiveViolations();
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId);
     }
 }

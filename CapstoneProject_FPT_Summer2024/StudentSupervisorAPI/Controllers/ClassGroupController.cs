@@ -49,27 +49,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> SearchClassGroups(
-            int? schoolId,
-            string? classGroupName,
-            string? hall,
-            int? slot, 
-            TimeSpan? time,
-            ClassGroupStatusEnums? status,
-            string sortOrder)
-        {
-            try
-            {
-                var classGroupsResponse = await classGroupService.SearchClassGroups(schoolId, hall, slot, time, status.ToString(), sortOrder);
-                return Ok(classGroupsResponse);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ClassGroupResponse>>> CreateClassGroup(ClassGroupCreateRequest request)
         {

@@ -13,7 +13,5 @@ namespace StudentSupervisorService.Models.Request.YearPackageRequest
         public int SchoolYearId { get; set; }
         [Required(ErrorMessage = "The PackageId field is required.")]
         public int PackageId { get; set; }
-        [Required(ErrorMessage = "The NumberOfStudent field is required.")]
-        public int? NumberOfStudent { get; set; }
     }
 }

@@ -77,7 +77,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PatrolScheduleResponse>>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status ,string sortOrder)
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status, string sortOrder)
         {
             var response = new DataResponse<List<PatrolScheduleResponse>>();
 
@@ -123,6 +123,9 @@ namespace StudentSupervisorService.Service.Implement
                     ClassId = request.ClassId,
                     SupervisorId = request.SupervisorId,
                     TeacherId = request.TeacherId,
+                    Name = request.Name,
+                    Slot = request.Slot,
+                    Time = request.Time,
                     From = request.From,
                     To = request.To,
                     Status = PatrolScheduleStatusEnums.ONGOING.ToString()
@@ -160,6 +163,9 @@ namespace StudentSupervisorService.Service.Implement
                 existingPatrolSchedule.ClassId = request.ClassId ?? existingPatrolSchedule.ClassId;
                 existingPatrolSchedule.Supervisor.StudentSupervisorId = request.SupervisorId ?? existingPatrolSchedule.SupervisorId;
                 existingPatrolSchedule.TeacherId = request.TeacherId ?? existingPatrolSchedule.TeacherId;
+                existingPatrolSchedule.Name = request.Name ?? existingPatrolSchedule.Name;
+                existingPatrolSchedule.Slot = request.Slot ?? existingPatrolSchedule.Slot;
+                existingPatrolSchedule.Time = request.Time ?? existingPatrolSchedule.Time;
                 existingPatrolSchedule.From = request.From ?? existingPatrolSchedule.From;
                 existingPatrolSchedule.To = request.To ?? existingPatrolSchedule.To;
                 existingPatrolSchedule.Status = request.Status.ToString() ?? existingPatrolSchedule.Status;

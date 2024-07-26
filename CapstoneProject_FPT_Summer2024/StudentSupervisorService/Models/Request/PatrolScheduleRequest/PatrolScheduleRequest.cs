@@ -12,6 +12,9 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
         public int ClassId { get; set; }
         public int SupervisorId { get; set; }
         public int TeacherId { get; set; }
+        public string? Name { get; set; }
+        public int? Slot { get; set; }
+        public TimeSpan? Time { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
     }
@@ -22,6 +25,9 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
         public int? ClassId { get; set; }
         public int? SupervisorId { get; set; }
         public int? TeacherId { get; set; }
+        public string? Name { get; set; }
+        public int? Slot { get; set; }
+        public TimeSpan? Time { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public PatrolScheduleStatusEnums? Status { get; set; }

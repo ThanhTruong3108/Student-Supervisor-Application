@@ -15,10 +15,10 @@ VALUES
 
 
 -- Chèn 2 bản ghi mẫu vào bảng HighSchool
-INSERT INTO [SchoolRules].[dbo].[HighSchool] ([Code], [Name], [City], [Address], [Phone], [WebURL], [Status])
+INSERT INTO [SchoolRules].[dbo].[HighSchool] ([Code], [Name], [City], [Address], [Phone], [WebURL])
 VALUES
-	('HS001', N'THPT Bình Thắng', N'TP.HCM', N'Dĩ An', '8487654321', 'http://www.thptbt.edu.vn', 'ACTIVE'),
-	('HS002', N'THPT Bình An', N'Hà Nội', N'Hồ Gươm', '8487654322', 'http://www.thptba.edu.vn', 'ACTIVE');
+	('HS001', N'THPT Bình Thắng', N'TP.HCM', N'Dĩ An', '8487654321', 'http://www.thptbt.edu.vn'),
+	('HS002', N'THPT Bình An', N'Hà Nội', N'Hồ Gươm', '8487654322', 'http://www.thptba.edu.vn');
 
 
 
@@ -166,15 +166,15 @@ VALUES
 
 
 -- Chèn 3 bản ghi mẫu vào bảng ClassGroup
-INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [Hall], [Slot], [Time], [Status])
+INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [TeacherID], [Status])
 VALUES
-    (1, N'Hội trường A', '1', '07:00:00', 'ACTIVE'),
-    (1, N'Hội trường B', '1', '07:00:00', 'ACTIVE'),
-    (1, N'Hội trường C', '1', '07:00:00', 'ACTIVE'),
+    (1, 1, 'ACTIVE'),
+    (1, 1, 'ACTIVE'),
+    (1, 1, 'ACTIVE'),
 
-	(2, N'Hội trường D', '1', '08:00:00', 'ACTIVE'),
-    (2, N'Hội trường E', '1', '08:00:00', 'ACTIVE'),
-    (2, N'Hội trường F', '1', '08:00:00', 'ACTIVE');
+	(2, 11, 'ACTIVE'),
+    (2, 11, 'ACTIVE'),
+    (2, 11, 'ACTIVE');
 
 
 -- Chèn 20 bản ghi mẫu vào bảng Student
@@ -439,15 +439,15 @@ VALUES
 	(1, 3, 8, 'OBT001', 12, '12A1', 100),
 	(1, 3, 9, 'OBT002', 12, '12A2', 100),
 	(1, 3, 10, 'OBT003', 12, '12A3', 100),
-	(2, 1, 2, 'TBT004', 10, '10A1', 100),
-	(2, 1, 3, 'TBT005', 10, '10A2', 100),
-	(2, 1, 4, 'TBT006', 10, '10A3', 100),
-	(2, 2, 5, 'EBT004', 11, '11A1', 100),
-	(2, 2, 6, 'EBT005', 11, '11A2', 100),
-	(2, 2, 7, 'EBT006', 11, '11A3', 100),
-	(2, 3, 8, 'OBT004', 12, '12A1', 100),
-	(2, 3, 9, 'OBT005', 12, '12A2', 100),
-	(2, 3, 10, 'OBT006', 12, '12A3', 100),
+	(2, 4, 2, 'TBT004', 10, '10A1', 100),
+	(2, 4, 3, 'TBT005', 10, '10A2', 100),
+	(2, 4, 4, 'TBT006', 10, '10A3', 100),
+	(2, 5, 5, 'EBT004', 11, '11A1', 100),
+	(2, 5, 6, 'EBT005', 11, '11A2', 100),
+	(2, 5, 7, 'EBT006', 11, '11A3', 100),
+	(2, 6, 8, 'OBT004', 12, '12A1', 100),
+	(2, 6, 9, 'OBT005', 12, '12A2', 100),
+	(2, 6, 10, 'OBT006', 12, '12A3', 100),
 
 	(3, 4, 12, 'TBA001', 10, '10A1', 100),
 	(3, 4, 13, 'TBA002', 10, '10A2', 100),
@@ -656,96 +656,96 @@ VALUES
 (18, 59, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED'),
 (18, 60, '2022-09-01', 0, '2022-09-01', '2023-05-31', 0, 'ENROLLED'),
 
-(19, 121, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 122, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 123, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 124, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 125, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 126, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 127, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 128, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 129, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(19, 130, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 131, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 132, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 133, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 134, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 135, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 136, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 137, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 138, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 139, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(20, 140, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 141, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 142, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 143, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 144, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 145, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 146, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 147, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 148, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 149, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(21, 150, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 151, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 152, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 153, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 154, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 155, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 156, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 157, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 158, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 159, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(22, 160, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 161, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 162, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 163, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 164, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 165, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 166, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 167, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 168, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 169, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(23, 170, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 171, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 172, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 173, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 174, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 175, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 176, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 177, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 178, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 179, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(24, 180, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 181, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 182, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 183, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 184, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 185, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 186, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 187, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 188, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 189, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(25, 190, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 191, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 192, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 193, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 194, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 195, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 196, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 197, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 198, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 199, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(26, 200, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 201, '2023-09-01', 1, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 202, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 203, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 204, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 205, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 206, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 207, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 208, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 209, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
-(27, 210, '2023-09-01', 0, '2023-09-01', '2024-05-31', 0, 'ENROLLED'),
+(19, 121, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 122, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 123, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 124, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 125, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 126, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 127, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 128, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 129, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(19, 130, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 131, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 132, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 133, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 134, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 135, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 136, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 137, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 138, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 139, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(20, 140, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 141, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 142, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 143, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 144, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 145, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 146, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 147, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 148, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 149, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(21, 150, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 151, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 152, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 153, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 154, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 155, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 156, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 157, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 158, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 159, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(22, 160, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 161, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 162, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 163, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 164, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 165, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 166, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 167, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 168, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 169, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(23, 170, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 171, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 172, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 173, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 174, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 175, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 176, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 177, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 178, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 179, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(24, 180, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 181, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 182, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 183, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 184, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 185, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 186, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 187, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 188, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 189, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(25, 190, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 191, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 192, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 193, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 194, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 195, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 196, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 197, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 198, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 199, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(26, 200, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 201, '2023-09-01', 1, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 202, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 203, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 204, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 205, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 206, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 207, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 208, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 209, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
+(27, 210, '2023-09-01', 0, '2023-09-01', '2024-05-31', 1, 'ENROLLED'),
 (28, 211, '2024-09-01', 1, '2024-09-01', '2025-05-31', 0, 'ENROLLED'),
 (28, 212, '2024-09-01', 0, '2024-09-01', '2025-05-31', 0, 'ENROLLED'),
 (28, 213, '2024-09-01', 0, '2024-09-01', '2025-05-31', 0, 'ENROLLED'),
@@ -847,7 +847,14 @@ VALUES
 (1, 'VG003', N'Vi phạm học tập - thi cử' , N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (1, 'VG004', N'Vi phạm đạo đức' , N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (1, 'VG005', N'Vi phạm môi trường và tài sản chung' ,N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
-(1, 'VG006', N'Vi phạm tác phong' , N'Không tuân thủ quy định về tác phong, lối sống trong trường học.', 'ACTIVE');
+(1, 'VG006', N'Vi phạm tác phong' , N'Không tuân thủ quy định về tác phong, lối sống trong trường học.', 'ACTIVE'),
+
+(2, 'VGBA001', N'Vi phạm quy định về sự hiện diện', N'Không tuân thủ quy định về sự có mặt và tham gia hoạt động của nhà trường.', 'ACTIVE'),
+(2, 'VGBA002', N'Vi phạm quy định về trật tự', N'Không tuân thủ quy định chung về trật tự và nề nếp trong trường học.', 'ACTIVE'),
+(2, 'VGBA003', N'Vi phạm quy định học tập và thi cử', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
+(2, 'VGBA004', N'Vi phạm chuẩn mực đạo đức', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
+(2, 'VGBA005', N'Vi phạm quy định về môi trường và tài sản chung', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
+(2, 'VGBA006', N'Vi phạm quy định về tác phong', N'Không tuân thủ quy định về tác phong và lối sống trong trường học.', 'ACTIVE');
 
 -- Chèn 58 bản ghi mẫu vào bảng ViolationType
 INSERT INTO [SchoolRules].[dbo].[ViolationType] ([ViolationGroupID], [Name], [Description], [Status])
@@ -857,7 +864,6 @@ VALUES
 (1, N'Đi học trễ', N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
 (1, N'Bỏ tiết/trốn tiết', N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
 (1, N'Nghỉ buổi lao động có phép/không phép', N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
-
 -- Vi phạm nề nếp
 (2, N'Đi lại trên hành lang, ngoài sân trong giờ học', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (2, N'Gây ồn ào, mất trật tự', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
@@ -873,15 +879,12 @@ VALUES
 (2, N'Không chú ý nghe giảng', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (2, N'Nói chuyện, làm việc riêng trong giờ học', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (2, N'Tự ý ra khỏi lớp trong giờ học', N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
-
-
 -- Vi phạm học tập - thi cử
 (3, N'Không chép bài đầy đủ', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Không làm bài tập về nhà', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Ngồi không đúng vị trí trong lớp', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Quay cóp trong giờ kiểm tra', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (3, N'Sử dụng tài liệu trong lúc thi', N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-
 -- Vi phạm đạo đức
 (4, N'Vô lễ với thầy cô giáo', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (4, N'Nói tục, chửi thề', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
@@ -893,7 +896,6 @@ VALUES
 (4, N'Lưu hành văn hóa phẩm đồi trụy', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (4, N'Sử dụng mạng xã hội một cách tiêu cực', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (4, N'Không tham gia hoạt động tình nguyện', N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
-
 -- Vi phạm môi trường và tài sản chung
 (5, N'Xả rác bừa bãi', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (5, N'Mang đồ ăn vào trong lớp', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
@@ -903,7 +905,6 @@ VALUES
 (5, N'Phá hoại/làm mất tài sản của trường học', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (5, N'Trộm cắp tài sản của bạn học, nhà trường', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (5, N'Chiếm đoạt hoặc sử dụng trái phép tài sản', N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
-
 -- Vi phạm tác phong
 (6, N'Không mặc đồng phục', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (6, N'Mặc đồng phục không chuẩn', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
@@ -921,69 +922,347 @@ VALUES
 (6, N'Phụ kiện tóc trái phép', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (6, N'Tóc bẩn hoặc bù xù', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (6, N'Son móng tay', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
-(6, N'Trang điểm quá lố', N'Không tuân thủ quy định về tác phong.', 'ACTIVE');
+(6, N'Trang điểm quá lố', N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
+
+-- Violation Types for ViolationGroup 'VGBA001'
+(7, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', 'ACTIVE'),
+(7, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', 'ACTIVE'),
+(7, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', 'ACTIVE'),
+(7, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', 'ACTIVE'),
+(7, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', 'ACTIVE'),
+(7, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', 'ACTIVE'),
+-- Violation Types for ViolationGroup 'VGBA002'
+(8, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', 'ACTIVE'),
+(8, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', 'ACTIVE'),
+(8, N'Không xếp hàng', N'Không tuân thủ quy định xếp hàng trong các hoạt động chung.', 'ACTIVE'),
+(8, N'Chơi điện thoại trong lớp', N'Sử dụng điện thoại trong giờ học.', 'ACTIVE'),
+(8, N'Gây rối trong buổi lễ', N'Gây mất trật tự trong các buổi lễ của trường.', 'ACTIVE'),
+(8, N'Gây rối trong thư viện', N'Làm ồn hoặc gây mất trật tự trong thư viện.', 'ACTIVE'),
+-- Violation Types for ViolationGroup 'VGBA003'
+(9, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', 'ACTIVE'),
+(9, N'Copy bài của bạn', N'Chép bài từ bạn trong các bài kiểm tra, bài thi.', 'ACTIVE'),
+(9, N'Không làm bài tập về nhà', N'Không hoàn thành bài tập về nhà được giao.', 'ACTIVE'),
+(9, N'Truất bài kiểm tra', N'Bị truất bài trong kỳ thi vì hành vi không đúng mực.', 'ACTIVE'),
+(9, N'Truy cập trang web không phù hợp', N'Truy cập vào các trang web không liên quan đến học tập.', 'ACTIVE'),
+(9, N'Không hoàn thành bài tập nhóm', N'Không đóng góp hoặc hoàn thành phần bài tập nhóm.', 'ACTIVE'),
+-- Violation Types for ViolationGroup 'VGBA004'
+(10, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', 'ACTIVE'),
+(10, N'Gian lận trong hoạt động đoàn thể', N'Không trung thực trong các hoạt động của đoàn thể.', 'ACTIVE'),
+(10, N'Treo bảng đen quảng cáo', N'Treo bảng quảng cáo không đúng nơi quy định.', 'ACTIVE'),
+(10, N'Gian lận trong xét điểm', N'Không trung thực trong việc xin điểm cao.', 'ACTIVE'),
+(10, N'Làm bài tập hộ bạn', N'Làm bài tập hoặc kiểm tra hộ bạn.', 'ACTIVE'),
+(10, N'Vi phạm quy định về tư cách đạo đức', N'Có hành vi trái với đạo đức và quy chuẩn của nhà trường.', 'ACTIVE'),
+-- Violation Types for ViolationGroup 'VGBA005'
+(11, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', 'ACTIVE'),
+(11, N'Phá hoại tài sản công', N'Gây hư hỏng tài sản của trường.', 'ACTIVE'),
+(11, N'Sử dụng tài sản không đúng mục đích', N'Sử dụng tài sản của trường không đúng mục đích.', 'ACTIVE'),
+(11, N'Không bảo vệ môi trường', N'Không tham gia vào các hoạt động bảo vệ môi trường của trường.', 'ACTIVE'),
+(11, N'Sử dụng tài nguyên trái phép', N'Sử dụng tài nguyên của trường mà không được phép.', 'ACTIVE'),
+(11, N'Gian lận trong hoạt động xã hội', N'Không trung thực trong các hoạt động xã hội.', 'ACTIVE'),
+-- Violation Types for ViolationGroup 'VGBA006'
+(12, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', 'ACTIVE'),
+(12, N'Không đeo bảng tên', N'Không đeo bảng tên khi đến trường.', 'ACTIVE'),
+(12, N'Sử dụng trang phục không phù hợp', N'Mặc trang phục không phù hợp trong trường.', 'ACTIVE'),
+(12, N'Không tuân thủ quy định về trang phục thể dục', N'Không mặc đúng quy định trang phục thể dục.', 'ACTIVE'),
+(12, N'Thiếu tôn trọng giáo viên', N'Hành vi thiếu tôn trọng đối với giáo viên.', 'ACTIVE'),
+(12, N'Không đội mũ bảo hiểm', N'Không đội mũ bảo hiểm khi đi xe máy hoặc xe đạp điện.', 'ACTIVE');
+
+-- Chèn 12 bản ghi mẫu vào bảng PatrolSchedule
+INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [SupervisorID], [TeacherID], [Name], [Slot], [Time], [From], [To], [Status])
+VALUES
+    -- Lịch tuần tra cho lớp 10A1 năm học 2021
+    (1, 1, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (1, 1, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 10A2 năm học 2021
+    (2, 2, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (2, 2, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 10A3 năm học 2021
+    (3, 3, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (3, 3, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+	-- Lịch tuần tra cho lớp 11A1 năm học 2021
+    (4, 4, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (4, 4, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 11A2 năm học 2021
+    (5, 5, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (5, 5, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 11A3 năm học 2021
+    (6, 6, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (6, 6, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+	-- Lịch tuần tra cho lớp 12A1 năm học 2021
+    (7, 7, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (7, 7, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 12A2 năm học 2021
+    (8, 8, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (8, 8, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 12A3 năm học 2021
+    (9, 9, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (9, 9, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+
+    -- Lịch tuần tra cho lớp 10A1 năm học 2022
+    (10, 10, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (10, 10, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 10A2 năm học 2022
+    (11, 11, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (11, 11, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 10A3 năm học 2022
+    (12, 12, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (12, 12, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+	-- Lịch tuần tra cho lớp 11A1 năm học 2022
+    (13, 13, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (13, 13, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 11A2 năm học 2022
+    (14, 14, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (14, 14, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 11A3 năm học 2022
+    (15, 15, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (15, 15, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+	-- Lịch tuần tra cho lớp 12A1 năm học 2022
+    (16, 16, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (16, 16, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 12A2 năm học 2022
+    (17, 17, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (17, 17, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 12A3 năm học 2022
+    (18, 18, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (18, 18, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+
+
+	-- Lịch tuần tra cho lớp 10A1 năm học 2023
+    (19, 19, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (19, 19, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 10A2 năm học 2023
+    (20, 20, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (20, 20, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 10A3 năm học 2023
+    (21, 21, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (21, 21, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+	-- Lịch tuần tra cho lớp 11A1 năm học 2023
+    (22, 22, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (22, 22, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 11A2 năm học 2023
+    (23, 23, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (23, 23, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 11A3 năm học 2023
+    (24, 24, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (24, 24, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+	-- Lịch tuần tra cho lớp 12A1 năm học 2023
+    (25, 25, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (25, 25, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    -- Lịch tuần tra cho lớp 12A2 năm học 2023
+    (26, 26, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (26, 26, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+	-- Lịch tuần tra cho lớp 12A3 năm học 2023
+    (27, 27, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (27, 27, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+
+	-- Lịch tuần tra cho lớp 10A1 năm học 2024
+    (28, 28, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (28, 28, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 10A2 năm học 2024
+    (29, 29, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (29, 29, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 10A3 năm học 2024
+    (30, 30, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (30, 30, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+	-- Lịch tuần tra cho lớp 11A1 năm học 2024
+    (31, 31, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (31, 31, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 11A2 năm học 2024
+    (32, 32, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (32, 32, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 11A3 năm học 2024
+    (33, 33, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (33, 33, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+	-- Lịch tuần tra cho lớp 12A1 năm học 2024
+    (34, 34, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (34, 34, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    -- Lịch tuần tra cho lớp 12A2 năm học 2024
+    (35, 35, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (35, 35, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+	-- Lịch tuần tra cho lớp 12A3 năm học 2024
+    (36, 36, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (36, 36, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING');
+
+
 
 -- Chèn 40 bản ghi mẫu vào bảng Violation
-INSERT INTO [SchoolRules].[dbo].[Violation] ([ClassID], [ViolationTypeID], [StudentInClassID], [TeacherID], [Name], [Description], [Date], [CreatedAt], [CreatedBy], [UpdatedAt], [UpdatedBy], [Status])
+INSERT INTO [SchoolRules].[dbo].[Violation] ([UserID], [ClassID], [ViolationTypeID], [StudentInClassID], [ScheduleID], [Name], [Description], [Date], [CreatedAt], [UpdatedAt], [Status])
 VALUES
 -- Class 1 Violations
-(1, 6, 1, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2021-09-10 10:30:00', '2021-09-10', 1, NULL, NULL, 'APPROVED'),
-(1, 24, 2, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2021-09-15 11:00:00', '2021-09-15', 1, NULL, NULL, 'APPROVED'),
-(1, 4, 3, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2021-12-01 09:00:00', '2021-12-01', 1, NULL, NULL, 'APPROVED'),
-(1, 1, 4, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-10-05 09:00:00', '2021-10-05', 1, NULL, NULL, 'APPROVED'),
-(1, 2, 5, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2021-11-10 08:45:00', '2021-11-10', 1, NULL, NULL, 'APPROVED'),
-(1, 3, 1, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-10-9 10:00:00', '2021-10-9', 1, NULL, NULL, 'APPROVED'),
-(1, 43, 2, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-09-20 08:00:00', '2021-09-20', 1, NULL, NULL, 'APPROVED'),
-(1, 45, 3, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-10-22 08:15:00', '2021-10-22', 1, NULL, NULL, 'APPROVED'),
-(1, 23, 4, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-11-05 10:00:00', '2021-11-05', 1, NULL, NULL, 'APPROVED'),
-(1, 22, 5, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2022-03-07 14:00:00', '2022-03-07', 1, NULL, NULL, 'APPROVED'),
+(3, 1, 6, 1, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học', '2021-09-10 10:30:00', '2021-09-10', NULL, 'APPROVED'),
+(3, 1, 24, 2, 1,  N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp', '2021-09-15 11:00:00', '2021-09-15', NULL, 'APPROVED'),
+(3, 1, 4, 3, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường', '2021-12-01 09:00:00', '2021-12-01', NULL, 'APPROVED'),
+(3, 1, 1, 4, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do', '2021-10-05 09:00:00', '2021-10-05', NULL, 'APPROVED'),
+(3, 1, 2, 5, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2021-11-10 08:45:00', '2021-11-10', NULL, 'APPROVED'),
+(3, 1, 3, 1, 2, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học', '2021-10-9 10:00:00', '2021-10-9', NULL, 'APPROVED'),
+(3, 1, 43, 2, 2, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục', '2021-09-20 08:00:00', '2021-09-20', NULL, 'APPROVED'),
+(3, 1, 45, 3, 2, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường', '2021-10-22 08:15:00', '2021-10-22', NULL, 'APPROVED'),
+(3, 1, 23, 4, 2, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi', '2021-11-05 10:00:00', '2021-11-05', NULL, 'APPROVED'),
+(3, 1, 22, 5, 2, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn', '2022-03-07', '2022-03-07', NULL, 'APPROVED'),
 
 -- Class 2 Violations
-(2, 6, 6, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-06-01 12:00:00', '2022-06-01', 1, NULL, NULL, 'APPROVED'),
-(2, 24, 7, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-06-10 11:00:00', '2022-06-10', 1, NULL, NULL, 'APPROVED'),
-(2, 4, 8, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-07-01 09:00:00', '2022-07-01', 1, NULL, NULL, 'APPROVED'),
-(2, 1, 9, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-11-05 09:00:00', '2021-11-05', 1, NULL, NULL, 'APPROVED'),
-(2, 2, 10, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-04-10 08:45:00', '2022-04-10', 1, NULL, NULL, 'APPROVED'),
-(2, 3, 6, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-05-15 10:00:00', '2022-05-15', 1, NULL, NULL, 'APPROVED'),
-(2, 43, 7, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-03-20 08:00:00', '2022-03-20', 1, NULL, NULL, 'APPROVED'),
-(2, 45, 8, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-02-25 08:15:00', '2022-02-25', 1, NULL, NULL, 'APPROVED'),
-(2, 23, 9, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2022-01-01 10:00:00', '2022-01-01', 1, NULL, NULL, 'APPROVED'),
-(2, 22, 10, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2022-05-05 14:00:00', '2022-05-05', 1, NULL, NULL, 'APPROVED'),
+(3, 2, 6, 6, 3, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-06-01 12:00:00', '2022-06-01', NULL, 'APPROVED'),
+(3, 2, 24, 7, 3, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-06-10 11:00:00', '2022-06-10', NULL, 'APPROVED'),
+(3, 2, 4, 8, 3, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-07-01 09:00:00', '2022-07-01', NULL, 'APPROVED'),
+(3, 2, 1, 9, 3, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2021-11-05 09:00:00', '2021-11-05', NULL, 'APPROVED'),
+(3, 2, 2, 10, 3, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-04-10 08:45:00', '2022-04-10', NULL, 'APPROVED'),
+(3, 2, 3, 6, 4, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-05-15 10:00:00', '2022-05-15', NULL, 'APPROVED'),
+(3, 2, 43, 7, 4, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-03-20 08:00:00', '2022-03-20', NULL, 'APPROVED'),
+(3, 2, 45, 8, 4, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-02-25 08:15:00', '2022-02-25', NULL, 'APPROVED'),
+(3, 2, 23, 9, 4, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2022-01-01 10:00:00', '2022-01-01', NULL, 'APPROVED'),
+(3, 2, 22, 10, 4, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2022-05-05 14:00:00', '2022-05-05', NULL, 'APPROVED'),
 
 -- Class 3 Violations
-(3, 6, 11, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-06-10 10:30:00', '2022-06-10', 1, NULL, NULL, 'APPROVED'),
-(3, 24, 12, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-04-15 11:00:00', '2022-04-15', 1, NULL, NULL, 'APPROVED'),
-(3, 4, 13, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-08-20 09:00:00', '2022-08-20', 1, NULL, NULL, 'APPROVED'),
-(3, 1, 14, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2022-01-25 09:00:00', '2022-01-25', 1, NULL, NULL, 'APPROVED'),
-(3, 2, 15, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-01-30 08:45:00', '2022-01-30', 1, NULL, NULL, 'APPROVED'),
-(3, 3, 11, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-09-05 10:00:00', '2021-09-05', 1, NULL, NULL, 'APPROVED'),
-(3, 43, 12, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-09-10 08:00:00', '2021-09-10', 1, NULL, NULL, 'APPROVED'),
-(3, 45, 13, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-09-15 08:15:00', '2021-09-15', 1, NULL, NULL, 'APPROVED'),
-(3, 23, 14, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-09-20 10:00:00', '2021-09-20', 1, NULL, NULL, 'APPROVED'),
-(3, 22, 15, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-09-25 14:00:00', '2021-09-25', 1, NULL, NULL, 'APPROVED'),
+(3, 3, 6, 11, 5, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-06-10 10:30:00', '2022-06-10', NULL, 'APPROVED'),
+(3, 3, 24, 12, 5, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-04-15 11:00:00', '2022-04-15', NULL, 'APPROVED'),
+(3, 3, 4, 13, 5, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-08-20 09:00:00', '2022-08-20', NULL, 'APPROVED'),
+(3, 3, 1, 14, 5, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2022-01-25 09:00:00', '2022-01-25', NULL, 'APPROVED'),
+(3, 3, 2, 15, 5, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-01-30 08:45:00', '2022-01-30', NULL, 'APPROVED'),
+(3, 3, 3, 11, 6, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2021-09-05 10:00:00', '2021-09-05', NULL, 'APPROVED'),
+(3, 3, 43, 12, 6, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2021-09-10 08:00:00', '2021-09-10', NULL, 'APPROVED'),
+(3, 3, 45, 13, 6, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2021-09-15 08:15:00', '2021-09-15', NULL, 'APPROVED'),
+(3, 3, 23, 14, 6, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2021-09-20 10:00:00', '2021-09-20', NULL, 'APPROVED'),
+(3, 3, 22, 15, 6, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2021-09-25 14:00:00', '2021-09-25', NULL, 'APPROVED'),
 
 -- Class 4 Violations
-(4, 6, 16, 1, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-10-01 12:00:00', '2022-10-01', 1, NULL, NULL, 'APPROVED'),
-(4, 24, 17, 1, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-10-05 11:00:00', '2022-10-05', 1, NULL, NULL, 'APPROVED'),
-(4, 4, 18, 1, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-10-10 09:00:00', '2022-10-10', 1, NULL, NULL, 'APPROVED'),
-(4, 1, 19, 1, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2022-10-15 09:00:00', '2022-10-15', 1, NULL, NULL, 'APPROVED'),
-(4, 2, 20, 1, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-10-20 08:45:00', '2022-10-20', 1, NULL, NULL, 'APPROVED'),
-(4, 3, 16, 1, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-10-25 10:00:00', '2022-10-25', 1, NULL, NULL, 'APPROVED'),
-(4, 43, 17, 1, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-10-30 08:00:00', '2022-10-30', 1, NULL, NULL, 'APPROVED'),
-(4, 45, 18, 1, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-11-01 08:15:00', '2022-11-01', 1, NULL, NULL, 'APPROVED'),
-(4, 23, 19, 1, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2023-01-05 10:00:00', '2023-01-05', 1, NULL, NULL, 'APPROVED'),
-(4, 22, 20, 1, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2023-04-10 14:00:00', '2023-04-10', 1, NULL, NULL, 'APPROVED');
+(3, 4, 6, 16, 7, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học.', '2022-10-01 12:00:00', '2022-10-01', NULL, 'APPROVED'),
+(3, 4, 24, 17, 7, N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp.', '2022-10-05 11:00:00', '2022-10-05', NULL, 'APPROVED'),
+(3, 4, 4, 18, 7, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường.', '2022-10-10 09:00:00', '2022-10-10', NULL, 'APPROVED'),
+(3, 4, 1, 19, 7, N'Nghỉ học không phép', N'Học sinh vắng mặt không có lý do.', '2022-10-15 09:00:00', '2022-10-15', NULL, 'APPROVED'),
+(3, 4, 2, 20, 7, N'Đi học trễ', N'Học sinh đi học trễ.', '2022-10-20 08:45:00', '2022-10-20', NULL, 'APPROVED'),
+(3, 4, 3, 16, 8, N'Bỏ tiết/trốn tiết', N'Học sinh cố tình bỏ tiết học.', '2022-10-25 10:00:00', '2022-10-25', NULL, 'APPROVED'),
+(3, 4, 43, 17, 8, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục.', '2022-10-30 08:00:00', '2022-10-30', NULL, 'APPROVED'),
+(3, 4, 45, 18, 8, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường.', '2022-11-01 08:15:00', '2022-11-01', NULL, 'APPROVED'),
+(3, 4, 23, 19, 8, N'Quay cóp', N'Học sinh bị bắt quay cóp trong kỳ kiểm tra/thi.', '2023-01-05 10:00:00', '2023-01-05', NULL, 'APPROVED'),
+(3, 4, 22, 20, 8, N'Đạo văn', N'Học sinh nộp bài có nội dung đạo văn.', '2023-04-10 14:00:00', '2023-04-10', NULL, 'APPROVED'),
 
+-- ClassID 19, StudentInClassID 181 -> 190
+(33, 19, 59, 181, 37,  N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2023-09-05', '2023-09-05', NULL, 'APPROVED'),
+(33, 19, 60, 182, 37, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2023-09-10', '2023-09-10', NULL, 'APPROVED'),
+(33, 19, 61, 183, 37, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2023-09-15', '2023-09-15', NULL, 'APPROVED'),
+(33, 19, 62, 184, 37, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2023-09-20', '2023-09-20', NULL, 'APPROVED'),
+(33, 19, 63, 185, 37, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2023-09-25', '2023-09-25', NULL, 'APPROVED'),
+(33, 19, 64, 186, 38, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2023-09-30', '2023-09-30', NULL, 'APPROVED'),
+(33, 19, 65, 187, 38, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2023-10-05', '2023-10-05', NULL, 'APPROVED'),
+(33, 19, 66, 188, 38, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2023-10-10', '2023-10-10', NULL, 'APPROVED'),
+(33, 19, 71, 189, 38, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2023-10-15', '2023-10-15', NULL, 'APPROVED'),
+(33, 19, 77, 190, 38, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2023-10-20', '2023-10-20', NULL, 'APPROVED'),
+
+-- ClassID 20, StudentInClassID 191 -> 200
+(33, 20, 83, 191, 39,  N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2023-10-25', '2023-10-25', NULL, 'APPROVED'),
+(33, 20, 89, 192, 39, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2023-10-30', '2023-10-30', NULL, 'APPROVED'),
+(33, 20, 59, 193, 39, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2023-11-05', '2023-11-05', NULL, 'APPROVED'),
+(33, 20, 60, 194, 39, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2023-11-10', '2023-11-10', NULL, 'APPROVED'),
+(33, 20, 61, 195, 39, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2023-11-15', '2023-11-15', NULL, 'APPROVED'),
+(33, 20, 62, 196, 40, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2023-11-20', '2023-11-20', NULL, 'APPROVED'),
+(33, 20, 63, 197, 40, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2023-11-25', '2023-11-25', NULL, 'APPROVED'),
+(33, 20, 64, 198, 40, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2023-11-30', '2023-11-30', NULL, 'APPROVED'),
+(33, 20, 65, 199, 40, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2023-12-05', '2023-12-05', NULL, 'APPROVED'),
+(33, 20, 66, 200, 40, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2023-12-10', '2023-12-10', NULL, 'APPROVED'),
+
+-- ClassID 21, StudentInClassID 201 -> 210
+(33, 21, 71, 201, 41, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2023-12-15', '2023-12-15', NULL, 'APPROVED'),
+(33, 21, 77, 202, 41, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2023-12-20', '2023-12-20', NULL, 'APPROVED'),
+(33, 21, 83, 203, 41, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2023-12-25', '2023-12-25', NULL, 'APPROVED'),
+(33, 21, 89, 204, 41, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2023-12-30', '2023-12-30', NULL, 'APPROVED'),
+(33, 21, 59, 205, 41, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2024-01-05', '2024-01-05', NULL, 'APPROVED'),
+(33, 21, 60, 206, 42, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2024-01-10', '2024-01-10', NULL, 'APPROVED'),
+(33, 21, 61, 207, 42, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2024-01-15', '2024-01-15', NULL, 'APPROVED'),
+(33, 21, 62, 208, 42, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2024-01-20', '2024-01-20', NULL, 'APPROVED'),
+(33, 21, 63, 209, 42, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2024-01-25', '2024-01-25', NULL, 'APPROVED'),
+(33, 21, 64, 210, 42, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2024-01-30', '2024-01-30', NULL, 'APPROVED'),
+
+-- ClassID 22, StudentInClassID 211 -> 220
+(33, 22, 65, 211, 43, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2024-02-05', '2024-02-05', NULL, 'APPROVED'),
+(33, 22, 66, 212, 43, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2024-02-10', '2024-02-10', NULL, 'APPROVED'),
+(33, 22, 71, 213, 43, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2024-02-15', '2024-02-15', NULL, 'APPROVED'),
+(33, 22, 77, 214, 43, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2024-02-20', '2024-02-20', NULL, 'APPROVED'),
+(33, 22, 83, 215, 43, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2024-02-25', '2024-02-25', NULL, 'APPROVED'),
+(33, 22, 89, 216, 44, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2024-02-28', '2024-02-28', NULL, 'APPROVED'),
+(33, 22, 59, 217, 44, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2024-03-05', '2024-03-05', NULL, 'APPROVED'),
+(33, 22, 60, 218, 44, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2024-03-10', '2024-03-10', NULL, 'APPROVED'),
+(33, 22, 61, 219, 44, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2024-03-15', '2024-03-15', NULL, 'APPROVED'),
+(33, 22, 62, 220, 44, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2024-03-20', '2024-03-20', NULL, 'APPROVED'),
+
+-- ClassID 23, StudentInClassID 221 -> 230
+(33, 23, 63, 221, 45, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2024-03-25', '2024-03-25', NULL, 'APPROVED'),
+(33, 23, 64, 222, 45, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2024-03-30', '2024-03-30', NULL, 'APPROVED'),
+(33, 23, 65, 223, 45, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2024-04-05', '2024-04-05', NULL, 'APPROVED'),
+(33, 23, 66, 224, 45, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2024-04-10', '2024-04-10', NULL, 'APPROVED'),
+(33, 23, 71, 225, 45, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2024-04-15', '2024-04-15', NULL, 'APPROVED'),
+(33, 23, 77, 226, 46, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2024-04-20', '2024-04-20', NULL, 'APPROVED'),
+(33, 23, 83, 227, 46, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2024-04-25', '2024-04-25', NULL, 'APPROVED'),
+(33, 23, 89, 228, 46, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2024-04-30', '2024-04-30', NULL, 'APPROVED'),
+(33, 23, 59, 229, 46, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2024-05-05', '2024-05-05', NULL, 'APPROVED'),
+(33, 23, 60, 230, 46, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2024-05-10', '2024-05-10', NULL, 'APPROVED'),
+
+-- ClassID 24, StudentInClassID 231 -> 240
+(33, 24, 61, 231, 47, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2024-05-15', '2024-05-15', NULL, 'APPROVED'),
+(33, 24, 62, 232, 47, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2024-05-20', '2024-05-20', NULL, 'APPROVED'),
+(33, 24, 63, 233, 47, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2024-05-25', '2024-05-25', NULL, 'APPROVED'),
+(33, 24, 64, 234, 47, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2024-05-30', '2024-05-30', NULL, 'APPROVED'),
+(33, 24, 65, 235, 47, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2024-06-05', '2024-06-05', NULL, 'APPROVED'),
+(33, 24, 66, 236, 48, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2024-06-10', '2024-06-10', NULL, 'APPROVED'),
+(33, 24, 71, 237, 48, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2024-06-15', '2024-06-15', NULL, 'APPROVED'),
+(33, 24, 77, 238, 48, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2024-06-20', '2024-06-20', NULL, 'APPROVED'),
+(33, 24, 83, 239, 48, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2024-06-25', '2024-06-25', NULL, 'APPROVED'),
+(33, 24, 89, 240, 48, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2024-06-30', '2024-06-30', NULL, 'APPROVED'),
+
+-- ClassID 25, StudentInClassID 241 -> 250
+(33, 25, 59, 241, 49, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2023-09-01', '2023-09-01', NULL, 'APPROVED'),
+(33, 25, 60, 242, 49, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2023-09-05', '2023-09-05', NULL, 'APPROVED'),
+(33, 25, 61, 243, 49, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2023-09-10', '2023-09-10', NULL, 'APPROVED'),
+(33, 25, 62, 244, 49, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2023-09-15', '2023-09-15', NULL, 'APPROVED'),
+(33, 25, 63, 245, 49, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2023-09-20', '2023-09-20', NULL, 'APPROVED'),
+(33, 25, 64, 246, 50, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2023-09-25', '2023-09-25', NULL, 'APPROVED'),
+(33, 25, 65, 247, 50, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2023-10-01', '2023-10-01', NULL, 'APPROVED'),
+(33, 25, 66, 248, 50, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2023-10-05', '2023-10-05', NULL, 'APPROVED'),
+(33, 25, 71, 249, 50, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2023-10-10', '2023-10-10', NULL, 'APPROVED'),
+(33, 25, 77, 250, 50, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2023-10-15', '2023-10-15', NULL, 'APPROVED'),
+
+-- ClassID 26, StudentInClassID 251 -> 260
+(33, 26, 83, 251, 51, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2023-10-20', '2023-10-20', NULL, 'APPROVED'),
+(33, 26, 89, 252, 51, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2023-10-25', '2023-10-25', NULL, 'APPROVED'),
+(33, 26, 59, 253, 51, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2023-11-01', '2023-11-01', NULL, 'APPROVED'),
+(33, 26, 60, 254, 51, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2023-11-05', '2023-11-05', NULL, 'APPROVED'),
+(33, 26, 61, 255, 51, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2023-11-10', '2023-11-10', NULL, 'APPROVED'),
+(33, 26, 62, 256, 52, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2023-11-15', '2023-11-15', NULL, 'APPROVED'),
+(33, 26, 63, 257, 52, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2023-11-20', '2023-11-20', NULL, 'APPROVED'),
+(33, 26, 64, 258, 52, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2023-11-25', '2023-11-25', NULL, 'APPROVED'),
+(33, 26, 65, 259, 52, N'Gây ồn ào trong lớp học', N'Làm ồn, gây mất trật tự trong giờ học.', '2023-12-01', '2023-12-01', NULL, 'APPROVED'),
+(33, 26, 66, 260, 52, N'Đánh nhau', N'Tham gia vào các vụ ẩu đả, bạo lực.', '2023-12-05', '2023-12-05', NULL, 'APPROVED'),
+
+-- ClassID 27, StudentInClassID 261 -> 270
+(33, 27, 71, 261, 53, N'Gian lận trong thi cử', N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', '2023-12-10', '2023-12-10', NULL, 'APPROVED'),
+(33, 27, 77, 262, 53, N'Sử dụng ngôn từ không phù hợp', N'Dùng từ ngữ thô tục, xúc phạm.', '2023-12-15', '2023-12-15', NULL, 'APPROVED'),
+(33, 27, 83, 263, 53, N'Xả rác bừa bãi', N'Không vứt rác đúng nơi quy định.', '2023-12-20', '2023-12-20', NULL, 'APPROVED'),
+(33, 27, 89, 264, 53, N'Mặc đồng phục không đúng quy định', N'Không tuân thủ quy định về đồng phục.', '2023-12-25', '2023-12-25', NULL, 'APPROVED'),
+(33, 27, 59, 265, 53, N'Không tham gia buổi chào cờ', N'Không có mặt trong buổi chào cờ hàng tuần.', '2023-12-30', '2023-12-30', NULL, 'APPROVED'),
+(33, 27, 60, 266, 54, N'Vắng mặt không phép', N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', '2024-01-05', '2024-01-05', NULL, 'APPROVED'),
+(33, 27, 61, 267, 54, N'Đi trễ', N'Đến lớp hoặc các hoạt động của trường muộn.', '2024-01-10', '2024-01-10', NULL, 'APPROVED'),
+(33, 27, 62, 268, 54, N'Không tham gia sinh hoạt ngoại khóa', N'Không tham gia các hoạt động ngoại khóa bắt buộc.', '2024-01-15', '2024-01-15', NULL, 'APPROVED'),
+(33, 27, 63, 269, 54, N'Không có mặt trong giờ học buổi chiều', N'Vắng mặt không có lý do trong giờ học buổi chiều.', '2024-01-20', '2024-01-20', NULL, 'APPROVED'),
+(33, 27, 64, 270, 54, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng.', '2024-01-25', '2024-01-25', NULL, 'APPROVED');
 
 
 -- Chèn 40 bản ghi mẫu vào bảng Penalty
-INSERT INTO [SchoolRules].[dbo].[Penalty] ([SchoolID], [Code], [Name] , [Description], [Status])
+INSERT INTO [SchoolRules].[dbo].[Penalty] ([SchoolID], [Code], [Name] , [Level], [Description], [Status])
 VALUES
-(1, 'PT001', N'Cảnh cáo' , N'Cảnh cáo bằng lời hoặc văn bản.', 'ACTIVE'),
-(1, 'PT002', N'Phạt lao động' , N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', 'ACTIVE'),
-(1, 'PT003', N'Phạt viết bài kiểm điểm' , N'Yêu cầu học sinh viết bài kiểm điểm.', 'ACTIVE'),
-(1, 'PT004', N'Phạt đuổi học' , N'Đuổi học tạm thời hoặc vĩnh viễn.', 'ACTIVE'),
-(1, 'PT005', N'Phạt đình chỉ' ,N'Đình chỉ học tập trong một khoảng thời gian.', 'ACTIVE');
+(1, 'PTT001', N'Cảnh cáo', 1, N'Cảnh cáo bằng lời hoặc văn bản.', 'ACTIVE'),
+(1, 'PTT002', N'Phạt lao động', 2, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', 'ACTIVE'),
+(1, 'PTT003', N'Phạt viết bài kiểm điểm', 3, N'Yêu cầu học sinh viết bài kiểm điểm.', 'ACTIVE'),
+(1, 'PTT004', N'Phạt đình chỉ', 4, N'Đình chỉ học tập trong một khoảng thời gian.', 'ACTIVE'),
+(1, 'PTT005', N'Phạt đuổi học', 5, N'Đuổi học tạm thời hoặc vĩnh viễn.', 'ACTIVE'),
+
+(2, 'PTA001', N'Cảnh cáo', 1, N'Cảnh cáo bằng lời hoặc văn bản.', 'ACTIVE'),
+(2, 'PTA002', N'Phạt viết bài kiểm điểm', 2, N'Yêu cầu học sinh viết bài kiểm điểm.', 'ACTIVE'),
+(2, 'PTA003', N'Phạt cấm tham gia hoạt động ngoại khóa', 3, N'Cấm học sinh tham gia các hoạt động ngoại khóa.', 'ACTIVE'),
+(2, 'PTA004', N'Tước quyền thi đua', 4, N'Tước quyền tham gia các hoạt động thi đua trong một thời gian nhất định.', 'ACTIVE'),
+(2, 'PTA005', N'Phạt lao động', 5, N'Yêu cầu học sinh tham gia các hoạt động lao động công ích.', 'ACTIVE'),
+(2, 'PTA006', N'Phạt bồi thường', 6, N'Yêu cầu học sinh bồi thường thiệt hại về tài sản.', 'ACTIVE'),
+(2, 'PTA007', N'Phạt tạm dừng hỗ trợ học bổng', 7, N'Tạm dừng các hỗ trợ học bổng cho học sinh vi phạm.', 'ACTIVE'),
+(2, 'PTA008', N'Phạt đình chỉ', 8, N'Đình chỉ học tập trong một khoảng thời gian.', 'ACTIVE'),
+(2, 'PTA009', N'Phạt đuổi học', 9, N'Đuổi học tạm thời hoặc vĩnh viễn.', 'ACTIVE');
 
 
 
@@ -1037,7 +1316,107 @@ VALUES
 (37, 2, N'Mặc không đúng quy định', '2022-10-30', '2022-11-03', 'PENDING'),
 (38, 3, N'Phụ kiện không phù hợp', '2022-11-01', '2022-11-04', 'PENDING'),
 (39, 4, N'Quay cóp', '2022-11-05', '2022-11-08', 'PENDING'),
-(40, 5, N'Đạo văn', '2022-11-10', '2022-11-13', 'PENDING');
+(40, 5, N'Đạo văn', '2022-11-10', '2022-11-13', 'PENDING'),
+
+(41, 6, N'Không tham gia buổi chào cờ', '2023-09-06', '2023-09-10', 'PENDING'),
+(42, 7, N'Vắng mặt không phép', '2023-09-10', '2023-09-10', 'PENDING'),
+(43, 8, N'Đi trễ', '2023-09-15', '2023-09-20', 'PENDING'),
+(44, 9, N'Không tham gia sinh hoạt ngoại khóa', '2023-09-20', '2023-09-25', 'PENDING'),
+(45, 10, N'Không có mặt trong giờ học buổi chiều', '2023-09-25', '2023-09-30', 'PENDING'),
+(46, 11, N'Vắng mặt trong giờ thể dục', '2023-09-30', '2023-10-05', 'PENDING'),
+(47, 12, N'Gây ồn ào trong lớp học', '2023-10-05', '2023-10-10', 'PENDING'),
+(48, 10, N'Đánh nhau', '2023-10-10', '2023-10-15', 'PENDING'),
+(49, 13, N'Gian lận trong thi cử', '2023-10-15', '2023-10-20', 'PENDING'),
+(50, 6, N'Sử dụng ngôn từ không phù hợp', '2023-10-20', '2023-10-25', 'PENDING'),
+
+(51, 7, N'Xả rác bừa bãi', '2023-10-25', '2023-10-30', 'PENDING'),
+(52, 8, N'Mặc đồng phục không đúng quy định', '2023-10-30', '2023-11-3', 'PENDING'),
+(53, 9, N'Không tham gia buổi chào cờ', '2023-11-05', '2023-11-10', 'PENDING'),
+(54, 10, N'Vắng mặt không phép', '2023-11-10', '2023-11-15', 'PENDING'),
+(55, 11, N'Đi trễ', '2023-11-15', '2023-11-20', 'PENDING'),
+(56, 12, N'Không tham gia sinh hoạt ngoại khóa', '2023-11-20', '2023-11-25', 'PENDING'),
+(57, 13, N'Không có mặt trong giờ học buổi chiều', '2023-11-25', '2023-11-30', 'PENDING'),
+(58, 6, N'Vắng mặt trong giờ thể dục', '2023-11-30', '2023-12-7', 'PENDING'),
+(59, 7, N'Gây ồn ào trong lớp học', '2023-12-05', '2023-12-07', 'PENDING'),
+(60, 8, N'Đánh nhau', '2023-12-10', '2023-12-14', 'PENDING'),
+
+(61, 9, N'Gian lận trong thi cử', '2023-12-15', '2023-12-25', 'PENDING'),
+(62, 10, N'Sử dụng ngôn từ không phù hợp', '2023-12-20', '2023-12-26', 'PENDING'),
+(63, 11, N'Xả rác bừa bãi', '2023-12-25', '2023-12-27', 'PENDING'),
+(64, 12, N'Mặc đồng phục không đúng quy định', '2023-12-30', '2023-01-03', 'PENDING'),
+(65, 13, N'Không tham gia buổi chào cờ', '2024-01-05', '2024-01-05', 'PENDING'),
+(66, 6, N'Vắng mặt không phép', '2024-01-10', '2024-01-10', 'PENDING'),
+(67, 7, N'Đi trễ', '2024-01-15', '2024-01-15', 'PENDING'),
+(68, 8, N'Không tham gia sinh hoạt ngoại khóa', '2024-01-20', '2024-01-20', 'PENDING'),
+(69, 9, N'Không có mặt trong giờ học buổi chiều', '2024-01-25', '2024-01-25', 'PENDING'),
+(70, 10, N'Vắng mặt trong giờ thể dục', '2024-01-30', '2024-01-30', 'PENDING'),
+
+(71, 11, N'Gây ồn ào trong lớp học', '2024-02-05', '2024-02-05', 'PENDING'),
+(72, 12, N'Đánh nhau', '2024-02-10', '2024-02-10', 'PENDING'),
+(73, 13, N'Gian lận trong thi cử', '2024-02-15', '2024-02-15', 'PENDING'),
+(74, 6, N'Sử dụng ngôn từ không phù hợp', '2024-02-20', '2024-02-20', 'PENDING'),
+(75, 7, N'Xả rác bừa bãi', '2024-02-25', '2024-02-25', 'PENDING'),
+(76, 8, N'Mặc đồng phục không đúng quy định', '2024-02-28', '2024-02-28', 'PENDING'),
+(77, 9, N'Không tham gia buổi chào cờ', '2024-03-05', '2024-03-05', 'PENDING'),
+(78, 10, N'Vắng mặt không phép', '2024-03-10', '2024-03-10', 'PENDING'),
+(79, 11, N'Đi trễ.', '2024-03-15', '2024-03-15', 'PENDING'),
+(80, 12, N'Không tham gia sinh hoạt ngoại khóa.', '2024-03-20', '2024-03-20', 'PENDING'),
+
+(81, 13, N'Không có mặt trong giờ học buổi chiều.', '2024-03-25', '2024-03-25', 'PENDING'),
+(82, 6, N'Vắng mặt trong giờ thể dục.', '2024-03-30', '2024-03-30', 'PENDING'),
+(83, 7, N'Gây ồn ào trong lớp học.', '2024-04-05', '2024-04-05', 'PENDING'),
+(84, 8, N'Đánh nhau.', '2024-04-10', '2024-04-10', 'PENDING'),
+(85, 9, N'Gian lận trong thi cử.', '2024-04-15', '2024-04-15', 'PENDING'),
+(86, 10, N'Sử dụng ngôn từ không phù hợp.', '2024-04-20', '2024-04-20', 'PENDING'),
+(87, 11, N'Xả rác bừa bãi.', '2024-04-25', '2024-04-25', 'PENDING'),
+(88, 12, N'Mặc đồng phục không đúng quy định.', '2024-04-30', '2024-04-30', 'PENDING'),
+(89, 13, N'Không tham gia buổi chào cờ.', '2024-05-05', '2024-05-05', 'PENDING'),
+(90, 6, N'Vắng mặt không phép.', '2024-05-10', '2024-05-10', 'PENDING'),
+
+(91, 7, N'Đi trễ', '2024-05-15', '2024-05-15', 'PENDING'),
+(92, 8, N'Không tham gia sinh hoạt ngoại khóa', '2024-05-20', '2024-05-20', 'PENDING'),
+(93, 9, N'Không có mặt trong giờ học buổi chiều.', '2024-05-25', '2024-05-25', 'PENDING'),
+(94, 10, N'Vắng mặt trong giờ thể dục.', '2024-05-30', '2024-05-30', 'PENDING'),
+(95, 11, N'Gây ồn ào trong lớp học.', '2024-06-05', '2024-06-05', 'PENDING'),
+(96, 12, N'Đánh nhau.', '2024-06-10', '2024-06-10', 'PENDING'),
+(97, 13, N'Gian lận trong thi cử.', '2024-06-15', '2024-06-15', 'PENDING'),
+(98, 6, N'Sử dụng ngôn từ không phù hợp.', '2024-06-20', '2024-06-20', 'PENDING'),
+(99, 7, N'Xả rác bừa bãi.', '2024-06-25', '2024-06-25', 'PENDING'),
+(100, 8, N'Mặc đồng phục không đúng quy định.', '2024-06-30', '2024-06-30', 'PENDING'),
+
+(101, 9, N'Không tham gia buổi chào cờ', '2023-09-01', '2023-09-01', 'PENDING'),
+(102, 10, N'Vắng mặt không phép', '2023-09-05', '2023-09-05', 'PENDING'),
+(103, 11, N'Đi trễ', '2023-09-10', '2023-09-10', 'PENDING'),
+(104, 12, N'Không tham gia sinh hoạt ngoại khóa', '2023-09-15', '2023-09-15', 'PENDING'),
+(105, 13, N'Không có mặt trong giờ học buổi chiều', '2023-09-20', '2023-09-20', 'PENDING'),
+(106, 6, N'Vắng mặt trong giờ thể dục', '2023-09-25', '2023-09-25', 'PENDING'),
+(107, 7, N'Gây ồn ào trong lớp học', '2023-10-01', '2023-10-01', 'PENDING'),
+(108, 8, N'Đánh nhau', '2023-10-05', '2023-10-05', 'PENDING'),
+(109, 9, N'Gian lận trong thi cử', '2023-10-10', '2023-10-10', 'PENDING'),
+(110, 10, N'Sử dụng ngôn từ không phù hợp', '2023-10-15', '2023-10-15', 'PENDING'),
+
+(111, 11, N'Xả rác bừa bãi', '2023-10-20', '2023-10-20', 'PENDING'),
+(112, 12, N'Mặc đồng phục không đúng quy định', '2023-10-25', '2023-10-25', 'PENDING'),
+(113, 13, N'Không tham gia buổi chào cờ', '2023-11-01', '2023-11-01', 'PENDING'),
+(114, 6, N'Vắng mặt không phép', '2023-11-05', '2023-11-05', 'PENDING'),
+(115, 7, N'Đi trễ', '2023-11-10', '2023-11-10', 'PENDING'),
+(116, 8, N'Không tham gia sinh hoạt ngoại khóa', '2023-11-15', '2023-11-15', 'PENDING'),
+(117, 9, N'Không có mặt trong giờ học buổi chiều', '2023-11-20', '2023-11-20', 'PENDING'),
+(118, 10, N'Vắng mặt trong giờ thể dục', '2023-11-25', '2023-11-25', 'PENDING'),
+(119, 11, N'Gây ồn ào trong lớp học', '2023-12-01', '2023-12-01', 'PENDING'),
+(120, 12, N'Đánh nhau', '2023-12-05', '2023-12-05', 'PENDING'),
+
+(121, 13, N'Gian lận trong thi cử', '2023-12-10', '2023-12-10', 'PENDING'),
+(122, 6, N'Sử dụng ngôn từ không phù hợp', '2023-12-15', '2023-12-15', 'PENDING'),
+(123, 7, N'Xả rác bừa bãi', '2023-12-20', '2023-12-20', 'PENDING'),
+(124, 8, N'Mặc đồng phục không đúng quy định', '2023-12-25', '2023-12-25', 'PENDING'),
+(125, 9, N'Không tham gia buổi chào cờ', '2023-12-30', '2023-12-30', 'PENDING'),
+(126, 10, N'Vắng mặt không phép', '2024-01-05', '2024-01-05', 'PENDING'),
+(127, 11, N'Đi trễ', '2024-01-10', '2024-01-10', 'PENDING'),
+(128, 12, N'Không tham gia sinh hoạt ngoại khóa', '2024-01-15', '2024-01-15', 'PENDING'),
+(129, 13, N'Không có mặt trong giờ học buổi chiều', '2024-01-20', '2024-01-20', 'PENDING'),
+(130, 6, N'Vắng mặt trong giờ thể dục', '2024-01-25', '2024-01-25', 'PENDING');
+
 
 
 -- Chèn 58 bản ghi mẫu vào bảng ViolationConfig
@@ -1048,7 +1427,6 @@ VALUES
 (2, 5, N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
 (3, 10, N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
 (4, 10, N'Không tuân thủ quy định về sự hiện diện.', 'ACTIVE'),
-
 -- Vi phạm nề nếp
 (5, 5, N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (6, 5, N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
@@ -1064,14 +1442,12 @@ VALUES
 (16, 5, N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (17, 5, N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
 (18, 5, N'Không tuân thủ quy định về trật tự, nề nếp.', 'ACTIVE'),
-
 -- Vi phạm học tập - thi cử
 (19, 5, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (20, 10, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (21, 5, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (22, 20, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
 (23, 30, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử.', 'ACTIVE'),
-
 -- Vi phạm đạo đức
 (24, 30, N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (25, 15, N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
@@ -1083,7 +1459,6 @@ VALUES
 (31, 30, N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (32, 30, N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
 (33, 20, N'Hành vi không đúng mực, trái với đạo đức và giá trị của nhà trường.', 'ACTIVE'),
-
 -- Vi phạm môi trường và tài sản chung
 (34, 15, N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (35, 10, N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
@@ -1093,7 +1468,6 @@ VALUES
 (39, 20, N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (40, 30, N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
 (41, 30, N'Gây hại hoặc làm mất trật tự môi trường học tập và tài sản chung.', 'ACTIVE'),
-
 -- Vi phạm tác phong
 (42, 10, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (43, 10, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
@@ -1111,138 +1485,155 @@ VALUES
 (55, 10, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (56, 10, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 (57, 15, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
-(58, 15, N'Không tuân thủ quy định về tác phong.', 'ACTIVE');
+(58, 15, N'Không tuân thủ quy định về tác phong.', 'ACTIVE'),
 
+-- ViolationConfig for ViolationGroup 'VGBA001'
+(59, 5, N'Không tham gia buổi chào cờ hàng tuần.', 'ACTIVE'),
+(60, 10, N'Vắng mặt không có lý do chính đáng hoặc không có sự cho phép.', 'ACTIVE'),
+(61, 3, N'Đến lớp hoặc các hoạt động của trường muộn.', 'ACTIVE'),
+(62, 5, N'Không tham gia các hoạt động ngoại khóa bắt buộc.', 'ACTIVE'),
+(63, 7, N'Vắng mặt không có lý do trong giờ học buổi chiều.', 'ACTIVE'),
+(64, 7, N'Không tham gia giờ thể dục mà không có lý do chính đáng.', 'ACTIVE'),
 
+-- ViolationConfig for ViolationGroup 'VGBA002'
+(65, 5, N'Làm ồn, gây mất trật tự trong giờ học.', 'ACTIVE'),
+(66, 20, N'Tham gia vào các vụ ẩu đả, bạo lực.', 'ACTIVE'),
+(67, 2, N'Không tuân thủ quy định xếp hàng trong các hoạt động chung.', 'ACTIVE'),
+(68, 5, N'Sử dụng điện thoại trong giờ học.', 'ACTIVE'),
+(69, 7, N'Gây mất trật tự trong các buổi lễ của trường.', 'ACTIVE'),
+(70, 5, N'Làm ồn hoặc gây mất trật tự trong thư viện.', 'ACTIVE'),
 
+-- ViolationConfig for ViolationGroup 'VGBA003'
+(71, 15, N'Sử dụng tài liệu, thiết bị gian lận trong kỳ thi.', 'ACTIVE'),
+(72, 10, N'Chép bài từ bạn trong các bài kiểm tra, bài thi.', 'ACTIVE'),
+(73, 5, N'Không hoàn thành bài tập về nhà được giao.', 'ACTIVE'),
+(74, 10, N'Bị truất bài trong kỳ thi vì hành vi không đúng mực.', 'ACTIVE'),
+(75, 7, N'Truy cập vào các trang web không liên quan đến học tập.', 'ACTIVE'),
+(76, 5, N'Không đóng góp hoặc hoàn thành phần bài tập nhóm.', 'ACTIVE'),
 
--- Chèn 2 bản ghi mẫu vào bảng PackageType
-INSERT INTO [SchoolRules].[dbo].[PackageType] ([Name], [Description], [Status])
-VALUES
-(N'Gói Tiêu Chuẩn', N'Gói tiêu chuẩn gồm 2 loại: Thường và Vip', 'ACTIVE'),
-(N'Gói Bổ Sung', N'Gói bổ sung được sử dụng trong trường hợp gói tiêu chuẩn không đủ đáp ứng nhu cầu theo quy mô của nhà trường', 'ACTIVE');
+-- ViolationConfig for ViolationGroup 'VGBA004'
+(77, 5, N'Dùng từ ngữ thô tục, xúc phạm.', 'ACTIVE'),
+(78, 10, N'Không trung thực trong các hoạt động của đoàn thể.', 'ACTIVE'),
+(79, 3, N'Treo bảng quảng cáo không đúng nơi quy định.', 'ACTIVE'),
+(80, 10, N'Không trung thực trong việc xin điểm cao.', 'ACTIVE'),
+(81, 7, N'Làm bài tập hoặc kiểm tra hộ bạn.', 'ACTIVE'),
+(82, 10, N'Có hành vi trái với đạo đức và quy chuẩn của nhà trường.', 'ACTIVE'),
+
+-- ViolationConfig for ViolationGroup 'VGBA005'
+(83, 3, N'Không vứt rác đúng nơi quy định.', 'ACTIVE'),
+(84, 10, N'Gây hư hỏng tài sản của trường.', 'ACTIVE'),
+(85, 5, N'Sử dụng tài sản của trường không đúng mục đích.', 'ACTIVE'),
+(86, 5, N'Không tham gia vào các hoạt động bảo vệ môi trường của trường.', 'ACTIVE'),
+(87, 7, N'Sử dụng tài nguyên của trường mà không được phép.', 'ACTIVE'),
+(88, 10, N'Không trung thực trong các hoạt động xã hội.', 'ACTIVE'),
+
+-- ViolationConfig for ViolationGroup 'VGBA006'
+(89, 2, N'Không tuân thủ quy định về đồng phục.', 'ACTIVE'),
+(90, 2, N'Không đeo bảng tên khi đến trường.', 'ACTIVE'),
+(91, 3, N'Mặc trang phục không phù hợp trong trường.', 'ACTIVE'),
+(92, 3, N'Không mặc đúng quy định trang phục thể dục.', 'ACTIVE'),
+(93, 5, N'Hành vi thiếu tôn trọng đối với giáo viên.', 'ACTIVE'),
+(94, 5, N'Không đội mũ bảo hiểm khi đi xe máy hoặc xe đạp điện.', 'ACTIVE');
+
 
 
 -- Chèn 2 bản ghi mẫu vào bảng Package
-INSERT INTO [SchoolRules].[dbo].[Package] ([PackageTypeID], [Name], [Description], [TotalStudents], [TotalViolations], [Price], [Status])
+INSERT INTO [SchoolRules].[dbo].[Package] ([Name], [Description], [Price], [Status])
 VALUES
-(1, N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 500, 1000, 2500000, 'ACTIVE'),
-(1, N'Gói Vip', N'Gói Vip với giới hạn học sinh và vi phạm cao hơn gói thường, phù hợp cho các trường có quy mô lớn và có khả năng mở rộng trong tương lai', 900, 18000, 4000000, 'ACTIVE'),
-(2, N'Gói Bổ Sung Violation', N'Gói bổ sung cho số lượng Violation', 0, 200, 400000, 'ACTIVE'),
-(2, N'Gói Bổ Sung Student', N'Gói bổ sung cho số lượng Student', 100, 0, 400000, 'ACTIVE');
+(N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 2500000, 'ACTIVE'),
+(N'Gói Vip', N'Gói Vip với giới hạn học sinh và vi phạm cao hơn gói thường, phù hợp cho các trường có quy mô lớn và có khả năng mở rộng trong tương lai', 4000000, 'ACTIVE'),
+(N'Gói Bổ Sung Violation', N'Gói bổ sung cho số lượng Violation', 400000, 'ACTIVE'),
+(N'Gói Bổ Sung Student', N'Gói bổ sung cho số lượng Student', 400000, 'ACTIVE');
 
 
 -- Chèn 3 bản ghi mẫu vào bảng RegisteredSchool
 INSERT INTO [SchoolRules].[dbo].[RegisteredSchool] ([SchoolID], [RegisteredDate], [Description], [Status])
 VALUES
-(1, '2023-01-10', N'Trường đã đăng ký tham gia hệ thống quản lý vi phạm.', 'ACTIVE'),
-(1, '2023-03-01', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống.', 'INACTIVE'),
-(1, '2023-04-05', N'Trường đang trong giai đoạn thử nghiệm các tính năng mới.', 'ACTIVE');
+(1, '2021-08-30', N'Trường đã đăng ký tham gia hệ thống quản lý vi phạm.', 'ACTIVE'),
+(1, '2021-09-01', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống.', 'ACTIVE'),
+(1, '2022-01-05', N'Trường đang trong giai đoạn thử nghiệm các tính năng mới.', 'ACTIVE'),
+
+(2, '2023-09-01', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống.', 'ACTIVE');
 
 
 -- Chèn 16 bản ghi mẫu vào bảng YearPackage
-INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [NumberOfStudent], [Status])
+INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [Status])
 VALUES
     -- Dữ liệu cho năm học 2021
-    (1, 1, 450, 'EXPIRED'),
-    (1, 2, 850, 'EXPIRED'),
-    (1, 3, 0, 'EXPIRED'),
-    (1, 4, 90, 'EXPIRED'),
+    (1, 1, 'EXPIRED'),
+    (1, 2, 'EXPIRED'),
+    (1, 3, 'EXPIRED'),
+    (1, 4, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2022
-    (2, 1, 460, 'VALID'),
-    (2, 2, 880, 'VALID'),
-    (2, 3, 0, 'VALID'),
-    (2, 4, 95, 'VALID'),
+    (2, 1, 'VALID'),
+    (2, 2, 'VALID'),
+    (2, 3, 'VALID'),
+    (2, 4, 'VALID'),
 
     -- Dữ liệu cho năm học 2023
-    (3, 1, 470, 'EXPIRED'),
-    (3, 2, 890, 'EXPIRED'),
-    (3, 3, 0, 'EXPIRED'),
-    (3, 4, 100, 'EXPIRED'),
+    (3, 1, 'EXPIRED'),
+    (3, 2, 'EXPIRED'),
+    (3, 3, 'EXPIRED'),
+    (3, 4, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
-    (4, 1, 480, 'VALID'),
-    (4, 2, 900, 'VALID'),
-    (4, 3, 0, 'VALID'),
-    (4, 4, 110, 'VALID');
--- Chèn 12 bản ghi mẫu vào bảng PatrolSchedule
-INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [SupervisorID], [TeacherID], [From], [To], [Status])
-VALUES
-    -- Lịch tuần tra cho lớp 10A1 năm học 2021
-    (1, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
-    (1, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
+    (4, 1, 'VALID'),
+    (4, 2, 'VALID'),
+    (4, 3, 'VALID'),
+    (4, 4, 'VALID');
 
-    -- Lịch tuần tra cho lớp 11A1 năm học 2021
-    (2, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
-    (2, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
-
-    -- Lịch tuần tra cho lớp 12A1 năm học 2021
-    (3, 1, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
-    (3, 2, 1, '2021-09-01', '2022-06-30', 'FINISHED'),
-
-    -- Lịch tuần tra cho lớp 10A1 năm học 2022
-    (4, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
-    (4, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
-
-    -- Lịch tuần tra cho lớp 11A1 năm học 2022
-    (5, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
-    (5, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
-
-    -- Lịch tuần tra cho lớp 12A1 năm học 2022
-    (6, 1, 1, '2022-09-01', '2023-06-30', 'ONGOING'),
-    (6, 2, 1, '2022-09-01', '2023-06-30', 'ONGOING');
 
 -- Chèn 12 bản ghi mẫu vào bảng ImageURL
-INSERT INTO [SchoolRules].[dbo].[ImageURL] ([ViolationID], [URL], [Name], [Description])
+INSERT INTO [SchoolRules].[dbo].[ImageURL] ([ViolationID], [PublicID], [URL], [Name], [Description])
 VALUES
     -- Liên kết ảnh cho các vi phạm của lớp 1
-    (1, 'http://example.com/images/violation1.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
-    (2, 'http://example.com/images/violation2.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
-    (3, 'http://example.com/images/violation3.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
-    (4, 'http://example.com/images/violation4.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
-    (5, 'http://example.com/images/violation5.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
-    (6, 'http://example.com/images/violation6.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
-    (7, 'http://example.com/images/violation7.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
-    (8, 'http://example.com/images/violation8.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
-    (9, 'http://example.com/images/violation9.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
-    (10, 'http://example.com/images/violation10.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
+    (1, NULL, 'http://example.com/images/violation1.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
+    (2, NULL, 'http://example.com/images/violation2.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
+    (3, NULL, 'http://example.com/images/violation3.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
+    (4, NULL, 'http://example.com/images/violation4.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
+    (5, NULL, 'http://example.com/images/violation5.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
+    (6, NULL, 'http://example.com/images/violation6.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
+    (7, NULL, 'http://example.com/images/violation7.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
+    (8, NULL, 'http://example.com/images/violation8.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
+    (9, NULL, 'http://example.com/images/violation9.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
+    (10, NULL, 'http://example.com/images/violation10.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
 
     -- Liên kết ảnh cho các vi phạm của lớp 2
-    (11, 'http://example.com/images/violation11.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
-    (12, 'http://example.com/images/violation12.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
-    (13, 'http://example.com/images/violation13.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
-    (14, 'http://example.com/images/violation14.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
-    (15, 'http://example.com/images/violation15.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
-    (16, 'http://example.com/images/violation16.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
-    (17, 'http://example.com/images/violation17.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
-    (18, 'http://example.com/images/violation18.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
-    (19, 'http://example.com/images/violation19.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
-    (20, 'http://example.com/images/violation20.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
+    (11, NULL, 'http://example.com/images/violation11.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
+    (12, NULL, 'http://example.com/images/violation12.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
+    (13, NULL, 'http://example.com/images/violation13.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
+    (14, NULL, 'http://example.com/images/violation14.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
+    (15, NULL, 'http://example.com/images/violation15.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
+    (16, NULL, 'http://example.com/images/violation16.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
+    (17, NULL, 'http://example.com/images/violation17.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
+    (18, NULL, 'http://example.com/images/violation18.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
+    (19, NULL, 'http://example.com/images/violation19.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
+    (20, NULL, 'http://example.com/images/violation20.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
 
     -- Liên kết ảnh cho các vi phạm của lớp 3
-    (21, 'http://example.com/images/violation21.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
-    (22, 'http://example.com/images/violation22.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
-    (23, 'http://example.com/images/violation23.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
-    (24, 'http://example.com/images/violation24.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
-    (25, 'http://example.com/images/violation25.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
-    (26, 'http://example.com/images/violation26.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
-    (27, 'http://example.com/images/violation27.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
-    (28, 'http://example.com/images/violation28.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
-    (29, 'http://example.com/images/violation29.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
-    (30, 'http://example.com/images/violation30.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
+    (21, NULL, 'http://example.com/images/violation21.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
+    (22, NULL, 'http://example.com/images/violation22.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
+    (23, NULL, 'http://example.com/images/violation23.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
+    (24, NULL ,'http://example.com/images/violation24.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
+    (25, NULL ,'http://example.com/images/violation25.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
+    (26, NULL, 'http://example.com/images/violation26.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
+    (27, NULL, 'http://example.com/images/violation27.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
+    (28, NULL, 'http://example.com/images/violation28.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
+    (29, NULL, 'http://example.com/images/violation29.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
+    (30, NULL,'http://example.com/images/violation30.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
 
     -- Liên kết ảnh cho các vi phạm của lớp 4
-    (31, 'http://example.com/images/violation31.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
-    (32, 'http://example.com/images/violation32.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
-    (33, 'http://example.com/images/violation33.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
-    (34, 'http://example.com/images/violation34.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
-    (35, 'http://example.com/images/violation35.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
-    (36, 'http://example.com/images/violation36.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
-    (37, 'http://example.com/images/violation37.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
-    (38, 'http://example.com/images/violation38.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
-    (39, 'http://example.com/images/violation39.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
-    (40, 'http://example.com/images/violation40.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.');
+    (31, NULL, 'http://example.com/images/violation31.jpg', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
+    (32, NULL, 'http://example.com/images/violation32.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh.'),
+    (33, NULL, 'http://example.com/images/violation33.jpg', N'Ảnh vi phạm Không tuân theo chỉ dẫn', N'Ảnh minh họa vi phạm Không tuân theo chỉ dẫn của học sinh.'),
+    (34, NULL, 'http://example.com/images/violation34.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh.'),
+    (35, NULL, 'http://example.com/images/violation35.jpg', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
+    (36, NULL, 'http://example.com/images/violation36.jpg', N'Ảnh vi phạm Bỏ tiết/trốn tiết', N'Ảnh minh họa vi phạm Bỏ tiết/trốn tiết của học sinh.'),
+    (37, NULL, 'http://example.com/images/violation37.jpg', N'Ảnh vi phạm Mặc không đúng quy định', N'Ảnh minh họa vi phạm Mặc không đúng quy định của học sinh.'),
+    (38, NULL, 'http://example.com/images/violation38.jpg', N'Ảnh vi phạm Phụ kiện không phù hợp', N'Ảnh minh họa vi phạm Phụ kiện không phù hợp của học sinh.'),
+    (39, NULL, 'http://example.com/images/violation39.jpg', N'Ảnh vi phạm Quay cóp', N'Ảnh minh họa vi phạm Quay cóp của học sinh.'),
+    (40, NULL, 'http://example.com/images/violation40.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.');
 
 
 -- Chèn 12 bản ghi mẫu vào bảng Evaluation

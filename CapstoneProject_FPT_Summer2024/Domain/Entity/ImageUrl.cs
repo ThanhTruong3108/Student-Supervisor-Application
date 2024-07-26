@@ -9,6 +9,8 @@ public partial class ImageUrl
 
     public int ViolationId { get; set; }
 
+    public string? PublicId { get; set; }
+
     public string? Url { get; set; }
 
     public string? Name { get; set; }

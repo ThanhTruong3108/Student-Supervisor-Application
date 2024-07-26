@@ -17,6 +17,9 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }
 
+        [Required(ErrorMessage = "The UserId field is required.")]
+        public int UserId { get; set; }
+
         [Required(ErrorMessage = "The Year field is required.")]
         public short Year { get; set; }
 
@@ -28,8 +31,6 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
 
         [Required(ErrorMessage = "The StudentInClassId field is required.")]
         public int StudentInClassId { get; set; }
-
-        public int? TeacherId { get; set; }
 
         [Required(ErrorMessage = "The ViolationName field is required.")]
         public string ViolationName { get; set; } = null!;
@@ -49,10 +50,7 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
 
         public int? StudentInClassId { get; set; }
 
-        public int? TeacherId { get; set; }
-
         public string ViolationName { get; set; } = null!;
-
         public string? Description { get; set; }
         public DateTime Date { get; set; }
         public List<IFormFile>? Images { get; set; }

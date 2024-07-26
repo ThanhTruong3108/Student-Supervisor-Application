@@ -6,7 +6,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/dashboards")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class DashBoardController : ControllerBase
     {
         private DashBoardService _service;
@@ -26,9 +26,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("violations-by-year-and-classname")]
-        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] short year, [FromQuery] string className, [FromQuery] int schoolId)
+        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string className)
         {
-            var response = await _service.GetViolationsByYearAndClassName(year, className, schoolId);
+            var response = await _service.GetViolationsByYearAndClassName(schoolId, year, className);
             if (response.Success)
             {
                 return Ok(response);
@@ -36,10 +36,10 @@ namespace StudentSupervisorAPI.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet("top-3-frequent-violations")]
-        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] short year, [FromQuery] int schoolId)
+        [HttpGet("top-5-frequent-violations-by-year")]
+        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] int schoolId, [FromQuery] short year)
         {
-            var response = await _service.GetTopFrequentViolations(year, schoolId);
+            var response = await _service.GetTopFrequentViolations(schoolId, year);
             if (response.Success)
             {
                 return Ok(response);
@@ -48,9 +48,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("classes-most-violations")]
-        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] short year, [FromQuery] int schoolId)
+        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetClassesWithMostViolations(year, schoolId);
+            var response = await _service.GetClassesWithMostViolations(schoolId, year, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -58,10 +58,11 @@ namespace StudentSupervisorAPI.Controllers
             return BadRequest(response);
         }
 
+
         [HttpGet("top-5-students-most-violations")]
-        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] short year, [FromQuery] int schoolId)
+        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] int schoolId, [FromQuery] short year)
         {
-            var response = await _service.GetTop5StudentsWithMostViolations(year, schoolId);
+            var response = await _service.GetTop5StudentsWithMostViolations(schoolId, year);
             if (response.Success)
             {
                 return Ok(response);
@@ -70,9 +71,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("class-with-most-students-violations")]
-        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] short year, [FromQuery] int schoolId)
+        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetClassWithMostStudentViolations(year, schoolId);
+            var response = await _service.GetClassWithMostStudentViolations(schoolId, year, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);

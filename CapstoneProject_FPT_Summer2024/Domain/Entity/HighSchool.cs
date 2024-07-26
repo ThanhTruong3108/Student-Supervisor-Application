@@ -19,8 +19,6 @@ public partial class HighSchool
 
     public string? WebUrl { get; set; }
 
-    public string Status { get; set; } = null!;
-
     public virtual ICollection<ClassGroup> ClassGroups { get; set; } = new List<ClassGroup>();
 
     public virtual ICollection<Penalty> Penalties { get; set; } = new List<Penalty>();

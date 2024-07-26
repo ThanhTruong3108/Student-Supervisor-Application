@@ -14,10 +14,10 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetAllViolations();
         Task<Violation> GetViolationById(int id);
         Task<List<Violation>> SearchViolations(
-            int? classId, 
+            int? classId,
             int? violationTypeId,
             int? studentInClassId,
-            int? teacherId,
+            int? userId,
             string? name,
             string? description,
             DateTime? date,
@@ -29,19 +29,13 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetViolationsByStudentId(int studentId);
         Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId);
         Task<Dictionary<int, int>> GetViolationCountByYear(int studentId);
-        Task<List<Violation>> GetApprovedViolations();
-        Task<List<Violation>> GetPendingViolations();
-        Task<List<Violation>> GetRejectedViolations();
-        Task<List<Violation>> GetInactiveViolations();
         Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
 
-        //--------------------------DASHBOARD-----------------------------------------------------------------------------------------------------------
-
         Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null);
-        Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId);
-        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId);
-        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId);
-        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId);
-        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId);
+        Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className);
+        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year);
+        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year);
+        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null);
     }
 }

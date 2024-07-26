@@ -14,6 +14,9 @@ namespace StudentSupervisorService.Models.Response.PatrolScheduleResponse
         public string? SupervisorName { get; set; }
         public int TeacherId { get; set; }
         public string? TeacherName { get; set; }
+        public string? Name { get; set; }
+        public int? Slot { get; set; }
+        public TimeSpan? Time { get; set; }
         public DateTime From { get; set; }
         public DateTime To { get; set; }
         public string? Status { get; set; }

@@ -13,7 +13,6 @@ namespace StudentSupervisorService.Models.Response.YearPackageResponse
         public short Year { get; set; }
         public int PackageId { get; set; }
         public string PackageName { get; set; } = null!;
-        public int? NumberOfStudent { get; set; }
         public string? Status { get; set; }
     }
 }

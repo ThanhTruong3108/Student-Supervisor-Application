@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -41,7 +41,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -52,7 +52,7 @@ namespace Infrastructures.Repository
                 int? classId,
                 int? violationTypeId,
                 int? studentInClassId,
-                int? teacherId,
+                int? userId,
                 string? name,
                 string? description,
                 DateTime? date,
@@ -72,9 +72,9 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
             }
-            if (teacherId.HasValue)
+            if (userId.HasValue)
             {
-                query = query.Where(p => p.TeacherId == teacherId.Value);
+                query = query.Where(p => p.UserId == userId.Value);
             }
             if (!string.IsNullOrEmpty(name))
             {
@@ -98,7 +98,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -138,7 +138,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -154,7 +154,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -169,7 +169,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -179,66 +179,6 @@ namespace Infrastructures.Repository
                 .ToDictionaryAsync(g => g.SchoolYearId, g => g.Count);
         }
 
-        public async Task<List<Violation>> GetApprovedViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.APPROVED.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetPendingViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.PENDING.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetRejectedViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.REJECTED.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetInactiveViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.INACTIVE.ToString())
-                .ToListAsync();
-        }
-
         public async Task<List<Violation>> GetViolationsBySchoolId(int schoolId)
         {
             return await _context.Violations
@@ -246,13 +186,14 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(ed => ed.Teacher.School.SchoolId == schoolId)
+                .Where(ed => ed.User.SchoolId == schoolId)
                 .ToListAsync();
         }
+
 
         public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
         {
@@ -295,7 +236,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -317,7 +258,7 @@ namespace Infrastructures.Repository
             return weekNumber >= 1 && weekNumber <= maxWeeksInMonth;
         }
 
-        public async Task<List<Violation>> GetViolationsByYearAndClassName(short year, string className, int schoolId)
+        public async Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
@@ -329,7 +270,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -341,8 +282,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-
-        public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(short year, int schoolId)
+        public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
@@ -359,21 +299,49 @@ namespace Infrastructures.Repository
                     ViolationCount = g.Count()
                 })
                 .OrderByDescending(vts => vts.ViolationCount)
-                .Take(3)
+                .Take(5)
                 .ToListAsync();
         }
 
-
-        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(short year, int schoolId)
+        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ClassViolationSummary>();
 
+            var monthStartDate = new DateTime(year, month, 1);
+            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+
+            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            {
+                throw new ArgumentException("Tháng này không thuộc năm học " + year);
+            }
+
+            DateTime startDate;
+            DateTime endDate;
+
+            if (weekNumber.HasValue)
+            {
+                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
+                    throw new ArgumentException("Số tuần không hợp lệ!");
+
+                startDate = GetStartOfWeekInMonth(year, month, weekNumber.Value);
+                endDate = startDate.AddDays(7).AddSeconds(-1);
+            }
+            else
+            {
+                startDate = monthStartDate;
+                endDate = monthEndDate;
+            }
+
+            // Ensure the dates are within the school year's timeframe
+            startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
+            endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
+
             return await _context.Violations
                 .Include(c => c.Class)
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
                 .GroupBy(v => v.ClassId)
                 .Select(g => new ClassViolationSummary
                 {
@@ -386,9 +354,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-
-
-        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(short year, int schoolId)
+        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
@@ -409,16 +375,44 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-
-        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(short year, int schoolId)
+        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ClassViolationDetail>();
 
+            var monthStartDate = new DateTime(year, month, 1);
+            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+
+            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            {
+                throw new ArgumentException("Tháng này không thuộc năm học " + year);
+            }
+
+            DateTime startDate;
+            DateTime endDate;
+
+            if (weekNumber.HasValue)
+            {
+                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
+                    throw new ArgumentException("Số tuần không hợp lệ!");
+
+                startDate = GetStartOfWeekInMonth(year, month, weekNumber.Value);
+                endDate = startDate.AddDays(7).AddSeconds(-1);
+            }
+            else
+            {
+                startDate = monthStartDate;
+                endDate = monthEndDate;
+            }
+
+            // Ensure the dates are within the school year's timeframe
+            startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
+            endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
+
             var violations = await _context.Violations
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
                 .GroupBy(v => v.Class)
                 .Select(g => new ClassViolationDetail
                 {
@@ -439,7 +433,6 @@ namespace Infrastructures.Repository
 
             return violations;
         }
-
 
     }
 }

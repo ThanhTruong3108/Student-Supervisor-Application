@@ -35,7 +35,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Message = "Tạo Gói thất bại.\n" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -140,46 +140,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfPackage>>> SearchPackages(int? packageTypeId, string? name, int? totalStudents, int? totalViolations, int? minPrice, int? maxPrice, string sortOrder)
-        {
-            var response = new DataResponse<List<ResponseOfPackage>>();
-
-            try
-            {
-                var packages = await _unitOfWork.Package.SearchPackages(packageTypeId ,name, totalStudents, totalViolations ,minPrice, maxPrice);
-                if (packages is null || packages.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Gói nào phù hợp với tiêu chí";
-                    response.Success = true;
-                }
-                else
-                {
-                    var packageDTO = _mapper.Map<List<ResponseOfPackage>>(packages);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        packageDTO = packageDTO.OrderByDescending(p => p.PackageId).ToList();
-                    }
-                    else
-                    {
-                        packageDTO = packageDTO.OrderBy(p => p.PackageId).ToList();
-                    }
-
-                    response.Data = packageDTO;
-                    response.Message = "Tìm thấy Gói";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ResponseOfPackage>> UpdatePackage(int id, PackageRequest request)
         {
             var response = new DataResponse<ResponseOfPackage>();
@@ -194,11 +154,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                package.PackageTypeId = request.PackageTypeId;
                 package.Name = request.Name;
                 package.Description = request.Description ?? package.Description;
-                package.TotalStudents = request.TotalStudents ?? package.TotalStudents;
-                package.TotalViolations = request.TotalViolations ?? package.TotalViolations;
                 package.Price = request.Price ?? package.Price;
 
                 _unitOfWork.Package.Update(package);
@@ -210,7 +167,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Message = "Cập nhật Gói thất bại.\n" + ex.Message;
                 response.Success = false;
             }
 
