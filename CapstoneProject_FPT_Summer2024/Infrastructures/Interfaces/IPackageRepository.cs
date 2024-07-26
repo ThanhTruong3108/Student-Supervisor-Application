@@ -12,6 +12,5 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Package>> GetAllPackages();
         Task<Package> GetPackageById(int id);
-        Task<List<Package>> SearchPackages(int? packageTypeId ,string? name, int? totalStudents, int? totalViolations ,int? minPrice, int? maxPrice);
     }
 }

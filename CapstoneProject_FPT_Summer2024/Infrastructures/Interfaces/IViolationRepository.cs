@@ -17,7 +17,7 @@ namespace Infrastructures.Interfaces
             int? classId,
             int? violationTypeId,
             int? studentInClassId,
-            int? teacherId,
+            int? userId,
             string? name,
             string? description,
             DateTime? date,
@@ -29,10 +29,6 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetViolationsByStudentId(int studentId);
         Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId);
         Task<Dictionary<int, int>> GetViolationCountByYear(int studentId);
-        Task<List<Violation>> GetApprovedViolations();
-        Task<List<Violation>> GetPendingViolations();
-        Task<List<Violation>> GetRejectedViolations();
-        Task<List<Violation>> GetInactiveViolations();
         Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
 
         Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null);

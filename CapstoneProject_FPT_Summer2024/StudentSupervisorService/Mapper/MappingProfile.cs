@@ -37,8 +37,6 @@ using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Request.PackageRequest;
 using StudentSupervisorService.Models.Response.PackageResponse;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
-using StudentSupervisorService.Models.Request.PackageTypeRequest;
-using StudentSupervisorService.Models.Response.PackageTypeResponse;
 using StudentSupervisorService.Models.Response.AdminResponse;
 using StudentSupervisorService.Models.Response.OrderResponse;
 using StudentSupervisorService.Models.Request.OrderRequest;
@@ -101,10 +99,6 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<PackageRequest, Package>();
 
-            CreateMap<PackageType, PackageTypeResponse>();
-
-            CreateMap<PackageTypeRequest, PackageType>();
-
             CreateMap<StudentSupervisor, StudentSupervisorResponse>()
                .ForMember(re => re.IsSupervisor, act => act.MapFrom(src => src.StudentInClass.IsSupervisor))
                .ForMember(re => re.SchoolId, act => act.MapFrom(src => src.User.SchoolId))
@@ -119,7 +113,7 @@ namespace StudentSupervisorService.Mapper
                 .ForPath(re => re.User.SchoolId, act => act.MapFrom(src => src.SchoolId))
                 .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
                 .ForPath(re => re.User.Name, act => act.MapFrom(src => src.SupervisorName))
-                .ForPath(re => re.User.Phone, act => act.MapFrom(src =>  src.Phone))
+                .ForPath(re => re.User.Phone, act => act.MapFrom(src => src.Phone))
                 .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
                 .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
 
@@ -137,7 +131,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<RequestOfTeacher, Teacher>()
                 .ForPath(re => re.User.Code, act => act.MapFrom(src => src.Code))
                 .ForPath(re => re.User.Name, act => act.MapFrom(src => src.TeacherName))
-                .ForPath(re => re.User.Phone, act => act.MapFrom(src => src.Phone)) 
+                .ForPath(re => re.User.Phone, act => act.MapFrom(src => src.Phone))
                 .ForPath(re => re.User.Password, act => act.MapFrom(src => src.Password))
                 .ForPath(re => re.User.Address, act => act.MapFrom(src => src.Address));
 
@@ -152,6 +146,7 @@ namespace StudentSupervisorService.Mapper
 
 
             CreateMap<Violation, ResponseOfViolation>()
+               .ForMember(re => re.CreatedBy, act => act.MapFrom(src => src.User.Name))
                .ForMember(re => re.ViolationName, act => act.MapFrom(src => src.Name))
                .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name))
                .ForMember(re => re.ViolationGroupId, act => act.MapFrom(src => src.ViolationType.ViolationGroupId))

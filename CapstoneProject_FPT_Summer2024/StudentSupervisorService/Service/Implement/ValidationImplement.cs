@@ -71,18 +71,18 @@ namespace StudentSupervisorService.Service.Implement
                     await Console.Out.WriteLineAsync("Ko có YearPackage nào đang VALID");
                     return result;
                 }
-                // lấy tất cả học sinh trong các Package của yearPackages
-                var totalStudentOfAllYearPackage = 0;
-                foreach (var yearPackage in yearPackages)
-                {
-                    totalStudentOfAllYearPackage += yearPackage.Package.TotalStudents;
-                }
-                // nếu tổng học sinh của trường > tổng học sinh của các gói Package trường đăng ký trong 1 năm
-                if (totalStudentOfSchool > totalStudentOfAllYearPackage)
-                {
-                    await Console.Out.WriteLineAsync("Tổng học sinh vượt quá giới hạn gói đăng ký");
-                    return result;
-                }
+                //// lấy tất cả học sinh trong các Package của yearPackages
+                //var totalStudentOfAllYearPackage = 0;
+                //foreach (var yearPackage in yearPackages)
+                //{
+                //    totalStudentOfAllYearPackage += yearPackage.Package.TotalStudents;
+                //}
+                //// nếu tổng học sinh của trường > tổng học sinh của các gói Package trường đăng ký trong 1 năm
+                //if (totalStudentOfSchool > totalStudentOfAllYearPackage)
+                //{
+                //    await Console.Out.WriteLineAsync("Tổng học sinh vượt quá giới hạn gói đăng ký");
+                //    return result;
+                //}
                 result = true;
             }
             catch (Exception e)

@@ -25,7 +25,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -41,7 +41,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -52,7 +52,7 @@ namespace Infrastructures.Repository
                 int? classId,
                 int? violationTypeId,
                 int? studentInClassId,
-                int? teacherId,
+                int? userId,
                 string? name,
                 string? description,
                 DateTime? date,
@@ -72,9 +72,9 @@ namespace Infrastructures.Repository
             {
                 query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
             }
-            if (teacherId.HasValue)
+            if (userId.HasValue)
             {
-                query = query.Where(p => p.TeacherId == teacherId.Value);
+                query = query.Where(p => p.UserId == userId.Value);
             }
             if (!string.IsNullOrEmpty(name))
             {
@@ -98,7 +98,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -138,7 +138,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -154,7 +154,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -169,7 +169,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -179,66 +179,6 @@ namespace Infrastructures.Repository
                 .ToDictionaryAsync(g => g.SchoolYearId, g => g.Count);
         }
 
-        public async Task<List<Violation>> GetApprovedViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.APPROVED.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetPendingViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.PENDING.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetRejectedViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.REJECTED.ToString())
-                .ToListAsync();
-        }
-
-        public async Task<List<Violation>> GetInactiveViolations()
-        {
-            return await _context.Violations
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Status == ViolationStatusEnums.INACTIVE.ToString())
-                .ToListAsync();
-        }
-
         public async Task<List<Violation>> GetViolationsBySchoolId(int schoolId)
         {
             return await _context.Violations
@@ -246,13 +186,14 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(ed => ed.Teacher.School.SchoolId == schoolId)
+                .Where(ed => ed.User.SchoolId == schoolId)
                 .ToListAsync();
         }
+
 
         public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
         {
@@ -295,7 +236,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
@@ -329,7 +270,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.Class)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.Teacher)
+                .Include(c => c.User)
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)

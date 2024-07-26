@@ -31,4 +31,5 @@ public partial class User
     public virtual ICollection<StudentSupervisor> StudentSupervisors { get; set; } = new List<StudentSupervisor>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
 }

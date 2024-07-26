@@ -29,37 +29,6 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ClassGroupId == id);
         }
 
-        public async Task<List<ClassGroup>> SearchClassGroups(int? schoolId, string? hall, int? slot, TimeSpan? time, string? status)
-        {
-            var query = _context.ClassGroups.AsQueryable();
-
-            if (schoolId.HasValue)
-            {
-                query = query.Where(p => p.SchoolId == schoolId.Value);
-            }
-            if (!string.IsNullOrEmpty(hall))
-            {
-                query = query.Where(p => p.Hall.Contains(hall));
-            }
-            if (slot.HasValue)
-            {
-                query = query.Where(p => p.Slot == slot.Value);
-            }
-
-            if (time.HasValue)
-            {
-                query = query.Where(p => p.Time >= time.Value);
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                query = query.Where(p => p.Status.Equals(status));
-            }
-
-            return await query
-                .Include(c => c.School)
-                .ToListAsync();
-        }
-
         public async Task<ClassGroup> CreateClassGroup(ClassGroup classGroupEntity)
         {
             await _context.ClassGroups.AddAsync(classGroupEntity);

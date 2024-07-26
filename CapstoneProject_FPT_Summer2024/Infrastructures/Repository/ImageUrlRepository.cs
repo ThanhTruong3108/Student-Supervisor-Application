@@ -18,8 +18,8 @@ namespace Infrastructures.Repository
         {
             return await _context.ImageUrls
                 .Include(ed => ed.Violation)
-                    .ThenInclude(e => e.Teacher)
-                .Where(ed => ed.Violation.Teacher.SchoolId == schoolId)
+                    .ThenInclude(e => e.User)
+                .Where(ed => ed.Violation.User.SchoolId == schoolId)
                 .ToListAsync();
         }
     }

@@ -17,7 +17,6 @@ namespace Infrastructures.Interfaces.IUnitOfWork
         IEvaluationRepository Evaluation {  get; }
         IImageUrlRepository ImageUrl { get; }
         IPackageRepository Package { get; }
-        IPackageTypeRepository PackageType { get; }
         IPatrolScheduleRepository PatrolSchedule { get; }
         IPenaltyRepository Penalty { get; }
         IRegisteredSchoolRepository RegisteredSchool { get; }

@@ -130,6 +130,7 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     SchoolId = penaltyCreateRequest.SchoolId,
                     Code = penaltyCreateRequest.Code,
+                    Level = penaltyCreateRequest.Level,
                     Name = penaltyCreateRequest.Name,
                     Description = penaltyCreateRequest.Description,
                     Status = PenaltyStatusEnums.ACTIVE.ToString()
@@ -174,6 +175,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingPenalty.SchoolId = penaltyUpdateRequest.SchoolId ?? existingPenalty.SchoolId;
                 existingPenalty.Code = penaltyUpdateRequest.Code ?? existingPenalty.Code;
+                existingPenalty.Level = penaltyUpdateRequest.Level ?? existingPenalty.Level;
                 existingPenalty.Name = penaltyUpdateRequest.Name ?? existingPenalty.Name;
                 existingPenalty.Description = penaltyUpdateRequest.Description ?? existingPenalty.Description;
 

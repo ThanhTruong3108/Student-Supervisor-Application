@@ -53,10 +53,10 @@ namespace StudentSupervisorAPI.Controllers
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchViolations(
-            int? classId, 
+            int? classId,
             int? violationTypeId,
             int? studentInClassId,
-            int? teacherId, 
+            int? userId,
             string? name,
             string? description,
             DateTime? date,
@@ -65,7 +65,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             try
             {
-                var violations = await _service.SearchViolations(classId, violationTypeId, studentInClassId, teacherId, name, description, date, status.ToString(), sortOrder);
+                var violations = await _service.SearchViolations(classId, violationTypeId, studentInClassId, userId, name, description, date, status.ToString(), sortOrder);
                 return Ok(violations);
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id ,[FromForm] RequestOfUpdateViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, [FromForm] RequestOfUpdateViolation request)
         {
             try
             {
@@ -214,61 +214,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("approved")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetApprovedViolations()
-        {
-            try
-            {
-                var response = await _service.GetApprovedViolations();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("pending")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetPendingViolations()
-        {
-            try
-            {
-                var response = await _service.GetPendingViolations();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("rejected")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetRejectedViolations()
-        {
-            try
-            {
-                var response = await _service.GetRejectedViolations();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("inactive")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetInActiveViolations()
-        {
-            try
-            {
-                var response = await _service.GetInactiveViolations();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpGet("school/{schoolId}")]
         public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySchoolId(int schoolId)

@@ -97,18 +97,18 @@ namespace StudentSupervisorService.Service.Implement
                 int? classId,
                 int? violationTypeId,
                 int? studentInClassId,
-                int? teacherId,
+                int? userId,
                 string? name,
                 string? description,
                 DateTime? date,
-                string? status, 
+                string? status,
                 string sortOrder)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.SearchViolations(classId, violationTypeId, studentInClassId, teacherId, name, description, date, status);
+                var violations = await _unitOfWork.Violation.SearchViolations(classId, violationTypeId, studentInClassId, userId, name, description, date, status);
                 if (violations is null || violations.Count == 0)
                 {
                     response.Data = "Empty";
@@ -203,10 +203,10 @@ namespace StudentSupervisorService.Service.Implement
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
+                    UserId = userId,
                     ClassId = request.ClassId,
                     ViolationTypeId = request.ViolationTypeId,
                     StudentInClassId = request.StudentInClassId,
-                    TeacherId = request.TeacherId,
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
@@ -308,10 +308,10 @@ namespace StudentSupervisorService.Service.Implement
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {
+                    UserId = userId,
                     ClassId = request.ClassId,
                     ViolationTypeId = request.ViolationTypeId,
                     StudentInClassId = request.StudentInClassId,
-                    TeacherId = request.TeacherId,
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
@@ -344,13 +344,13 @@ namespace StudentSupervisorService.Service.Implement
                 var disciplineEntity = new Discipline
                 {
                     ViolationId = violationEntity.ViolationId,
-                    PennaltyId = null, 
+                    PennaltyId = null,
                     Description = violationEntity.Name,
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now.AddDays(7), // Set default EndDate
                     Status = DisciplineStatusEnums.PENDING.ToString()
                 };
- 
+
                 await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
 
                 // Increase NumberOfViolation in StudentInClass
@@ -426,7 +426,6 @@ namespace StudentSupervisorService.Service.Implement
                 violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
-                violation.TeacherId = request.TeacherId;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
@@ -477,7 +476,8 @@ namespace StudentSupervisorService.Service.Implement
                 response.Data = "Empty";
                 response.Message = "Xóa vi phạm thành công.";
                 response.Success = true;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 response.Data = "Empty";
                 response.Message = "Xóa vi phạm thất bại.\n" + ex.Message
@@ -522,7 +522,7 @@ namespace StudentSupervisorService.Service.Implement
                             PennaltyId = null,
                             Description = violation.Name,
                             StartDate = DateTime.Now,
-                            EndDate = DateTime.Now.AddDays(7), 
+                            EndDate = DateTime.Now.AddDays(7),
                             Status = DisciplineStatusEnums.PENDING.ToString()
                         };
                         await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
@@ -724,122 +724,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetApprovedViolations()
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
-
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetApprovedViolations();
-                if (violations is null || !violations.Any())
-                {
-                    response.Message = "Không tìm thấy vi phạm đã được phê duyệt!!";
-                    response.Success = true;
-                    return response;
-                }
-
-                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = violationDTO;
-                response.Message = "Danh sách các vi phạm được phê duyệt";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetPendingViolations()
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
-
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetPendingViolations();
-                if (violations is null || !violations.Any())
-                {
-                    response.Message = "Không tìm thấy vi phạm đang chờ xử lý!!";
-                    response.Success = true;
-                    return response;
-                }
-
-                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = violationDTO;
-                response.Message = "Danh sách vi phạm đang chờ xử lý";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetRejectedViolations()
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
-
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetRejectedViolations();
-                if (violations is null || !violations.Any())
-                {
-                    response.Message = "Không tìm thấy vi phạm bị từ chối nào!!";
-                    response.Success = true;
-                    return response;
-                }
-
-                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = violationDTO;
-                response.Message = "Danh sách các vi phạm bị từ chối";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetInactiveViolations()
-        {
-            var response = new DataResponse<List<ResponseOfViolation>>();
-
-            try
-            {
-                var violations = await _unitOfWork.Violation.GetInactiveViolations();
-                if (violations is null || !violations.Any())
-                {
-                    response.Message = "Không tìm thấy vi phạm đã bị xóa nào!!";
-                    response.Success = true;
-                    return response;
-                }
-
-                var violationDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
-                response.Data = violationDTO;
-                response.Message = "Danh sách vi phạm đã bị xóa";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
@@ -866,6 +750,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
 
     }
 }

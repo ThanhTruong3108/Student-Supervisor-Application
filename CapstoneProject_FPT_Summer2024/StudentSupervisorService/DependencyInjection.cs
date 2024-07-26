@@ -75,9 +75,6 @@ namespace StudentSupervisorService
             services.AddTransient<IPackageRepository, PackageRepository>();
             services.AddTransient<PackageService, PackageImplement>();
 
-            services.AddTransient<IPackageTypeRepository, PackageTypeRepository>();
-            services.AddTransient<PackageTypeService, PackageTypeImplement>();
-
             services.AddTransient<IPatrolScheduleRepository, PatrolScheduleRepository>();
             services.AddTransient<PatrolScheduleService, PatrolScheduleImplement>();
 

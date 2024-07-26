@@ -76,42 +76,6 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-
-        public async Task<DataResponse<List<ClassGroupResponse>>> SearchClassGroups(int? schoolId, string? hall, int? slot, TimeSpan? time, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<ClassGroupResponse>>();
-
-            try
-            {
-                var classGroupEntities = await _unitOfWork.ClassGroup.SearchClassGroups(schoolId, hall, slot, time, status);
-                if (classGroupEntities is null || classGroupEntities.Count == 0)
-                {
-                    response.Message = "Không có nhóm lớp nào phù hợp với tiêu chí tìm kiếm !!";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        classGroupEntities = classGroupEntities.OrderByDescending(r => r.ClassGroupId).ToList();
-                    }
-                    else
-                    {
-                        classGroupEntities = classGroupEntities.OrderBy(r => r.ClassGroupId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<ClassGroupResponse>>(classGroupEntities);
-                    response.Message = "Danh sách nhóm lớp";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
         public async Task<DataResponse<ClassGroupResponse>> CreateClassGroup(ClassGroupCreateRequest request)
         {
             var response = new DataResponse<ClassGroupResponse>();
@@ -120,9 +84,7 @@ namespace StudentSupervisorService.Service.Implement
                 var classGroupEntity = new ClassGroup
                 {
                     SchoolId = request.SchoolId,
-                    Hall = request.Hall,
-                    Slot = request.Slot,
-                    Time = request.Time,
+                    TeacherId = request.TeacherId,
                     Status = ClassGroupStatusEnums.ACTIVE.ToString()
                 };
 
@@ -155,9 +117,7 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingClassGroup.SchoolId = request.SchoolId ?? existingClassGroup.SchoolId;
-                existingClassGroup.Hall = request.Hall ?? existingClassGroup.Hall;
-                existingClassGroup.Slot = request.Slot ?? existingClassGroup.Slot;
-                existingClassGroup.Time = request.Time ?? existingClassGroup.Time;
+                existingClassGroup.TeacherId = request.TeacherId ?? existingClassGroup.TeacherId;
 
                 await _unitOfWork.ClassGroup.UpdateClassGroup(existingClassGroup);
 
