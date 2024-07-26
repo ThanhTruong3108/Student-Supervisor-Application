@@ -9,9 +9,9 @@ public partial class PatrolSchedule
 
     public int ClassId { get; set; }
 
-    public int SupervisorId { get; set; }
+    public int? UserId { get; set; }
 
-    public int TeacherId { get; set; }
+    public int SupervisorId { get; set; }
 
     public string? Name { get; set; }
 
@@ -29,7 +29,7 @@ public partial class PatrolSchedule
 
     public virtual StudentSupervisor Supervisor { get; set; } = null!;
 
-    public virtual Teacher Teacher { get; set; } = null!;
+    public virtual User? User { get; set; }
 
     public virtual ICollection<Violation> Violations { get; set; } = new List<Violation>();
 }

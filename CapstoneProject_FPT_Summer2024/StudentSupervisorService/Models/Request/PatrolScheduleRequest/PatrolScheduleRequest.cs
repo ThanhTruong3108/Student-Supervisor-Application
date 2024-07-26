@@ -10,8 +10,8 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
     public class PatrolScheduleCreateRequest
     {
         public int ClassId { get; set; }
+        public int UserId { get; set; }
         public int SupervisorId { get; set; }
-        public int TeacherId { get; set; }
         public string? Name { get; set; }
         public int? Slot { get; set; }
         public TimeSpan? Time { get; set; }
@@ -23,8 +23,8 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
     {
         public int ScheduleId { get; set; }
         public int? ClassId { get; set; }
+        public int? UserId { get; set; }
         public int? SupervisorId { get; set; }
-        public int? TeacherId { get; set; }
         public string? Name { get; set; }
         public int? Slot { get; set; }
         public TimeSpan? Time { get; set; }

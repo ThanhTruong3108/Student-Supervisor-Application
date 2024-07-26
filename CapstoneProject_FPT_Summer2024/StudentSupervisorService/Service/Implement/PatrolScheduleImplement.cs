@@ -77,42 +77,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PatrolScheduleResponse>>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<PatrolScheduleResponse>>();
-
-            try
-            {
-                var pScheduleEntities = await _unitOfWork.PatrolSchedule.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, status);
-                if (pScheduleEntities is null || pScheduleEntities.Count == 0)
-                {
-                    response.Message = "Không có Lịch tuần tra phù hợp với tiêu chí tìm kiếm!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        pScheduleEntities = pScheduleEntities.OrderByDescending(r => r.ScheduleId).ToList();
-                    }
-                    else
-                    {
-                        pScheduleEntities = pScheduleEntities.OrderBy(r => r.ScheduleId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<PatrolScheduleResponse>>(pScheduleEntities);
-                    response.Message = "Danh sách Lịch tuần tra";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
-
         public async Task<DataResponse<PatrolScheduleResponse>> CreatePatrolSchedule(PatrolScheduleCreateRequest request)
         {
             var response = new DataResponse<PatrolScheduleResponse>();
@@ -121,8 +85,8 @@ namespace StudentSupervisorService.Service.Implement
                 var pScheduleEntity = new PatrolSchedule
                 {
                     ClassId = request.ClassId,
+                    UserId = request.UserId,
                     SupervisorId = request.SupervisorId,
-                    TeacherId = request.TeacherId,
                     Name = request.Name,
                     Slot = request.Slot,
                     Time = request.Time,
@@ -161,8 +125,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 existingPatrolSchedule.ClassId = request.ClassId ?? existingPatrolSchedule.ClassId;
+                existingPatrolSchedule.UserId = request.UserId ?? existingPatrolSchedule.UserId;
                 existingPatrolSchedule.Supervisor.StudentSupervisorId = request.SupervisorId ?? existingPatrolSchedule.SupervisorId;
-                existingPatrolSchedule.TeacherId = request.TeacherId ?? existingPatrolSchedule.TeacherId;
                 existingPatrolSchedule.Name = request.Name ?? existingPatrolSchedule.Name;
                 existingPatrolSchedule.Slot = request.Slot ?? existingPatrolSchedule.Slot;
                 existingPatrolSchedule.Time = request.Time ?? existingPatrolSchedule.Time;

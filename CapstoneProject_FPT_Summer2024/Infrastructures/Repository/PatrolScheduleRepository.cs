@@ -3,12 +3,6 @@ using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructures.Repository
 {
@@ -18,12 +12,10 @@ namespace Infrastructures.Repository
 
         public async Task<List<PatrolSchedule>> GetAllPatrolSchedules()
         {
-            return await _context.PatrolSchedules       
+            return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
-                    .ThenInclude(s => s.User)
-                .Include(p => p.Teacher)
-                    .ThenInclude(t => t.User)
+                .Include(p => p.User)
                 .ToListAsync();
         }
 
@@ -32,49 +24,10 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
-                    .ThenInclude(s => s.User)
-                .Include(p => p.Teacher)
-                    .ThenInclude(t => t.User)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(x => x.ScheduleId == id);
         }
 
-        public async Task<List<PatrolSchedule>> SearchPatrolSchedules(int? classId, int? supervisorId, int? teacherId, DateTime? from, DateTime? to, string? status)
-        {
-            var query = _context.PatrolSchedules.AsQueryable();
-
-            if (classId != null)
-            {
-                query = query.Where(p => p.ClassId == classId);
-            }
-            if (supervisorId != null)
-            {
-                query = query.Where(p => p.SupervisorId == supervisorId);
-            }
-            if (teacherId != null)
-            {
-                query = query.Where(p => p.TeacherId == teacherId);
-            }
-            if (from != null)
-            {
-                query = query.Where(p => p.From >= from);
-            }
-            if (to != null)
-            {
-                query = query.Where(p => p.To <= to);
-            }
-            if (!status.IsNullOrEmpty())
-            {
-                query = query.Where(p => p.Status.Equals(status));
-            }
-
-            return await query
-                .Include(v => v.Class)
-                .Include(p => p.Supervisor)
-                    .ThenInclude(s => s.User)
-                .Include(p => p.Teacher)
-                    .ThenInclude(t => t.User)
-                .ToListAsync();
-        }
         public async Task<PatrolSchedule> CreatePatrolSchedule(PatrolSchedule patrolScheduleEntity)
         {
             await _context.PatrolSchedules.AddAsync(patrolScheduleEntity);
@@ -110,10 +63,8 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
-                    .ThenInclude(s => s.User)
-                .Include(p => p.Teacher)
-                    .ThenInclude(t => t.User)
-                .Where(v => v.Teacher.SchoolId == schoolId)
+                .Include(p => p.User)
+                .Where(v => v.User.SchoolId == schoolId)
                 .ToListAsync();
         }
     }

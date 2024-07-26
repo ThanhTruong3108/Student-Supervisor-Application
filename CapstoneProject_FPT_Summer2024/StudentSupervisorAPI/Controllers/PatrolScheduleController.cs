@@ -48,27 +48,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> SearchPatrolSchedules(
-                       int? classId,
-                       int? supervisorId,
-                       int? teacherId,
-                       DateTime? from,
-                       DateTime? to,
-                       PatrolScheduleStatusEnums? status,
-                       string sortOrder = "asc")
-        {
-            try
-            {
-                var patrolSchedulesResponse = await patrolScheduleService.SearchPatrolSchedules(classId, supervisorId, teacherId, from, to, status.ToString(), sortOrder);
-                return Ok(patrolSchedulesResponse);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<PatrolScheduleResponse>>> CreatePatrolSchedule(PatrolScheduleCreateRequest request)
         {
