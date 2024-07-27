@@ -202,6 +202,38 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Validate patrol schedule for StudentSupervisor
+                var patrolSchedule = await _unitOfWork.PatrolSchedule.GetPatrolScheduleById(request.ScheduleId);
+                if (patrolSchedule == null)
+                {
+                    response.Message = "Lịch trực không hợp lệ.";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (patrolSchedule.ClassId != request.ClassId)
+                {
+                    response.Message = "Lịch trực không thuộc về lớp được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (request.Date < patrolSchedule.From || request.Date > patrolSchedule.To)
+                {
+                    response.Message = "Thời gian vi phạm không nằm trong lịch trực.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate Chỉ Sao đỏ được phân công trong lịch trực mới có quyền ghi nhận vi phạm cho lịch trực đó
+                var studentSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorByUserId(userId);
+                if (studentSupervisor == null || !studentSupervisor.PatrolSchedules.Any(s => s.ScheduleId == request.ScheduleId))
+                {
+                    response.Message = "Sao đỏ không có quyền tạo vi phạm cho lịch trực này.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Mapping request to Violation entity
                 var violationEntity = new Violation
                 {

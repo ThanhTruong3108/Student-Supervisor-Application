@@ -58,5 +58,12 @@ namespace Infrastructures.Repository
                 .Include(s => s.StudentInClass)
                 .ToListAsync();
         }
+
+        public async Task<StudentSupervisor> GetStudentSupervisorByUserId(int userId)
+        {
+            return await _context.StudentSupervisors
+                .Include(ss => ss.PatrolSchedules)
+                .FirstOrDefaultAsync(ss => ss.UserId == userId);
+        }
     }
 }

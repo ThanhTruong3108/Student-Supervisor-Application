@@ -14,5 +14,6 @@ namespace Infrastructures.Interfaces
         Task<StudentSupervisor> GetStudentSupervisorById(int id);
         Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, int? studentInClassId);
         Task<List<StudentSupervisor>> GetStudentSupervisorsBySchoolId(int schoolId);
+        Task<StudentSupervisor> GetStudentSupervisorByUserId(int userId);
     }
 }
