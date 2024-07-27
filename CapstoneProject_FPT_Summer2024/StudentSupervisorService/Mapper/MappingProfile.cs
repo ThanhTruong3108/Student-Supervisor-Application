@@ -163,7 +163,9 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(src => src.Supervisor.User.Name))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 
-            CreateMap<RequestOfCreateViolation, Violation>()
+            CreateMap<RequestOfStuSupervisorCreateViolation, Violation>()
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
+            CreateMap<RequestOfSupervisorCreateViolation, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
             CreateMap<RequestOfUpdateViolation, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));

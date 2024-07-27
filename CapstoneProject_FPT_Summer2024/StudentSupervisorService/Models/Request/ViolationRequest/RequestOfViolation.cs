@@ -12,7 +12,39 @@ using System.Threading.Tasks;
 
 namespace StudentSupervisorService.Models.Request.ViolationRequest
 {
-    public class RequestOfCreateViolation
+    public class RequestOfStuSupervisorCreateViolation
+    {
+        [Required(ErrorMessage = "The SchoolId field is required.")]
+        public int SchoolId { get; set; }
+
+        [Required(ErrorMessage = "The UserId field is required.")]
+        public int UserId { get; set; }
+
+        [Required(ErrorMessage = "The Year field is required.")]
+        public short Year { get; set; }
+
+        [Required(ErrorMessage = "The ClassId field is required.")]
+        public int ClassId { get; set; }
+
+        [Required(ErrorMessage = "The ViolationTypeId field is required.")]
+        public int ViolationTypeId { get; set; }
+
+        [Required(ErrorMessage = "The StudentInClassId field is required.")]
+        public int StudentInClassId { get; set; }
+        [Required(ErrorMessage = "The ScheduleId field is required.")]
+        public int ScheduleId { get; set; }
+
+        [Required(ErrorMessage = "The ViolationName field is required.")]
+        public string ViolationName { get; set; } = null!;
+
+        public string? Description { get; set; }
+
+        [Required(ErrorMessage = "The Date field is required.")]
+        public DateTime Date { get; set; }
+        public List<IFormFile>? Images { get; set; }
+    }
+
+    public class RequestOfSupervisorCreateViolation
     {
         [Required(ErrorMessage = "The SchoolId field is required.")]
         public int SchoolId { get; set; }

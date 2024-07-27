@@ -76,7 +76,7 @@ namespace StudentSupervisorAPI.Controllers
 
         // Create violation for student supervisor
         [HttpPost("student")]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForStudentSupervisor([FromForm] RequestOfCreateViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForStudentSupervisor([FromForm] RequestOfStuSupervisorCreateViolation request)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace StudentSupervisorAPI.Controllers
 
         // Create violation for supervisor
         [HttpPost("supervisor")]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForSupervisor([FromForm] RequestOfCreateViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForSupervisor([FromForm] RequestOfSupervisorCreateViolation request)
         {
             try
             {

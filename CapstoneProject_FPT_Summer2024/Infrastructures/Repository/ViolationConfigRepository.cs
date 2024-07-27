@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,12 @@ namespace Infrastructures.Repository
             return await query
                 .Include(e => e.ViolationType)
                 .ToListAsync();
+        }
+
+        public async Task<ViolationConfig> GetConfigByViolationTypeId(int violationTypeId)
+        {
+            return await _context.ViolationConfigs
+                .FirstOrDefaultAsync(vc => vc.ViolationTypeId == violationTypeId && vc.Status == ViolationConfigStatusEnums.ACTIVE.ToString());
         }
     }
 }

@@ -146,7 +146,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(int userId, RequestOfCreateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(int userId, RequestOfStuSupervisorCreateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
@@ -209,6 +209,7 @@ namespace StudentSupervisorService.Service.Implement
                     ClassId = request.ClassId,
                     ViolationTypeId = request.ViolationTypeId,
                     StudentInClassId = request.StudentInClassId,
+                    ScheduleId = request.ScheduleId,
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
@@ -252,7 +253,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(int userId, RequestOfCreateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(int userId, RequestOfSupervisorCreateViolation request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
@@ -274,7 +275,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Validate the violation date
+                // Validate chỉ ghi nhận vi phạm trong niên khóa 
                 if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
                 {
                     response.Message = "Thời gian vi phạm không nằm trong khoảng thời gian của niên khóa.";
@@ -282,7 +283,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Validate the class belongs to the school and school year
+                // Validate vi phạm thuộc về lớp có trong niên khóa
                 var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
                 if (classEntity == null || classEntity.SchoolYearId != schoolYear.SchoolYearId || classEntity.SchoolYear.SchoolId != request.SchoolId)
                 {
@@ -291,7 +292,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Validate the ViolationType belongs to the school
+                // Validate coi loại vi phạm có nằm trong nội quy trường không
                 var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
                 if (violationType == null || violationType.ViolationGroup.SchoolId != request.SchoolId)
                 {
@@ -304,6 +305,15 @@ namespace StudentSupervisorService.Service.Implement
                 if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
                 {
                     response.Message = "Loại vi phạm không còn được thực thi.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Lấy VioConfig tương ứng với Viotype và kiểm tra VioConfig có hợp lệ không
+                var violationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(request.ViolationTypeId);
+                if (violationConfig == null || violationConfig.Status == ViolationConfigStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Cấu hình vi phạm không hợp lệ.";
                     response.Success = false;
                     return response;
                 }
@@ -341,6 +351,7 @@ namespace StudentSupervisorService.Service.Implement
                         }
                     }
                 }
+
                 // Save Violation to database
                 await _unitOfWork.Violation.CreateViolation(violationEntity);
 
@@ -365,6 +376,15 @@ namespace StudentSupervisorService.Service.Implement
                     _unitOfWork.StudentInClass.Update(studentInClass);
                     _unitOfWork.Save();
                 }
+
+                // Trừ điểm của lớp đó dựa trên VioConfig tương ứng
+                if (violationConfig.MinusPoints.HasValue)
+                {
+                    classEntity.TotalPoint -= violationConfig.MinusPoints.Value;
+                    _unitOfWork.Class.Update(classEntity);
+                }
+
+                _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violationEntity);
                 response.Message = "Tạo vi phạm thành công.";
@@ -598,6 +618,27 @@ namespace StudentSupervisorService.Service.Implement
                     _unitOfWork.StudentInClass.Update(studentInClass);
                 }
 
+                // Lấy VioConfig tương ứng với Viotype và kiểm tra VioConfig có hợp lệ không
+                var violationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(violation.ViolationTypeId);
+                if (violationConfig == null || violationConfig.Status == ViolationConfigStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Cấu hình vi phạm không hợp lệ.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Trừ điểm của lớp đó dựa trên VioConfig tương ứng
+                if (violationConfig.MinusPoints.HasValue)
+                {
+                    var classEntity = await _unitOfWork.Class.GetClassById(violation.ClassId);
+                    if (classEntity != null)
+                    {
+                        _unitOfWork.Class.DetachLocal(classEntity, classEntity.ClassId);
+                        classEntity.TotalPoint -= violationConfig.MinusPoints.Value;
+                        _unitOfWork.Class.Update(classEntity);
+                    }
+                }
+
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
@@ -627,17 +668,17 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Check if the violation is currently in Approved status
+                // Kiểm tra xem vi phạm hiện có ở trạng thái APPROVED hay không
                 if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
                 {
                     // Detach the existing violation entity to avoid tracking issues
                     _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
 
-                    // Update violation status to Rejected
+                    // Cập nhật Status vi phạm thành REJECTED
                     violation.Status = ViolationStatusEnums.REJECTED.ToString();
                     await _unitOfWork.Violation.UpdateViolation(violation);
 
-                    // Update Discipline status to INACTIVE
+                    // Cập nhật Discipline status thành INACTIVE
                     var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
                     if (discipline != null)
                     {
@@ -653,6 +694,20 @@ namespace StudentSupervisorService.Service.Implement
                         _unitOfWork.StudentInClass.DetachLocal(studentInClass, studentInClass.StudentInClassId);
                         studentInClass.NumberOfViolation -= 1;
                         _unitOfWork.StudentInClass.Update(studentInClass);
+                    }
+
+                    // Lấy ViolationConfig tương ứng với Viotype và kiểm tra ViolationConfig có hợp lệ không
+                    var violationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(violation.ViolationTypeId);
+                    if (violationConfig != null && violationConfig.Status == ViolationConfigStatusEnums.ACTIVE.ToString() && violationConfig.MinusPoints.HasValue)
+                    {
+                        // Khôi phục điểm cho Class dựa trên ViolationConfig
+                        var classEntity = await _unitOfWork.Class.GetClassById(violation.ClassId);
+                        if (classEntity != null)
+                        {
+                            _unitOfWork.Class.DetachLocal(classEntity, classEntity.ClassId);
+                            classEntity.TotalPoint += violationConfig.MinusPoints.Value;
+                            _unitOfWork.Class.Update(classEntity);
+                        }
                     }
 
                     _unitOfWork.Save();
