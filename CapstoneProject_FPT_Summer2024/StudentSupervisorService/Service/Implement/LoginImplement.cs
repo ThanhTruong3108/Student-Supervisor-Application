@@ -14,6 +14,7 @@ using Domain.Entity;
 using Domain.Enums.Role;
 using Infrastructures.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Domain.Enums.Status;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -39,10 +40,14 @@ namespace StudentSupervisorService.Service.Implement
                 return (true, "Đăng nhập thành công!", token);
             }
 
-
             var user = await AuthenticateUser(login);
             if (user != null)
             {
+                if (user.Status == UserStatusEnums.INACTIVE.ToString())
+                {
+                    return (false, "Tài khoản của bạn đã bị vô hiệu hóa", null);
+                }
+
                 var token = GenerateToken(user, false);
                 return (true, "Đăng nhập thành công!", token);
             }
