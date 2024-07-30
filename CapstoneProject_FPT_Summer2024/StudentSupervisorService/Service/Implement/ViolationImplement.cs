@@ -655,6 +655,15 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // kiểm tra xem Vi phạm đó có ở status pending không
+                if (violation.Status != ViolationStatusEnums.PENDING.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Chỉ những vi phạm đang chờ xử lý mới được xóa";
+                    response.Success = false;
+                    return response;
+                }
+
                 violation.Status = ViolationStatusEnums.INACTIVE.ToString();
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
