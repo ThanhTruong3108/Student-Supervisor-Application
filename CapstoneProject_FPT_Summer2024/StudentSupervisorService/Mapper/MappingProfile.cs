@@ -167,6 +167,8 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
             CreateMap<RequestOfUpdateViolationForStudentSupervisor, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
+            CreateMap<RequestOfUpdateViolationForSupervisor, Violation>()
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
 
             CreateMap<ViolationConfig, ViolationConfigResponse>()
                .ForMember(re => re.ViolationTypeName, act => act.MapFrom(src => src.ViolationType.Name));
