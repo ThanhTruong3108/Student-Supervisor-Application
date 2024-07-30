@@ -23,7 +23,6 @@ namespace Infrastructures.Repository.UnitOfWork
             ClassGroup = new ClassGroupRepository(_context);
             Class = new ClassRepository(_context);
             Discipline = new DisciplineRepository(_context);
-            EvaluationDetail = new EvaluationDetailRepository(_context);
             Evaluation = new EvaluationRepository(_context);
             ImageUrl = new ImageUrlRepository(_context);
             Package = new PackageRepository(_context);
@@ -49,7 +48,6 @@ namespace Infrastructures.Repository.UnitOfWork
         public IClassGroupRepository ClassGroup { get; }
         public IClassReposirory Class { get; }
         public IDisciplineRepository Discipline { get; }
-        public IEvaluationDetailRepository EvaluationDetail { get; }
         public IEvaluationRepository Evaluation { get; }
         public IImageUrlRepository ImageUrl { get; }
         public IPackageRepository Package { get; }

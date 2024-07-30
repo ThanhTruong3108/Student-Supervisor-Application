@@ -7,9 +7,7 @@ public partial class Evaluation
 {
     public int EvaluationId { get; set; }
 
-    public int SchoolYearId { get; set; }
-
-    public int? ViolationConfigId { get; set; }
+    public int? ClassId { get; set; }
 
     public string? Description { get; set; }
 
@@ -17,11 +15,9 @@ public partial class Evaluation
 
     public DateTime To { get; set; }
 
-    public short Point { get; set; }
+    public int? Points { get; set; }
 
-    public virtual ICollection<EvaluationDetail> EvaluationDetails { get; set; } = new List<EvaluationDetail>();
+    public string? Status { get; set; }
 
-    public virtual SchoolYear SchoolYear { get; set; } = null!;
-
-    public virtual ViolationConfig? ViolationConfig { get; set; }
+    public virtual Class? Class { get; set; }
 }

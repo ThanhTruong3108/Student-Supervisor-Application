@@ -1,6 +1,5 @@
 ﻿using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
-using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response;
 using System;
 using System.Collections.Generic;

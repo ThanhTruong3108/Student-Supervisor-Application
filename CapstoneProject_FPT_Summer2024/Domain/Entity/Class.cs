@@ -22,7 +22,7 @@ public partial class Class
 
     public virtual ClassGroup ClassGroup { get; set; } = null!;
 
-    public virtual ICollection<EvaluationDetail> EvaluationDetails { get; set; } = new List<EvaluationDetail>();
+    public virtual ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
 
     public virtual ICollection<PatrolSchedule> PatrolSchedules { get; set; } = new List<PatrolSchedule>();
 

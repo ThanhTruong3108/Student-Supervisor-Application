@@ -26,8 +26,6 @@ public partial class SchoolRulesContext : DbContext
 
     public virtual DbSet<Evaluation> Evaluations { get; set; }
 
-    public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
-
     public virtual DbSet<HighSchool> HighSchools { get; set; }
 
     public virtual DbSet<ImageUrl> ImageUrls { get; set; }
@@ -171,42 +169,15 @@ public partial class SchoolRulesContext : DbContext
             entity.ToTable("Evaluation");
 
             entity.Property(e => e.EvaluationId).HasColumnName("EvaluationID");
+            entity.Property(e => e.ClassId).HasColumnName("ClassID");
             entity.Property(e => e.Description).HasMaxLength(500);
             entity.Property(e => e.From).HasColumnType("date");
-            entity.Property(e => e.SchoolYearId).HasColumnName("SchoolYearID");
-            entity.Property(e => e.To).HasColumnType("date");
-            entity.Property(e => e.ViolationConfigId).HasColumnName("ViolationConfigID");
-
-            entity.HasOne(d => d.SchoolYear).WithMany(p => p.Evaluations)
-                .HasForeignKey(d => d.SchoolYearId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Evaluation_SchoolYear");
-
-            entity.HasOne(d => d.ViolationConfig).WithMany(p => p.Evaluations)
-                .HasForeignKey(d => d.ViolationConfigId)
-                .HasConstraintName("FK_Evaluation_ViolationConfig");
-        });
-
-        modelBuilder.Entity<EvaluationDetail>(entity =>
-        {
-            entity.HasKey(e => e.EvaluationDetailId).HasName("PK_EvaluationDetail_1");
-
-            entity.ToTable("EvaluationDetail");
-
-            entity.Property(e => e.EvaluationDetailId).HasColumnName("EvaluationDetailID");
-            entity.Property(e => e.ClassId).HasColumnName("ClassID");
-            entity.Property(e => e.EvaluationId).HasColumnName("EvaluationID");
             entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.To).HasColumnType("date");
 
-            entity.HasOne(d => d.Class).WithMany(p => p.EvaluationDetails)
+            entity.HasOne(d => d.Class).WithMany(p => p.Evaluations)
                 .HasForeignKey(d => d.ClassId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_EvaluationDetail_Class");
-
-            entity.HasOne(d => d.Evaluation).WithMany(p => p.EvaluationDetails)
-                .HasForeignKey(d => d.EvaluationId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_EvaluationDetail_Evaluation");
+                .HasConstraintName("FK_Evaluation_Class");
         });
 
         modelBuilder.Entity<HighSchool>(entity =>

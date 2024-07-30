@@ -13,7 +13,6 @@ namespace Infrastructures.Interfaces.IUnitOfWork
         IClassGroupRepository ClassGroup {  get; }
         IClassReposirory Class {  get; }
         IDisciplineRepository Discipline {  get; }
-        IEvaluationDetailRepository EvaluationDetail { get; }
         IEvaluationRepository Evaluation {  get; }
         IImageUrlRepository ImageUrl { get; }
         IPackageRepository Package { get; }

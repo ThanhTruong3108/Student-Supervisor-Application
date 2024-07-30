@@ -38,7 +38,7 @@ namespace Domain.Enums.Status
         INACTIVE,
     }
 
-    public enum EvaluationDetailStatusEnums
+    public enum EvaluationStatusEnums
     {
         ACTIVE,
         INACTIVE,
