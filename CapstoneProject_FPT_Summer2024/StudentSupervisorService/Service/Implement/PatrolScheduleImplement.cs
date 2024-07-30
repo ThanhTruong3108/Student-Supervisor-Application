@@ -212,5 +212,32 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesByStudentSupervisorId(int studentSupervisorId)
+        {
+            var response = new DataResponse<List<PatrolScheduleResponse>>();
+            try
+            {
+                var patrolSchedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesByStudentSupervisorId(studentSupervisorId);
+                if (patrolSchedules == null || !patrolSchedules.Any())
+                {
+                    response.Message = "Không tìm thấy Lịch tuần tra nào cho StudentSupervisorId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var patrolScheduleDTOs = _mapper.Map<List<PatrolScheduleResponse>>(patrolSchedules);
+                    response.Data = patrolScheduleDTOs;
+                    response.Message = "Đã tìm thấy Lịch tuần tra";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }
