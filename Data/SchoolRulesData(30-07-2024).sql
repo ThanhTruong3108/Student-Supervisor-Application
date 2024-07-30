@@ -159,7 +159,7 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
 VALUES 
     (1, 2021, '2021-09-01', '2022-06-30', 'FINISHED'),
-    (1, 2022, '2022-09-01', '2023-06-30', 'FINISHED'),
+    (1, 2022, '2022-09-01', '2023-06-30', 'ONGOING'),
 
     (2, 2023, '2023-09-01', '2024-06-30', 'FINISHED'),
     (2, 2024, '2024-09-01', '2025-06-30', 'ONGOING');
@@ -971,117 +971,117 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[PatrolSchedule] ([ClassID], [UserID], [SupervisorID], [Name], [Slot], [Time], [From], [To], [Status])
 VALUES
     -- Lịch tuần tra cho lớp 10A1 năm học 2021
-    (1, 3, 1, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (1, 3, 1, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (1, 3, 1, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (1, 3, 1, N'Lịch tuần tra cuối tháng 9 lớp 10A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2021
-    (2, 3, 2, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (2, 3, 2, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (2, 3, 2, N'Lịch tuần tra đầu tháng 9 lớp 10A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (2, 3, 2, N'Lịch tuần tra cuối tháng 9 lớp 10A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2021
-    (3, 3, 3, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (3, 3, 3, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (3, 3, 3, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (3, 3, 3, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2021
-    (4, 3, 4, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (4, 3, 4, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (4, 3, 4, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (4, 3, 4, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2021
-    (5, 3, 5, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (5, 3, 5, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (5, 3, 5, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (5, 3, 5, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2021
-    (6, 3, 6, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (6, 3, 6, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (6, 3, 6, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (6, 3, 6, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2021
-    (7, 3, 7, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (7, 3, 7, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (7, 3, 7, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (7, 3, 7, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2021
-    (8, 3, 8, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (8, 3, 8, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (8, 3, 8, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (8, 3, 8, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2021
-    (9, 3, 9, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (9, 3, 9, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (9, 3, 9, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (9, 3, 9, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 10A1 năm học 2022
-    (10, 3, 10, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (10, 3, 10, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (10, 3, 10, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (10, 3, 10, N'Lịch tuần tra cuối tháng 9 lớp 10A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2022
-    (11, 3, 11, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (11, 3, 11, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (11, 3, 11, N'Lịch tuần tra đầu tháng 9 lớp 10A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (11, 3, 11, N'Lịch tuần tra cuối tháng 9 lớp 10A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2022
-    (12, 3, 12, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (12, 3, 12, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (12, 3, 12, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (12, 3, 12, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2022
-    (13, 3, 13, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (13, 3, 13, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (13, 3, 13, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (13, 3, 13, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2022
-    (14, 3, 14, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (14, 3, 14, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (14, 3, 14, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (14, 3, 14, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2022
-    (15, 3, 15, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (15, 3, 15, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (15, 3, 15, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (15, 3, 15, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2022
-    (16, 3, 16, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (16, 3, 16, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (16, 3, 16, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (16, 3, 16, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2022
-    (17, 3, 17, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (17, 3, 17, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (17, 3, 17, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (17, 3, 17, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2022
-    (18, 3, 18, N'Lịch tuần tra đầu tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (18, 3, 18, N'Lịch tuần tra cuối tháng 9', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (18, 3, 18, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (18, 3, 18, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2023
-    (19, 33, 19, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (19, 33, 19, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (19, 33, 19, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (19, 33, 19, N'Lịch tuần tra cuối tháng 9 lớp 10A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2023
-    (20, 33, 20, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (20, 33, 20, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (20, 33, 20, N'Lịch tuần tra đầu tháng 9 lớp 10A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (20, 33, 20, N'Lịch tuần tra cuối tháng 9 lớp 10A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2023
-    (21, 33, 21, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (21, 33, 21, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (21, 33, 21, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (21, 33, 21, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2023
-    (22, 33, 22, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (22, 33, 22, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (22, 33, 22, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (22, 33, 22, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2023
-    (23, 33, 23, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (23, 33, 23, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (23, 33, 23, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (23, 33, 23, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2023
-    (24, 33, 24, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (24, 33, 24, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (24, 33, 24, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (24, 33, 24, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2023
-    (25, 33, 25, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (25, 33, 25, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (25, 33, 25, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (25, 33, 25, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2023
-    (26, 33, 26, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (26, 33, 26, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (26, 33, 26, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (26, 33, 26, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A3 năm học 2023
-    (27, 33, 27, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (27, 33, 27, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (27, 33, 27, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (27, 33, 27, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2024
-    (28, 33, 28, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (28, 33, 28, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (28, 33, 28, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (28, 33, 28, N'Lịch tuần tra cuối tháng 9 lớp 10A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2024
-    (29, 33, 29, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (29, 33, 29, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (29, 33, 29, N'Lịch tuần tra đầu tháng 9 lớp 10A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (29, 33, 29, N'Lịch tuần tra cuối tháng 9 lớp 10A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2024
-    (30, 33, 30, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (30, 33, 30, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (30, 33, 30, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (30, 33, 30, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2024
-    (31, 33, 31, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (31, 33, 31, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (31, 33, 31, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (31, 33, 31, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2024
-    (32, 33, 32, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (32, 33, 32, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (32, 33, 32, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (32, 33, 32, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2024
-    (33, 33, 33, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (33, 33, 33, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (33, 33, 33, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (33, 33, 33, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2024
-    (34, 33, 34, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (34, 33, 34, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (34, 33, 34, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (34, 33, 34, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2024
-    (35, 33, 35, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (35, 33, 35, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (35, 33, 35, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (35, 33, 35, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A3 năm học 2024
-    (36, 33, 36, N'Lịch tuần tra đầu tháng 9', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (36, 33, 36, N'Lịch tuần tra cuối tháng 9', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING');
+    (36, 33, 36, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (36, 33, 36, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING');
 
 
 
@@ -1637,99 +1637,52 @@ VALUES
 
 
 -- Chèn 12 bản ghi mẫu vào bảng Evaluation
-INSERT INTO [SchoolRules].[dbo].[Evaluation] ([SchoolYearID], [ViolationConfigID], [Description], [From], [To], [Point])
+INSERT INTO [SchoolRules].[dbo].[Evaluation] ([ClassID], [Description], [From], [To], [Points], [Status])
 VALUES
 -- Class 1 Evaluations
-(1, 17, N'Nói chuyện riêng', '2021-09-01', '2022-06-30', -5),
-(1, 24, N'Ngôn ngữ không phù hợp', '2021-09-01', '2022-06-30', -30),
-(1, 4, N'Không tuân theo chỉ dẫn', '2021-09-01', '2022-06-30', -10),
-(1, 1, N'Nghỉ học không phép', '2021-09-01', '2022-06-30', -5),
-(1, 2, N'Đi học trễ', '2021-09-01', '2022-06-30', -5),
-(1, 3, N'Bỏ tiết/trốn tiết', '2021-09-01', '2022-06-30', -10),
-(1, 43, N'Mặc không đúng quy định', '2021-09-01', '2022-06-30', -10),
-(1, 45, N'Phụ kiện không phù hợp', '2021-09-01', '2022-06-30', -10),
-(1, 23, N'Quay cóp', '2021-09-01', '2022-06-30', -30),
-(1, 22, N'Đạo văn', '2021-09-01', '2022-06-30', -20),
+(1, N'Điểm thi đua tháng 9', '2021-09-01', '2021-09-30', 80, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 10', '2021-10-01', '2021-10-31', 70, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 11', '2021-11-01', '2021-11-30', 60, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 12', '2021-12-01', '2021-12-31', 90, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 1', '2022-01-01', '2022-01-31', 70, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 2', '2022-02-01', '2022-02-28', 85, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 3', '2022-03-01', '2022-03-31', 75, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 4', '2022-04-01', '2022-04-30', 80, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 5', '2022-05-01', '2022-05-31', 50, 'ACTIVE'),
+(1, N'Điểm thi đua tháng 6', '2022-06-01', '2022-06-30', 100, 'ACTIVE'),
 
 -- Class 2 Evaluations
-(2, 17, N'Nói chuyện riêng', '2021-09-01', '2022-06-30', -5),
-(2, 24, N'Ngôn ngữ không phù hợp', '2021-09-01','2022-06-30', -30),
-(2, 4, N'Không tuân theo chỉ dẫn', '2021-09-01', '2022-06-30', -10),
-(2, 1, N'Nghỉ học không phép', '2021-09-01', '2022-06-30', -5),
-(2, 2, N'Đi học trễ', '2021-09-01', '2022-06-30', -5),
-(2, 3, N'Bỏ tiết/trốn tiết', '2021-09-01', '2022-06-30', -10),
-(2, 43, N'Mặc không đúng quy định', '2021-09-01', '2022-06-30', -10),
-(2, 45, N'Phụ kiện không phù hợp', '2021-09-01', '2022-06-30', -10),
-(2, 23, N'Quay cóp', '2021-09-01', '2022-06-30', -30),
-(2, 22, N'Đạo văn', '2021-09-01', '2022-06-30', -20),
+(2, N'Điểm thi đua tháng 9', '2021-09-01', '2021-09-30', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 10', '2021-10-01', '2021-10-31', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 11', '2021-11-01', '2021-11-30', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 12', '2021-12-01', '2021-12-31', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 1', '2022-01-01', '2022-01-31', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 2', '2022-02-01', '2022-02-28', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 3', '2022-03-01', '2022-03-31', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 4', '2022-04-01', '2022-04-30', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 5', '2022-05-01', '2022-05-31', 80, 'ACTIVE'),
+(2, N'Điểm thi đua tháng 6', '2022-06-01', '2022-06-30', 80, 'ACTIVE'),
 
 -- Class 3 Evaluations
-(3, 17, N'Nói chuyện riêng', '2021-09-01', '2022-06-30', -5),
-(3, 24, N'Ngôn ngữ không phù hợp', '2021-09-01', '2022-06-30', -30),
-(3, 4, N'Không tuân theo chỉ dẫn', '2021-09-01', '2022-06-30', -10),
-(3, 1, N'Nghỉ học không phép', '2021-09-01', '2022-06-30', -5),
-(3, 2, N'Đi học trễ', '2021-09-01', '2022-06-30', -5),
-(3, 3, N'Bỏ tiết/trốn tiết', '2021-09-01', '2022-06-30', -10),
-(3, 43, N'Mặc không đúng quy định', '2021-09-01', '2022-06-30', -10),
-(3, 45, N'Phụ kiện không phù hợp', '2021-09-01', '2022-06-30', -10),
-(3, 23, N'Quay cóp', '2021-09-01', '2022-06-30', -30),
-(3, 22, N'Đạo văn', '2021-09-01', '2022-06-30', -20),
+(3, N'Điểm thi đua tháng 9', '2021-09-01', '2021-09-30', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 10', '2021-10-01', '2021-10-31', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 11', '2021-11-01', '2021-11-30', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 12', '2021-12-01', '2021-12-31', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 1', '2022-01-01', '2022-01-31', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 2', '2022-02-01', '2022-02-28', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 3', '2022-03-01', '2022-03-31', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 4', '2022-04-01', '2022-04-30', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 5', '2021-05-01', '2022-05-31', 80, 'ACTIVE'),
+(3, N'Điểm thi đua tháng 6', '2021-06-01', '2022-06-30', 80, 'ACTIVE'),
 
 -- Class 4 Evaluations
-(4, 17, N'Nói chuyện riêng', '2022-09-01', '2023-06-30', -5),
-(4, 24, N'Ngôn ngữ không phù hợp', '2022-09-01', '2023-06-30', -30),
-(4, 4, N'Không tuân theo chỉ dẫn', '2022-09-01', '2023-06-30', -10),
-(4, 1, N'Nghỉ học không phép', '2022-09-01', '2023-06-30', -5),
-(4, 2, N'Đi học trễ', '2022-09-01', '2023-06-30', -5),
-(4, 3, N'Bỏ tiết/trốn tiết', '2022-09-01', '2023-06-30', -10),
-(4, 43, N'Mặc không đúng quy định', '2022-09-01', '2023-06-30', -10),
-(4, 45, N'Phụ kiện không phù hợp', '2022-09-01', '2023-06-30', -10),
-(4, 23, N'Quay cóp', '2022-09-01', '2023-06-30', -30),
-(4, 22, N'Đạo văn', '2022-09-01', '2023-06-30', -20);
-
---Chèn 40 bản ghi mẫu vào bảng EvaluationDetails
-INSERT INTO [SchoolRules].[dbo].[EvaluationDetail] (ClassID, EvaluationID, Status)
-VALUES 
-    (1, 1, 'ACTIVE'),
-    (1, 2, 'ACTIVE'),
-    (1, 3, 'ACTIVE'),
-    (1, 4, 'ACTIVE'),
-    (1, 5, 'ACTIVE'),
-    (1, 6, 'ACTIVE'), 
-    (1, 7, 'ACTIVE'), 
-    (1, 8, 'ACTIVE'), 
-    (1, 9, 'ACTIVE'), 
-    (1, 10, 'ACTIVE'), 
-    (2, 11, 'ACTIVE'), 
-    (2, 12, 'ACTIVE'), 
-    (2, 13, 'ACTIVE'), 
-    (2, 14, 'ACTIVE'), 
-    (2, 15, 'ACTIVE'), 
-    (2, 16, 'ACTIVE'), 
-    (2, 17, 'ACTIVE'), 
-    (2, 18, 'ACTIVE'), 
-    (2, 19, 'ACTIVE'), 
-    (2, 20, 'ACTIVE'), 
-    (3, 21, 'ACTIVE'), 
-    (3, 22, 'ACTIVE'), 
-    (3, 23, 'ACTIVE'), 
-    (3, 24, 'ACTIVE'), 
-    (3, 25, 'ACTIVE'), 
-    (3, 26, 'ACTIVE'), 
-    (3, 27, 'ACTIVE'), 
-    (3, 28, 'ACTIVE'), 
-    (3, 29, 'ACTIVE'), 
-    (3, 30, 'ACTIVE'), 
-    (4, 31, 'ACTIVE'), 
-    (4, 32, 'ACTIVE'), 
-    (4, 33, 'ACTIVE'), 
-    (4, 34, 'ACTIVE'), 
-    (4, 35, 'ACTIVE'), 
-    (4, 36, 'ACTIVE'), 
-    (4, 37, 'ACTIVE'), 
-    (4, 38, 'ACTIVE'), 
-    (4, 39, 'ACTIVE'), 
-    (4, 40, 'ACTIVE');
-
-
-
+(4, N'Điểm thi đua tháng 9', '2022-09-01', '2022-09-30', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 10', '2022-10-01', '2022-10-31', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 11', '2022-11-01', '2022-11-30', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 12', '2022-12-01', '2022-12-31', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 1', '2023-01-01', '2023-01-31', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 2', '2023-02-01', '2023-02-28', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 3', '2023-03-01', '2023-03-31', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 4', '2023-04-01', '2023-04-30', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 5', '2023-05-01', '2023-05-31', 80, 'ACTIVE'),
+(4, N'Điểm thi đua tháng 6', '2023-06-01', '2023-06-30', 80, 'ACTIVE');

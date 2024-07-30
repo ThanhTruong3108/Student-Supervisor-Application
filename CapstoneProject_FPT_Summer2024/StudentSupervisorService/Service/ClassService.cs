@@ -14,5 +14,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ClassResponse>> UpdateClass(ClassUpdateRequest classUpdateRequest);
         Task<DataResponse<ClassResponse>> DeleteClass(int id);
         Task<DataResponse<List<ClassResponse>>> GetClassesBySchoolId(int schoolId);
+        Task<DataResponse<ClassResponse>> GetClassByScheduleId(int scheduleId);
     }
 }

@@ -30,7 +30,6 @@ using StudentSupervisorService.Models.Response.PenaltyResponse;
 using StudentSupervisorService.Models.Response.RegisteredSchoolResponse;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
 using StudentSupervisorService.Models.Response.EvaluationResponse;
-using StudentSupervisorService.Models.Response.EvaluationDetailResponse;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
@@ -71,7 +70,6 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Name));
 
             CreateMap<Evaluation, EvaluationResponse>();
-            CreateMap<EvaluationDetail, EvaluationDetailResponse>();
             CreateMap<StudentInClass, StudentInClassResponse>()
                 .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Student.Code))
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Student.Name))
@@ -167,7 +165,9 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
             CreateMap<RequestOfSupervisorCreateViolation, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
-            CreateMap<RequestOfUpdateViolation, Violation>()
+            CreateMap<RequestOfUpdateViolationForStudentSupervisor, Violation>()
+                .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
+            CreateMap<RequestOfUpdateViolationForSupervisor, Violation>()
                 .ForMember(re => re.Name, act => act.MapFrom(src => src.ViolationName));
 
             CreateMap<ViolationConfig, ViolationConfigResponse>()

@@ -19,8 +19,6 @@ public partial class SchoolYear
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
-    public virtual ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
-
     public virtual HighSchool School { get; set; } = null!;
 
     public virtual ICollection<YearPackage> YearPackages { get; set; } = new List<YearPackage>();

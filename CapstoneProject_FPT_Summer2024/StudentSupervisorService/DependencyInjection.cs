@@ -63,9 +63,6 @@ namespace StudentSupervisorService
             services.AddTransient<IEvaluationRepository, EvaluationRepository>();
             services.AddTransient<EvaluationService, EvaluationImplement>();
 
-            services.AddTransient<IEvaluationDetailRepository, EvaluationDetailRepository>();
-            services.AddTransient<EvaluationDetailService, EvaluationDetailImplement>();
-
             services.AddTransient<IHighSchoolRepository, HighSchoolRepository>();
             services.AddTransient<HighSchoolService, HighSchoolImplement>();
 

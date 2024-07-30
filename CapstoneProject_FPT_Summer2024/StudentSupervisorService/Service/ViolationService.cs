@@ -14,7 +14,8 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfViolation>> ApproveViolation(int id);
         Task<DataResponse<ResponseOfViolation>> RejectViolation(int id);
         Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id);
-        Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfUpdateViolation request);
+        Task<DataResponse<ResponseOfViolation>> UpdateViolationForStudentSupervisor(int id, RequestOfUpdateViolationForStudentSupervisor request);
+        Task<DataResponse<ResponseOfViolation>> UpdateViolationForSupervisor(int id, RequestOfUpdateViolationForSupervisor request);
         Task<DataResponse<List<ResponseOfViolation>>> SearchViolations(
                 int? classId,
                 int? violationTypeId,

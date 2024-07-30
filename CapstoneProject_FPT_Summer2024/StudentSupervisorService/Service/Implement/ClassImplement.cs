@@ -260,5 +260,30 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<ClassResponse>> GetClassByScheduleId(int scheduleId)
+        {
+            var response = new DataResponse<ClassResponse>();
+            try
+            {
+                var classEntity = await _unitOfWork.Class.GetClassByScheduleId(scheduleId);
+                if (classEntity == null)
+                {
+                    response.Message = "Không tìm thấy lớp học cho ScheduleId được chỉ định!";
+                    response.Success = false;
+                    return response;
+                }
+
+                response.Data = _mapper.Map<ClassResponse>(classEntity);
+                response.Message = "Đã tìm thấy lớp học";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

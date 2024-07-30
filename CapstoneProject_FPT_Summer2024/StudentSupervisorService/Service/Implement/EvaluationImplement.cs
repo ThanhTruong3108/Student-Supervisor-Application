@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
 using StudentSupervisorService.Models.Response;
@@ -33,8 +34,8 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 evaluationEntities = sortOrder == "desc"
-                    ? evaluationEntities.OrderByDescending(r => r.From).ToList()
-                    : evaluationEntities.OrderBy(r => r.From).ToList();
+                    ? evaluationEntities.OrderByDescending(r => r.EvaluationId).ToList()
+                    : evaluationEntities.OrderBy(r => r.EvaluationId).ToList();
 
                 response.Data = _mapper.Map<List<EvaluationResponse>>(evaluationEntities);
                 response.Message = "Danh sách các bảng Đánh giá";
@@ -76,41 +77,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<EvaluationResponse>>> SearchEvaluations(int? schoolYearId, int? violationConfigID, string? desciption, DateTime? from, DateTime? to, short? point, string sortOrder)
-        {
-            var response = new DataResponse<List<EvaluationResponse>>();
-
-            try
-            {
-                var evaluationEntities = await _unitOfWork.Evaluation.SearchEvaluations(schoolYearId, violationConfigID ,desciption, from, to, point);
-                if (evaluationEntities is null || evaluationEntities.Count == 0)
-                {
-                    response.Message = "Không có bảng Đánh giá nào phù hợp với tiêu chí tìm kiếm";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        evaluationEntities = evaluationEntities.OrderByDescending(r => r.From).ToList();
-                    }
-                    else
-                    {
-                        evaluationEntities = evaluationEntities.OrderBy(r => r.From).ToList();
-                    }
-                    response.Data = _mapper.Map<List<EvaluationResponse>>(evaluationEntities);
-                    response.Message = "Danh sách bảng Đánh giá";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
         public async Task<DataResponse<EvaluationResponse>> CreateEvaluation(EvaluationCreateRequest request)
         {
             var response = new DataResponse<EvaluationResponse>();
@@ -118,12 +84,12 @@ namespace StudentSupervisorService.Service.Implement
             {
                 var evaluationEntity = new Evaluation
                 {
-                    SchoolYearId = request.SchoolYearId,
-                    ViolationConfigId = request.ViolationConfigId,
+                    ClassId = request.ClassId,
                     Description = request.Description,
                     From = request.From,
                     To = request.To,
-                    Point = request.Point,
+                    Points = request.Points,
+                    Status = EvaluationStatusEnums.ACTIVE.ToString(),
                 };
 
                 var created = await _unitOfWork.Evaluation.CreateEvaluation(evaluationEntity);
@@ -155,12 +121,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                existingEvaluation.SchoolYearId = request.SchoolYearId ?? existingEvaluation.SchoolYearId;
-                existingEvaluation.ViolationConfigId = request.ViolationConfigId ?? existingEvaluation.ViolationConfigId;
+                existingEvaluation.ClassId = request.ClassId ?? existingEvaluation.ClassId;
                 existingEvaluation.Description = request.Description ?? existingEvaluation.Description;
                 existingEvaluation.From = request.From ?? existingEvaluation.From;
                 existingEvaluation.To = request.To ?? existingEvaluation.To;
-                existingEvaluation.Point = request.Point ?? existingEvaluation.Point;
+                existingEvaluation.Points = request.Points ?? existingEvaluation.Points;
 
                 await _unitOfWork.Evaluation.UpdateEvaluation(existingEvaluation);
 

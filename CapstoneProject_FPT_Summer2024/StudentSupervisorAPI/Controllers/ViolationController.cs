@@ -115,13 +115,27 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        // Update violation for student supervisor
         [HttpPut]
-        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolation(int id, [FromForm] RequestOfUpdateViolation request)
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolationForStudentSupervisor(int id, [FromForm] RequestOfUpdateViolationForStudentSupervisor request)
         {
             try
             {
-                var updatedViolation = await _service.UpdateViolation(id, request);
+                var updatedViolation = await _service.UpdateViolationForStudentSupervisor(id, request);
+                return Ok(updatedViolation);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        // Update violation for supervisor
+        [HttpPut("supervisor")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolationForSupervisor(int id, [FromForm] RequestOfUpdateViolationForSupervisor request)
+        {
+            try
+            {
+                var updatedViolation = await _service.UpdateViolationForSupervisor(id, request);
                 return Ok(updatedViolation);
             }
             catch (Exception ex)

@@ -15,7 +15,5 @@ public partial class ViolationConfig
 
     public string Status { get; set; } = null!;
 
-    public virtual ICollection<Evaluation> Evaluations { get; set; } = new List<Evaluation>();
-
     public virtual ViolationType ViolationType { get; set; } = null!;
 }

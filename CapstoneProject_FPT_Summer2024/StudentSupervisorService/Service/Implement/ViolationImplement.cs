@@ -245,6 +245,7 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
+                    UpdatedAt = null,
                     Status = ViolationStatusEnums.PENDING.ToString()
                 };
 
@@ -360,6 +361,7 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
+                    UpdatedAt = null,
                     Status = ViolationStatusEnums.APPROVED.ToString()
                 };
 
@@ -431,7 +433,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ResponseOfViolation>> UpdateViolation(int id, RequestOfUpdateViolation request)
+        public async Task<DataResponse<ResponseOfViolation>> UpdateViolationForStudentSupervisor(int id, RequestOfUpdateViolationForStudentSupervisor request)
         {
             var response = new DataResponse<ResponseOfViolation>();
             try
@@ -445,43 +447,35 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
-                if (classEntity == null || classEntity.SchoolYearId != violation.Class.SchoolYearId || classEntity.ClassGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                // Validate patrol schedule for StudentSupervisor
+                var patrolSchedule = await _unitOfWork.PatrolSchedule.GetPatrolScheduleById(request.ScheduleId);
+                if (patrolSchedule == null)
                 {
-                    response.Message = "Lớp học không thuộc niên khóa hoặc trường được đăng ký.";
+                    response.Message = "Lịch trực không hợp lệ.";
                     response.Success = false;
                     return response;
                 }
 
-                var violationType = await _unitOfWork.ViolationType.GetVioTypeById(request.ViolationTypeId);
-                if (violationType == null || violationType.ViolationGroup.SchoolId != violation.Class.ClassGroup.SchoolId)
+                if (patrolSchedule.ClassId != request.ClassId)
                 {
-                    response.Message = "Loại vi phạm không thuộc trường được đăng ký.";
+                    response.Message = "Lịch trực không thuộc về lớp được chỉ định.";
                     response.Success = false;
                     return response;
                 }
 
-                // Validate the ViolationType status
-                if (violationType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                if (request.Date < patrolSchedule.From || request.Date > patrolSchedule.To)
                 {
-                    response.Message = "Loại vi phạm không còn được thực thi.";
-                    response.Success = false;
-                    return response;
-                }
-
-                // Validate the violation date
-                var schoolYear = await _unitOfWork.SchoolYear.GetSchoolYearById(classEntity.SchoolYearId);
-                if (request.Date < schoolYear.StartDate || request.Date > schoolYear.EndDate)
-                {
-                    response.Message = "Ngày vi phạm không nằm trong khoảng thời gian của niên khóa.";
+                    response.Message = "Thời gian vi phạm không nằm trong lịch trực.";
                     response.Success = false;
                     return response;
                 }
 
                 // Update the violation details
+                violation.UserId = request.UserId;
                 violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
+                violation.ScheduleId = request.ScheduleId;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
@@ -541,6 +535,104 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<ResponseOfViolation>> UpdateViolationForSupervisor(int id, RequestOfUpdateViolationForSupervisor request)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+            try
+            {
+                var violation = _unitOfWork.Violation.GetById(id);
+                if (violation == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không tìm thấy vi phạm!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Store old ViolationTypeId and get old ViolationConfig
+                var oldViolationTypeId = violation.ViolationTypeId;
+                var oldViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(oldViolationTypeId);
+
+                // Update the violation details
+                violation.UserId = request.UserId;
+                violation.ClassId = request.ClassId;
+                violation.ViolationTypeId = request.ViolationTypeId;
+                violation.StudentInClassId = request.StudentInClassId;
+                violation.Name = request.ViolationName;
+                violation.Description = request.Description;
+                violation.Date = request.Date;
+                // update hình ảnh nếu có
+                if (request.Images != null)
+                {
+                    // xóa hình ảnh cũ
+                    foreach (var imageUrl in violation.ImageUrls)
+                    {
+                        var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
+                        if (deleteResult.StatusCode != HttpStatusCode.OK)
+                        {
+                            await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
+                            throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                        }
+                    }
+                    // xóa ảnh cũ của violation
+                    violation.ImageUrls.Clear();
+                    // upload ảnh mới
+                    var first2Images = request.Images.Take(2).ToList(); // just take the first 2 images to upload
+                    foreach (var image in first2Images)
+                    {
+                        // upload ảnh lên Cloudinary
+                        var uploadResult = await _imageUrlService.UploadImage(image);
+                        if (uploadResult.StatusCode == HttpStatusCode.OK)
+                        {
+                            violation.ImageUrls.Add(new ImageUrl
+                            {
+                                ViolationId = violation.ViolationId,
+                                PublicId = uploadResult.PublicId,
+                                Url = uploadResult.SecureUrl.AbsoluteUri,
+                                Name = uploadResult.PublicId,
+                                Description = "Hình ảnh của " + violation.ViolationId + " vi phạm"
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Failed to upload image {image.FileName}");
+                        }
+                    }
+                }
+
+                _unitOfWork.Violation.Update(violation);
+
+                // Cập nhật TotalPoint của Lớp dựa trên sự thay đổi trong ViolationType
+                var newViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(violation.ViolationTypeId);
+                var classEntity = await _unitOfWork.Class.GetClassById(violation.ClassId);
+
+                if (classEntity != null)
+                {
+                    // Điều chỉnh TotalPoint dựa trên sự khác biệt trong MinusPoints
+                    var oldMinusPoints = oldViolationConfig?.MinusPoints ?? 0;
+                    var newMinusPoints = newViolationConfig?.MinusPoints ?? 0;
+
+                    classEntity.TotalPoint += oldMinusPoints - newMinusPoints;
+
+                    _unitOfWork.Class.Update(classEntity);
+                }
+
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Message = "Đã cập nhật vi phạm thành công";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Vi phạm cập nhật không thành công: " + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id)
         {
             var response = new DataResponse<ResponseOfViolation>();
@@ -559,6 +651,15 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Vi phạm đã bị xóa.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // kiểm tra xem Vi phạm đó có ở status pending không
+                if (violation.Status != ViolationStatusEnums.PENDING.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Chỉ những vi phạm đang chờ xử lý mới được xóa";
                     response.Success = false;
                     return response;
                 }

@@ -103,5 +103,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("supervisor/{studentSupervisorId}")]
+        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> GetPatrolSchedulesByStudentSupervisorId(int studentSupervisorId)
+        {
+            try
+            {
+                var patrolSchedules = await patrolScheduleService.GetPatrolSchedulesByStudentSupervisorId(studentSupervisorId);
+                return Ok(patrolSchedules);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

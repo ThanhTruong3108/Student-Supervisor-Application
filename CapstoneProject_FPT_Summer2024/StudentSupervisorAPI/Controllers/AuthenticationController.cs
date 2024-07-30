@@ -47,7 +47,7 @@ namespace StudentSupervisorAPI.Controllers
             }
 
             _loginService.Logout(token);
-            return Ok(new { message = "Logged out successfully." });
+            return Ok(new { message = "Đăng xuất thành công." });
         }
     }
 
