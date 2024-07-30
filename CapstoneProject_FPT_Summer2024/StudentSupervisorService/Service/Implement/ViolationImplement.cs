@@ -549,6 +549,10 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Store old ViolationTypeId and get old ViolationConfig
+                var oldViolationTypeId = violation.ViolationTypeId;
+                var oldViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(oldViolationTypeId);
+
                 // Update the violation details
                 violation.UserId = request.UserId;
                 violation.ClassId = request.ClassId;
@@ -597,6 +601,22 @@ namespace StudentSupervisorService.Service.Implement
                 }
 
                 _unitOfWork.Violation.Update(violation);
+
+                // Cập nhật TotalPoint của Lớp dựa trên sự thay đổi trong ViolationType
+                var newViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(violation.ViolationTypeId);
+                var classEntity = await _unitOfWork.Class.GetClassById(violation.ClassId);
+
+                if (classEntity != null)
+                {
+                    // Điều chỉnh TotalPoint dựa trên sự khác biệt trong MinusPoints
+                    var oldMinusPoints = oldViolationConfig?.MinusPoints ?? 0;
+                    var newMinusPoints = newViolationConfig?.MinusPoints ?? 0;
+
+                    classEntity.TotalPoint += oldMinusPoints - newMinusPoints;
+
+                    _unitOfWork.Class.Update(classEntity);
+                }
+
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
