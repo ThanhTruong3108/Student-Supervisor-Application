@@ -23,5 +23,7 @@ namespace StudentSupervisorService.Service
         Task<bool> IsAnyValidPackageInSpecificYear(int schoolId, int year);
         // lấy jwt userid => lấy schoolid => lấy schoolyearid đang ONGOING theo schoolid và year từ violation
         // => kiếm trong yearpackage bằng schoolyearid xem có package nào VALID ko
+
+        Task<bool> IsHighSchoolDuplicated(int registeredId, string? code, string? name);
     }
 }

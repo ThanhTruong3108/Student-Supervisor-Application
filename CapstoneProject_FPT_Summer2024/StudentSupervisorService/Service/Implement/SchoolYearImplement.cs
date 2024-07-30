@@ -26,9 +26,9 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var existed = await _unitOfWork.SchoolYear.GetSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
+                var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
                 // schoolyear đã tồn tại với trạng thái ONGOING
-                if (existed != null && existed.Status.Equals(SchoolYearStatusEnums.ONGOING.ToString()))
+                if (existed != null)
                 {
                     response.Data = "Empty";
                     response.Message = "Năm học đã tồn tại và đang hoạt động.";
@@ -235,10 +235,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var existed = await _unitOfWork.SchoolYear.GetSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
+                var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
                 // schoolyear đã tồn tại với trạng thái ONGOING
-                if (existed != null && existed.Status.Equals(SchoolYearStatusEnums.ONGOING.ToString()))
+                if (existed != null)
                 {
+                    response.Data = "Empty";
                     response.Message = "Năm học đã tồn tại và đang hoạt động.";
                     response.Success = false;
                     return response;

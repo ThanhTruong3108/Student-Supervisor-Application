@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Azure;
+using Azure.Core;
 using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
 using System;
@@ -40,6 +42,29 @@ namespace StudentSupervisorService.Service.Implement
                     return result;
                 }
                 result = true;
+            } catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync(e.Message);
+            }
+            return result;
+        }
+
+        // kiểm tra HighSchool trùng lặp theo Code và Name
+        public async Task<bool> IsHighSchoolDuplicated(int registeredId, string? code, string? name)
+        {
+            bool result = false;
+            try
+            {
+                var existedRegisterSchool = await _unitOfWork.RegisteredSchool.GetRegisteredSchoolById(registeredId);
+                if (!existedRegisterSchool.School.Code.Equals(code) || !existedRegisterSchool.School.Name.Equals(name))
+                {
+                    var existedSchool = await _unitOfWork.HighSchool.GetHighSchoolByCodeOrName(code, name);
+                    if (existedSchool != null)
+                    {
+                        result = true;
+                        await Console.Out.WriteLineAsync("Code hoặc Name của HighSchool đã tồn tại");
+                    }
+                }
             } catch (Exception e)
             {
                 await Console.Out.WriteLineAsync(e.Message);

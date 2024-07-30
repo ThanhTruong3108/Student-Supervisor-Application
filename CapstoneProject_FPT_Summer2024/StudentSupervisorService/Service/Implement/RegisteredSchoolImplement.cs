@@ -14,11 +14,13 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private ValidationService _validationService;
 
-        public RegisteredSchoolImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        public RegisteredSchoolImplement(IUnitOfWork unitOfWork, IMapper mapper, ValidationService validationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _validationService = validationService;
         }
 
         public async Task<DataResponse<List<RegisteredSchoolResponse>>> GetAllRegisteredSchools(string sortOrder)
@@ -198,8 +200,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
                 // đã tồn tại trường học trong bảng highschool (theo Code & Name)
-                var existedSchool = await _unitOfWork.HighSchool.GetHighSchoolByCodeOrName(request.SchoolCode, request.SchoolName);
-                if (existedSchool != null)
+                var isDuplicated = await _validationService.IsHighSchoolDuplicated(existing.RegisteredId, request.SchoolCode, request.SchoolName);
+                if (isDuplicated)
                 {
                     response.Data = "Empty";
                     response.Message = "Mã trường học hoặc tên trường học đã tồn tại";
