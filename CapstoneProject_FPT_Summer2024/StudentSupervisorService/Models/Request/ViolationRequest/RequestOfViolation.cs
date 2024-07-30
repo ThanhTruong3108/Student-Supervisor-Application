@@ -81,6 +81,7 @@ namespace StudentSupervisorService.Models.Request.ViolationRequest
         public int ViolationTypeId { get; set; }
 
         public int? StudentInClassId { get; set; }
+        public int ScheduleId { get; set; }
 
         public string ViolationName { get; set; } = null!;
         public string? Description { get; set; }

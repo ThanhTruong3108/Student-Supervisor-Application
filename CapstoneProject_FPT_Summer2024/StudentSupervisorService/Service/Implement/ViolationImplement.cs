@@ -482,6 +482,7 @@ namespace StudentSupervisorService.Service.Implement
                 violation.ClassId = request.ClassId;
                 violation.ViolationTypeId = request.ViolationTypeId;
                 violation.StudentInClassId = request.StudentInClassId;
+                violation.ScheduleId = request.ScheduleId;
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
