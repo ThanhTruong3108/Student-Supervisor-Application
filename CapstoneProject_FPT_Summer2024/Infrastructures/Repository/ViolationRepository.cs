@@ -34,6 +34,13 @@ namespace Infrastructures.Repository
             return violations;
         }
 
+        public async Task<Violation> GetByIdWithImages(int id)
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .FirstOrDefaultAsync(v => v.ViolationId == id);
+        }
+
         public async Task<Violation> GetViolationById(int id)
         {
             return _context.Violations

@@ -22,5 +22,16 @@ namespace Infrastructures.Repository
                 .Where(ed => ed.Violation.User.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        // get all image urls by violation id and delete them
+        public async Task DeleteImagesByViolationId(int violationId)
+        {
+            var imageUrls = await _context.ImageUrls
+                .Where(ed => ed.ViolationId == violationId)
+                .ToListAsync();
+
+            _context.ImageUrls.RemoveRange(imageUrls);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -438,7 +438,7 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<ResponseOfViolation>();
             try
             {
-                var violation = _unitOfWork.Violation.GetById(id);
+                var violation = await _unitOfWork.Violation.GetByIdWithImages(id);
                 if (violation == null)
                 {
                     response.Data = "Empty";
@@ -493,7 +493,9 @@ namespace StudentSupervisorService.Service.Implement
                         }
                     }
                     // xóa ảnh cũ của violation
+                    await _unitOfWork.ImageUrl.DeleteImagesByViolationId(violation.ViolationId);
                     violation.ImageUrls.Clear();
+
                     // upload ảnh mới
                     var first2Images = request.Images.Take(2).ToList(); // just take the first 2 images to upload
                     foreach (var image in first2Images)
@@ -575,7 +577,9 @@ namespace StudentSupervisorService.Service.Implement
                         }
                     }
                     // xóa ảnh cũ của violation
+                    await _unitOfWork.ImageUrl.DeleteImagesByViolationId(violation.ViolationId);
                     violation.ImageUrls.Clear();
+
                     // upload ảnh mới
                     var first2Images = request.Images.Take(2).ToList(); // just take the first 2 images to upload
                     foreach (var image in first2Images)

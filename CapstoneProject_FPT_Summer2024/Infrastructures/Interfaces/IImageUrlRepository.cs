@@ -11,6 +11,6 @@ namespace Infrastructures.Interfaces
     public interface IImageUrlRepository : IGenericRepository<ImageUrl>
     {
         Task<List<ImageUrl>> GetImageUrlsBySchoolId(int schoolId);
-
+        Task DeleteImagesByViolationId(int violationId);
     }
 }
