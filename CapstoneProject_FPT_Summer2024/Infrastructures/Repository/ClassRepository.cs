@@ -99,5 +99,16 @@ namespace Infrastructures.Repository
                 .Where(v => v.SchoolYear.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task<Class> GetClassByScheduleId(int scheduleId)
+        {
+            return await _context.Classes
+                .Include(c => c.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(c => c.Teacher)
+                    .ThenInclude(t => t.User)
+                .Include(c => c.PatrolSchedules)
+                .FirstOrDefaultAsync(c => c.PatrolSchedules.Any(ps => ps.ScheduleId == scheduleId));
+        }
     }
 }

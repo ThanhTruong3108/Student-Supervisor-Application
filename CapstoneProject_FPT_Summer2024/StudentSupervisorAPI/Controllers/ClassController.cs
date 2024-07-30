@@ -116,5 +116,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("schedule/{scheduleId}")]
+        public async Task<ActionResult<DataResponse<ClassResponse>>> GetClassByScheduleId(int scheduleId)
+        {
+            try
+            {
+                var classResponse = await classService.GetClassByScheduleId(scheduleId);
+                return Ok(classResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
