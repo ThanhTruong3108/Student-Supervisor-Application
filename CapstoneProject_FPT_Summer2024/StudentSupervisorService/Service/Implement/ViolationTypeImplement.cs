@@ -92,12 +92,20 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                var vioConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(vioType.ViolationTypeId);
+                if (vioConfig != null)
+                {
+                    vioConfig.Status = ViolationConfigStatusEnums.INACTIVE.ToString();
+                    _unitOfWork.ViolationConfig.Update(vioConfig);
+                }
+
                 vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
                 _unitOfWork.ViolationType.Update(vioType);
+
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Loại vi phạm đã được xóa thành công.";
+                response.Message = "Loại vi phạm và Cấu hình vi phạm tương ứng đã được xóa thành công.";
                 response.Success = true;
             }
             catch (Exception ex)
@@ -108,6 +116,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
 
         public async Task<DataResponse<List<ResponseOfVioType>>> GetAllVioTypes(string sortOrder)
         {
