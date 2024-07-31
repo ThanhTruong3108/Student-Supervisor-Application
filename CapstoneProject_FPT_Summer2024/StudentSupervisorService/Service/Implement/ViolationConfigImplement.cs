@@ -18,46 +18,6 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DataResponse<ViolationConfigResponse>> CreateViolationConfig(RequestOfViolationConfig request)
-        {
-            var response = new DataResponse<ViolationConfigResponse>();
-
-            try
-            {
-                var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
-                if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
-                {
-                    response.Message = "Không thể tạo Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
-                    response.Success = false;
-                    return response;
-                }
-
-                var existingViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(request.ViolationTypeId);
-                if (existingViolationConfig != null)
-                {
-                    response.Message = "Loại vi phạm này đã có Cấu hình vi phạm.";
-                    response.Success = false;
-                    return response;
-                }
-
-                var createViolationConfig = _mapper.Map<ViolationConfig>(request);
-                createViolationConfig.Status = ViolationConfigStatusEnums.ACTIVE.ToString();
-
-                _unitOfWork.ViolationConfig.Add(createViolationConfig);
-                _unitOfWork.Save();
-
-                response.Data = _mapper.Map<ViolationConfigResponse>(createViolationConfig);
-                response.Message = "Tạo Cấu hình vi phạm thành công.";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Tạo Cấu hình vi phạm thất bại: " + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
 
         public async Task<DataResponse<ViolationConfigResponse>> DeleteViolationConfig(int id)
         {
@@ -199,23 +159,23 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
-                if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
-                {
-                    response.Message = "Không thể cập nhật Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
-                    response.Success = false;
-                    return response;
-                }
+                //var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
+                //if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
+                //{
+                //    response.Message = "Không thể cập nhật Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
+                //    response.Success = false;
+                //    return response;
+                //}
 
-                var existingViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(request.ViolationTypeId);
-                if (existingViolationConfig != null && existingViolationConfig.ViolationConfigId != id)
-                {
-                    response.Message = "Loại vi phạm này đã có Cấu hình vi phạm.";
-                    response.Success = false;
-                    return response;
-                }
+                //var existingViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(request.ViolationTypeId);
+                //if (existingViolationConfig != null && existingViolationConfig.ViolationConfigId != id)
+                //{
+                //    response.Message = "Loại vi phạm này đã có Cấu hình vi phạm.";
+                //    response.Success = false;
+                //    return response;
+                //}
 
-                violation.ViolationTypeId = request.ViolationTypeId;
+                //violation.ViolationTypeId = request.ViolationTypeId;
                 violation.MinusPoints = request.MinusPoints;
                 violation.Description = request.Description;
 
@@ -263,5 +223,45 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        //public async Task<DataResponse<ViolationConfigResponse>> CreateViolationConfig(RequestOfViolationConfig request)
+        //{
+        //    var response = new DataResponse<ViolationConfigResponse>();
+
+        //    try
+        //    {
+        //        var violationType = _unitOfWork.ViolationType.GetById(request.ViolationTypeId);
+        //        if (violationType == null || violationType.Status == ViolationTypeStatusEnums.INACTIVE.ToString())
+        //        {
+        //            response.Message = "Không thể tạo Cấu hình vi phạm vì Loại vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
+        //            response.Success = false;
+        //            return response;
+        //        }
+
+        //        var existingViolationConfig = await _unitOfWork.ViolationConfig.GetConfigByViolationTypeId(request.ViolationTypeId);
+        //        if (existingViolationConfig != null)
+        //        {
+        //            response.Message = "Loại vi phạm này đã có Cấu hình vi phạm.";
+        //            response.Success = false;
+        //            return response;
+        //        }
+
+        //        var createViolationConfig = _mapper.Map<ViolationConfig>(request);
+        //        createViolationConfig.Status = ViolationConfigStatusEnums.ACTIVE.ToString();
+
+        //        _unitOfWork.ViolationConfig.Add(createViolationConfig);
+        //        _unitOfWork.Save();
+
+        //        response.Data = _mapper.Map<ViolationConfigResponse>(createViolationConfig);
+        //        response.Message = "Tạo Cấu hình vi phạm thành công.";
+        //        response.Success = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Message = "Tạo Cấu hình vi phạm thất bại: " + ex.Message
+        //            + (ex.InnerException != null ? ex.InnerException.Message : "");
+        //        response.Success = false;
+        //    }
+        //    return response;
+        //}
     }
 }

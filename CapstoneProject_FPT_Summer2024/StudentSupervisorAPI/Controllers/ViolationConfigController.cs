@@ -46,20 +46,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> CreateViolationConfig(RequestOfViolationConfig request)
-        {
-            try
-            {
-                var createdViolationConfig = await _service.CreateViolationConfig(request);
-                return createdViolationConfig == null ? NotFound() : Ok(createdViolationConfig);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> UpdateViolationConfig(int id, RequestOfViolationConfig request)
         {
