@@ -33,9 +33,9 @@ namespace Infrastructures.Repository
 
         public async Task<ViolationType> GetVioTypeById(int id)
         {
-            return _context.ViolationTypes
+            return await _context.ViolationTypes
                 .Include(v => v.ViolationGroup)
-                .FirstOrDefault(v => v.ViolationTypeId == id);
+                .FirstOrDefaultAsync(v => v.ViolationTypeId == id);
         }
 
         public async Task<List<ViolationType>> SearchVioTypes(int? vioGroupId, string? name)

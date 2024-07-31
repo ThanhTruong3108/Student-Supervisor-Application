@@ -229,6 +229,14 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
+                var vioType = _unitOfWork.ViolationType.GetById(id);
+                if (vioType is null)
+                {
+                    response.Message = "Không thể tìm thấy Loại vi phạm";
+                    response.Success = false;
+                    return response;
+                }
+
                 var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
                 if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
                 {
@@ -237,13 +245,6 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
-                if (vioType is null)
-                {
-                    response.Message = "Không thể tìm thấy Loại vi phạm";
-                    response.Success = false;
-                    return response;
-                }
                 vioType.ViolationGroupId = request.ViolationGroupId;
                 vioType.Name = request.VioTypeName;
                 vioType.Description = request.Description;

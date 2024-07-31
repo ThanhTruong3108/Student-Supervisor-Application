@@ -188,7 +188,9 @@ namespace StudentSupervisorService.Mapper
               .ForMember(re => re.VioGroupName, act => act.MapFrom(src => src.ViolationGroup.Name));
 
             CreateMap<RequestOfVioType, ViolationType>()
-                .ForMember(re => re.Name, act => act.MapFrom(src => src.VioTypeName));
+            .ForMember(dest => dest.ViolationGroupId, act => act.MapFrom(src => src.ViolationGroupId))
+            .ForMember(dest => dest.Name, act => act.MapFrom(src => src.VioTypeName))
+            .ForMember(dest => dest.Description, act => act.MapFrom(src => src.Description));
 
             CreateMap<YearPackage, ResponseOfYearPackage>()
               .ForMember(re => re.Year, act => act.MapFrom(src => src.SchoolYear.Year))
