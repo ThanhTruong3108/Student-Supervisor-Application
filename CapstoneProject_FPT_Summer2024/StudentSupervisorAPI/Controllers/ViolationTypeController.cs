@@ -47,20 +47,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchVioTypes(int? vioGroupId = null, string? name =null, string sortOrder = "asc")
-        {
-            try
-            {
-                var vioTypes = await _service.SearchVioTypes(vioGroupId,  name, sortOrder);
-                return Ok(vioTypes);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfVioType>>> CreateVioType(RequestOfVioType request)
         {
@@ -108,6 +94,20 @@ namespace StudentSupervisorAPI.Controllers
             try
             {
                 var vioTypes = await _service.GetViolationTypesBySchoolId(schoolId);
+                return Ok(vioTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}/active")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioType>>>> GetActiveViolationTypesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var vioTypes = await _service.GetActiveViolationTypesBySchoolId(schoolId);
                 return Ok(vioTypes);
             }
             catch (Exception ex)

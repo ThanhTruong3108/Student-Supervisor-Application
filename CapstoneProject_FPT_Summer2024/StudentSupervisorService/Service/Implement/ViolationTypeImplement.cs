@@ -183,46 +183,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfVioType>>> SearchVioTypes(int? vioGroupId, string? name, string sortOrder)
-        {
-            var response = new DataResponse<List<ResponseOfVioType>>();
-
-            try
-            {
-                var violations = await _unitOfWork.ViolationType.SearchVioTypes(vioGroupId, name);
-                if (violations is null || violations.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Loại vi phạm nào phù hợp với tiêu chí!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    var vioTypeDTO = _mapper.Map<List<ResponseOfVioType>>(violations);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        vioTypeDTO = vioTypeDTO.OrderByDescending(p => p.ViolationTypeId).ToList();
-                    }
-                    else
-                    {
-                        vioTypeDTO = vioTypeDTO.OrderBy(p => p.ViolationTypeId).ToList();
-                    }
-
-                    response.Data = vioTypeDTO;
-                    response.Message = "Đã tìm thấy các loại vi phạm";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ResponseOfVioType>> UpdateVioType(int id, RequestOfVioType request)
         {
             var response = new DataResponse<ResponseOfVioType>();
@@ -263,6 +223,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfVioType>>> GetActiveViolationTypesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfVioType>>();
+            try
+            {
+                var violationTypes = await _unitOfWork.ViolationType.GetActiveViolationTypesBySchoolId(schoolId);
+                if (violationTypes == null || !violationTypes.Any())
+                {
+                    response.Message = "Không tìm thấy Loại vi phạm nào cho SchoolId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationTypeDTOs = _mapper.Map<List<ResponseOfVioType>>(violationTypes);
+                    response.Data = violationTypeDTOs;
+                    response.Message = "Đã tìm thấy các loại vi phạm";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
     }

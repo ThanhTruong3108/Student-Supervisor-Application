@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -38,22 +39,11 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(v => v.ViolationTypeId == id);
         }
 
-        public async Task<List<ViolationType>> SearchVioTypes(int? vioGroupId, string? name)
+        public async Task<List<ViolationType>> GetActiveViolationTypesBySchoolId(int schoolId)
         {
-            var query = _context.ViolationTypes.AsQueryable();
-
-            if (vioGroupId.HasValue)
-            {
-                query = query.Where(p => p.ViolationGroupId == vioGroupId.Value);
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-
-            return await query
+            return await _context.ViolationTypes
                 .Include(v => v.ViolationGroup)
+                .Where(v => v.ViolationGroup.SchoolId == schoolId && v.Status == ViolationTypeStatusEnums.ACTIVE.ToString())
                 .ToListAsync();
         }
     }
