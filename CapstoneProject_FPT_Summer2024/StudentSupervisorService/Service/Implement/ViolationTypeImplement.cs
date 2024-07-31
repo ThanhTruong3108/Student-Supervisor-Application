@@ -189,7 +189,7 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var vioType = _unitOfWork.ViolationType.GetById(id);
+                var vioType = await _unitOfWork.ViolationType.GetVioTypeById(id);
                 if (vioType is null)
                 {
                     response.Message = "Không thể tìm thấy Loại vi phạm";
@@ -205,7 +205,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                vioType.ViolationGroupId = request.ViolationGroupId;
+                vioType.ViolationGroup.ViolationGroupId = request.ViolationGroupId;
                 vioType.Name = request.VioTypeName;
                 vioType.Description = request.Description;
 
