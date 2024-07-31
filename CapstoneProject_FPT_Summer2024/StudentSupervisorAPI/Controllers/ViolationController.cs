@@ -75,6 +75,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         // Create violation for student supervisor
+        [Authorize(Roles = "STUDENT_SUPERVISOR")]
         [HttpPost("student")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForStudentSupervisor([FromForm] RequestOfStuSupervisorCreateViolation request)
         {
@@ -96,6 +97,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         // Create violation for supervisor
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPost("supervisor")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CreateViolationForSupervisor([FromForm] RequestOfSupervisorCreateViolation request)
         {
@@ -115,7 +117,9 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         // Update violation for student supervisor
+        [Authorize(Roles = "STUDENT_SUPERVISOR")]
         [HttpPut]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolationForStudentSupervisor(int id, [FromForm] RequestOfUpdateViolationForStudentSupervisor request)
         {
@@ -129,7 +133,9 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         // Update violation for supervisor
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("supervisor")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolationForSupervisor(int id, [FromForm] RequestOfUpdateViolationForSupervisor request)
         {
@@ -143,6 +149,7 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteViolation(int id)
@@ -158,6 +165,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("{id}/approve")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> ApproveViolation(int id)
         {
@@ -171,6 +179,7 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
 
         [HttpPut("{id}/reject")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> RejectViolation(int id)
