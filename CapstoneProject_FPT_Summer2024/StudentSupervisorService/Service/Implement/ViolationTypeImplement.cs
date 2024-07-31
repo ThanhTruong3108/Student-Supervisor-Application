@@ -43,6 +43,19 @@ namespace StudentSupervisorService.Service.Implement
                 createVioType.Status = ViolationTypeStatusEnums.ACTIVE.ToString();
                 _unitOfWork.ViolationType.Add(createVioType);
                 _unitOfWork.Save();
+
+                // đồng thời tạo ra ViolationConfig tương ứng
+                var violationConfig = new ViolationConfig
+                {
+                    ViolationTypeId = createVioType.ViolationTypeId,
+                    MinusPoints = 0, 
+                    Description = createVioType.Description, 
+                    Status = ViolationConfigStatusEnums.ACTIVE.ToString()
+                };
+                _unitOfWork.ViolationConfig.Add(violationConfig);
+                _unitOfWork.Save();
+
+
                 var created = await _unitOfWork.ViolationType.GetVioTypeById(createVioType.ViolationTypeId);
                 response.Data = _mapper.Map<ResponseOfVioType>(created);
                 response.Message = "Tạo Loại vi phạm thành công.";
