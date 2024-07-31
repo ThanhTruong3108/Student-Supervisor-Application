@@ -5,7 +5,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationConfigRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationConfigResponse;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -185,46 +185,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ViolationConfigResponse>>> SearchViolationConfigs(int? vioTypeId, int? minusPoints, string sortOrder)
-        {
-            var response = new DataResponse<List<ViolationConfigResponse>>();
-
-            try
-            {
-                var violationConfigs = await _unitOfWork.ViolationConfig.SearchViolationConfigs(vioTypeId, minusPoints);
-                if (violationConfigs is null || violationConfigs.Count == 0)
-                {
-                    response.Message = "Không tìm thấy cấu hình vi phạm nào phù hợp với tiêu chí!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    var violationConfigDTO = _mapper.Map<List<ViolationConfigResponse>>(violationConfigs);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        violationConfigDTO = violationConfigDTO.OrderByDescending(p => p.ViolationConfigId).ToList();
-                    }
-                    else
-                    {
-                        violationConfigDTO = violationConfigDTO.OrderBy(p => p.ViolationConfigId).ToList();
-                    }
-
-                    response.Data = violationConfigDTO;
-                    response.Message = "Tìm thấy cấu hình vi phạm";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ViolationConfigResponse>> UpdateViolationConfig(int id, RequestOfViolationConfig request)
         {
             var response = new DataResponse<ViolationConfigResponse>();
@@ -275,5 +235,33 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ViolationConfigResponse>>> GetActiveViolationConfigsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ViolationConfigResponse>>();
+            try
+            {
+                var violationConfigs = await _unitOfWork.ViolationConfig.GetActiveViolationConfigsBySchoolId(schoolId);
+                if (violationConfigs == null || !violationConfigs.Any())
+                {
+                    response.Message = "Không tìm thấy Cấu hình vi phạm nào cho SchoolId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationConfigDTOs = _mapper.Map<List<ViolationConfigResponse>>(violationConfigs);
+                    response.Data = violationConfigDTOs;
+                    response.Message = "Đã tìm thấy danh sách Cấu hình vi phạm";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
     }
 }

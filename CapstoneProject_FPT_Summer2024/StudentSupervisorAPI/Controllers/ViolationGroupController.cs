@@ -18,6 +18,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
+
         [HttpGet]
         public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroups(string sortOrder = "asc")
         {
@@ -46,20 +47,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchVioGroups(int? schoolId = null, string? name = null, string sortOrder = "asc")
-        {
-            try
-            {
-                var vioGroup = await _service.SearchVioGroups(schoolId, name, sortOrder);
-                return Ok(vioGroup);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfVioGroup>>> CreateVioGroup(RequestOfVioGroup request)
         {
@@ -73,6 +60,7 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfVioGroup>>> UpdateVioGroup(int id, RequestOfVioGroup request)
         {
@@ -100,12 +88,27 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("school/{schoolId}")]
         public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetVioGroupsBySchoolId(int schoolId)
         {
             try
             {
                 var vioGroups = await _service.GetVioGroupsBySchoolId(schoolId);
+                return Ok(vioGroups);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}/active")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfVioGroup>>>> GetActiveViolationGroupsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var vioGroups = await _service.GetActiveViolationGroupsBySchoolId(schoolId);
                 return Ok(vioGroups);
             }
             catch (Exception ex)

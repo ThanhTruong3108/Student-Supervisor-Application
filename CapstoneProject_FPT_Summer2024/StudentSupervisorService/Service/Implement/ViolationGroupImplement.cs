@@ -2,7 +2,6 @@
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
-using Infrastructures.Repository.UnitOfWork;
 using StudentSupervisorService.Models.Request.ViolationGroupRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationGroupResponse;
@@ -185,46 +184,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfVioGroup>>> SearchVioGroups(int? schoolId, string? name, string sortOrder)
-        {
-            var response = new DataResponse<List<ResponseOfVioGroup>>();
-
-            try
-            {
-                var vioGroups = await _unitOfWork.ViolationGroup.SearchViolationGroups(schoolId, name);
-                if (vioGroups is null || vioGroups.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Nhóm vi phạm nào phù hợp với tiêu chí!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    var vioGroupDTO = _mapper.Map<List<ResponseOfVioGroup>>(vioGroups);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        vioGroupDTO = vioGroupDTO.OrderByDescending(p => p.ViolationGroupId).ToList();
-                    }
-                    else
-                    {
-                        vioGroupDTO = vioGroupDTO.OrderBy(p => p.ViolationGroupId).ToList();
-                    }
-
-                    response.Data = vioGroupDTO;
-                    response.Message = "Nhóm vi phạm được tìm thấy";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ResponseOfVioGroup>> UpdateVioGroup(int id, RequestOfVioGroup request)
         {
             var response = new DataResponse<ResponseOfVioGroup>();
@@ -266,6 +225,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfVioGroup>>> GetActiveViolationGroupsBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<ResponseOfVioGroup>>();
+            try
+            {
+                var violationGroups = await _unitOfWork.ViolationGroup.GetActiveViolationGroupsBySchoolId(schoolId);
+                if (violationGroups == null || !violationGroups.Any())
+                {
+                    response.Message = "Không tìm thấy Nhóm vi phạm nào cho SchoolId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationGroupDTOs = _mapper.Map<List<ResponseOfVioGroup>>(violationGroups);
+                    response.Data = violationGroupDTOs;
+                    response.Message = "Đã tìm thấy danh sách Nhóm vi phạm";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
     }

@@ -40,29 +40,19 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<ViolationConfig>> SearchViolationConfigs(int? vioTypeId, int? minusPoints)
-        {
-            var query = _context.ViolationConfigs.AsQueryable();
-
-            if (vioTypeId.HasValue)
-            {
-                query = query.Where(p => p.ViolationTypeId == vioTypeId.Value);
-            }
-
-            if (minusPoints.HasValue)
-            {
-                query = query.Where(p => p.MinusPoints == minusPoints.Value);
-            }
-
-            return await query
-                .Include(e => e.ViolationType)
-                .ToListAsync();
-        }
-
         public async Task<ViolationConfig> GetConfigByViolationTypeId(int violationTypeId)
         {
             return await _context.ViolationConfigs
                 .FirstOrDefaultAsync(vc => vc.ViolationTypeId == violationTypeId && vc.Status == ViolationConfigStatusEnums.ACTIVE.ToString());
+        }
+
+        public async Task<List<ViolationConfig>> GetActiveViolationConfigsBySchoolId(int schoolId)
+        {
+            return await _context.ViolationConfigs
+                .Include(e => e.ViolationType)
+                    .ThenInclude(e => e.ViolationGroup)
+                .Where(v => v.ViolationType.ViolationGroup.SchoolId == schoolId && v.Status == ViolationConfigStatusEnums.ACTIVE.ToString())
+                .ToListAsync();
         }
     }
 }

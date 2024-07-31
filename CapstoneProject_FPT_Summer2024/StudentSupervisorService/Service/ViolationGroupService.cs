@@ -11,7 +11,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfVioGroup>> CreateVioGroup(RequestOfVioGroup request);
         Task<DataResponse<ResponseOfVioGroup>> DeleteVioGroup(int id);
         Task<DataResponse<ResponseOfVioGroup>> UpdateVioGroup(int id, RequestOfVioGroup request);
-        Task<DataResponse<List<ResponseOfVioGroup>>> SearchVioGroups(int? schoolId, string? name, string sortOrder);
         Task<DataResponse<List<ResponseOfVioGroup>>> GetVioGroupsBySchoolId(int schoolId);
+        Task<DataResponse<List<ResponseOfVioGroup>>> GetActiveViolationGroupsBySchoolId(int schoolId);
     }
 }

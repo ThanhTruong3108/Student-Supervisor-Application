@@ -17,6 +17,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
+
         [HttpGet]
         public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetViolationConfigs(string sortOrder = "asc")
         {
@@ -45,20 +46,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchViolationConfigs(int? vioTypeId = null, int? minusPoints = null, string sortOrder = "asc")
-        {
-            try
-            {
-                var violationConfigs = await _service.SearchViolationConfigs(vioTypeId, minusPoints, sortOrder);
-                return Ok(violationConfigs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> CreateViolationConfig(RequestOfViolationConfig request)
         {
@@ -72,6 +59,7 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<DataResponse<ViolationConfigResponse>>> UpdateViolationConfig(int id, RequestOfViolationConfig request)
         {
@@ -107,6 +95,20 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var violationConfigs = await _service.GetViolationConfigsBySchoolId(schoolId);
                 return Ok(violationConfigs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("school/{schoolId}/active")]
+        public async Task<ActionResult<DataResponse<List<ViolationConfigResponse>>>> GetActiveViolationConfigsBySchoolId(int schoolId)
+        {
+            try
+            {
+                var vioConfigs = await _service.GetActiveViolationConfigsBySchoolId(schoolId);
+                return Ok(vioConfigs);
             }
             catch (Exception ex)
             {
