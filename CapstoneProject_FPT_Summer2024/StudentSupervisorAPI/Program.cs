@@ -1,4 +1,5 @@
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
+using Coravel;
 using Domain.Enums.Role;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +9,8 @@ using Net.payOS;
 using Newtonsoft.Json;
 using StudentSupervisorAPI.Cofiguration;
 using StudentSupervisorService;
+using StudentSupervisorService.Service;
+using StudentSupervisorService.Service.Implement;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -19,6 +22,7 @@ PayOS payOS = new PayOS(configuration["Environment:PAYOS_CLIENT_ID"] ?? throw ne
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DI Services
+builder.Services.AddScheduler(); // tạo cron job
 builder.Services.AddDIServices(builder.Configuration);
 builder.Services.AddSingleton(payOS);
 builder.Services.AddHttpContextAccessor();
@@ -43,6 +47,13 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 // }
+
+// đặt thời gian chạy cron job
+app.Services.UseScheduler(scheduler =>
+{
+    scheduler.Schedule<ScheduleImplement>().EveryFiveSeconds();
+});
+
 app.UseCors(x => x
           .AllowAnyMethod()
           .AllowAnyHeader()
