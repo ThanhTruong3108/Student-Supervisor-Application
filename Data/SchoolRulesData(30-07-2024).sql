@@ -28,64 +28,69 @@ VALUES
     (2, 1, 'BT001', 'School_AdminBT1', '8412367890', 'password123', N'123 Đường A, Quận B, TP.HCM', 'ACTIVE'),
     (3, 1, 'BT002', 'PrincipalBT1', '8412367891', 'password123', N'456 Đường C, Quận D, TP.HCM', 'ACTIVE'),
     (4, 1, 'BT003', 'SupervisorBT1', '8412367892', 'password123', N'789 Đường E, Quận F, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT004', 'TeacherBT1', '8412367893', 'password123', N'321 Đường G, Quận H, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT005', 'TeacherBT2', '8412367888', 'password123', N'322 Đường A, Quận C, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT006', 'TeacherBT3', '8412367877', 'password123', N'323 Đường B, Quận A, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT007', 'TeacherBT4', '8412367866', 'password123', N'324 Đường M, Quận N, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT008', 'TeacherBT5', '8412367855', 'password123', N'324 Đường I, Quận K, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT009', 'TeacherBT6', '8412367844', 'password123', N'324 Đường E, Quận J, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT0010', 'TeacherBT7', '841267100', 'password123', N'324 Đường A, Quận Y, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT0011', 'TeacherBT8', '840011223', 'password123', N'324 Đường B, Quận O, TP.HCM', 'ACTIVE'),
-    (5, 1, 'BT0012', 'TeacherBT9', '841200161', 'password123', N'324 Đường C, Quận Q, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT013', 'Stu_SupervisorBT1', '8412367894', 'password123', N'654 Đường I, Quận K, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT014', 'Stu_SupervisorBT2', '8417645678', 'password123', N'652 Đường I, Quận P, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT015', 'Stu_SupervisorBT3', '8412367849', 'password123', N'654 Đường I, Quận Q, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT016', 'Stu_SupervisorBT4', '8412382678', 'password123', N'652 Đường I, Quận A, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT017', 'Stu_SupervisorBT5', '8412367472', 'password123', N'654 Đường I, Quận B, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT018', 'Stu_SupervisorBT6', '8416232353', 'password123', N'652 Đường I, Quận C, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT019', 'Stu_SupervisorBT7', '8412324678', 'password123', N'652 Đường I, Quận O, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT020', 'Stu_SupervisorBT8', '8412767472', 'password123', N'654 Đường I, Quận J, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT021', 'Stu_SupervisorBT9', '8416772353', 'password123', N'652 Đường I, Quận O, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT022', 'Stu_SupervisorBT10', '8411824813', 'password123', N'654 Đường J, Quận K, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT023', 'Stu_SupervisorBT11', '8498346346', 'password123', N'652 Đường G, Quận P, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT024', 'Stu_SupervisorBT12', '8463543653', 'password123', N'654 Đường H, Quận Q, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT025', 'Stu_SupervisorBT13', '8412388762', 'password123', N'652 Đường E, Quận A, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT026', 'Stu_SupervisorBT14', '8417283322', 'password123', N'654 Đường T, Quận B, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT027', 'Stu_SupervisorBT15', '8416922222', 'password123', N'652 Đường V, Quận C, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT028', 'Stu_SupervisorBT16', '8417134672', 'password123', N'652 Đường S, Quận O, TP.HCM', 'ACTIVE'),
-	(6, 1, 'BT029', 'Stu_SupervisorBT17', '8493284273', 'password123', N'654 Đường O, Quận J, TP.HCM', 'ACTIVE'),
-    (6, 1, 'BT030', 'Stu_SupervisorBT18', '8413478346', 'password123', N'652 Đường L, Quận O, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT006', 'TeacherBT1', '8412367893', 'password123', N'321 Đường G, Quận H, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT007', 'TeacherBT2', '8412367888', 'password123', N'322 Đường A, Quận C, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT008', 'TeacherBT3', '8412367877', 'password123', N'323 Đường B, Quận A, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT009', 'TeacherBT4', '8412367866', 'password123', N'324 Đường M, Quận N, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT010', 'TeacherBT5', '8412367855', 'password123', N'324 Đường I, Quận K, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT011', 'TeacherBT6', '8412367844', 'password123', N'324 Đường E, Quận J, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT012', 'TeacherBT7', '841267100', 'password123', N'324 Đường A, Quận Y, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT013', 'TeacherBT8', '840011223', 'password123', N'324 Đường B, Quận O, TP.HCM', 'ACTIVE'),
+    (5, 1, 'BT014', 'TeacherBT9', '841200161', 'password123', N'324 Đường C, Quận Q, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT015', 'Stu_SupervisorBT1', '8412367894', 'password123', N'654 Đường I, Quận K, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT016', 'Stu_SupervisorBT2', '8417645678', 'password123', N'652 Đường I, Quận P, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT017', 'Stu_SupervisorBT3', '8412367849', 'password123', N'654 Đường I, Quận Q, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT018', 'Stu_SupervisorBT4', '8412382678', 'password123', N'652 Đường I, Quận A, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT019', 'Stu_SupervisorBT5', '8412367472', 'password123', N'654 Đường I, Quận B, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT020', 'Stu_SupervisorBT6', '8416232353', 'password123', N'652 Đường I, Quận C, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT021', 'Stu_SupervisorBT7', '8412324678', 'password123', N'652 Đường I, Quận O, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT022', 'Stu_SupervisorBT8', '8412767472', 'password123', N'654 Đường I, Quận J, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT023', 'Stu_SupervisorBT9', '8416772353', 'password123', N'652 Đường I, Quận O, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT024', 'Stu_SupervisorBT10', '8411824813', 'password123', N'654 Đường J, Quận K, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT025', 'Stu_SupervisorBT11', '8498346346', 'password123', N'652 Đường G, Quận P, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT026', 'Stu_SupervisorBT12', '8463543653', 'password123', N'654 Đường H, Quận Q, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT027', 'Stu_SupervisorBT13', '8412388762', 'password123', N'652 Đường E, Quận A, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT028', 'Stu_SupervisorBT14', '8417283322', 'password123', N'654 Đường T, Quận B, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT029', 'Stu_SupervisorBT15', '8416922222', 'password123', N'652 Đường V, Quận C, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT030', 'Stu_SupervisorBT16', '8417134672', 'password123', N'652 Đường S, Quận O, TP.HCM', 'ACTIVE'),
+	(6, 1, 'BT031', 'Stu_SupervisorBT17', '8493284273', 'password123', N'654 Đường O, Quận J, TP.HCM', 'ACTIVE'),
+    (6, 1, 'BT032', 'Stu_SupervisorBT18', '8413478346', 'password123', N'652 Đường L, Quận O, TP.HCM', 'ACTIVE'),
 
 	(2, 2, 'BA001', 'School_AdminBA1', '8497654321', 'password123', N'123 Đường A, Quận B, Hà Nội', 'ACTIVE'),
     (3, 2, 'BA002', 'PrincipalBA1', '8498765432', 'password123', N'456 Đường C, Quận D, Hà Nội', 'ACTIVE'),
     (4, 2, 'BA003', 'SupervisorBA1', '8498765431', 'password123', N'789 Đường E, Quận F, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA004', 'TeacherBA1', '8498765433', 'password123', N'321 Đường G, Quận H, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA005', 'TeacherBA2', '8498765434', 'password123', N'322 Đường A, Quận C, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA006', 'TeacherBA3', '8498765435', 'password123', N'323 Đường B, Quận A, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA007', 'TeacherBA4', '8498765436', 'password123', N'324 Đường M, Quận N, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA008', 'TeacherBA5', '8498765437', 'password123', N'324 Đường I, Quận K, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA009', 'TeacherBA6', '8401315438', 'password123', N'324 Đường E, Quận D, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA0010', 'TeacherBA7', '8490997738', 'password123', N'324 Đường O, Quận A, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA0011', 'TeacherBA8', '8498000118', 'password123', N'324 Đường Z, Quận B, Hà Nội', 'ACTIVE'),
-    (5, 2, 'BA0012', 'TeacherBA9', '8492223338', 'password123', N'324 Đường E, Quận J, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA013', 'Stu_SupervisorBA1', '8498765439', 'password123', N'654 Đường I, Quận J, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA014', 'Stu_SupervisorBA2', '8498765440', 'password123', N'652 Đường I, Quận O, Hà Nội', 'ACTIVE'),
-	(6, 2, 'BA015', 'Stu_SupervisorBA3', '8498777777', 'password123', N'654 Đường I, Quận N, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA016', 'Stu_SupervisorBA4', '8496666666', 'password123', N'652 Đường I, Quận M, Hà Nội', 'ACTIVE'),
-	(6, 2, 'BA017', 'Stu_SupervisorBA5', '8498752411', 'password123', N'654 Đường I, Quận A, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA018', 'Stu_SupervisorBA6', '8498216152', 'password123', N'652 Đường I, Quận D, Hà Nội', 'ACTIVE'),
-	(6, 2, 'BA019', 'Stu_SupervisorBA7', '8482527583', 'password123', N'654 Đường I, Quận K, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA020', 'Stu_SupervisorBA8', '8498252892', 'password123', N'652 Đường I, Quận T, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA021', 'Stu_SupervisorBA9', '8483648453', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA022', 'Stu_SupervisorBA10', '8483363663', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA023', 'Stu_SupervisorBA11', '8489819253', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA024', 'Stu_SupervisorBA12', '8488726253', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA025', 'Stu_SupervisorBA13', '8480828222', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA026', 'Stu_SupervisorBA14', '8483111111', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA027', 'Stu_SupervisorBA15', '8498364011', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA028', 'Stu_SupervisorBA16', '8480061363', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA029', 'Stu_SupervisorBA17', '8480238623', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
-    (6, 2, 'BA030', 'Stu_SupervisorBA18', '8482385275', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE');
+    (5, 2, 'BA006', 'TeacherBA1', '8498765433', 'password123', N'321 Đường G, Quận H, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA007', 'TeacherBA2', '8498765434', 'password123', N'322 Đường A, Quận C, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA008', 'TeacherBA3', '8498765435', 'password123', N'323 Đường B, Quận A, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA009', 'TeacherBA4', '8498765436', 'password123', N'324 Đường M, Quận N, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA010', 'TeacherBA5', '8498765437', 'password123', N'324 Đường I, Quận K, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA011', 'TeacherBA6', '8401315438', 'password123', N'324 Đường E, Quận D, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA012', 'TeacherBA7', '8490997738', 'password123', N'324 Đường O, Quận A, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA013', 'TeacherBA8', '8498000118', 'password123', N'324 Đường Z, Quận B, Hà Nội', 'ACTIVE'),
+    (5, 2, 'BA014', 'TeacherBA9', '8492223338', 'password123', N'324 Đường E, Quận J, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA015', 'Stu_SupervisorBA1', '8498765439', 'password123', N'654 Đường I, Quận J, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA016', 'Stu_SupervisorBA2', '8498765440', 'password123', N'652 Đường I, Quận O, Hà Nội', 'ACTIVE'),
+	(6, 2, 'BA017', 'Stu_SupervisorBA3', '8498777777', 'password123', N'654 Đường I, Quận N, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA018', 'Stu_SupervisorBA4', '8496666666', 'password123', N'652 Đường I, Quận M, Hà Nội', 'ACTIVE'),
+	(6, 2, 'BA019', 'Stu_SupervisorBA5', '8498752411', 'password123', N'654 Đường I, Quận A, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA020', 'Stu_SupervisorBA6', '8498216152', 'password123', N'652 Đường I, Quận D, Hà Nội', 'ACTIVE'),
+	(6, 2, 'BA021', 'Stu_SupervisorBA7', '8482527583', 'password123', N'654 Đường I, Quận K, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA022', 'Stu_SupervisorBA8', '8498252892', 'password123', N'652 Đường I, Quận T, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA023', 'Stu_SupervisorBA9', '8483648453', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA024', 'Stu_SupervisorBA10', '8483363663', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA025', 'Stu_SupervisorBA11', '8489819253', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA026', 'Stu_SupervisorBA12', '8488726253', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA027', 'Stu_SupervisorBA13', '8480828222', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA028', 'Stu_SupervisorBA14', '8483111111', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA029', 'Stu_SupervisorBA15', '8498364011', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA030', 'Stu_SupervisorBA16', '8480061363', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA031', 'Stu_SupervisorBA17', '8480238623', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+    (6, 2, 'BA032', 'Stu_SupervisorBA18', '8482385275', 'password123', N'652 Đường I, Quận V, Hà Nội', 'ACTIVE'),
+
+	(4, 1, 'BT004', 'SupervisorBT2', '8410011292', 'password123', N'766 Đường N, Quận A, TP.HCM', 'ACTIVE'),
+	(4, 1, 'BT005', 'SupervisorBT3', '8419151092', 'password123', N'711 Đường F, Quận B, TP.HCM', 'ACTIVE'),
+	(4, 2, 'BA004', 'SupervisorBA2', '8410976257', 'password123', N'122 Đường V, Quận U, Hà Nội', 'ACTIVE'),
+	(4, 2, 'BA005', 'SupervisorBA3', '8400975892', 'password123', N'334 Đường J, Quận Q, Hà Nội', 'ACTIVE');
 
 
 -- Chèn 6 bản ghi mẫu vào bảng Teacher
@@ -111,7 +116,12 @@ VALUES
 (39, 2, 'True'),
 (40, 2, 'False'),
 (41, 2, 'True'),
-(42, 2, 'False');
+(42, 2, 'False'),
+
+(61, 1, 'True'),
+(62, 1, 'True'),
+(63, 2, 'False'),
+(64, 2, 'False');
 
 
 -- Chèn 6 bản ghi mẫu vào bảng StudentSupervisor
@@ -136,24 +146,24 @@ VALUES
 (29, 161, 'Supervisor for StudentInClass 12A2'),
 (30, 171, 'Supervisor for StudentInClass 12A3'),
 
-(43, 181, 'Supervisor for StudentInClass 10A1'),
-(44, 191, 'Supervisor for StudentInClass 10A2'),
-(45, 201, 'Supervisor for StudentInClass 10A3'),
-(46, 211, 'Supervisor for StudentInClass 11A1'),
-(47, 221, 'Supervisor for StudentInClass 11A2'),
-(48, 231, 'Supervisor for StudentInClass 11A3'),
-(49, 241, 'Supervisor for StudentInClass 12A1'),
-(50, 251, 'Supervisor for StudentInClass 12A2'),
-(51, 261, 'Supervisor for StudentInClass 12A3'),
-(52, 271, 'Supervisor for StudentInClass 10A1'),
-(53, 281, 'Supervisor for StudentInClass 10A2'),
-(54, 291, 'Supervisor for StudentInClass 10A3'),
-(55, 301, 'Supervisor for StudentInClass 11A2'),
-(56, 311, 'Supervisor for StudentInClass 11A3'),
-(57, 321, 'Supervisor for StudentInClass 11A3'),
-(58, 331, 'Supervisor for StudentInClass 12A1'),
-(59, 341, 'Supervisor for StudentInClass 12A2'),
-(60, 351, 'Supervisor for StudentInClass 12A3');
+(43, 181, 'Supervisor for StudentInClass 10B1'),
+(44, 191, 'Supervisor for StudentInClass 10B2'),
+(45, 201, 'Supervisor for StudentInClass 10B3'),
+(46, 211, 'Supervisor for StudentInClass 11B1'),
+(47, 221, 'Supervisor for StudentInClass 11B2'),
+(48, 231, 'Supervisor for StudentInClass 11B3'),
+(49, 241, 'Supervisor for StudentInClass 12B1'),
+(50, 251, 'Supervisor for StudentInClass 12B2'),
+(51, 261, 'Supervisor for StudentInClass 12B3'),
+(52, 271, 'Supervisor for StudentInClass 10B1'),
+(53, 281, 'Supervisor for StudentInClass 10B2'),
+(54, 291, 'Supervisor for StudentInClass 10B3'),
+(55, 301, 'Supervisor for StudentInClass 11B2'),
+(56, 311, 'Supervisor for StudentInClass 11B3'),
+(57, 321, 'Supervisor for StudentInClass 11B3'),
+(58, 331, 'Supervisor for StudentInClass 12B1'),
+(59, 341, 'Supervisor for StudentInClass 12B2'),
+(60, 351, 'Supervisor for StudentInClass 12B3');
 
 -- Chèn 4 bản ghi mẫu vào bảng SchoolYear
 INSERT INTO [SchoolRules].[dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
@@ -169,12 +179,12 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [TeacherID], [Status])
 VALUES
     (1, 1, 'ACTIVE'),
-    (1, 1, 'ACTIVE'),
-    (1, 1, 'ACTIVE'),
+    (1, 21, 'ACTIVE'),
+    (1, 22, 'ACTIVE'),
 
 	(2, 11, 'ACTIVE'),
-    (2, 11, 'ACTIVE'),
-    (2, 11, 'ACTIVE');
+    (2, 23, 'ACTIVE'),
+    (2, 24, 'ACTIVE');
 
 
 -- Chèn 20 bản ghi mẫu vào bảng Student
@@ -449,25 +459,25 @@ VALUES
 	(2, 6, 9, 'OBT005', 12, '12A2', 100, 'ACTIVE'),
 	(2, 6, 10, 'OBT006', 12, '12A3', 100, 'ACTIVE'),
 
-	(3, 4, 12, 'TBA001', 10, '10A1', 100, 'ACTIVE'),
-	(3, 4, 13, 'TBA002', 10, '10A2', 100, 'ACTIVE'),
-	(3, 4, 14, 'TBA003', 10, '10A3', 100, 'ACTIVE'),
-	(3, 5, 15, 'EBA001', 11, '11A1', 100, 'ACTIVE'),
-	(3, 5, 16, 'EBA002', 11, '11A2', 100, 'ACTIVE'),
-	(3, 5, 17, 'EBA003', 11, '11A3', 100, 'ACTIVE'),
-	(3, 6, 18, 'OBA001', 12, '12A1', 100, 'ACTIVE'),
-	(3, 6, 19, 'OBA002', 12, '12A1', 100, 'ACTIVE'),
-	(3, 6, 20, 'OBA003', 12, '12A1', 100, 'ACTIVE'),
+	(3, 4, 12, 'TBA001', 10, '10B1', 100, 'ACTIVE'),
+	(3, 4, 13, 'TBA002', 10, '10B2', 100, 'ACTIVE'),
+	(3, 4, 14, 'TBA003', 10, '10B3', 100, 'ACTIVE'),
+	(3, 5, 15, 'EBA001', 11, '11B1', 100, 'ACTIVE'),
+	(3, 5, 16, 'EBA002', 11, '11B2', 100, 'ACTIVE'),
+	(3, 5, 17, 'EBA003', 11, '11B3', 100, 'ACTIVE'),
+	(3, 6, 18, 'OBA001', 12, '12B1', 100, 'ACTIVE'),
+	(3, 6, 19, 'OBA002', 12, '12B1', 100, 'ACTIVE'),
+	(3, 6, 20, 'OBA003', 12, '12B1', 100, 'ACTIVE'),
 
-	(4, 4, 12, 'TBA004', 10, '10A1', 100, 'ACTIVE'),
-	(4, 4, 13, 'TBA005', 10, '10A2', 100, 'ACTIVE'),
-	(4, 4, 14, 'TBA006', 10, '10A3', 100, 'ACTIVE'),
-	(4, 5, 15, 'EBA004', 11, '11A1', 100, 'ACTIVE'),
-	(4, 5, 16, 'EBA005', 11, '11A2', 100, 'ACTIVE'),
-	(4, 5, 17, 'EBA006', 11, '11A3', 100, 'ACTIVE'),
-	(4, 6, 18, 'OBA004', 12, '12A1', 100, 'ACTIVE'),
-	(4, 6, 19, 'OBA005', 12, '12A1', 100, 'ACTIVE'),
-	(4, 6, 20, 'OBA006', 12, '12A1', 100, 'ACTIVE');
+	(4, 4, 12, 'TBA004', 10, '10B1', 100, 'ACTIVE'),
+	(4, 4, 13, 'TBA005', 10, '10B2', 100, 'ACTIVE'),
+	(4, 4, 14, 'TBA006', 10, '10B3', 100, 'ACTIVE'),
+	(4, 5, 15, 'EBA004', 11, '11B1', 100, 'ACTIVE'),
+	(4, 5, 16, 'EBA005', 11, '11B2', 100, 'ACTIVE'),
+	(4, 5, 17, 'EBA006', 11, '11B3', 100, 'ACTIVE'),
+	(4, 6, 18, 'OBA004', 12, '12B1', 100, 'ACTIVE'),
+	(4, 6, 19, 'OBA005', 12, '12B1', 100, 'ACTIVE'),
+	(4, 6, 20, 'OBA006', 12, '12B1', 100, 'ACTIVE');
 
 
 
@@ -980,23 +990,23 @@ VALUES
     (3, 3, 3, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
     (3, 3, 3, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2021
-    (4, 3, 4, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (4, 3, 4, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (4, 61, 4, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (4, 61, 4, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2021
-    (5, 3, 5, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (5, 3, 5, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (5, 61, 5, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (5, 61, 5, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2021
-    (6, 3, 6, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (6, 3, 6, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (6, 61, 6, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (6, 61, 6, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2021
-    (7, 3, 7, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (7, 3, 7, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (7, 62, 7, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (7, 62, 7, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2021
-    (8, 3, 8, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (8, 3, 8, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (8, 62, 8, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (8, 62, 8, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2021
-    (9, 3, 9, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
-    (9, 3, 9, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
+    (9, 62, 9, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-01', '2021-09-15', 'FINISHED'),
+    (9, 62, 9, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2021-09-16', '2021-09-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 10A1 năm học 2022
     (10, 3, 10, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
@@ -1008,23 +1018,23 @@ VALUES
     (12, 3, 12, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
     (12, 3, 12, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2022
-    (13, 3, 13, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (13, 3, 13, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (13, 61, 13, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (13, 61, 13, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2022
-    (14, 3, 14, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (14, 3, 14, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (14, 61, 14, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (14, 61, 14, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2022
-    (15, 3, 15, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (15, 3, 15, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (15, 61, 15, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (15, 61, 15, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2022
-    (16, 3, 16, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (16, 3, 16, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (16, 62, 16, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (16, 62, 16, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2022
-    (17, 3, 17, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (17, 3, 17, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (17, 62, 17, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (17, 62, 17, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2022
-    (18, 3, 18, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
-    (18, 3, 18, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
+    (18, 62, 18, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-15', 'ONGOING'),
+    (18, 62, 18, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:00:00', '2022-09-01', '2022-09-30', 'ONGOING'),
 
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2023
@@ -1037,23 +1047,23 @@ VALUES
     (21, 33, 21, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
     (21, 33, 21, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2023
-    (22, 33, 22, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (22, 33, 22, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (22, 63, 22, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (22, 63, 22, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2023
-    (23, 33, 23, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (23, 33, 23, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (23, 63, 23, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (23, 63, 23, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2023
-    (24, 33, 24, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (24, 33, 24, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (24, 63, 24, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (24, 63, 24, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2023
-    (25, 33, 25, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (25, 33, 25, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (25, 64, 25, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (25, 64, 25, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2023
-    (26, 33, 26, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (26, 33, 26, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (26, 64, 26, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (26, 64, 26, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 	-- Lịch tuần tra cho lớp 12A3 năm học 2023
-    (27, 33, 27, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
-    (27, 33, 27, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
+    (27, 64, 27, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-01', '2023-09-15', 'FINISHED'),
+    (27, 64, 27, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2024
     (28, 33, 28, N'Lịch tuần tra đầu tháng 9 lớp 10A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
@@ -1065,24 +1075,23 @@ VALUES
     (30, 33, 30, N'Lịch tuần tra đầu tháng 9 lớp 10A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
     (30, 33, 30, N'Lịch tuần tra cuối tháng 9 lớp 10A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2024
-    (31, 33, 31, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (31, 33, 31, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (31, 63, 31, N'Lịch tuần tra đầu tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (31, 63, 31, N'Lịch tuần tra cuối tháng 9 lớp 11A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2024
-    (32, 33, 32, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (32, 33, 32, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (32, 63, 32, N'Lịch tuần tra đầu tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (32, 63, 32, N'Lịch tuần tra cuối tháng 9 lớp 11A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2024
-    (33, 33, 33, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (33, 33, 33, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (33, 63, 33, N'Lịch tuần tra đầu tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (33, 63, 33, N'Lịch tuần tra cuối tháng 9 lớp 11A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2024
-    (34, 33, 34, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (34, 33, 34, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (34, 64, 34, N'Lịch tuần tra đầu tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (34, 64, 34, N'Lịch tuần tra cuối tháng 9 lớp 12A1', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2024
-    (35, 33, 35, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (35, 33, 35, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
+    (35, 64, 35, N'Lịch tuần tra đầu tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (35, 64, 35, N'Lịch tuần tra cuối tháng 9 lớp 12A2', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A3 năm học 2024
-    (36, 33, 36, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
-    (36, 33, 36, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING');
-
+    (36, 64, 36, N'Lịch tuần tra đầu tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-01', '2024-09-15', 'ONGOING'),
+    (36, 64, 36, N'Lịch tuần tra cuối tháng 9 lớp 12A3', 1, '7:30:00', '2024-09-16', '2024-09-30', 'ONGOING');
 
 
 -- Chèn 40 bản ghi mẫu vào bảng Violation
