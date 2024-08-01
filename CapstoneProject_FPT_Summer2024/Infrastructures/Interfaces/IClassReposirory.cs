@@ -12,11 +12,11 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Class>> GetAllClasses();
         Task<Class> GetClassById(int id);
-        Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, int? grade, string? name, int? totalPoint);
         Task<Class> CreateClass(Class classEntity);
         Task<Class> UpdateClass(Class classEntity);
         Task DeleteClass(int id);
         Task<List<Class>> GetClasssBySchoolId(int schoolId);
         Task<Class> GetClassByScheduleId(int scheduleId);
+        Task<List<Class>> GetClassesByUserId(int userId);
     }
 }

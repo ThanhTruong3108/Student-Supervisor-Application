@@ -74,40 +74,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ClassResponse>>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, int? grade, string? name, int? totalPoint, string sortOrder)
-        {
-            var response = new DataResponse<List<ClassResponse>>();
-
-            try
-            {
-                var classEntities = await _unitOfWork.Class.SearchClasses(schoolYearId, classGroupId, code, grade, name, totalPoint);
-                if (classEntities is null || classEntities.Count == 0)
-                {
-                    response.Message = "Không có lớp nào phù hợp với tiêu chí tìm kiếm !!";
-                    response.Success = true;
-                } else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        classEntities = classEntities.OrderByDescending(r => r.ClassId).ToList();
-                    } else
-                    {
-                        classEntities = classEntities.OrderBy(r => r.ClassId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
-                    response.Message = "Danh sách lớp học";
-                    response.Success = true;
-                }
-            } catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ClassResponse>> CreateClass(ClassCreateRequest request)
         {
             var response = new DataResponse<ClassResponse>();
@@ -283,6 +249,35 @@ namespace StudentSupervisorService.Service.Implement
                 response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<ClassResponse>>> GetClassesByUserId(int userId)
+        {
+            var response = new DataResponse<List<ClassResponse>>();
+
+            try
+            {
+                var classes = await _unitOfWork.Class.GetClassesByUserId(userId);
+                if (classes == null || !classes.Any())
+                {
+                    response.Message = "Không tìm thấy lớp nào cho UserId được chỉ định !!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var classGroupDTO = _mapper.Map<List<ClassResponse>>(classes);
+                    response.Data = classGroupDTO;
+                    response.Message = "Lớp đã được tìm thấy";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
             return response;
         }
     }

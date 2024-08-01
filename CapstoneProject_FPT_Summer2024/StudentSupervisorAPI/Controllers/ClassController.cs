@@ -44,26 +44,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<ClassResponse>>>> SearchClasses(
-            int? schoolYearId, 
-            int? classGroupId, 
-            string? code, 
-            string? name, 
-            int? grade,
-            int? totalPoint,
-            string? sortOrder)
-        {
-            try
-            {
-                var classesReponse = await classService.SearchClasses(schoolYearId, classGroupId, code, grade, name, totalPoint, sortOrder);
-                return Ok(classesReponse);
-            } catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ClassResponse>>> CreateClass(ClassCreateRequest request)
         {
@@ -129,6 +109,17 @@ namespace StudentSupervisorAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("classes/{userId}")]
+        public async Task<IActionResult> GetClassesByUserId(int userId)
+        {
+            var result = await classService.GetClassesByUserId(userId);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result.Data);
         }
     }
 }

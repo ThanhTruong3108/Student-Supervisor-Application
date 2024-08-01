@@ -34,54 +34,20 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ClassId == id);
         }
 
-        public async Task<List<Class>> SearchClasses(int? schoolYearId, int? classGroupId, string? code, int? grade, string? name, int? totalPoint)
-        {
-            var query = _context.Classes.AsQueryable();
-
-            if (schoolYearId != null)
-            {
-                query = query.Where(p => p.SchoolYearId == schoolYearId);
-            }
-            if (classGroupId != null)
-            {
-                query = query.Where(p => p.ClassGroupId == classGroupId);
-            }
-            if (!string.IsNullOrEmpty(code))
-            {
-                query = query.Where(p => p.Code.Contains(code));
-            }
-            if (grade != null)
-            {
-                query = query.Where(p => p.Grade == grade);
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-            if (totalPoint != null)
-            {
-                query = query.Where(p => p.TotalPoint == totalPoint);
-            }
-
-            return await query
-                .Include(s => s.SchoolYear)
-                .Include(c => c.ClassGroup)
-                .Include(t => t.Teacher)
-                    .ThenInclude(u => u.User)
-                .ToListAsync();
-        }
         public async Task<Class> CreateClass(Class classEntity)
         {
             await _context.Classes.AddAsync(classEntity);
             await _context.SaveChangesAsync();
             return classEntity;
         }
+
         public async Task<Class> UpdateClass(Class classEntity)
         {
             _context.Classes.Update(classEntity);
             await _context.SaveChangesAsync();
             return classEntity;
         }
+
         public async Task DeleteClass(int id)
         {
             var classEntity = await _context.Classes.FindAsync(id);
@@ -109,6 +75,16 @@ namespace Infrastructures.Repository
                     .ThenInclude(t => t.User)
                 .Include(c => c.PatrolSchedules)
                 .FirstOrDefaultAsync(c => c.PatrolSchedules.Any(ps => ps.ScheduleId == scheduleId));
+        }
+
+        public async Task<List<Class>> GetClassesByUserId(int userId)
+        {
+            return await _context.Classes
+                .Include(c => c.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(c => c.Teacher)
+                .Where(c => c.Teacher != null && c.Teacher.UserId == userId)
+                .ToListAsync();
         }
     }
 }
