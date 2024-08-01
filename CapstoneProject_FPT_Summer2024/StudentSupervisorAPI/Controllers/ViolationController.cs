@@ -51,29 +51,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchViolations(
-            int? classId,
-            int? violationTypeId,
-            int? studentInClassId,
-            int? userId,
-            string? name,
-            string? description,
-            DateTime? date,
-            ViolationStatusEnums? status,
-            string sortOrder = "asc")
-        {
-            try
-            {
-                var violations = await _service.SearchViolations(classId, violationTypeId, studentInClassId, userId, name, description, date, status.ToString(), sortOrder);
-                return Ok(violations);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         // Create violation for student supervisor
         [Authorize(Roles = "STUDENT_SUPERVISOR")]
         [HttpPost("student")]
@@ -194,49 +171,6 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("students/{studentCode}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByStudentCode(string studentCode)
-        {
-            try
-            {
-                var violationsResponse = await _service.GetViolationsByStudentCode(studentCode);
-                return Ok(violationsResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("{studentCode}/{year}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByStudentCodeAndYear(string studentCode, short year)
-        {
-            try
-            {
-                var violationsResponse = await _service.GetViolationsByStudentCodeAndYear(studentCode, year);
-                return Ok(violationsResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("count/{studentCode}")]
-        public async Task<ActionResult<DataResponse<Dictionary<int, int>>>> GetViolationCountByYear(string studentCode)
-        {
-            try
-            {
-                var violationCountResponse = await _service.GetViolationCountByYear(studentCode);
-                return Ok(violationCountResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
 
         [HttpGet("school/{schoolId}")]
         public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySchoolId(int schoolId)

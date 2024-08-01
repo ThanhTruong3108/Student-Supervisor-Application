@@ -207,5 +207,96 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+            try
+            {
+                var student = await _unitOfWork.Student.GetStudentByCode(studentCode);
+                if (student == null)
+                {
+                    response.Message = "Học sinh không tìm thấy!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violations = await _unitOfWork.Violation.GetViolationsByStudentId(student.StudentId);
+                response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Message = "Danh sách vi phạm";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+            try
+            {
+                var studentEntity = await _unitOfWork.Student.GetStudentByCode(studentCode);
+                if (studentEntity == null)
+                {
+                    response.Message = "Học sinh không tìm thấy!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Find the SchoolYearId based on the studentCode and Year
+                var schoolYear = await _unitOfWork.SchoolYear.GetYearBySchoolYearId(studentEntity.SchoolId, year);
+                if (schoolYear == null)
+                {
+                    response.Message = $"Năm học {year} của học sinh không tìm thấy!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violations = await _unitOfWork.Violation.GetViolationsByStudentIdAndYear(studentEntity.StudentId, schoolYear.SchoolYearId);
+                response.Data = _mapper.Map<List<ResponseOfViolation>>(violations);
+                response.Message = "Danh sách vi phạm";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode)
+        {
+            var response = new DataResponse<Dictionary<int, int>>();
+            try
+            {
+                var studentEntity = await _unitOfWork.Student.GetStudentByCode(studentCode);
+                if (studentEntity == null)
+                {
+                    response.Message = "Học sinh không tìm thấy!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                var violations = await _unitOfWork.Violation.GetViolationCountByYear(studentEntity.StudentId);
+                response.Data = violations;
+                response.Message = "Số lượng vi phạm theo năm";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
     }
 }

@@ -16,20 +16,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfViolation>> DeleteViolation(int id);
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForStudentSupervisor(int id, RequestOfUpdateViolationForStudentSupervisor request);
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForSupervisor(int id, RequestOfUpdateViolationForSupervisor request);
-        Task<DataResponse<List<ResponseOfViolation>>> SearchViolations(
-                int? classId,
-                int? violationTypeId,
-                int? studentInClassId,
-                int? userId,
-                string? name,
-                string? description,
-                DateTime? date,
-                string? status,
-                string sortOrder);
-
-        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode);
-        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year);
-        Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId);
     }
 }

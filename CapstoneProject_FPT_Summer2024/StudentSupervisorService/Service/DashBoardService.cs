@@ -17,5 +17,8 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ClassViolationSummary>>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null);
         Task<DataResponse<List<StudentViolationCount>>> GetTop5StudentsWithMostViolations(int schoolId, short year);
         Task<DataResponse<List<ClassViolationDetail>>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year);
+        Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode);
     }
 }

@@ -55,63 +55,6 @@ namespace Infrastructures.Repository
                .FirstOrDefault(s => s.ViolationId == id);
         }
 
-        public async Task<List<Violation>> SearchViolations(
-                int? classId,
-                int? violationTypeId,
-                int? studentInClassId,
-                int? userId,
-                string? name,
-                string? description,
-                DateTime? date,
-                string? status)
-        {
-            var query = _context.Violations.AsQueryable();
-
-            if (classId.HasValue)
-            {
-                query = query.Where(p => p.ClassId == classId.Value);
-            }
-            if (violationTypeId.HasValue)
-            {
-                query = query.Where(p => p.ViolationTypeId == violationTypeId.Value);
-            }
-            if (studentInClassId.HasValue)
-            {
-                query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
-            }
-            if (userId.HasValue)
-            {
-                query = query.Where(p => p.UserId == userId.Value);
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-            if (!string.IsNullOrEmpty(description))
-            {
-                query = query.Where(p => p.Description.Contains(description));
-            }
-            if (date.HasValue)
-            {
-                query = query.Where(p => p.Date == date.Value);
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                query = query.Where(p => p.Status.Equals(status));
-            }
-
-            return await query
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.User)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .ToListAsync();
-        }
-
         public async Task<Violation> CreateViolation(Violation violationEntity)
         {
             violationEntity.CreatedAt = DateTime.Now;
