@@ -28,5 +28,6 @@ namespace Infrastructures.Interfaces
         Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null);
         Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year);
         Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<Violation>> GetViolationsByUserId(int userId);
     }
 }

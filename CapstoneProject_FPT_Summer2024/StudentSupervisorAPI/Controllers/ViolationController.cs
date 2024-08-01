@@ -24,7 +24,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetAllViolations(string sortOrder)
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetAllViolations(string sortOrder = "asc")
         {
             try
             {
@@ -183,6 +183,20 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserId(int userId, string sortOrder = "asc")
+        {
+            try
+            {
+                var violations = await _service.GetViolationsByUserId(userId, sortOrder);
+                return Ok(violations);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
             }
         }
     }

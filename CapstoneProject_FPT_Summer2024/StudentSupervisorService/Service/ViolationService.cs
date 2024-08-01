@@ -17,5 +17,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForStudentSupervisor(int id, RequestOfUpdateViolationForStudentSupervisor request);
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForSupervisor(int id, RequestOfUpdateViolationForSupervisor request);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder);
     }
 }

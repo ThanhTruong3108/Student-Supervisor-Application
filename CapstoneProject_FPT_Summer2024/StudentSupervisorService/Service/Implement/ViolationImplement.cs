@@ -843,5 +843,45 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByUserId(userId);
+                if (violations is null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Danh sách vi phạm trống";
+                    response.Success = true;
+                    return response;
+                }
+
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.ViolationId).ToList();
+                }
+                else
+                {
+                    vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
+                }
+
+                response.Data = vioDTO;
+                response.Message = "Danh sách các vi phạm của lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

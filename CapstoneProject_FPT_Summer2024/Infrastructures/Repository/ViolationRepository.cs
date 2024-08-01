@@ -23,6 +23,7 @@ namespace Infrastructures.Repository
             var violations = await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -46,6 +47,7 @@ namespace Infrastructures.Repository
             return _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -86,6 +88,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -102,6 +105,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -117,6 +121,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -134,6 +139,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -184,6 +190,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -218,6 +225,7 @@ namespace Infrastructures.Repository
             return await _context.Violations
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
                 .Include(c => c.ViolationType)
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
@@ -382,6 +390,22 @@ namespace Infrastructures.Repository
                 .ToListAsync();
 
             return violations;
+        }
+
+        public async Task<List<Violation>> GetViolationsByUserId(int userId)
+        {
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Class.Teacher.UserId == userId)
+                .ToListAsync();
         }
 
     }
