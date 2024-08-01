@@ -71,7 +71,8 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Code))
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Name));
 
-            CreateMap<Evaluation, EvaluationResponse>();
+            CreateMap<Evaluation, EvaluationResponse>()
+                .ForMember(re => re.Year, act => act.MapFrom(src => src.Class.SchoolYear.Year));
             CreateMap<StudentInClass, StudentInClassResponse>()
                 .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Student.Code))
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Student.Name))

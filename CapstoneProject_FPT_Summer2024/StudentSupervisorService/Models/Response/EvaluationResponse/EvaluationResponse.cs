@@ -12,6 +12,7 @@ namespace StudentSupervisorService.Models.Response.EvaluationResponse
 
         public int? ClassId { get; set; }
         public string ClassName { get; set; }
+        public short Year { get; set; }
 
         public string? Description { get; set; }
 
