@@ -83,6 +83,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.SchoolYear)
                 .Include(c => c.ClassGroup)
                 .Include(c => c.Teacher)
+                    .ThenInclude(t => t.User)
                 .Where(c => c.Teacher != null && c.Teacher.UserId == userId)
                 .ToListAsync();
         }
