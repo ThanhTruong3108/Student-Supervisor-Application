@@ -19,6 +19,7 @@ namespace Infrastructures.Repository
         {
             return await _context.Evaluations
                 .Include(v => v.Class)
+                    .ThenInclude(s => s.SchoolYear)
                 .ToListAsync();
         }
 
@@ -26,6 +27,7 @@ namespace Infrastructures.Repository
         {
             return await _context.Evaluations
                 .Include(v => v.Class)
+                    .ThenInclude(s => s.SchoolYear)
                 .FirstOrDefaultAsync(x => x.EvaluationId == id);
         }
 
@@ -41,6 +43,15 @@ namespace Infrastructures.Repository
             _context.Evaluations.Update(evaluationEntity);
             await _context.SaveChangesAsync();
             return evaluationEntity;
+        }
+
+        public async Task<List<Evaluation>> GetEvaluationsByClassIdAndDateRange(int classId, DateTime from, DateTime to)
+        {
+            return await _context.Evaluations
+                .Include(v => v.Class)
+                    .ThenInclude(s => s.SchoolYear)
+                .Where(e => e.ClassId == classId && e.From <= to && e.To >= from)
+                .ToListAsync();
         }
 
         public async Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId)

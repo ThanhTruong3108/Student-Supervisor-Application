@@ -82,30 +82,73 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<EvaluationResponse>();
             try
             {
+                // Lấy Lớp học liên quan đến đánh giá
+                var classEntity =  _unitOfWork.Class.GetById(request.ClassId ?? 0);
+                if (classEntity == null)
+                {
+                    response.Message = "Không tìm thấy Lớp";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Lấy Niên khóa liên quan đến lớp học
+                var schoolYear = _unitOfWork.SchoolYear.GetById(classEntity.SchoolYearId);
+                if (schoolYear == null)
+                {
+                    response.Message = "Không tìm thấy niên khóa tương ứng với lớp";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Validate phạm vi ngày đánh giá
+                if (request.From < schoolYear.StartDate || request.To > schoolYear.EndDate)
+                {
+                    response.Message = "Ngày đánh giá nằm ngoài thời gian của Niên khóa";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra xem đánh giá đã tồn tại trong phạm vi ngày đã chỉ định chưa
+                var existingEvaluation = await _unitOfWork.Evaluation.GetEvaluationsByClassIdAndDateRange(
+                    request.ClassId ?? 0, request.From, request.To);
+                if (existingEvaluation.Any())
+                {
+                    response.Message = "Đã có đánh giá trong khoảng thời gian được chỉ định.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Create một Đánh giá mới
                 var evaluationEntity = new Evaluation
                 {
                     ClassId = request.ClassId,
                     Description = request.Description,
                     From = request.From,
                     To = request.To,
-                    Points = request.Points,
+                    Points = classEntity.TotalPoint,
                     Status = EvaluationStatusEnums.ACTIVE.ToString(),
                 };
 
-                var created = await _unitOfWork.Evaluation.CreateEvaluation(evaluationEntity);
+                var createdEvaluation = await _unitOfWork.Evaluation.CreateEvaluation(evaluationEntity);
 
-                response.Data = _mapper.Map<EvaluationResponse>(created);
-                response.Message = "Bảng Đánh giá được tạo thành công !!";
+                // Update TotalPoint của lớp
+                classEntity.TotalPoint = 100;
+                _unitOfWork.Class.Update(classEntity);
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<EvaluationResponse>(createdEvaluation);
+                response.Message = "Evaluation created successfully.";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo bảng Đánh giá không thành công: " + ex.Message
+                response.Message = "Failed to create evaluation: " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
         }
+
 
         public async Task<DataResponse<EvaluationResponse>> UpdateEvaluation(EvaluationUpdateRequest request)
         {

@@ -16,7 +16,7 @@ namespace StudentSupervisorService.Models.Request.EvaluationRequest
 
         public DateTime To { get; set; }
 
-        public int? Points { get; set; }
+        //public int? Points { get; set; }
     }
 
     public class EvaluationUpdateRequest
