@@ -51,7 +51,8 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Class, ClassResponse>()
                 .ForMember(re => re.TeacherName, act => act.MapFrom(src => src.Teacher.User.Name));
 
-            CreateMap<ClassGroup, ClassGroupResponse>();
+            CreateMap<ClassGroup, ClassGroupResponse>()
+                .ForMember(dest => dest.Grade, opt => opt.MapFrom(src => src.Classes.Any() ? src.Classes.Max(c => c.Grade) : 0));
             CreateMap<Student, StudentResponse>();
             CreateMap<RequestOfHighSchool, HighSchool>();
             CreateMap<Penalty, PenaltyResponse>();

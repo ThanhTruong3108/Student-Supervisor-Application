@@ -199,5 +199,35 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ClassGroupResponse>>> GetClassGroupsByUserId(int userId)
+        {
+            var response = new DataResponse<List<ClassGroupResponse>>();
+
+            try
+            {
+                var classGroups = await _unitOfWork.ClassGroup.GetClassGroupsByUserId(userId);
+                if (classGroups == null || !classGroups.Any())
+                {
+                    response.Message = "Không tìm thấy nhóm lớp nào cho UserId được chỉ định !!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var classGroupDTO = _mapper.Map<List<ClassGroupResponse>>(classGroups);
+                    response.Data = classGroupDTO;
+                    response.Message = "Nhóm lớp đã được tìm thấy";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
     }
 }

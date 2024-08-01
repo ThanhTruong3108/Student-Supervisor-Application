@@ -19,6 +19,7 @@ namespace Infrastructures.Repository
         {
             return await _context.ClassGroups
                 .Include(c => c.School)
+                .Include(c => c.Classes)
                 .ToListAsync();
         }
 
@@ -26,6 +27,7 @@ namespace Infrastructures.Repository
         {
             return await _context.ClassGroups
                 .Include(c => c.School)
+                .Include(c => c.Classes)
                 .FirstOrDefaultAsync(x => x.ClassGroupId == id);
         }
 
@@ -54,7 +56,18 @@ namespace Infrastructures.Repository
         {
             return await _context.ClassGroups
                 .Include(c => c.School)
+                .Include(c => c.Classes)
                 .Where(u => u.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
+        public async Task<List<ClassGroup>> GetClassGroupsByUserId(int userId)
+        {
+            return await _context.ClassGroups
+                .Include(c => c.School)
+                .Include(c => c.Classes)
+                .Include(c => c.Teacher)
+                .Where(c => c.Teacher != null && c.Teacher.UserId == userId)
                 .ToListAsync();
         }
     }

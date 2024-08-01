@@ -103,5 +103,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<DataResponse<List<ClassGroupResponse>>>> GetClassGroupsByUserId(int userId)
+        {
+            try
+            {
+                var classGroupsResponse = await classGroupService.GetClassGroupsByUserId(userId);
+                return Ok(classGroupsResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
