@@ -199,5 +199,19 @@ namespace StudentSupervisorAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet("discipline/{disciplineId}")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> GetViolationByDisciplineId(int disciplineId)
+        {
+            try
+            {
+                var violation = await _service.GetViolationByDisciplineId(disciplineId);
+                return Ok(violation);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }

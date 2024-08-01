@@ -883,5 +883,35 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<ResponseOfViolation>> GetViolationByDisciplineId(int disciplineId)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+
+            try
+            {
+                var violation = await _unitOfWork.Violation.GetViolationByDisciplineId(disciplineId);
+                if (violation == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Vi phạm không tồn tại";
+                    response.Success = false;
+                    return response;
+                }
+
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Message = $"ViolationId {violation.ViolationId}";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

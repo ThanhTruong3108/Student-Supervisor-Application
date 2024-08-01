@@ -408,5 +408,22 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        public async Task<Violation> GetViolationByDisciplineId(int disciplineId)
+        {
+            return await _context.Violations
+                .Include(v => v.Disciplines)
+                    .ThenInclude(d => d.Pennalty)
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .FirstOrDefaultAsync(v => v.Disciplines.Any(d => d.DisciplineId == disciplineId));
+        }
+
     }
 }
