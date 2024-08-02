@@ -20,6 +20,7 @@ namespace Infrastructures.Repository
         {
             var yearPackage = await _context.YearPackages
                 .Include(s => s.SchoolYear)
+                    .ThenInclude(h => h.School)
                 .Include(s => s.Package)
                 .ToListAsync();
             return yearPackage;
@@ -29,6 +30,7 @@ namespace Infrastructures.Repository
         {
             return _context.YearPackages
                 .Include(s => s.SchoolYear)
+                    .ThenInclude(h => h.School)
                 .Include(s => s.Package)
                 .FirstOrDefault();
         }
@@ -36,8 +38,9 @@ namespace Infrastructures.Repository
         public async Task<List<YearPackage>> GetYearPackagesBySchoolId(int schoolId)
         {
             return await _context.YearPackages
-                .Include(v => v.Package)
-                .Include(v => v.SchoolYear)
+                .Include(s => s.SchoolYear)
+                    .ThenInclude(h => h.School)
+                .Include(s => s.Package)
                 .Where(v => v.SchoolYear.SchoolId == schoolId)
                 .ToListAsync();
         }
@@ -46,8 +49,9 @@ namespace Infrastructures.Repository
         public async Task<YearPackage> GetValidYearPackageBySchoolYearId(int schoolYearId)
         {
             return await _context.YearPackages
-                .Include(v => v.Package)
-                .Include(v => v.SchoolYear)
+                .Include(s => s.SchoolYear)
+                    .ThenInclude(h => h.School)
+                .Include(s => s.Package)
                 .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
                 .FirstOrDefaultAsync();
         }
@@ -56,8 +60,9 @@ namespace Infrastructures.Repository
         public async Task<List<YearPackage>> GetListValidYearPackageBySchoolYearId(int schoolYearId)
         {
             return await _context.YearPackages
-                .Include(v => v.Package)
-                .Include(v => v.SchoolYear)
+                .Include(s => s.SchoolYear)
+                    .ThenInclude(h => h.School)
+                .Include(s => s.Package)
                 .Where(v => v.SchoolYearId == schoolYearId && v.Status == YearPackageStatusEnums.VALID.ToString())
                 .ToListAsync();
         }
