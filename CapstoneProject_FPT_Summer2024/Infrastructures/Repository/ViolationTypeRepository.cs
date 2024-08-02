@@ -46,5 +46,14 @@ namespace Infrastructures.Repository
                 .Where(v => v.ViolationGroup.SchoolId == schoolId && v.Status == ViolationTypeStatusEnums.ACTIVE.ToString())
                 .ToListAsync();
         }
+
+        public async Task<List<ViolationType>> GetViolationTypesByViolationGroupId(int violationGroupId)
+        {
+            return await _context.ViolationTypes
+                .Include(v => v.ViolationGroup)
+                .Where(v => v.ViolationGroup.ViolationGroupId == violationGroupId)
+                .ToListAsync();
+        }
+
     }
 }

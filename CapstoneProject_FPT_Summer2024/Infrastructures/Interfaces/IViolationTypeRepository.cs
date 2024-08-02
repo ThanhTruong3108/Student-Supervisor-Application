@@ -14,5 +14,6 @@ namespace Infrastructures.Interfaces
         Task<ViolationType> GetVioTypeById(int id);
         Task<List<ViolationType>> GetViolationTypesBySchoolId(int schoolId);
         Task<List<ViolationType>> GetActiveViolationTypesBySchoolId(int schoolId);
+        Task<List<ViolationType>> GetViolationTypesByViolationGroupId(int violationGroupId);
     }
 }
