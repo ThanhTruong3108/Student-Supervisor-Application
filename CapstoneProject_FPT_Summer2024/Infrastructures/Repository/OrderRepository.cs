@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,16 @@ namespace Infrastructures.Repository
                 .Include(s => s.Package)
                 .Include(c => c.User)
                 .Where(x => x.UserId == userId)
+                .ToListAsync();
+        }
+
+        // lấy các PENDING Order mà quá 1 ngày chưa thanh toán
+        public async Task<List<Order>> GetPendingOrdersOver1Day()
+        {
+            DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+            return await _context.Orders
+                .Where(x => x.Status == OrderStatusEnum.PENDING.ToString()
+                       && x.Date < oneDayAgo)
                 .ToListAsync();
         }
         public async Task<List<Order>> SearchOrders(int? userId, int? packageId, int? orderCode, string? description, int? total, int? amountPaid, int? amountRemaining, string? counterAccountBankName, string? counterAccountNumber, string? counterAccountName, DateTime? date, string? status)
@@ -124,9 +135,16 @@ namespace Infrastructures.Repository
             await _context.SaveChangesAsync();
             return orderEntity;
         }
-        public async Task DeleteOrder(int id)
+        public async Task DeleteMultipleOrders(List<Order> orders)
         {
-
+            try
+            {
+                _context.Orders.RemoveRange(orders);
+                await _context.SaveChangesAsync();
+            } catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

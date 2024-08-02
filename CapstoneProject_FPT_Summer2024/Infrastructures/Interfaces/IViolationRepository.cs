@@ -16,6 +16,8 @@ namespace Infrastructures.Interfaces
         Task<Violation> GetViolationById(int id);
         Task<Violation> CreateViolation(Violation violationEntity);
         Task<Violation> UpdateViolation(Violation violationEntity);
+        Task<List<Violation>> GetApprovedViolationsOver1Day();
+        Task AcceptMultipleViolations(List<Violation> violations);
         Task DeleteViolation(int id);
         Task<List<Violation>> GetViolationsByStudentId(int studentId);
         Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId);

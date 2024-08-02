@@ -75,10 +75,40 @@ namespace Infrastructures.Repository
             return violationEntity;
         }
 
+        // lấy các Violation có status = APPROVED và UpdatedAt > 1 ngày
+        public async Task<List<Violation>> GetApprovedViolationsOver1Day()
+        {
+            DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+            return await _context.Violations
+                .Where(v => v.Status == ViolationStatusEnums.APPROVED.ToString()
+                       && v.UpdatedAt < oneDayAgo)
+                .ToListAsync();
+        }
+
+        // tự động ACCEPT các violation sau 1 ngày nếu GVCN ko duyệt
+        public async Task AcceptMultipleViolations(List<Violation> violations)
+        {
+            //try
+            //{
+            //    foreach (var violation in violations)
+            //    {
+            //        violation.Status = ViolationStatusEnums.ACCEPTED.ToString();
+            //        violation.UpdatedAt = DateTime.Now;
+            //        _context.Entry(violation).State = EntityState.Modified;
+            //    }
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("Error in AcceptMultipleViolations: " + e.Message);
+            //}
+        }
+
         public async Task DeleteViolation(int id)
         {
             var violationEntity = await _context.Violations.FindAsync(id);
             violationEntity.Status = ViolationStatusEnums.INACTIVE.ToString();
+            violationEntity.UpdatedAt = DateTime.Now;
             _context.Entry(violationEntity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

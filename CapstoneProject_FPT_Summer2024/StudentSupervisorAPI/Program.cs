@@ -1,14 +1,8 @@
-using CloudinaryDotNet;
-using Domain.Enums.Role;
-using dotenv.net;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+﻿using Coravel;
 using Net.payOS;
-using Newtonsoft.Json;
 using StudentSupervisorAPI.Cofiguration;
 using StudentSupervisorService;
-using System.Text;
+using StudentSupervisorService.Service.Implement;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
@@ -19,6 +13,7 @@ PayOS payOS = new PayOS(configuration["Environment:PAYOS_CLIENT_ID"] ?? throw ne
 var builder = WebApplication.CreateBuilder(args);
 
 // Add DI Services
+builder.Services.AddScheduler(); // tạo cron job
 builder.Services.AddDIServices(builder.Configuration);
 builder.Services.AddSingleton(payOS);
 builder.Services.AddHttpContextAccessor();
@@ -43,6 +38,16 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 // }
+
+// đặt thời gian chạy cron job
+// thiết lập múi giờ ở Việt Nam để chạy cron job
+TimeZoneInfo vietNamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+app.Services.UseScheduler(scheduler =>
+{
+    scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(7).Zoned(vietNamTimeZone); // chạy vào 7h sáng
+    scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(19).Zoned(vietNamTimeZone); // chạy vào 19h tối
+});
+
 app.UseCors(x => x
           .AllowAnyMethod()
           .AllowAnyHeader()

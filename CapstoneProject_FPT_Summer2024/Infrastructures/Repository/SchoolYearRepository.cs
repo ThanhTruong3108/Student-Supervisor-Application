@@ -62,6 +62,24 @@ namespace Infrastructures.Repository
                                     && s.Status == SchoolYearStatusEnums.ONGOING.ToString());
         }
 
+        // lấy các SchoolYear đang ONGOING mà hết năm đó (End_Date quá 1 ngày so với ngày hiện tại)
+        public async Task<List<SchoolYear>> GetOngoingSchoolYearsOver1Day()
+        {
+            DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+            return await _context.SchoolYears
+                .Include(c => c.YearPackages)
+                .Where(x => x.Status == SchoolYearStatusEnums.ONGOING.ToString()
+                                       && x.EndDate < oneDayAgo)
+                .ToListAsync();
+        }
+
+        // update nhiều SchoolYear
+        public async Task UpdateMultipleSchoolYears(List<SchoolYear> schoolYears)
+        {
+            _context.SchoolYears.UpdateRange(schoolYears);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate)
         {
             var query = _context.SchoolYears.AsQueryable();

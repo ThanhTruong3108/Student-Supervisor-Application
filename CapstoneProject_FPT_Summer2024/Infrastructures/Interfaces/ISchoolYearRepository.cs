@@ -14,6 +14,8 @@ namespace Infrastructures.Interfaces
         Task<SchoolYear> GetSchoolYearById(int id);
         Task<SchoolYear> GetSchoolYearBySchoolIdAndYear(int schoolId, int year);
         Task<SchoolYear> GetOngoingSchoolYearBySchoolIdAndYear(int schoolId, int year);
+        Task<List<SchoolYear>> GetOngoingSchoolYearsOver1Day();
+        Task UpdateMultipleSchoolYears(List<SchoolYear> schoolYears);
         Task<List<SchoolYear>> SearchSchoolYears(short? year, DateTime? startDate, DateTime? endDate);
         Task<List<SchoolYear>> GetSchoolYearBySchoolId(int schoolId);
         Task<SchoolYear> GetYearBySchoolYearId(int schoolId, int year);

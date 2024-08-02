@@ -54,12 +54,12 @@ namespace Domain.Enums.Status
 
     public enum ViolationStatusEnums
     {
-        PENDING,
-        APPROVED,
-        REJECTED,
-        DISCUSSING,
-        COMPLETED,
-        INACTIVE,
+        PENDING, //Sao đỏ tạo
+        APPROVED, // Giám thị duyệt
+        REJECTED, // Giám thị từ chối
+        DISCUSSING, // GVCN phản đối
+        COMPLETED, // GVCN chấp nhận
+        INACTIVE, // Violation bị xóa
     }
 
     public enum ViolationTypeStatusEnums

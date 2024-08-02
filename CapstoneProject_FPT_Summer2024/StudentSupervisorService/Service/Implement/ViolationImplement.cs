@@ -194,7 +194,6 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
-                    UpdatedAt = null,
                     Status = ViolationStatusEnums.PENDING.ToString()
                 };
 
@@ -310,7 +309,6 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.ViolationName,
                     Description = request.Description,
                     Date = request.Date,
-                    UpdatedAt = null,
                     Status = ViolationStatusEnums.APPROVED.ToString()
                 };
 
@@ -428,6 +426,7 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
+                violation.UpdatedAt = DateTime.Now;
                 // update hình ảnh nếu có
                 if (request.Images != null)
                 {
@@ -512,6 +511,7 @@ namespace StudentSupervisorService.Service.Implement
                 violation.Name = request.ViolationName;
                 violation.Description = request.Description;
                 violation.Date = request.Date;
+                violation.UpdatedAt = DateTime.Now;
                 // update hình ảnh nếu có
                 if (request.Images != null)
                 {
@@ -617,6 +617,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                violation.UpdatedAt = DateTime.Now;
                 violation.Status = ViolationStatusEnums.INACTIVE.ToString();
                 _unitOfWork.Violation.Update(violation);
                 _unitOfWork.Save();
@@ -692,6 +693,7 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
 
                 // Đồng thời cập nhật lại Status của Violation thành APPROVED
+                violation.UpdatedAt = DateTime.Now;
                 violation.Status = ViolationStatusEnums.APPROVED.ToString();
                 _unitOfWork.Violation.Update(violation);
 
@@ -769,6 +771,7 @@ namespace StudentSupervisorService.Service.Implement
 
                     // Cập nhật Status vi phạm thành REJECTED
                     violation.Status = ViolationStatusEnums.REJECTED.ToString();
+                    violation.UpdatedAt = DateTime.Now;
                     await _unitOfWork.Violation.UpdateViolation(violation);
 
                     // Cập nhật Discipline status thành INACTIVE
