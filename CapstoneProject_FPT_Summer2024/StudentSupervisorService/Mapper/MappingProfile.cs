@@ -67,6 +67,7 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.WebURL, act => act.MapFrom(src => src.School.WebUrl));
 
             CreateMap<Discipline, DisciplineResponse>()
+                .ForMember(re => re.Year, act => act.MapFrom(src => src.Violation.Class.SchoolYear.Year))
                 .ForMember(re => re.PenaltyName, act => act.MapFrom(src => src.Pennalty.Name))
                 .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Code))
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Violation.StudentInClass.Student.Name));

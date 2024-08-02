@@ -18,6 +18,9 @@ namespace Infrastructures.Repository
         public async Task<List<Discipline>> GetAllDisciplines()
         {
             return await _context.Disciplines
+                .Include(d => d.Violation)
+                    .ThenInclude(c => c.Class)
+                        .ThenInclude(y => y.SchoolYear)
                 .Include(v => v.Violation)
                     .ThenInclude(c => c.StudentInClass)
                     .ThenInclude(c => c.Student)
@@ -28,6 +31,9 @@ namespace Infrastructures.Repository
         public async Task<Discipline> GetDisciplineById(int id)
         {
             return await _context.Disciplines
+                .Include(d => d.Violation)
+                    .ThenInclude(c => c.Class)
+                        .ThenInclude(y => y.SchoolYear)
                 .Include(v => v.Violation)
                     .ThenInclude(c => c.StudentInClass)
                     .ThenInclude(c => c.Student)
@@ -60,6 +66,9 @@ namespace Infrastructures.Repository
         public async Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId)
         {
             return await _context.Disciplines
+                .Include(d => d.Violation)
+                    .ThenInclude(c => c.Class)
+                        .ThenInclude(y => y.SchoolYear)
                 .Include(v => v.Violation)
                     .ThenInclude(c => c.StudentInClass)
                     .ThenInclude(c => c.Student)
@@ -71,6 +80,9 @@ namespace Infrastructures.Repository
         public async Task<Discipline> GetDisciplineByViolationId(int violationId)
         {
             return await _context.Disciplines
+                .Include(d => d.Violation)
+                    .ThenInclude(c => c.Class)
+                        .ThenInclude(y => y.SchoolYear)
                 .Include(v => v.Violation)
                     .ThenInclude(c => c.StudentInClass)
                     .ThenInclude(c => c.Student)
@@ -83,6 +95,7 @@ namespace Infrastructures.Repository
             return await _context.Disciplines
                 .Include(d => d.Violation)
                     .ThenInclude(v => v.Class)
+                        .ThenInclude(y => y.SchoolYear)
                 .Include(d => d.Violation)
                     .ThenInclude(v => v.StudentInClass)
                         .ThenInclude(sic => sic.Student) 
