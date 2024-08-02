@@ -51,7 +51,7 @@ namespace Infrastructures.Repository
         {
             return await _context.ViolationTypes
                 .Include(v => v.ViolationGroup)
-                .Where(v => v.ViolationGroup.ViolationGroupId == violationGroupId)
+                .Where(v => v.ViolationGroup.ViolationGroupId == violationGroupId && v.Status == ViolationTypeStatusEnums.ACTIVE.ToString())
                 .ToListAsync();
         }
 
