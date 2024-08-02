@@ -159,6 +159,8 @@ namespace StudentSupervisorService.Mapper
                    src => src.StudentInClass.StudentInClassId))
                .ForMember(dest => dest.StudentName, opt => opt.MapFrom(
                    src => src.StudentInClass.Student.Name))
+               .ForMember(dest => dest.StudentCode, opt => opt.MapFrom(
+                   src => src.StudentInClass.Student.Code))
                .ForMember(dest => dest.ViolationGroupName, opt => opt.MapFrom(
                    src => src.ViolationType.ViolationGroup.Name))
                .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ImageUrls.Select(img => img.Url)));
