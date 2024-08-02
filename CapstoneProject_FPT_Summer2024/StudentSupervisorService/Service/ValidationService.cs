@@ -12,8 +12,7 @@ namespace StudentSupervisorService.Service
         // Batch job: - Xóa các Order đang PENDING quá 1 ngày chưa thanh toán
         //            - Update Status của SchoolYear thành FINISHED khi hết năm đó
         //            - Update Status của YearPackage thành EXPIRED khi hết hạn
-        //            - Update Status của Discipline thành DONE khi EndDate < DateTime.Now
-        //            - Update Status của Violation thành APPROVED khi GVCN ko duyệt sau 1 ngày
+        //            - Update Status của Violation thành ACCEPTED khi GVCN ko duyệt sau 1 ngày
         // 
         // Validate:  - Khi trường tạo SchoolYear mới, sau đó bắt buộc phải đăng ký 1 Package
 

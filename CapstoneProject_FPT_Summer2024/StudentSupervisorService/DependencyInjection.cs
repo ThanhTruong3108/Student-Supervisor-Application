@@ -40,7 +40,7 @@ namespace StudentSupervisorService
             });
 
             //Add DI Container
-            services.AddTransient<ScheduleImplement>();
+            services.AddTransient<DailyScheduleImplement>();
             services.AddTransient<PayOSConfig.PayOSConfig>();
             services.AddTransient<CheckoutService, CheckoutImplement>();
             services.AddTransient<OrderService, OrderImplement>();

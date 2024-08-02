@@ -1,17 +1,8 @@
-﻿using CloudinaryDotNet;
-using Coravel;
-using Domain.Enums.Role;
-using dotenv.net;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+﻿using Coravel;
 using Net.payOS;
-using Newtonsoft.Json;
 using StudentSupervisorAPI.Cofiguration;
 using StudentSupervisorService;
-using StudentSupervisorService.Service;
 using StudentSupervisorService.Service.Implement;
-using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
@@ -49,9 +40,12 @@ var app = builder.Build();
 // }
 
 // đặt thời gian chạy cron job
+// thiết lập múi giờ ở Việt Nam để chạy cron job
+TimeZoneInfo vietNamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
 app.Services.UseScheduler(scheduler =>
 {
-    scheduler.Schedule<ScheduleImplement>().EveryFiveSeconds();
+    scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(7).Zoned(vietNamTimeZone); // chạy vào 7h sáng
+    scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(19).Zoned(vietNamTimeZone); // chạy vào 19h tối
 });
 
 app.UseCors(x => x
