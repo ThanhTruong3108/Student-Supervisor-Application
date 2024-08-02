@@ -81,11 +81,15 @@ namespace Infrastructures.Repository
         public async Task<List<Discipline>> GetDisciplinesByUserId(int userId)
         {
             return await _context.Disciplines
-                .Include(v => v.Violation)
-                    .ThenInclude(c => c.Class)
-                .Include(v => v.Pennalty)
-                .Where(v => v.Violation.Class.Teacher.UserId == userId)
+                .Include(d => d.Violation)
+                    .ThenInclude(v => v.Class)
+                .Include(d => d.Violation)
+                    .ThenInclude(v => v.StudentInClass)
+                        .ThenInclude(sic => sic.Student) 
+                .Include(d => d.Pennalty)
+                .Where(d => d.Violation.Class.Teacher.UserId == userId)
                 .ToListAsync();
         }
+
     }
 }
