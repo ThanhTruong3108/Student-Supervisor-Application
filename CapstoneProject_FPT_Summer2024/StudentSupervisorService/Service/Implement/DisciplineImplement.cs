@@ -292,10 +292,10 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Check if the status is EXECUTING
-                if (discipline.Status != DisciplineStatusEnums.EXECUTING.ToString())
+                // Check if the status is FINALIZED or EXECUTING
+                if (discipline.Status != DisciplineStatusEnums.EXECUTING.ToString() && discipline.Status != DisciplineStatusEnums.FINALIZED.ToString())
                 {
-                    response.Message = "Trạng thái kỷ luật không phải là EXECUTING, không thể chuyển thành DONE !!";
+                    response.Message = "Trạng thái kỷ luật không phải là EXECUTING hoặc FINALIZED, không thể chuyển thành DONE !!";
                     response.Success = false;
                     return response;
                 }
@@ -316,6 +316,66 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<DisciplineResponse>> ComplainDiscipline(int disciplineId)
+        {
+            var response = new DataResponse<DisciplineResponse>();
+
+            try
+            {
+                var discipline = await _unitOfWork.Discipline.GetDisciplineById(disciplineId);
+                if (discipline == null)
+                {
+                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra trạng thái hiện tại
+                if (discipline.Status == DisciplineStatusEnums.COMPLAIN.ToString())
+                {
+                    response.Message = "Kỷ luật đã ở trạng thái COMPLAIN";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the status is EXECUTING
+                if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
+                {
+                    response.Message = "Trạng thái kỷ luật không phải là PENDING, không thể chuyển thành COMPLAIN !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Cập nhật trạng thái thành COMPLAIN
+                _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                discipline.Status = DisciplineStatusEnums.COMPLAIN.ToString();
+                _unitOfWork.Discipline.Update(discipline);
+
+                // Cập nhật trạng thái của Violation tương ứng thành DISCUSSING
+                var violation = await _unitOfWork.Violation.GetViolationByDisciplineId(discipline.DisciplineId);
+                if (violation != null)
+                {
+                    _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
+                    violation.Status = ViolationStatusEnums.DISCUSSING.ToString();
+                    await _unitOfWork.Violation.UpdateViolation(violation);
+                }
+
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<DisciplineResponse>(discipline);
+                response.Message = "Phàn nàn kỷ luật thành công";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Phàn nàn kỷ luật thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
 
         public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesByUserId(int userId, string sortOrder)
         {

@@ -172,6 +172,20 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpPut("{id}/complete")]
+        public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CompleteViolation(int id)
+        {
+            try
+            {
+                var completedViolation = await _service.CompleteViolation(id);
+                return Ok(completedViolation);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("school/{schoolId}")]
         public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySchoolId(int schoolId)
         {

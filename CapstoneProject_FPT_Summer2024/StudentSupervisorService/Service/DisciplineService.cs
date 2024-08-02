@@ -15,6 +15,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySchoolId(int schoolId);
         Task<DataResponse<DisciplineResponse>> ExecutingDiscipline(int disciplineId);
         Task<DataResponse<DisciplineResponse>> DoneDiscipline(int disciplineId);
+        Task<DataResponse<DisciplineResponse>> ComplainDiscipline(int disciplineId);
         Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesByUserId(int userId, string sortOrder);
     }
 }

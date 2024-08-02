@@ -754,8 +754,15 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                // Kiểm tra xem vi phạm hiện có ở trạng thái APPROVED hay không
-                if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
+                if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
+                {
+                    response.Message = "Vi phạm đã ở trạng thái Rejected.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra xem vi phạm hiện có ở trạng thái DISCUSSING hay không
+                if (violation.Status == ViolationStatusEnums.DISCUSSING.ToString())
                 {
                     // Detach the existing violation entity to avoid tracking issues
                     _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
@@ -804,7 +811,7 @@ namespace StudentSupervisorService.Service.Implement
                 }
                 else
                 {
-                    response.Message = "Trạng thái vi phạm đang không phải Approved, Không thể rejected.";
+                    response.Message = "Trạng thái vi phạm đang không phải Discussing, Không thể rejected.";
                     response.Success = false;
                 }
             }
@@ -816,6 +823,66 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<ResponseOfViolation>> CompleteViolation(int violationId)
+        {
+            var response = new DataResponse<ResponseOfViolation>();
+
+            try
+            {
+                var violation = await _unitOfWork.Violation.GetViolationById(violationId);
+                if (violation == null)
+                {
+                    response.Message = "Không thể tìm thấy vi phạm!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (violation.Status == ViolationStatusEnums.COMPLETED.ToString())
+                {
+                    response.Message = "Vi phạm đã ở trạng thái Completed.";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (violation.Status != ViolationStatusEnums.DISCUSSING.ToString())
+                {
+                    response.Message = "Chỉ những vi phạm có trạng thái DISCUSSING mới có thể đổi thành COMPLETED.";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Detach the existing tracked instance of the Violation entity
+                _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
+
+                // Cập nhật trạng thái của Violation thành COMPLETED
+                violation.Status = ViolationStatusEnums.COMPLETED.ToString();
+                _unitOfWork.Violation.Update(violation);
+
+                // Cập nhật trạng thái của Discipline tương ứng thành FINALIZED
+                var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
+                if (discipline != null)
+                {
+                    _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                    discipline.Status = DisciplineStatusEnums.FINALIZED.ToString();
+                    await _unitOfWork.Discipline.UpdateDiscipline(discipline);
+                }
+
+                _unitOfWork.Save();
+
+                response.Data = _mapper.Map<ResponseOfViolation>(violation);
+                response.Success = true;
+                response.Message = "Đã hoàn thành vi phạm thành công.";
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Hoàn thành vi phạm thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
 
         public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId)
         {

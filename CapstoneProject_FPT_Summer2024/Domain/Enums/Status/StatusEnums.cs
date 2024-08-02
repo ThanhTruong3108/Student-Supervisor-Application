@@ -35,6 +35,8 @@ namespace Domain.Enums.Status
         PENDING,
         EXECUTING,
         DONE,
+        COMPLAIN,
+        FINALIZED,
         INACTIVE,
     }
 
@@ -55,6 +57,8 @@ namespace Domain.Enums.Status
         PENDING,
         APPROVED,
         REJECTED,
+        DISCUSSING,
+        COMPLETED,
         INACTIVE,
     }
 

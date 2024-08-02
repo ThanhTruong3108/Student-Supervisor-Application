@@ -131,6 +131,18 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpPut("{id}/complain")]
+        public async Task<ActionResult<DataResponse<DisciplineResponse>>> ComplainDiscipline(int id)
+        {
+            var result = await disciplineService.ComplainDiscipline(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesByUserId(int userId, string sortOrder = "asc")
         {
