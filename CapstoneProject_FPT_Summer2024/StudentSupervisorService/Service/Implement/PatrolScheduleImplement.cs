@@ -213,12 +213,12 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesByStudentSupervisorId(int studentSupervisorId)
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesByUserId(int userId)
         {
             var response = new DataResponse<List<PatrolScheduleResponse>>();
             try
             {
-                var patrolSchedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesByStudentSupervisorId(studentSupervisorId);
+                var patrolSchedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesByUserId(userId);
                 if (patrolSchedules == null || !patrolSchedules.Any())
                 {
                     response.Message = "Không tìm thấy Lịch tuần tra nào cho StudentSupervisorId được chỉ định!!";

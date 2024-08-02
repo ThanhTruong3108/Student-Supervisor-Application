@@ -104,12 +104,12 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("supervisor/{studentSupervisorId}")]
-        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> GetPatrolSchedulesByStudentSupervisorId(int studentSupervisorId)
+        [HttpGet("supervisor/{userId}")]
+        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> GetPatrolSchedulesByUserId(int userId)
         {
             try
             {
-                var patrolSchedules = await patrolScheduleService.GetPatrolSchedulesByStudentSupervisorId(studentSupervisorId);
+                var patrolSchedules = await patrolScheduleService.GetPatrolSchedulesByUserId(userId);
                 return Ok(patrolSchedules);
             }
             catch (Exception ex)

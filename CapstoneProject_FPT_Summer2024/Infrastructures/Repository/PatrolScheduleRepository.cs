@@ -68,13 +68,13 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<PatrolSchedule>> GetPatrolSchedulesByStudentSupervisorId(int studentSupervisorId)
+        public async Task<List<PatrolSchedule>> GetPatrolSchedulesByUserId(int userId)
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
                 .Include(p => p.User)
-                .Where(p => p.Supervisor.StudentSupervisorId == studentSupervisorId)
+                .Where(p => p.Supervisor.UserId == userId)
                 .ToListAsync();
         }
     }
