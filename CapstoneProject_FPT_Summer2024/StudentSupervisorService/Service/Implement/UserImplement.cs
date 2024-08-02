@@ -76,7 +76,7 @@ namespace StudentSupervisorService.Service.Implement
                     var existedSchoolAdmin = await _unitOfWork.User.GetActiveSchoolAdminBySchoolId(request.SchoolId.Value);
                     if (existedSchoolAdmin != null)
                     {
-                        throw new Exception("Trường đã có một tài khoản SchoolAdmin ACTIVE");
+                        throw new Exception("Trường đã tồn tại một tài khoản SchoolAdmin!");
                     }
                 }
 
