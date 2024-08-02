@@ -78,43 +78,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<DisciplineResponse>>> SearchDisciplines(int? violationId, int? penaltyId, string? description, DateTime? startDate, DateTime? endDate, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<DisciplineResponse>>();
-
-            try
-            {
-                var disciplineEntities = await _unitOfWork.Discipline.SearchDisciplines(violationId, penaltyId, description, startDate, endDate, status);
-                if (disciplineEntities is null || disciplineEntities.Count == 0)
-                {
-                    response.Data = "Empty";
-                    response.Message = "Không có Kỷ luật nào phù hợp với tiêu chí tìm kiếm !!";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        disciplineEntities = disciplineEntities.OrderByDescending(r => r.DisciplineId).ToList();
-                    }
-                    else
-                    {
-                        disciplineEntities = disciplineEntities.OrderBy(r => r.DisciplineId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<DisciplineResponse>>(disciplineEntities);
-                    response.Message = "Danh sách Kỷ luật";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
-
         public async Task<DataResponse<DisciplineResponse>> CreateDiscipline(DisciplineCreateRequest request)
         {
             var response = new DataResponse<DisciplineResponse>();
@@ -351,6 +314,46 @@ namespace StudentSupervisorService.Service.Implement
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
+            return response;
+        }
+
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesByUserId(int userId, string sortOrder)
+        {
+            var response = new DataResponse<List<DisciplineResponse>>();
+
+            try
+            {
+                var disciplines = await _unitOfWork.Discipline.GetDisciplinesByUserId(userId);
+                if (disciplines is null || !disciplines.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Danh sách Kỷ luật trống";
+                    response.Success = true;
+                    return response;
+                }
+
+                var disciplineDTO = _mapper.Map<List<DisciplineResponse>>(disciplines);
+                if (sortOrder == "desc")
+                {
+                    disciplineDTO = disciplineDTO.OrderByDescending(r => r.DisciplineId).ToList();
+                }
+                else
+                {
+                    disciplineDTO = disciplineDTO.OrderBy(r => r.DisciplineId).ToList();
+                }
+
+                response.Data = disciplineDTO;
+                response.Message = "Danh sách các Kỷ luật của lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
             return response;
         }
     }
