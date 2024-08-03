@@ -20,7 +20,6 @@ namespace StudentSupervisorService.Models.Request.SchoolYearRequest
         public DateTime StartDate { get; set; }
 
         [Required(ErrorMessage = "The EndDate field is required.")]
-        [YearMustMatch("Year", ErrorMessage = "The year of EndDate must match the Year field.")]
         public DateTime EndDate { get; set; }
     }
 

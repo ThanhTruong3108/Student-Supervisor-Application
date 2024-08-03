@@ -59,7 +59,7 @@ namespace Infrastructures.Repository
                 .Include(c => c.School)
                 .FirstOrDefaultAsync(s => s.SchoolId == schoolId 
                                     && s.Year == year 
-                                    && s.Status == SchoolYearStatusEnums.ONGOING.ToString());
+                                    && s.Status.Equals(SchoolYearStatusEnums.ONGOING.ToString()));
         }
 
         // lấy các SchoolYear đang ONGOING mà hết năm đó (End_Date quá 1 ngày so với ngày hiện tại)

@@ -237,7 +237,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
                 // schoolyear đã tồn tại với trạng thái ONGOING
-                if (existed != null)
+                if (existed != null && existed.SchoolYearId != id)
                 {
                     response.Data = "Empty";
                     response.Message = "Năm học đã tồn tại và đang hoạt động.";
