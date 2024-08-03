@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.ClassRequest;
 using StudentSupervisorService.Models.Response;
@@ -103,7 +104,8 @@ namespace StudentSupervisorService.Service.Implement
                     Code = request.Code,
                     Grade = request.Grade,
                     Name = request.Name,
-                    TotalPoint = request.TotalPoint
+                    TotalPoint = request.TotalPoint,
+                    Status = ClassStatusEnums.ACTIVE.ToString(),
                 };
 
                 var created = await _unitOfWork.Class.CreateClass(classEntity);
