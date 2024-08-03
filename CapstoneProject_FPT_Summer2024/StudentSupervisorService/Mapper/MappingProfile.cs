@@ -166,6 +166,7 @@ namespace StudentSupervisorService.Mapper
                .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.ImageUrls.Select(img => img.Url)));
 
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.Name))
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(src => src.Supervisor.User.Name))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 

@@ -10,6 +10,7 @@ namespace StudentSupervisorService.Models.Response.PatrolScheduleResponse
     {
         public int ScheduleId { get; set; }
         public int ClassId { get; set; }
+        public string ClassName { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public int SupervisorId { get; set; }
