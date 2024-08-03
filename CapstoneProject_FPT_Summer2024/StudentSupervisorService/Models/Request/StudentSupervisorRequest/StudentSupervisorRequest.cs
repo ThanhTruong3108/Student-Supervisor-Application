@@ -25,7 +25,7 @@ namespace StudentSupervisorService.Models.Request.StudentSupervisorRequest
         [Required(ErrorMessage = "The SupervisorName field is required.")]
         public string SupervisorName { get; set; } = null!;
 
-        [RegularExpression(@"^84[0-9]{8,9}$|^[0-9]{8,9}$", ErrorMessage = "The phone number must be 8 or 9 digits, with optional '84' country code prefix.")]
+        [RegularExpression(@"^84[0-9]{8,9}$|^[0-9]{8,9}$", ErrorMessage = "Số điện thoại phải có 8 hoặc 9 chữ số, với mã quốc gia '84' ở phía trước.")]
         [Required(ErrorMessage = "The Phone field is required.")]
         public string Phone { get; set; } = null!;
 

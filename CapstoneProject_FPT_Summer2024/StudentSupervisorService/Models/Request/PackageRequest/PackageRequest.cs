@@ -17,7 +17,7 @@ namespace StudentSupervisorService.Models.Request.PackageRequest
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "The Price field is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Price cannot be negative.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Giá không thể là số âm")]
         public int? Price { get; set; }
 
     }
