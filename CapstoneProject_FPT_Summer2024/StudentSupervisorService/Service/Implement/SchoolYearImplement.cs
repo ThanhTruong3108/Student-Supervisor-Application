@@ -235,15 +235,15 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                //var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
-                //// schoolyear đã tồn tại với trạng thái ONGOING
-                //if (existed != null)
-                //{
-                //    response.Data = "Empty";
-                //    response.Message = "Năm học đã tồn tại và đang hoạt động.";
-                //    response.Success = false;
-                //    return response;
-                //}
+                var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
+                // schoolyear đã tồn tại với trạng thái ONGOING
+                if (existed != null && existed.SchoolYearId != id)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Năm học đã tồn tại và đang hoạt động.";
+                    response.Success = false;
+                    return response;
+                }
 
                 schoolYear.SchoolId = request.SchoolId;
                 schoolYear.Year = request.Year;
