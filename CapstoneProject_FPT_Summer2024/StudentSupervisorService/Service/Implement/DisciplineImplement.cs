@@ -240,6 +240,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Check if the status is already EXECUTING
                 if (discipline.Status == DisciplineStatusEnums.EXECUTING.ToString())
                 {
+                    response.Data = _mapper.Map<DisciplineResponse>(discipline);
                     response.Message = "Kỷ luật đã ở trạng thái EXECUTING";
                     response.Success = false;
                     return response;
@@ -248,6 +249,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Check if the status is PENDING
                 if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
                 {
+                    response.Data = _mapper.Map<DisciplineResponse>(discipline);
                     response.Message = "Trạng thái kỷ luật không phải là PENDING, không thể chuyển thành EXECUTING !!";
                     response.Success = false;
                     return response;
