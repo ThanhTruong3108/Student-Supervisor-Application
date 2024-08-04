@@ -88,10 +88,29 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name).FirstOrDefault();
+                // Kiểm tra niên khóa có tồn tại hay không
+                var schoolYear = _unitOfWork.SchoolYear.GetById(request.SchoolYearId);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên khóa không tồn tại !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra tên lớp đã tồn tại trong niên khóa hay chưa
+                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name && s.SchoolYearId == request.SchoolYearId).FirstOrDefault();
                 if (isExistName != null)
                 {
-                    response.Message = "Tên lớp đã được sử dụng !!";
+                    response.Message = "Tên lớp đã được sử dụng trong niên khóa này !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra giáo viên đã thuộc một lớp trong cùng SchoolYear hay chưa
+                var teacherClass = _unitOfWork.Class.Find(c => c.SchoolYearId == request.SchoolYearId && c.TeacherId == request.TeacherId).FirstOrDefault();
+                if (teacherClass != null)
+                {
+                    response.Message = "Giáo viên đã thuộc một lớp trong niên khóa này rồi !!";
                     response.Success = false;
                     return response;
                 }
@@ -122,12 +141,12 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<ClassResponse>> UpdateClass(ClassUpdateRequest request)
+        public async Task<DataResponse<ClassResponse>> UpdateClass(int id ,ClassUpdateRequest request)
         {
             var response = new DataResponse<ClassResponse>();
             try
             {
-                var existingClass = await _unitOfWork.Class.GetClassById(request.ClassId);
+                var existingClass = _unitOfWork.Class.GetById(id);
                 if (existingClass == null)
                 {
                     response.Data = "Trống";
@@ -136,7 +155,17 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code && s.ClassId != request.ClassId).FirstOrDefault();
+                // Kiểm tra niên khóa có tồn tại hay không
+                var schoolYear = _unitOfWork.SchoolYear.GetById(request.SchoolYearId);
+                if (schoolYear == null)
+                {
+                    response.Message = "Niên khóa không tồn tại !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra mã lớp đã tồn tại hay chưa
+                var isExistCode = _unitOfWork.Class.Find(s => s.Code == request.Code && s.ClassId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
                     response.Message = "Mã lớp đã được sử dụng !!";
@@ -144,10 +173,20 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name && s.ClassId != request.ClassId).FirstOrDefault();
+                // Kiểm tra tên lớp đã tồn tại trong niên khóa hay chưa (ngoại trừ lớp đang cập nhật)
+                var isExistName = _unitOfWork.Class.Find(s => s.Name == request.Name && s.SchoolYearId == request.SchoolYearId && s.ClassId != id).FirstOrDefault();
                 if (isExistName != null)
                 {
-                    response.Message = "Tên lớp đã được sử dụng !!";
+                    response.Message = "Tên lớp đã được sử dụng trong niên khóa này !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra giáo viên đã thuộc một lớp trong cùng SchoolYear hay chưa (ngoại trừ lớp đang cập nhật)
+                var teacherClass = _unitOfWork.Class.Find(c => c.SchoolYearId == request.SchoolYearId && c.TeacherId == request.TeacherId && c.ClassId != id).FirstOrDefault();
+                if (teacherClass != null)
+                {
+                    response.Message = "Giáo viên đã thuộc một lớp trong niên khóa này rồi !!";
                     response.Success = false;
                     return response;
                 }

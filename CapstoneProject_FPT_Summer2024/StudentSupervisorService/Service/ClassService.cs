@@ -10,7 +10,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ClassResponse>>> GetAllClasses(string sortOrder);
         Task<DataResponse<ClassResponse>> GetClassById(int id);
         Task<DataResponse<ClassResponse>> CreateClass(ClassCreateRequest classCreateRequest);
-        Task<DataResponse<ClassResponse>> UpdateClass(ClassUpdateRequest classUpdateRequest);
+        Task<DataResponse<ClassResponse>> UpdateClass(int id, ClassUpdateRequest request);
         Task<DataResponse<ClassResponse>> DeleteClass(int id);
         Task<DataResponse<List<ClassResponse>>> GetClassesBySchoolId(int schoolId);
         Task<DataResponse<ClassResponse>> GetClassByScheduleId(int scheduleId);

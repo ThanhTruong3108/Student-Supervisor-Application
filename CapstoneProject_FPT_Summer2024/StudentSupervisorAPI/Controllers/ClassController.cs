@@ -9,7 +9,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/classes")]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     public class ClassController : ControllerBase
     {
         private readonly ClassService classService;
@@ -58,11 +58,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<DataResponse<ClassResponse>>> UpdateClass(ClassUpdateRequest request)
+        public async Task<ActionResult<DataResponse<ClassResponse>>> UpdateClass(int id, ClassUpdateRequest request)
         {
             try
             {
-                var classResponse = await classService.UpdateClass(request);
+                var classResponse = await classService.UpdateClass(id, request);
                 return Ok(classResponse);
             } catch (Exception ex)
             {

@@ -19,7 +19,7 @@ namespace StudentSupervisorService.Models.Request.ClassRequest
 
     public class ClassUpdateRequest
     {
-        public int ClassId { get; set; }
+      //  public int ClassId { get; set; }
         public int? SchoolYearId { get; set; }
         public int? ClassGroupId { get; set; }
         public int? TeacherId { get; set; }
