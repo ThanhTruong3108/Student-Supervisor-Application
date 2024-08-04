@@ -341,5 +341,63 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleTeacher(int schoolId)
+        {
+            var response = new DataResponse<List<TeacherResponse>>();
+
+            try
+            {
+                var teachers = await _unitOfWork.Teacher.GetAllTeachersWithRoleTeacher(schoolId);
+                if (teachers == null || !teachers.Any())
+                {
+                    response.Message = "Không tìm thấy giáo viên của trường học này.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var teacherDTOs = _mapper.Map<List<TeacherResponse>>(teachers);
+                    response.Data = teacherDTOs;
+                    response.Message = "Danh sách giáo viên của trường";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleSupervisor(int schoolId)
+        {
+            var response = new DataResponse<List<TeacherResponse>>();
+
+            try
+            {
+                var teachers = await _unitOfWork.Teacher.GetAllTeachersWithRoleSupervisor(schoolId);
+                if (teachers == null || !teachers.Any())
+                {
+                    response.Message = "Không tìm thấy giám thị của trường học này.";
+                    response.Success = false;
+                }
+                else
+                {
+                    var teacherDTOs = _mapper.Map<List<TeacherResponse>>(teachers);
+                    response.Data = teacherDTOs;
+                    response.Message = "Danh sách giám thị của trường";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

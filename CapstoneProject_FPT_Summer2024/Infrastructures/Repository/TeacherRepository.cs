@@ -79,5 +79,22 @@ namespace Infrastructures.Repository
                 .Include(c => c.School)
                 .ToListAsync();
         }
+
+        public async Task<List<Teacher>> GetAllTeachersWithRoleTeacher(int schoolId)
+        {
+            const byte teacherRoleId = 5; 
+            return await _context.Teachers
+                .Include(t => t.User) 
+                .Where(t => t.User.RoleId == teacherRoleId && t.SchoolId == schoolId) 
+                .ToListAsync();
+        }
+        public async Task<List<Teacher>> GetAllTeachersWithRoleSupervisor(int schoolId)
+        {
+            const byte teacherRoleId = 4; 
+            return await _context.Teachers
+                .Include(t => t.User) 
+                .Where(t => t.User.RoleId == teacherRoleId && t.SchoolId == schoolId) 
+                .ToListAsync();
+        }
     }
 }

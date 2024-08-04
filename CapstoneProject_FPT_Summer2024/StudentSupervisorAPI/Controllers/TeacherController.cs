@@ -129,5 +129,41 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("role/teacher/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetAllTeachersWithRoleTeacher(int schoolId)
+        {
+            try
+            {
+                var response = await _service.GetAllTeachersWithRoleTeacher(schoolId);
+                if (!response.Success)
+                {
+                    return NotFound(response.Message);
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("role/supervisor/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetAllTeachersWithRoleSupervisor(int schoolId)
+        {
+            try
+            {
+                var response = await _service.GetAllTeachersWithRoleSupervisor(schoolId);
+                if (!response.Success)
+                {
+                    return NotFound(response.Message);
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
