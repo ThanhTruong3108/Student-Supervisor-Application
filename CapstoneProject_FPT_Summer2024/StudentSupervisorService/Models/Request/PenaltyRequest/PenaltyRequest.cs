@@ -17,7 +17,7 @@ namespace StudentSupervisorService.Models.Request.PenaltyRequest
 
     public class PenaltyUpdateRequest
     {
-        public int PenaltyId { get; set; }
+        //public int PenaltyId { get; set; }
         public int? SchoolId { get; set; }
         public string? Code { get; set; }
         public int? Level { get; set; }

@@ -78,11 +78,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<DataResponse<PenaltyResponse>>> UpdatePenalty(PenaltyUpdateRequest penaltyRequest)
+        public async Task<ActionResult<DataResponse<PenaltyResponse>>> UpdatePenalty(int id, PenaltyUpdateRequest penaltyRequest)
         {
             try
             {
-                var penaltyResponse = await penaltyService.UpdatePenalty(penaltyRequest);
+                var penaltyResponse = await penaltyService.UpdatePenalty(id, penaltyRequest);
                 return Ok(penaltyResponse);
             } catch (Exception ex)
             {

@@ -151,12 +151,12 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<PenaltyResponse>> UpdatePenalty(PenaltyUpdateRequest penaltyUpdateRequest)
+        public async Task<DataResponse<PenaltyResponse>> UpdatePenalty(int id, PenaltyUpdateRequest penaltyUpdateRequest)
         {
             var response = new DataResponse<PenaltyResponse>();
             try
             {
-                var existingPenalty = await _unitOfWork.Penalty.GetPenaltyById(penaltyUpdateRequest.PenaltyId);
+                var existingPenalty = await _unitOfWork.Penalty.GetPenaltyById(id);
                 if (existingPenalty == null)
                 {
                     response.Data = "Empty";
@@ -165,7 +165,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyUpdateRequest.Code).FirstOrDefault();
+                var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyUpdateRequest.Code && s.PenaltyId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
                     response.Message = "Mã Hình phạt đã được sử dụng!!";
