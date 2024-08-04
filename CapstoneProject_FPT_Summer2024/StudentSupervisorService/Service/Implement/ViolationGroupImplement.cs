@@ -198,7 +198,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode).FirstOrDefault();
+                var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode && s.ViolationGroupId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
                     response.Message = "Mã nhóm vi phạm đã được sử dụng!!";
