@@ -9,7 +9,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/classes")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
     public class ClassController : ControllerBase
     {
         private readonly ClassService classService;
