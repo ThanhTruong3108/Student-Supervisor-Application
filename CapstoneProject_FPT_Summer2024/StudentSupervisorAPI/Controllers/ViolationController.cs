@@ -97,7 +97,7 @@ namespace StudentSupervisorAPI.Controllers
 
         // Update violation for student supervisor
         [Authorize(Roles = "STUDENT_SUPERVISOR")]
-        [HttpPut]
+        [HttpPut("student-supervisor")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> UpdateViolationForStudentSupervisor(int id, [FromForm] RequestOfUpdateViolationForStudentSupervisor request)
         {
             try
@@ -228,12 +228,26 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("user/{userId}/supervisors")]
+        [HttpGet("user/{userId}/student-supervisors")]
         public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserRoleStudentSupervisor(int userId, string sortOrder = "asc")
         {
             try
             {
                 var violations = await _service.GetViolationsByUserRoleStudentSupervisor(userId, sortOrder);
+                return Ok(violations);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("user/{userId}/supervisors")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserRoleSupervisor(int userId, string sortOrder = "asc")
+        {
+            try
+            {
+                var violations = await _service.GetViolationsByUserRoleSupervisor(userId, sortOrder);
                 return Ok(violations);
             }
             catch (Exception ex)

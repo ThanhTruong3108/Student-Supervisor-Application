@@ -481,5 +481,32 @@ namespace Infrastructures.Repository
                 .Where(v => v.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<List<Violation>> GetViolationsByUserRoleSupervisor(int userId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user == null || user.Role.RoleName != RoleAccountEnum.SUPERVISOR.ToString())
+            {
+                return new List<Violation>();
+            }
+
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.Role)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.Role)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.UserId == userId)
+                .ToListAsync();
+        }
     }
 }
