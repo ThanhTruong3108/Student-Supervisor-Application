@@ -34,12 +34,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.YearPackage.Add(createYearPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfYearPackage>(createYearPackage);
-                response.Message = "Tạo Gói năm thành công.";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo Gói năm thất bại.: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -73,12 +73,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Gói năm đã được xóa thành công";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Xóa Gói năm không thành công: " + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -235,11 +235,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfYearPackage>(yearPackage);
                 response.Success = true;
-                response.Message = "Cập nhật Gói năm thành công.";
+                response.Message = "Cập nhật thành công";
             }
             catch (Exception ex)
             {
-                response.Message = "Cập nhật Gói năm thất bại.: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
