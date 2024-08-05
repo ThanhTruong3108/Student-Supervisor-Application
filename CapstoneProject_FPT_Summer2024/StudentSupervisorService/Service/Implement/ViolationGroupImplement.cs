@@ -44,12 +44,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
                 var created = await _unitOfWork.ViolationGroup.GetViolationGroupById(createvioGroup.ViolationGroupId);
                 response.Data = _mapper.Map<ResponseOfVioGroup>(created);
-                response.Message = "Tạo Nhóm vi phạm thành công.";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo Nhóm vi phạm thất bại.\n" + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -83,12 +83,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Nhóm vi phạm đã được xóa thành công.";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Xóa nhóm vi phạm không thành công: " + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -223,11 +223,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfVioGroup>(vioGroup);
                 response.Success = true;
-                response.Message = "Cập nhật thành công.";
+                response.Message = "Cập nhật thành công";
             }
             catch (Exception ex)
             {
-                response.Message = "Cập nhật thất bại.\n" + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
