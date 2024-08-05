@@ -104,7 +104,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo thất bại" + ex.Message
+                response.Message = "Tạo thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -152,7 +152,7 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật thất bại" + ex.Message
+                response.Message = "Cập nhật thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -188,7 +188,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Xóa thất bại" + ex.Message
+                response.Message = "Xóa thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
