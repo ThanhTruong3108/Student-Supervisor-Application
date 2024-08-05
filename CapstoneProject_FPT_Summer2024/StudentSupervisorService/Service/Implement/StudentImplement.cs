@@ -140,12 +140,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await unitOfWork.Student.CreateStudent(studentEntity);
 
                 response.Data = mapper.Map<StudentResponse>(created);
-                response.Message = "Học sinh đã được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo học sinh thất bại: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -185,13 +185,13 @@ namespace StudentSupervisorService.Service.Implement
                 await unitOfWork.Student.UpdateStudent(existingStudent);
 
                 response.Data = mapper.Map<StudentResponse>(existingStudent);
-                response.Message = "Học sinh được cập nhật thành công";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật học sinh thất bại: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -213,13 +213,13 @@ namespace StudentSupervisorService.Service.Implement
                 }
                 await unitOfWork.Student.DeleteStudent(studentId);
                 response.Data = "Empty";
-                response.Message = "Học sinh đã được xóa thành công";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Xóa học sinh không thành công.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
