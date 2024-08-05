@@ -112,7 +112,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("classes/{userId}")]
-        public async Task<IActionResult> GetClassesByUserId(int userId)
+        public async Task<ActionResult<DataResponse<ClassResponse>>> GetClassesByUserId(int userId)
         {
             var result = await classService.GetClassesByUserId(userId);
             if (!result.Success)
