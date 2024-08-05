@@ -179,7 +179,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -228,7 +228,7 @@ namespace StudentSupervisorService.Service.Implement
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -252,12 +252,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 await _unitOfWork.RegisteredSchool.DeleteRegisteredSchool(id);
                 response.Data = "Empty";
-                response.Message = "Xóa Trường học thành công";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
