@@ -59,12 +59,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<TeacherResponse>(teacher);
-                response.Message = "Tài khoản Giám thị được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo tài khoản Giám thị không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -109,12 +109,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<TeacherResponse>(teacher);
-                response.Message = "Tài khoản giáo viên được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo tài khoản Giáo viên không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -156,12 +156,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Giáo viên đã xóa thành công.";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Xóa Giáo viên không thành công: " + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -347,11 +347,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<TeacherResponse>(teacher);
                 response.Success = true;
-                response.Message = "Cập nhật Giáo viên thành công.";
+                response.Message = "Cập nhật thành công";
             }
             catch (Exception ex)
             {
-                response.Message = "Cập nhật Giáo viên không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
