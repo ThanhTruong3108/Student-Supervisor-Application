@@ -30,12 +30,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Package.Add(createPackage);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfPackage>(createPackage);
-                response.Message = "Tạo Gói thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo Gói thất bại.\n" + ex.Message;
+                response.Message = "Tạo thất bại" + ex.Message;
                 response.Success = false;
             }
             return response;
@@ -68,12 +68,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = "Empty";
-                response.Message = "Gói đã được xóa thành công !!";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Xóa Gói không thành công: " + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -163,11 +163,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfPackage>(package);
                 response.Success = true;
-                response.Message = "Cập nhật Gói thành công!";
+                response.Message = "Cập nhật thành công";
             }
             catch (Exception ex)
             {
-                response.Message = "Cập nhật Gói thất bại.\n" + ex.Message;
+                response.Message = "Cập nhật thành công" + ex.Message;
                 response.Success = false;
             }
 
