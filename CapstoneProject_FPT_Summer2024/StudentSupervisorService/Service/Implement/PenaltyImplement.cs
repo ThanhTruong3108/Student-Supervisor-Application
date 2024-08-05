@@ -139,12 +139,12 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Penalty.CreatePenalty(penaltyEntity);
 
                 response.Data = _mapper.Map<PenaltyResponse>(created);
-                response.Message = "Hình phạt được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo Hình phạt không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -182,13 +182,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Penalty.UpdatePenalty(existingPenalty);
 
                 response.Data = _mapper.Map<PenaltyResponse>(existingPenalty);
-                response.Message = "Đã cập nhật Hình phạt thành công";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật hình phạt không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -219,12 +219,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 await _unitOfWork.Penalty.DeletePenalty(id);
                 response.Data = "Empty";
-                response.Message = "Hình phạt đã được xóa thành công";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
