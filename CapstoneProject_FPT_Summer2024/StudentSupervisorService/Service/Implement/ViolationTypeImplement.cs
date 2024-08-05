@@ -219,6 +219,13 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if(vioType.Status != ViolationTypeStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Loại vi phạm đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
                 if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
                 {

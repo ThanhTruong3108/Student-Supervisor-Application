@@ -198,6 +198,13 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (vioGroup.Status != ViolationGroupStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Nhóm vi phạm đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 var isExistCode = _unitOfWork.ViolationGroup.Find(s => s.Code == request.VioGroupCode && s.ViolationGroupId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
