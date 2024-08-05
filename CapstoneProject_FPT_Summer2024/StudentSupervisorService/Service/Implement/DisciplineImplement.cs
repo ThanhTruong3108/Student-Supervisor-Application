@@ -105,13 +105,13 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
 
                 response.Data = _mapper.Map<DisciplineResponse>(created);
-                response.Message = "Kỷ luật được tạo thành công !!";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Tạo kỷ luật không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -146,13 +146,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Discipline.UpdateDiscipline(existingDiscipline);
 
                 response.Data = _mapper.Map<DisciplineResponse>(existingDiscipline);
-                response.Message = "Kỷ luật được cập nhật thành công";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật Kỷ luật không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -183,13 +183,13 @@ namespace StudentSupervisorService.Service.Implement
 
                 await _unitOfWork.Discipline.DeleteDiscipline(id);
                 response.Data = "Empty";
-                response.Message = "Kỷ luật đã được xóa thành công !!";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops!  Đã có lỗi xảy ra.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
