@@ -9,7 +9,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/teachers")]
     [ApiController]
-    [Authorize]
+  //  [Authorize]
     public class TeacherController : ControllerBase
     {
         private TeacherService _service;

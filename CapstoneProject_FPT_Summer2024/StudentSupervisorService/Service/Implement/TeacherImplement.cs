@@ -32,6 +32,14 @@ namespace StudentSupervisorService.Service.Implement
                     throw new Exception("Số điện thoại đã được sử dụng !!");
                 }
 
+                var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Mã Nhóm vi phạm đã được sử dụng!!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var teacher = _mapper.Map<Teacher>(request);
 
                 teacher.User = new User
@@ -72,6 +80,14 @@ namespace StudentSupervisorService.Service.Implement
                 if (isExist != null)
                 {
                     throw new Exception("Số điện thoại đã được sử dụng !!");
+                }
+
+                var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Mã Nhóm vi phạm đã được sử dụng!!";
+                    response.Success = false;
+                    return response;
                 }
 
                 var teacher = _mapper.Map<Teacher>(request);
