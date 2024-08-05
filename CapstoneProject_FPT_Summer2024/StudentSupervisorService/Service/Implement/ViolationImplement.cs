@@ -875,7 +875,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Đã hoàn thành vi phạm thành công.";
+                response.Message = "Complete thành công, Vi phạm đã được GVCN đồng ý";
             }
             catch (Exception ex)
             {
