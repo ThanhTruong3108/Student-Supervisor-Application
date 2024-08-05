@@ -628,7 +628,6 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Data = "Empty";
                 response.Message = "Xóa vi phạm thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
