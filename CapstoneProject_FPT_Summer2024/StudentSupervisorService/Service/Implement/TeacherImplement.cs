@@ -35,7 +35,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Mã Nhóm vi phạm đã được sử dụng!!";
+                    response.Message = "Mã tài khoản đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -85,7 +85,7 @@ namespace StudentSupervisorService.Service.Implement
                 var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
-                    response.Message = "Mã Nhóm vi phạm đã được sử dụng!!";
+                    response.Message = "Mã tài khoản đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
