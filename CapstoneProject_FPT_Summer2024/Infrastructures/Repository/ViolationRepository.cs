@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Entity.DTO;
+using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
@@ -454,6 +455,31 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.Student)
                 .FirstOrDefaultAsync(v => v.Disciplines.Any(d => d.DisciplineId == disciplineId));
         }
+        public async Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
 
+            if (user == null || user.Role.RoleName != RoleAccountEnum.STUDENT_SUPERVISOR.ToString())
+            {
+                return new List<Violation>();
+            }
+
+            return await _context.Violations
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.Role)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.Role)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.UserId == userId)
+                .ToListAsync();
+        }
     }
 }

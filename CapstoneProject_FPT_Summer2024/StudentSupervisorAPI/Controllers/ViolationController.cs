@@ -200,7 +200,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet("user/{userId}/teachers")]
         public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserId(int userId, string sortOrder = "asc")
         {
             try
@@ -221,6 +221,20 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var violation = await _service.GetViolationByDisciplineId(disciplineId);
                 return Ok(violation);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("user/{userId}/supervisors")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserRoleStudentSupervisor(int userId, string sortOrder = "asc")
+        {
+            try
+            {
+                var violations = await _service.GetViolationsByUserRoleStudentSupervisor(userId, sortOrder);
+                return Ok(violations);
             }
             catch (Exception ex)
             {

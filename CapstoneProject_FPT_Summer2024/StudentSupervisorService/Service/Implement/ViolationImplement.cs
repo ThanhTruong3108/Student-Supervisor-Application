@@ -677,17 +677,17 @@ namespace StudentSupervisorService.Service.Implement
                         await _unitOfWork.Discipline.CreateDiscipline(disciplineEntity);
                     }
                 }
-                else if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
-                {
-                    if (discipline != null)
-                    {
-                        // Nếu Discipline tương ứng với Violation đó đã được tạo nhưng Violation bị Rejected dẫn đến Status Discipline = INACTIVE
-                        // => Update lại Status của Discipline đó thành PENDING
-                        _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
-                        discipline.Status = DisciplineStatusEnums.PENDING.ToString();
-                        await _unitOfWork.Discipline.UpdateDiscipline(discipline);
-                    }
-                }
+                //else if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
+                //{
+                //    if (discipline != null)
+                //    {
+                //        // Nếu Discipline tương ứng với Violation đó đã được tạo nhưng Violation bị Rejected dẫn đến Status Discipline = INACTIVE
+                //        // => Update lại Status của Discipline đó thành PENDING
+                //        _unitOfWork.Discipline.DetachLocal(discipline, discipline.DisciplineId);
+                //        discipline.Status = DisciplineStatusEnums.PENDING.ToString();
+                //        await _unitOfWork.Discipline.UpdateDiscipline(discipline);
+                //    }
+                //}
 
                 // Detach the existing tracked instance of the Violation entity
                 _unitOfWork.Violation.DetachLocal(violation, violation.ViolationId);
@@ -971,6 +971,46 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Message = $"ViolationId {violation.ViolationId}";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserRoleStudentSupervisor(int userId, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByUserRoleStudentSupervisor(userId);
+                if (violations is null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Danh sách vi phạm trống";
+                    response.Success = true;
+                    return response;
+                }
+
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.ViolationId).ToList();
+                }
+                else
+                {
+                    vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
+                }
+
+                response.Data = vioDTO;
+                response.Message = "Danh sách các vi phạm của Student Supervisor";
                 response.Success = true;
             }
             catch (Exception ex)
