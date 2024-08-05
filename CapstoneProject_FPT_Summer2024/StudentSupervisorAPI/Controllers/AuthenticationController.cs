@@ -31,7 +31,7 @@ namespace StudentSupervisorAPI.Controllers
 
             if (success)
             {
-                return Ok(new { token });
+                return Ok(new { message, token });
             }
 
             return Unauthorized(new { message });
