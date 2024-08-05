@@ -158,12 +158,12 @@ namespace StudentSupervisorService.Service.Implement
                     });
 
                 response.Data = _mapper.Map<StudentInClassResponse>(createdStudentInClass);
-                response.Message = "StudentInClass được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo StudentInClass không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -229,13 +229,13 @@ namespace StudentSupervisorService.Service.Implement
                 var updated = await _unitOfWork.StudentInClass.UpdateStudentInClass(existingSIC);               
 
                 response.Data = _mapper.Map<StudentInClassResponse>(updated);
-                response.Message = "StudentInClass được cập nhật thành công";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật StudentInClass không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -266,12 +266,12 @@ namespace StudentSupervisorService.Service.Implement
 
                 await _unitOfWork.StudentInClass.DeleteStudentInClass(id);
                 response.Data = "Empty";
-                response.Message = "StudentInClass đã được xóa thành công";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
