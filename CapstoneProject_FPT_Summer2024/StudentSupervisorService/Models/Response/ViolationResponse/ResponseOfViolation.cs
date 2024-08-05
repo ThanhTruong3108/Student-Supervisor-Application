@@ -11,6 +11,7 @@ namespace StudentSupervisorService.Models.Response.ViolationResponse
         public int ViolationId { get; set; }
         public int UserId { get; set; }
         public string CreatedBy { get; set; }
+        public string? ScheduleName { get; set; }
         public int ClassId { get; set; }
         public string ClassName { get; set; }
         public short Year { get; set; }

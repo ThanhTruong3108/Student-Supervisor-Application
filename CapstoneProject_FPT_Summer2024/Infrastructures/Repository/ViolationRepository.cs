@@ -22,6 +22,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetAllViolations()
         {
             var violations = await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -46,6 +47,7 @@ namespace Infrastructures.Repository
         public async Task<Violation> GetViolationById(int id)
         {
             return _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -117,6 +119,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsByStudentId(int studentId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -134,6 +137,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -150,6 +154,7 @@ namespace Infrastructures.Repository
         public async Task<Dictionary<int, int>> GetViolationCountByYear(int studentId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -168,6 +173,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsBySchoolId(int schoolId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -254,6 +260,7 @@ namespace Infrastructures.Repository
                 return new List<Violation>();
 
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -426,6 +433,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsByUserId(int userId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -453,6 +461,7 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
+                .Include(s => s.Schedule)
                 .FirstOrDefaultAsync(v => v.Disciplines.Any(d => d.DisciplineId == disciplineId));
         }
         public async Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId)
@@ -474,10 +483,9 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
                     .ThenInclude(vr => vr.Role)
-                .Include(c => c.User)
-                    .ThenInclude(vr => vr.Role)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
+                .Include(s => s.Schedule)
                 .Where(v => v.UserId == userId)
                 .ToListAsync();
         }
@@ -501,10 +509,9 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.ViolationGroup)
                 .Include(c => c.User)
                     .ThenInclude(vr => vr.Role)
-                .Include(c => c.User)
-                    .ThenInclude(vr => vr.Role)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
+                .Include(s => s.Schedule)
                 .Where(v => v.UserId == userId)
                 .ToListAsync();
         }
