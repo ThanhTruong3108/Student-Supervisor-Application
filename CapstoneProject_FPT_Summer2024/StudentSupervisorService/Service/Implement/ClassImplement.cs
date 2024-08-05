@@ -123,7 +123,7 @@ namespace StudentSupervisorService.Service.Implement
                     Code = request.Code,
                     Grade = request.Grade,
                     Name = request.Name,
-                    TotalPoint = request.TotalPoint,
+                    TotalPoint = 100,
                     Status = ClassStatusEnums.ACTIVE.ToString(),
                 };
 

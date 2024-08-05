@@ -5,6 +5,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
+using System.Security.Cryptography;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -120,6 +121,14 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Không tìm thấy Lịch tuần tra !";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (existingPatrolSchedule.Status != PatrolScheduleStatusEnums.FINISHED.ToString() 
+                    && existingPatrolSchedule.Status != PatrolScheduleStatusEnums.INACTIVE.ToString())
+                {
+                    response.Message = "Lịch trực đã kết thúc hoặc đã bị xóa, không thể cập nhật";
                     response.Success = false;
                     return response;
                 }

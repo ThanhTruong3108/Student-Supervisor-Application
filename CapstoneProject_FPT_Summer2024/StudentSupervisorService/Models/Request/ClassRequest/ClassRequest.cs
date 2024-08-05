@@ -14,7 +14,7 @@ namespace StudentSupervisorService.Models.Request.ClassRequest
         public string? Code { get; set; }
         public int Grade { get; set; }
         public string Name { get; set; }
-        public int TotalPoint { get; set; }
+     //   public int TotalPoint { get; set; }
     }
 
     public class ClassUpdateRequest
