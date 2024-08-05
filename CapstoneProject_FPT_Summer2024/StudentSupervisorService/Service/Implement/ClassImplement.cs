@@ -130,11 +130,11 @@ namespace StudentSupervisorService.Service.Implement
                 var created = await _unitOfWork.Class.CreateClass(classEntity);
 
                 response.Data = _mapper.Map<ClassResponse>(created);
-                response.Message = "Lớp được tạo thành công";
+                response.Message = "Tạo thành công";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Tạo lớp không thành công: " + ex.Message
+                response.Message = "Tạo thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -202,13 +202,13 @@ namespace StudentSupervisorService.Service.Implement
                 await _unitOfWork.Class.UpdateClass(existingClass);
 
                 response.Data = _mapper.Map<ClassResponse>(existingClass);
-                response.Message = "Lớp được cập nhật thành công";
+                response.Message = "Cập nhật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Cập nhật lớp không thành công: " + ex.Message
+                response.Message = "Cập nhật thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -230,11 +230,11 @@ namespace StudentSupervisorService.Service.Implement
                 }
                 await _unitOfWork.Class.DeleteClass(id);
                 response.Data = "Empty";
-                response.Message = "Lớp đã được xóa thành công !!";
+                response.Message = "Xóa thành công";
                 response.Success = true;
             } catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                response.Message = "Xóa thất bại" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
