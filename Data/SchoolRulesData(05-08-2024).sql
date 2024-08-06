@@ -1593,9 +1593,7 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[Package] ([Name], [Description], [Price], [Status])
 VALUES
 (N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 2500000, 'ACTIVE'),
-(N'Gói Vip', N'Gói Vip với giới hạn học sinh và vi phạm cao hơn gói thường, phù hợp cho các trường có quy mô lớn và có khả năng mở rộng trong tương lai', 4000000, 'ACTIVE'),
-(N'Gói Bổ Sung Violation', N'Gói bổ sung cho số lượng Violation', 400000, 'ACTIVE'),
-(N'Gói Bổ Sung Student', N'Gói bổ sung cho số lượng Student', 400000, 'ACTIVE');
+(N'Gói Vip', N'Gói Vip với giới hạn học sinh và vi phạm cao hơn gói thường, phù hợp cho các trường có quy mô lớn và có khả năng mở rộng trong tương lai', 4000000, 'ACTIVE');
 
 
 -- Chèn 3 bản ghi mẫu vào bảng RegisteredSchool
@@ -1614,26 +1612,26 @@ VALUES
     -- Dữ liệu cho năm học 2023
     (1, 1, 'EXPIRED'),
     (1, 2, 'EXPIRED'),
-    (1, 3, 'EXPIRED'),
-    (1, 4, 'EXPIRED'),
+    (1, 1, 'EXPIRED'),
+    (1, 2, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
     (2, 1, 'VALID'),
     (2, 2, 'VALID'),
-    (2, 3, 'VALID'),
-    (2, 4, 'VALID'),
+    (2, 1, 'VALID'),
+    (2, 2, 'VALID'),
 
     -- Dữ liệu cho năm học 2023
     (3, 1, 'EXPIRED'),
     (3, 2, 'EXPIRED'),
-    (3, 3, 'EXPIRED'),
-    (3, 4, 'EXPIRED'),
+    (3, 1, 'EXPIRED'),
+    (3, 2, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
     (4, 1, 'VALID'),
     (4, 2, 'VALID'),
-    (4, 3, 'VALID'),
-    (4, 4, 'VALID');
+    (4, 1, 'VALID'),
+    (4, 2, 'VALID');
 
 
 -- Chèn 12 bản ghi mẫu vào bảng ImageURL
