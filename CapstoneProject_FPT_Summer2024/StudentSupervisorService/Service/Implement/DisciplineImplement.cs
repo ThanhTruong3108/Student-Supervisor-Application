@@ -5,6 +5,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
+using System.Security.Cryptography;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -127,6 +128,15 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Không tìm thấy Kỷ luật";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (existingDiscipline.Status != DisciplineStatusEnums.PENDING.ToString()
+                    && existingDiscipline.Status != DisciplineStatusEnums.EXECUTING.ToString()
+                    && existingDiscipline.Status != DisciplineStatusEnums.FINALIZED.ToString())
+                {
+                    response.Message = "Kỷ luật đã hoàn thành, không thể cập nhật";
                     response.Success = false;
                     return response;
                 }
