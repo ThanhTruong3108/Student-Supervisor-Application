@@ -10,6 +10,7 @@ using StudentSupervisorService.Models.Request.ViolationRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.ViolationResponse;
 using System.Net;
+using System.Security.Cryptography;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -390,6 +391,13 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Không tìm thấy vi phạm!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (violation.Status != ViolationStatusEnums.PENDING.ToString())
+                {
+                    response.Message = "Vi phạm đã được chấp thuận, không thể cập nhật";
                     response.Success = false;
                     return response;
                 }
