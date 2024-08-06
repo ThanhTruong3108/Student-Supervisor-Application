@@ -364,6 +364,7 @@ namespace Infrastructures.Repository
                 {
                     StudentId = g.Key.StudentId,
                     FullName = g.Key.Name,
+                    ClassName = g.First().Class.Name,
                     ViolationCount = g.Count()
                 })
                 .OrderByDescending(svc => svc.ViolationCount)

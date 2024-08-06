@@ -10,6 +10,7 @@ namespace Domain.Entity.DTO
     {
         public int StudentId { get; set; }
         public string FullName { get; set; }
+        public string ClassName { get; set; }
         public int ViolationCount { get; set; }
     }
 }
