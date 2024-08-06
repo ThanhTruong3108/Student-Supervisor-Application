@@ -34,5 +34,6 @@ namespace Infrastructures.Interfaces
         Task<Violation> GetViolationByDisciplineId(int disciplineId);
         Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId);
         Task<List<Violation>> GetViolationsByUserRoleSupervisor(int userId);
+        Task<List<Violation>> GetViolationsBySupervisorUserId(int userId);
     }
 }

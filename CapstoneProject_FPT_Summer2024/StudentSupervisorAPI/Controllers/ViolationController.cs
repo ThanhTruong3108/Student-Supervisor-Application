@@ -256,5 +256,19 @@ namespace StudentSupervisorAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet("supervisor/{userId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySupervisorUserId(int userId)
+        {
+            try
+            {
+                var violations = await _service.GetViolationsBySupervisorUserId(userId);
+                return Ok(violations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

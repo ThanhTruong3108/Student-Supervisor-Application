@@ -8,7 +8,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/dashboards")]
     [ApiController]
-  //  [Authorize]
+    [Authorize]
     public class DashBoardController : ControllerBase
     {
         private DashBoardService _service;

@@ -350,6 +350,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        //lấy top5 học hinh vi phạm nhiều nhất
         public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
@@ -372,6 +373,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        // lấy Lớp có nhiều học sinh vi phạm nhất
         public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
@@ -431,6 +433,7 @@ namespace Infrastructures.Repository
             return violations;
         }
 
+        // lấy những vi phạm thuộc lớp mà Giáo viên đó chủ nhiệm
         public async Task<List<Violation>> GetViolationsByUserId(int userId)
         {
             return await _context.Violations
@@ -465,6 +468,8 @@ namespace Infrastructures.Repository
                 .Include(s => s.Schedule)
                 .FirstOrDefaultAsync(v => v.Disciplines.Any(d => d.DisciplineId == disciplineId));
         }
+
+        // lấy những vi phạm mà thằng SaoDo đó đã tạo
         public async Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId)
         {
             var user = await _context.Users
@@ -491,6 +496,7 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        // lấy những vi phạm mà thằng giám thị đó đã tạo
         public async Task<List<Violation>> GetViolationsByUserRoleSupervisor(int userId)
         {
             var user = await _context.Users
@@ -514,6 +520,25 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.Student)
                 .Include(s => s.Schedule)
                 .Where(v => v.UserId == userId)
+                .ToListAsync();
+        }
+
+        // lấy những vi phạm thuộc những lớp mà giám thị đó quản lý
+        public async Task<List<Violation>> GetViolationsBySupervisorUserId(int userId)
+        {
+            return await _context.Violations
+                .Include(v => v.Class)
+                    .ThenInclude(c => c.ClassGroup)
+                    .ThenInclude(g => g.Teacher)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(v => v.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(v => v.User)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.Class.ClassGroup.Teacher.UserId == userId)
                 .ToListAsync();
         }
     }

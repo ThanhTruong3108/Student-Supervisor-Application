@@ -1077,5 +1077,32 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySupervisorUserId(int userId)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsBySupervisorUserId(userId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Message = "Không tìm thấy vi phạm nào đối với UserId được chỉ định";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
+                    response.Data = violationDTOS;
+                    response.Message = "Đã tìm thấy vi phạm";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }
