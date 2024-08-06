@@ -664,6 +664,13 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (violation.Status != ViolationStatusEnums.PENDING.ToString())
+                {
+                    response.Message = "Chỉ những vi phạm có trạng thái PENDING mới có thể được chấp thuận.";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Kiểm tra xem Discipline tương ứng với Vioation đó đã được tạo chưa
                 var discipline = await _unitOfWork.Discipline.GetDisciplineByViolationId(violation.ViolationId);
 
