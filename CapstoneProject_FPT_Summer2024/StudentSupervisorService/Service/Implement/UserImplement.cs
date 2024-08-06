@@ -300,6 +300,13 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (user.Status != UserStatusEnums.ACTIVE.ToString())
+                {
+                    response.Message = "Tài khoản đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
