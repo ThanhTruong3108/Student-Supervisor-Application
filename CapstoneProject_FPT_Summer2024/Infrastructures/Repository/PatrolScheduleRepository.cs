@@ -15,6 +15,7 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
+                    .ThenInclude(c => c.User)
                 .Include(p => p.User)
                 .ToListAsync();
         }
@@ -24,6 +25,7 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
+                    .ThenInclude(c => c.User)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(x => x.ScheduleId == id);
         }
@@ -63,6 +65,7 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
+                    .ThenInclude(c => c.User)
                 .Include(p => p.User)
                 .Where(v => v.User.SchoolId == schoolId)
                 .ToListAsync();
@@ -73,8 +76,20 @@ namespace Infrastructures.Repository
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
                 .Include(p => p.Supervisor)
+                    .ThenInclude(c => c.User)
                 .Include(p => p.User)
                 .Where(p => p.Supervisor.UserId == userId)
+                .ToListAsync();
+        }
+
+        public async Task<List<PatrolSchedule>> GetPatrolSchedulesBySupervisorUserId(int userId)
+        {
+            return await _context.PatrolSchedules
+                .Include(v => v.Class)
+                .Include(p => p.Supervisor)
+                    .ThenInclude(c => c.User)
+                .Include(p => p.User)
+                .Where(v => v.Class.ClassGroup.Teacher.UserId == userId)
                 .ToListAsync();
         }
     }

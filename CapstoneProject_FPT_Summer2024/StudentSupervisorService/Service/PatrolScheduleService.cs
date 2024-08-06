@@ -13,5 +13,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<PatrolScheduleResponse>> DeletePatrolSchedule(int id);
         Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesBySchoolId(int schoolId);
         Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesByUserId(int userId);
+        Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesBySupervisorUserId(int userId);
     }
 }

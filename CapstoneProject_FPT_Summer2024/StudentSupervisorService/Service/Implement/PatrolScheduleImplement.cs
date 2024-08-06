@@ -5,6 +5,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using System.Security.Cryptography;
 
 namespace StudentSupervisorService.Service.Implement
@@ -238,6 +239,33 @@ namespace StudentSupervisorService.Service.Implement
                     var patrolScheduleDTOs = _mapper.Map<List<PatrolScheduleResponse>>(patrolSchedules);
                     response.Data = patrolScheduleDTOs;
                     response.Message = "Đã tìm thấy Lịch tuần tra";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<PatrolScheduleResponse>>> GetPatrolSchedulesBySupervisorUserId(int userId)
+        {
+            var response = new DataResponse<List<PatrolScheduleResponse>>();
+            try
+            {
+                var schedules = await _unitOfWork.PatrolSchedule.GetPatrolSchedulesBySupervisorUserId(userId);
+                if (schedules == null || !schedules.Any())
+                {
+                    response.Message = "Không tìm thấy lịch trực nào đối với UserId được chỉ định";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationDTOS = _mapper.Map<List<PatrolScheduleResponse>>(schedules);
+                    response.Data = violationDTOS;
+                    response.Message = "Đã tìm thấy lịch trực";
                     response.Success = true;
                 }
             }

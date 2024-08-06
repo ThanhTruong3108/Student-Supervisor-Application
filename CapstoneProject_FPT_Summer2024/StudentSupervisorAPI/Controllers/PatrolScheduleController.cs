@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.PatrolScheduleResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -111,6 +112,20 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var patrolSchedules = await patrolScheduleService.GetPatrolSchedulesByUserId(userId);
                 return Ok(patrolSchedules);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("supervisor/{userId}/schedule")]
+        public async Task<ActionResult<DataResponse<List<PatrolScheduleResponse>>>> GetPatrolSchedulesBySupervisorUserId(int userId)
+        {
+            try
+            {
+                var schedules = await patrolScheduleService.GetPatrolSchedulesBySupervisorUserId(userId);
+                return Ok(schedules);
             }
             catch (Exception ex)
             {
