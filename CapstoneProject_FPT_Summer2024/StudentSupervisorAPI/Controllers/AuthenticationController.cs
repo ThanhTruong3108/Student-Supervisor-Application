@@ -34,7 +34,7 @@ namespace StudentSupervisorAPI.Controllers
                 return Ok(new { message, token });
             }
 
-            return Unauthorized(new { message });
+            return Ok(new { message });
         }
 
         [HttpPost("logout")]
