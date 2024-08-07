@@ -28,9 +28,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("violations-by-year-and-classname")]
-        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string className)
+        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string className, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetViolationsByYearAndClassName(schoolId, year, className);
+            var response = await _service.GetViolationsByYearAndClassName(schoolId, year, className, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -38,10 +38,10 @@ namespace StudentSupervisorAPI.Controllers
             return BadRequest(response);
         }
 
-        [HttpGet("top-5-frequent-violations-by-year")]
-        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] int schoolId, [FromQuery] short year)
+        [HttpGet("top-5-frequent-violations")]
+        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetTopFrequentViolations(schoolId, year);
+            var response = await _service.GetTopFrequentViolations(schoolId, year, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -62,9 +62,9 @@ namespace StudentSupervisorAPI.Controllers
 
 
         [HttpGet("top-5-students-most-violations")]
-        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] int schoolId, [FromQuery] short year)
+        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetTop5StudentsWithMostViolations(schoolId, year);
+            var response = await _service.GetTop5StudentsWithMostViolations(schoolId, year, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
