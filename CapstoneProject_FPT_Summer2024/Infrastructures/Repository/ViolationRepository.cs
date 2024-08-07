@@ -548,6 +548,7 @@ namespace Infrastructures.Repository
         public async Task<Violation> GetViolationByDisciplineId(int disciplineId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(v => v.Disciplines)
                     .ThenInclude(d => d.Pennalty)
                 .Include(i => i.ImageUrls)
@@ -576,6 +577,7 @@ namespace Infrastructures.Repository
             }
 
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -603,6 +605,7 @@ namespace Infrastructures.Repository
             }
 
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
@@ -621,6 +624,7 @@ namespace Infrastructures.Repository
         public async Task<List<Violation>> GetViolationsBySupervisorUserId(int userId)
         {
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(v => v.Class)
                     .ThenInclude(c => c.ClassGroup)
                     .ThenInclude(g => g.Teacher)

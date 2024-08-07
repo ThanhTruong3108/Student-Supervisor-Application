@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StudentSupervisorService.Models.Response.ViolationTypeResponse;
+using Domain.Entity.DTO;
 
 namespace StudentSupervisorService.Service
 {
@@ -18,5 +19,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<EvaluationResponse>> UpdateEvaluation(EvaluationUpdateRequest request);
         Task<DataResponse<EvaluationResponse>> DeleteEvaluation(int id);
         Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId);
+        Task<DataResponse<List<ClassRankResponse>>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate);
     }
 }

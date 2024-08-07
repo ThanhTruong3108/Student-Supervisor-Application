@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
@@ -242,5 +243,39 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
+        public async Task<DataResponse<List<ClassRankResponse>>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate)
+        {
+            var response = new DataResponse<List<ClassRankResponse>>();
+            try
+            {
+                var evaluations = await _unitOfWork.Evaluation.GetEvaluationRanks(schoolId, fromDate, toDate);
+                if (evaluations == null || !evaluations.Any())
+                {
+                    response.Message = "Không có dữ liệu xếp hạng cho khoảng thời gian được chỉ định!";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Calculate ranks
+                int rank = 1;
+                foreach (var eval in evaluations)
+                {
+                    eval.Rank = rank++;
+                }
+
+                response.Data = evaluations;
+                response.Message = "Danh sách xếp hạng theo đánh giá";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
+
+
     }
 }

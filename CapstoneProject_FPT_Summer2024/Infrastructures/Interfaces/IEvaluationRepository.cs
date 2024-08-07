@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Entity.DTO;
 using Infrastructures.Interfaces.IGenericRepository;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,6 @@ namespace Infrastructures.Interfaces
         Task<Evaluation> UpdateEvaluation(Evaluation evaluationEntity);
         Task<List<Evaluation>> GetEvaluationsByClassIdAndDateRange(int classId, DateTime from, DateTime to);
         Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId);
+        Task<List<ClassRankResponse>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate);
     }
 }

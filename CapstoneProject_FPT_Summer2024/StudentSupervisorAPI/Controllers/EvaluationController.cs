@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Entity.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.EvaluationRequest;
 using StudentSupervisorService.Models.Response;
@@ -9,7 +10,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/evaluations")]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     public class EvaluationController : ControllerBase
     {
         private readonly EvaluationService evaluationService;
@@ -101,5 +102,60 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("weekly")]
+        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetWeeklyRanks(int schoolId, DateTime fromDate, DateTime toDate)
+        {
+            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
+            return Ok(response);
+        }
+
+        [HttpGet("monthly")]
+        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetMonthlyRanks(int schoolId, int year, int month)
+        {
+            var fromDate = new DateTime(year, month, 1);
+            var toDate = fromDate.AddMonths(1).AddDays(-1);
+            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
+            return Ok(response);
+        }
+
+        [HttpGet("quarterly")]
+        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetQuarterlyRanks(int schoolId, int year, int quarter)
+        {
+            DateTime fromDate, toDate;
+            switch (quarter)
+            {
+                case 1:
+                    fromDate = new DateTime(year, 1, 1);
+                    toDate = new DateTime(year, 3, 31);
+                    break;
+                case 2:
+                    fromDate = new DateTime(year, 4, 1);
+                    toDate = new DateTime(year, 6, 30);
+                    break;
+                case 3:
+                    fromDate = new DateTime(year, 7, 1);
+                    toDate = new DateTime(year, 9, 30);
+                    break;
+                case 4:
+                    fromDate = new DateTime(year, 10, 1);
+                    toDate = new DateTime(year, 12, 31);
+                    break;
+                default:
+                    return BadRequest("Quý không hợp lệ");
+            }
+            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
+            return Ok(response);
+        }
+
+        [HttpGet("yearly")]
+        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetYearlyRanks(int schoolId, int year)
+        {
+            var fromDate = new DateTime(year, 1, 1);
+            var toDate = new DateTime(year, 12, 31);
+            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
+            return Ok(response);
+        }
+
     }
 }

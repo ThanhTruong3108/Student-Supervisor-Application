@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Entity.DTO;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
@@ -63,5 +64,25 @@ namespace Infrastructures.Repository
                 .Where(v => v.Class.SchoolYear.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task<List<ClassRankResponse>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate)
+        {
+            var evaluations = await _context.Evaluations
+                .Include(e => e.Class)
+                .Where(e => e.From >= fromDate && e.To <= toDate && e.Class.SchoolYear.SchoolId == schoolId)
+                .GroupBy(e => e.ClassId)
+                .Select(group => new ClassRankResponse
+                {
+                    ClassId = group.Key,
+                    ClassName = group.FirstOrDefault().Class.Name,
+                    TotalPoints = group.Sum(e => e.Points),
+                    Rank = 0
+                })
+                .OrderByDescending(c => c.TotalPoints)
+                .ToListAsync();
+
+            return evaluations;
+        }
+
     }
 }
