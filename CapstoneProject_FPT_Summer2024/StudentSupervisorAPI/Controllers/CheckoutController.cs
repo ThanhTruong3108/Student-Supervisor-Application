@@ -68,7 +68,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("{orderCode}")]
-        public async Task<ActionResult> check(int orderCode)
+        public async Task<ActionResult> Check(int orderCode)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace StudentSupervisorAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
