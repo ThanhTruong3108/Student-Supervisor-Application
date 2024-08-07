@@ -225,6 +225,7 @@ namespace Infrastructures.Repository
             endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             return await _context.Violations
+                .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
                     .ThenInclude(y => y.SchoolYear)
