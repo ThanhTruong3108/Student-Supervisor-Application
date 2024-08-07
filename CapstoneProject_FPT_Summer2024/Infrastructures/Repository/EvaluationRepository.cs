@@ -66,7 +66,6 @@ namespace Infrastructures.Repository
         }
 
 
-        // Xếp hạng rank
         public async Task<List<ClassRankResponse>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate)
         {
             var evaluations = await _context.Evaluations
