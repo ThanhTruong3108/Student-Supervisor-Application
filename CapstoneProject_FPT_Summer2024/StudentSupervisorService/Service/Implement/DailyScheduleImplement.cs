@@ -101,5 +101,7 @@ namespace StudentSupervisorService.Service.Implement
                 return false;
             }
         }
+
+        // Xóa các Class khi hết năm học
     }
 }

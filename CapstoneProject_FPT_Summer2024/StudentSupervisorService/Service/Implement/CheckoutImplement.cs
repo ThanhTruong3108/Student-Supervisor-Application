@@ -174,7 +174,8 @@ namespace StudentSupervisorService.Service.Implement
             } catch (Exception ex)
             {
                 response.Data = "Empty";
-                response.Message = "Oops! Some thing went wrong.\n" + ex.Message;
+                response.Message = "Lỗi phần thanh toán" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
