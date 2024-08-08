@@ -15,6 +15,7 @@ using Domain.Enums.Role;
 using Infrastructures.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Domain.Enums.Status;
+using StudentSupervisorService.Authentication;
 
 namespace StudentSupervisorService.Service.Implement
 {
@@ -23,12 +24,14 @@ namespace StudentSupervisorService.Service.Implement
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
         private readonly TokenBlacklistService _tokenBlacklistService;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public LoginImplement(IUnitOfWork unitOfWork, IConfiguration config, TokenBlacklistService tokenBlacklistService)
+        public LoginImplement(IUnitOfWork unitOfWork, IConfiguration config, TokenBlacklistService tokenBlacklistService, IPasswordHasher passwordHasher)
         {
             _unitOfWork = unitOfWork;
             _config = config;
             _tokenBlacklistService = tokenBlacklistService;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<(bool success, string message, string token)> Login(LoginModel login, bool isAdmin)
@@ -70,9 +73,13 @@ namespace StudentSupervisorService.Service.Implement
         private async Task<Admin?> AuthenticateAdmin(LoginModel login)
         {
             var admin = await _unitOfWork.Admin.GetAccountByPhone(login.Phone);
-            if (admin != null && admin.Password == login.Password)
+            if (admin != null)
             {
-                return admin;
+                // Check if the hashed password is equal to the password in the database
+                if (_passwordHasher.VerifyHashedPassword(admin.Password, login.Password))
+                {
+                    return admin;
+                }
             }
             return null;
         }
@@ -80,9 +87,13 @@ namespace StudentSupervisorService.Service.Implement
         private async Task<User?> AuthenticateUser(LoginModel login)
         {
             var user = await _unitOfWork.User.GetAccountByPhone(login.Phone);
-            if (user != null && user.Password == login.Password)
+            if (user != null)
             {
-                return user;
+                // Check if the hashed password is equal to the password in the database
+                if (_passwordHasher.VerifyHashedPassword(user.Password, login.Password))
+                {
+                    return user;
+                }
             }
             return null;
         }
