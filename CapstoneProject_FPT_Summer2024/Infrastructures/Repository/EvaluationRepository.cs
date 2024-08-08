@@ -65,25 +65,103 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        // Xếp hạng
-        public async Task<List<ClassRankResponse>> GetEvaluationRanks(int schoolId, DateTime fromDate, DateTime toDate)
+        public async Task<List<EvaluationRanking>> GetEvaluationRankingsByYear(int schoolId, short year)
         {
-            var evaluations = await _context.Evaluations
-                .Include(e => e.Class)
-                .Where(e => e.From >= fromDate && e.To <= toDate && e.Class.SchoolYear.SchoolId == schoolId)
+            var rankings = await _context.Evaluations
+                .Where(e => e.Class.SchoolYear.SchoolId == schoolId && e.Class.SchoolYear.Year == year)
                 .GroupBy(e => e.ClassId)
-                .Select(group => new ClassRankResponse
+                .Select(g => new EvaluationRanking
                 {
-                    ClassId = group.Key,
-                    ClassName = group.FirstOrDefault().Class.Name,
-                    TotalPoints = group.Sum(e => e.Points),
-                    Rank = 0
+                    ClassId = g.Key,
+                    ClassName = g.FirstOrDefault().Class.Name,
+                    TotalPoints = g.Sum(e => e.Points ?? 0)
                 })
-                .OrderByDescending(c => c.TotalPoints)
+                .OrderByDescending(r => r.TotalPoints)
                 .ToListAsync();
 
-            return evaluations;
+            return CalculateRank(rankings);
         }
+
+        public async Task<List<EvaluationRanking>> GetEvaluationRankingsByMonth(int schoolId, short year, int month)
+        {
+            var rankings = await _context.Evaluations
+                .Where(e => e.Class.SchoolYear.SchoolId == schoolId &&
+                            e.Class.SchoolYear.Year == year &&
+                            e.From.Month == month)
+                .GroupBy(e => e.ClassId)
+                .Select(g => new EvaluationRanking
+                {
+                    ClassId = g.Key,
+                    ClassName = g.FirstOrDefault().Class.Name,
+                    TotalPoints = g.Sum(e => e.Points ?? 0)
+                })
+                .OrderByDescending(r => r.TotalPoints)
+                .ToListAsync();
+
+            return CalculateRank(rankings);
+        }
+
+        public async Task<List<EvaluationRanking>> GetEvaluationRankingsByWeek(int schoolId, short year, int month, int week)
+        {
+            var schoolYear = await _context.SchoolYears
+                .FirstOrDefaultAsync(sy => sy.SchoolId == schoolId && sy.Year == year);
+
+            if (schoolYear == null)
+                throw new Exception("SchoolYear không tồn tại.");
+
+            var startDate = new DateTime(year, month, 1);
+            var firstDayOfWeek = startDate.AddDays((week - 1) * 7);
+
+            var endDate = firstDayOfWeek.AddDays(6);
+            if (endDate > schoolYear.EndDate)
+            {
+                endDate = schoolYear.EndDate;
+            }
+
+            var rankings = await _context.Evaluations
+                .Where(e => e.Class.SchoolYear.SchoolId == schoolId &&
+                            e.Class.SchoolYear.Year == year &&
+                            e.From >= firstDayOfWeek &&
+                            e.From <= endDate)
+                .GroupBy(e => e.ClassId)
+                .Select(g => new EvaluationRanking
+                {
+                    ClassId = g.Key,
+                    ClassName = g.FirstOrDefault().Class.Name,
+                    TotalPoints = g.Sum(e => e.Points ?? 0)
+                })
+                .OrderByDescending(r => r.TotalPoints)
+                .ToListAsync();
+
+            return CalculateRank(rankings);
+        }
+
+
+
+        private List<EvaluationRanking> CalculateRank(List<EvaluationRanking> rankings)
+        {
+            int rank = 1;
+            int prevPoints = -1;
+            int sameRankCount = 0;
+
+            foreach (var ranking in rankings)
+            {
+                if (ranking.TotalPoints == prevPoints)
+                {
+                    ranking.Rank = rank - sameRankCount;
+                    sameRankCount++;
+                }
+                else
+                {
+                    rank += sameRankCount;
+                    ranking.Rank = rank++;
+                    sameRankCount = 0;
+                }
+                prevPoints = ranking.TotalPoints;
+            }
+            return rankings;
+        }
+
 
     }
 }

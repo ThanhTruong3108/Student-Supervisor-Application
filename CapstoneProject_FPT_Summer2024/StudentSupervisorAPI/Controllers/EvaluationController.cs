@@ -103,30 +103,46 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("weekly")]
-        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetWeeklyRanks(int schoolId, DateTime fromDate, DateTime toDate)
+        [HttpGet("ranking/year/{schoolId}/{year}")]
+        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByYear(int schoolId, short year)
         {
-            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
-            return Ok(response);
+            try
+            {
+                var rankingsResponse = await evaluationService.GetRankingsByYear(schoolId, year);
+                return Ok(rankingsResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("monthly")]
-        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetMonthlyRanks(int schoolId, int year, int month)
+        [HttpGet("ranking/month/{schoolId}/{year}/{month}")]
+        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByMonth(int schoolId, short year, int month)
         {
-            var fromDate = new DateTime(year, month, 1);
-            var toDate = fromDate.AddMonths(1).AddDays(-1);
-            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
-            return Ok(response);
+            try
+            {
+                var rankingsResponse = await evaluationService.GetRankingsByMonth(schoolId, year, month);
+                return Ok(rankingsResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpGet("yearly")]
-        public async Task<ActionResult<DataResponse<List<ClassRankResponse>>>> GetYearlyRanks(int schoolId, int year)
+        [HttpGet("ranking/week/{schoolId}/{year}/{month}/{week}")]
+        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByWeek(int schoolId, short year, int month, int week)
         {
-            var fromDate = new DateTime(year, 1, 1);
-            var toDate = new DateTime(year, 12, 31);
-            var response = await evaluationService.GetEvaluationRanks(schoolId, fromDate, toDate);
-            return Ok(response);
+            try
+            {
+                var rankingsResponse = await evaluationService.GetRankingsByWeek(schoolId, year, month, week);
+                return Ok(rankingsResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
     }
 }

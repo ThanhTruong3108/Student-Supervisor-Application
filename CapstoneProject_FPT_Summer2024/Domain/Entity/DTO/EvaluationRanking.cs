@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Entity.DTO
 {
-    public class ClassRankResponse
+    public class EvaluationRanking
     {
         public int? ClassId { get; set; }
         public string ClassName { get; set; }
-        public int? TotalPoints { get; set; }
+        public int TotalPoints { get; set; }
         public int Rank { get; set; }
     }
 }
