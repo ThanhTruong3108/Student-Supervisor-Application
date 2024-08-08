@@ -54,7 +54,8 @@ namespace StudentSupervisorService.Service.Implement
                     "Thanh toan don hang",
                     items,
                     _payOSConfig.GetCancelUrl(),
-                    _payOSConfig.GetReturnUrl());
+                    _payOSConfig.GetReturnUrl(),
+                    _payOSConfig.ChecksumKey);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
                 // tạo object OrderCreateRequest để insert Order xuống DB

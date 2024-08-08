@@ -73,7 +73,7 @@ namespace StudentSupervisorAPI.Controllers
             try
             {
                 PaymentLinkInformation infor = await _payOS.getPaymentLinkInformation(orderCode);
-                return Ok(infor.orderCode);
+                return Ok(infor);
             }
             catch (Exception ex)
             {
