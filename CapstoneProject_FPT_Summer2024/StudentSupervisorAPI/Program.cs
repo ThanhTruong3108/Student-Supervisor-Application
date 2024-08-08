@@ -1,4 +1,5 @@
 ﻿using Coravel;
+using Microsoft.AspNetCore.Builder;
 using Net.payOS;
 using StudentSupervisorAPI.Cofiguration;
 using StudentSupervisorService;
@@ -19,12 +20,10 @@ builder.Services.AddSingleton(payOS);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
+    options.AddDefaultPolicy(
+        policy =>
         {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         });
 });
 
@@ -50,8 +49,13 @@ app.Services.UseScheduler(scheduler =>
     scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(19).Zoned(vietNamTimeZone); // chạy vào 19h tối
 });
 
+app.UseCors(x => x
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .SetIsOriginAllowed(origin => true) // allow any origin 
+          .AllowCredentials());
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
