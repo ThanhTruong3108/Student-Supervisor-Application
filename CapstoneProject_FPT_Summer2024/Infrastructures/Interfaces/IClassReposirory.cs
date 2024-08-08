@@ -11,6 +11,8 @@ namespace Infrastructures.Interfaces
     public interface IClassReposirory : IGenericRepository<Class>
     {
         Task<List<Class>> GetAllClasses();
+        Task<List<Class>> GetAllActiveClasses();
+        Task<List<Class>> GetActiveClassesBySchoolYearId();
         Task<Class> GetClassById(int id);
         Task<Class> CreateClass(Class classEntity);
         Task<Class> UpdateClass(Class classEntity);

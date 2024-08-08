@@ -42,6 +42,7 @@ namespace StudentSupervisorService
             //Add DI Container
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.AddTransient<DailyScheduleImplement>();
+            services.AddTransient<WeeklyScheduleImplement>();
             services.AddTransient<PayOSConfig.PayOSConfig>();
             services.AddTransient<CheckoutService, CheckoutImplement>();
             services.AddTransient<OrderService, OrderImplement>();

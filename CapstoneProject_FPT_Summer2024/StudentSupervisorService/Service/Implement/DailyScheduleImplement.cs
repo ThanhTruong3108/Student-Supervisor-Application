@@ -28,6 +28,9 @@ namespace StudentSupervisorService.Service.Implement
 
             var updateSchoolYearAndYearPackageResult = await UpdateSchoolYearAndYearPackage();
             await Console.Out.WriteLineAsync(updateSchoolYearAndYearPackageResult ? "UpdateSchoolYearAndYearPackage success" : "UpdateSchoolYearAndYearPackage failed");
+
+            var deleteClassIfOverSchoolYearResult = await DeleteClassIfOverSchoolYear();
+            await Console.Out.WriteLineAsync(deleteClassIfOverSchoolYearResult ? "DeleteClassIfOverSchoolYear success" : "DeleteClassIfOverSchoolYear failed");
         }
 
         // Xóa các order đang PENDING quá 1 ngày chưa thanh toán
@@ -103,5 +106,29 @@ namespace StudentSupervisorService.Service.Implement
         }
 
         // Xóa các Class khi hết năm học
+        private async Task<bool> DeleteClassIfOverSchoolYear()
+        {
+            bool result = false;
+            try
+            {
+                var classes = await _unitOfWork.Class.GetActiveClassesBySchoolYearId();
+                await Console.Out.WriteLineAsync("classes COUNT: " + classes.Count);
+                if (classes != null)
+                {
+                    foreach (var classEntity in classes)
+                    {
+                        classEntity.Status = ClassStatusEnums.INACTIVE.ToString();
+                        await _unitOfWork.Class.UpdateClass(classEntity);
+                        result = true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync("Error in DeleteClassIfOverSchoolYear: " + e.Message);
+                return false;
+            }
+            return result;
+        }
     }
 }

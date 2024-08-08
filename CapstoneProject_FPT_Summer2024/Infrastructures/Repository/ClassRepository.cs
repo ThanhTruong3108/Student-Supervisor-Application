@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,14 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        //get all ACTIVE classes
+        public async Task<List<Class>> GetAllActiveClasses()
+        {
+            return await _context.Classes
+                .Where(c => c.Status.Equals(ClassStatusEnums.ACTIVE.ToString()))
+                .ToListAsync();
+        }
+
         public async Task<Class> GetClassById(int id)
         {
             return await _context.Classes
@@ -32,6 +41,16 @@ namespace Infrastructures.Repository
                 .Include(t => t.Teacher)
                     .ThenInclude(u => u.User)
                 .FirstOrDefaultAsync(x => x.ClassId == id);
+        }
+
+        // lấy các lớp ACTIVE thuộc SchoolYear có EndDate < DateTime.Now
+        public async Task<List<Class>> GetActiveClassesBySchoolYearId()
+        {
+            DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+            return await _context.Classes
+                .Where(c => c.SchoolYear.EndDate < oneDayAgo 
+                       && c.Status.Equals(ClassStatusEnums.ACTIVE.ToString()))
+                .ToListAsync();
         }
 
         public async Task<Class> CreateClass(Class classEntity)
