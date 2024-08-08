@@ -19,10 +19,12 @@ builder.Services.AddSingleton(payOS);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
+    options.AddPolicy("AllowAll",
+        builder =>
         {
-            policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
         });
 });
 
@@ -48,14 +50,8 @@ app.Services.UseScheduler(scheduler =>
     scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(19).Zoned(vietNamTimeZone); // chạy vào 19h tối
 });
 
-app.UseCors(x => x
-          .AllowAnyMethod()
-          .AllowAnyHeader()
-          .SetIsOriginAllowed(origin => true) // allow any origin 
-          .AllowCredentials());
-
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
