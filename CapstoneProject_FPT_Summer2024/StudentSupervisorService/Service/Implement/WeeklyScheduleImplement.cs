@@ -50,7 +50,7 @@ namespace StudentSupervisorService.Service.Implement
                         // Nếu tạo Evaluation thành công thì reset lại điểm của lớp
                         if (await _unitOfWork.Evaluation.CreateEvaluation(weeklyEvaluation) != null)
                         {
-                            activeClass.TotalPoint = 0;
+                            activeClass.TotalPoint = 100;
                             _unitOfWork.Class.Update(activeClass);
                             _unitOfWork.Save();
                             result = true;
