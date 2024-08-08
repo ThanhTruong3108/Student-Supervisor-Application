@@ -80,6 +80,5 @@ namespace StudentSupervisorAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
-
     }
 }
