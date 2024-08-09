@@ -3,6 +3,7 @@ using Domain.Entity;
 using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using StudentSupervisorService.Authentication;
 using StudentSupervisorService.Models.Request.UserRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.UserResponse;
@@ -15,10 +16,12 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public UserImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IPasswordHasher _passwordHasher;
+        public UserImplement(IUnitOfWork unitOfWork, IMapper mapper, IPasswordHasher passwordHasher)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _passwordHasher = passwordHasher;
         }
         public async Task<DataResponse<ResponseOfUser>> CreatePrincipal(RequestOfUser request)
         {
@@ -44,6 +47,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Prepend "84" if not already present
                 newPrincipal.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                // Hash the password before saving it
+                newPrincipal.Password = _passwordHasher.HashPassword(request.Password);
 
                 _unitOfWork.User.Add(newPrincipal);
                 _unitOfWork.Save();
@@ -98,6 +104,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 // Prepend "84" if not already present
                 newSchoolAdmin.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                // Hash the password before saving it
+                newSchoolAdmin.Password = _passwordHasher.HashPassword(request.Password);
 
                 _unitOfWork.User.Add(newSchoolAdmin);
                 _unitOfWork.Save();
@@ -329,8 +338,14 @@ namespace StudentSupervisorService.Service.Implement
                 user.Name = request.Name;
                 // Prepend "84" if not already present
                 user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
-                user.Password = request.Password;
                 user.Address = request.Address;
+
+                // Mã hóa mật khẩu nếu có yêu cầu cập nhật mật khẩu mới
+                if (!string.IsNullOrWhiteSpace(request.Password))
+                {
+                    user.Password = _passwordHasher.HashPassword(request.Password);
+                }
+
                 _unitOfWork.User.Update(user);
                 _unitOfWork.Save();
                 response.Data = _mapper.Map<ResponseOfUser>(user);

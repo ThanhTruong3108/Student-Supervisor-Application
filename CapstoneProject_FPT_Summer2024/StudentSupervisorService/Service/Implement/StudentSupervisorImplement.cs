@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
+using StudentSupervisorService.Authentication;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -15,10 +16,12 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public StudentSupervisorImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IPasswordHasher _passwordHasher;
+        public StudentSupervisorImplement(IUnitOfWork unitOfWork, IMapper mapper, IPasswordHasher passwordHasher)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<DataResponse<StudentSupervisorResponse>> CreateAccountStudentSupervisor(StudentSupervisorRequest request)
@@ -33,6 +36,9 @@ namespace StudentSupervisorService.Service.Implement
                     throw new Exception("Số điện thoại đã được sử dụng !!");
                 }
 
+                // Mã hóa mật khẩu
+                var hashedPassword = _passwordHasher.HashPassword(request.Password);
+
                 var studentSupervisor = new StudentSupervisor
                 {
                     StudentInClassId = request.StudentInClassId,
@@ -44,7 +50,7 @@ namespace StudentSupervisorService.Service.Implement
                         Name = request.SupervisorName,
                         // Prepend "84" if not already present
                         Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
-                        Password = request.Password,
+                        Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                         Address = request.Address,
                         RoleId = (byte)RoleAccountEnum.STUDENT_SUPERVISOR,
                         Status = UserStatusEnums.ACTIVE.ToString()
@@ -75,8 +81,6 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-
-
 
         public async Task<DataResponse<StudentSupervisorResponse>> DeleteStudentSupervisor(int id)
         {

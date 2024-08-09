@@ -7,6 +7,7 @@ using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.TeacherRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.TeacherResponse;
+using StudentSupervisorService.Authentication;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -15,10 +16,12 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public TeacherImplement(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IPasswordHasher _passwordHasher;
+        public TeacherImplement(IUnitOfWork unitOfWork, IMapper mapper, IPasswordHasher passwordHasher)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<DataResponse<TeacherResponse>> CreateAccountSupervisor(RequestOfTeacher request)
@@ -40,7 +43,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Tạo đối tượng Teacher và ánh xạ từ request
                 var teacher = _mapper.Map<Teacher>(request);
+
+                // Mã hóa mật khẩu
+                var hashedPassword = _passwordHasher.HashPassword(request.Password);
 
                 teacher.User = new User
                 {
@@ -49,7 +56,7 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.TeacherName,
                     // Prepend "84" if not already present
                     Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
-                    Password = request.Password,
+                    Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                     Address = request.Address,
                     RoleId = (byte)RoleAccountEnum.SUPERVISOR,
                     Status = UserStatusEnums.ACTIVE.ToString()
@@ -90,7 +97,11 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Tạo đối tượng Teacher và ánh xạ từ request
                 var teacher = _mapper.Map<Teacher>(request);
+
+                // Mã hóa mật khẩu
+                var hashedPassword = _passwordHasher.HashPassword(request.Password);
 
                 teacher.User = new User
                 {
@@ -99,7 +110,7 @@ namespace StudentSupervisorService.Service.Implement
                     Name = request.TeacherName,
                     // Prepend "84" if not already present
                     Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
-                    Password = request.Password,
+                    Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                     Address = request.Address,
                     RoleId = (byte)RoleAccountEnum.TEACHER,
                     Status = UserStatusEnums.ACTIVE.ToString()
