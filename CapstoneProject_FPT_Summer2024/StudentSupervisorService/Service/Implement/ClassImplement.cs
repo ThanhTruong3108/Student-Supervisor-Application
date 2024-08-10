@@ -310,9 +310,10 @@ namespace StudentSupervisorService.Service.Implement
                 var classes = await _unitOfWork.Class.GetClassesByUserId(userId);
                 if (classes == null || !classes.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "Không tìm thấy lớp nào cho UserId được chỉ định !!";
                     response.Success = false;
-                }
+                } 
                 else
                 {
                     var classGroupDTO = _mapper.Map<List<ClassResponse>>(classes);
