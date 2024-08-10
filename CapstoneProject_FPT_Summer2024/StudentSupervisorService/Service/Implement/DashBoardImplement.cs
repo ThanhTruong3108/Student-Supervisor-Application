@@ -298,5 +298,90 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<int>> CountViolationsByYear(int schoolId, short year)
+        {
+            var response = new DataResponse<int>();
+
+            try
+            {
+                var violationCount = await _unitOfWork.Violation.CountViolationsByYear(schoolId, year);
+                response.Data = violationCount;
+                response.Message = "Số lượng vi phạm trong năm";
+                response.Success = true;
+            }
+            catch (ArgumentException ex)
+            {
+                response.Data = 0;
+                response.Message = ex.Message;
+                response.Success = false;
+            }
+            catch (Exception ex)
+            {
+                response.Data = 0;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<int>> CountViolationsByYearAndMonth(int schoolId, short year, int month)
+        {
+            var response = new DataResponse<int>();
+
+            try
+            {
+                var violationCount = await _unitOfWork.Violation.CountViolationsByYearAndMonth(schoolId, year, month);
+                response.Data = violationCount;
+                response.Message = "Số lượng vi phạm trong tháng";
+                response.Success = true;
+            }
+            catch (ArgumentException ex)
+            {
+                response.Data = 0;
+                response.Message = ex.Message;
+                response.Success = false;
+            }
+            catch (Exception ex)
+            {
+                response.Data = 0;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+        public async Task<DataResponse<int>> CountViolationsByYearMonthAndWeek(int schoolId, short year, int month, int weekNumber)
+        {
+            var response = new DataResponse<int>();
+
+            try
+            {
+                var violationCount = await _unitOfWork.Violation.CountViolationsByYearMonthAndWeek(schoolId, year, month, weekNumber);
+                response.Data = violationCount;
+                response.Message = "Số lượng vi phạm trong tuần";
+                response.Success = true;
+            }
+            catch (ArgumentException ex)
+            {
+                response.Data = 0;
+                response.Message = ex.Message;
+                response.Success = false;
+            }
+            catch (Exception ex)
+            {
+                response.Data = 0;
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
+
     }
 }
