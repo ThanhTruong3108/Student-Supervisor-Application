@@ -395,8 +395,17 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (violation.Status.Equals(ViolationStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Vi phạm đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 if (violation.Status != ViolationStatusEnums.PENDING.ToString())
                 {
+                    response.Data = "Empty";
                     response.Message = "Vi phạm đã được chấp thuận, không thể cập nhật";
                     response.Success = false;
                     return response;
@@ -503,6 +512,14 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     response.Data = "Empty";
                     response.Message = "Không tìm thấy vi phạm!!";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (violation.Status.Equals(ViolationStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Vi phạm đã bị xóa, không thể cập nhật";
                     response.Success = false;
                     return response;
                 }

@@ -165,6 +165,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingPenalty.Status == PenaltyStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Hình phạt đã bị xóa, không thể cập nhật!!";
+                    response.Success = false;
+                    return response;
+                }
+
                 var isExistCode = _unitOfWork.Penalty.Find(s => s.Code == penaltyUpdateRequest.Code && s.PenaltyId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {

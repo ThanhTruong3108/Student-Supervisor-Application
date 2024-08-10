@@ -48,8 +48,7 @@ app.Services.UseScheduler(scheduler =>
     scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(7).Zoned(vietNamTimeZone); // chạy vào 7h sáng
     scheduler.Schedule<DailyScheduleImplement>().DailyAtHour(19).Zoned(vietNamTimeZone); // chạy vào 19h tối
 
-    // chạy vào mỗi chủ nhật hàng tuần
-    scheduler.Schedule<WeeklyScheduleImplement>().Weekly().Sunday().Zoned(vietNamTimeZone);
+    scheduler.Schedule<WeeklyScheduleImplement>().Weekly().Sunday().Zoned(vietNamTimeZone); // chạy vào mỗi chủ nhật hàng tuần
 });
 
 app.UseCors(x => x

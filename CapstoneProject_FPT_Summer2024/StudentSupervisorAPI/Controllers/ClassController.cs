@@ -112,14 +112,16 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("classes/{userId}")]
-        public async Task<ActionResult<DataResponse<ClassResponse>>> GetClassesByUserId(int userId)
+        public async Task<ActionResult<DataResponse<List<ClassResponse>>>> GetClassesByUserId(int userId)
         {
-            var result = await classService.GetClassesByUserId(userId);
-            if (!result.Success)
+            try
             {
-                return BadRequest(result.Message);
-            }
-            return Ok(result.Data);
+                var classes = await classService.GetClassesByUserId(userId);
+                return Ok(classes);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }        
         }
     }
 }

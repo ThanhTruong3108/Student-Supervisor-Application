@@ -155,6 +155,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingClass.Status.Equals(ClassStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = null;
+                    response.Message = "Không thể cập nhật lớp đã xóa !!";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Kiểm tra niên khóa có tồn tại hay không
                 var schoolYear = _unitOfWork.SchoolYear.GetById(request.SchoolYearId);
                 if (schoolYear == null)
@@ -302,9 +310,10 @@ namespace StudentSupervisorService.Service.Implement
                 var classes = await _unitOfWork.Class.GetClassesByUserId(userId);
                 if (classes == null || !classes.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "Không tìm thấy lớp nào cho UserId được chỉ định !!";
                     response.Success = false;
-                }
+                } 
                 else
                 {
                     var classGroupDTO = _mapper.Map<List<ClassResponse>>(classes);

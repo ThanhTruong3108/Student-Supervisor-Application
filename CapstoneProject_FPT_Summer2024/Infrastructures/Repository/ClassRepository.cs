@@ -70,7 +70,8 @@ namespace Infrastructures.Repository
         public async Task DeleteClass(int id)
         {
             var classEntity = await _context.Classes.FindAsync(id);
-            _context.Classes.Remove(classEntity);
+            classEntity.Status = ClassStatusEnums.INACTIVE.ToString();
+            _context.Classes.Update(classEntity);
             await _context.SaveChangesAsync();
         }
 

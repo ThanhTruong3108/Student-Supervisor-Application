@@ -227,8 +227,10 @@ namespace StudentSupervisorService.Service.Implement
                 highSchool.Address = request.Address;
                 highSchool.Phone = request.Phone;
                 highSchool.WebUrl = request.WebUrl;
+
                 _unitOfWork.HighSchool.Update(highSchool);
                 _unitOfWork.Save();
+
                 response.Data = _mapper.Map<ResponseOfHighSchool>(highSchool);
                 response.Success = true;
                 response.Message = "Cập nhật thành công";

@@ -116,6 +116,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingClassGroup.Status.Equals(ClassGroupStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = null;
+                    response.Message = "Không thể cập nhật nhóm lớp đã xóa";
+                    response.Success = false;
+                    return response;
+                }
+
                 existingClassGroup.SchoolId = request.SchoolId ?? existingClassGroup.SchoolId;
                 existingClassGroup.TeacherId = request.TeacherId ?? existingClassGroup.TeacherId;
 
@@ -152,7 +160,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (existingClassGroup.Status == ClassGroupStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = null;
-                    response.Message = "nhóm lớp đã bị xóa!!";
+                    response.Message = "Nhóm lớp đã bị xóa!!";
                     response.Success = false;
                     return response;
                 }
