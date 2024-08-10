@@ -235,6 +235,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (schoolYear.Status.Equals(SchoolYearStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Năm học đã bị xóa. Không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 var existed = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear(request.SchoolId, request.Year);
                 // schoolyear đã tồn tại với trạng thái ONGOING
                 if (existed != null && existed.SchoolYearId != id)

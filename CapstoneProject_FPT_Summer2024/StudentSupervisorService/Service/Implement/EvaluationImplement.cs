@@ -165,6 +165,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingEvaluation.Status.Equals(EvaluationStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Bảng Đánh giá đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 existingEvaluation.ClassId = request.ClassId ?? existingEvaluation.ClassId;
                 existingEvaluation.Description = request.Description ?? existingEvaluation.Description;
                 existingEvaluation.From = request.From ?? existingEvaluation.From;
@@ -201,8 +209,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                _unitOfWork.Evaluation.Remove(evaluation);
-                _unitOfWork.Save();
+                evaluation.Status = EvaluationStatusEnums.INACTIVE.ToString();
+                await _unitOfWork.Evaluation.UpdateEvaluation(evaluation);
 
                 response.Data = "Empty";
                 response.Message = "Xóa thành công";

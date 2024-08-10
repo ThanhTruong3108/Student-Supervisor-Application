@@ -126,8 +126,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                if (existingPatrolSchedule.Status != PatrolScheduleStatusEnums.FINISHED.ToString() 
-                    && existingPatrolSchedule.Status != PatrolScheduleStatusEnums.INACTIVE.ToString())
+                if (existingPatrolSchedule.Status == PatrolScheduleStatusEnums.FINISHED.ToString() 
+                    || existingPatrolSchedule.Status == PatrolScheduleStatusEnums.INACTIVE.ToString())
                 {
                     response.Message = "Lịch trực đã kết thúc hoặc đã bị xóa, không thể cập nhật";
                     response.Success = false;

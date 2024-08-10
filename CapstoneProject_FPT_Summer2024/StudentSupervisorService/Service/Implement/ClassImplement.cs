@@ -155,6 +155,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingClass.Status.Equals(ClassStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = null;
+                    response.Message = "Không thể cập nhật lớp đã xóa !!";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Kiểm tra niên khóa có tồn tại hay không
                 var schoolYear = _unitOfWork.SchoolYear.GetById(request.SchoolYearId);
                 if (schoolYear == null)

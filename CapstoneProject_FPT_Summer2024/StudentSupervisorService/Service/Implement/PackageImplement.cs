@@ -154,6 +154,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (package.Status == PackageStatusEnums.INACTIVE.ToString())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không thể cập nhật Gói đã bị xóa !";
+                    response.Success = false;
+                    return response;
+                }
+
                 package.Name = request.Name;
                 package.Description = request.Description ?? package.Description;
                 package.Price = request.Price ?? package.Price;

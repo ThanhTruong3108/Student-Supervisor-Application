@@ -101,7 +101,6 @@ namespace StudentSupervisorService.Service.Implement
 
                 vioType.Status = ViolationTypeStatusEnums.INACTIVE.ToString();
                 _unitOfWork.ViolationType.Update(vioType);
-
                 _unitOfWork.Save();
 
                 response.Data = "Empty";

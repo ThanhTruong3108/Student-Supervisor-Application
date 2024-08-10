@@ -132,6 +132,14 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                if (existingDiscipline.Status.Equals(DisciplineStatusEnums.INACTIVE.ToString()))
+                {
+                    response.Data = "Empty";
+                    response.Message = "Kỷ luật đã bị xóa, không thể cập nhật";
+                    response.Success = false;
+                    return response;
+                }
+
                 if (existingDiscipline.Status != DisciplineStatusEnums.PENDING.ToString()
                     && existingDiscipline.Status != DisciplineStatusEnums.EXECUTING.ToString()
                     && existingDiscipline.Status != DisciplineStatusEnums.FINALIZED.ToString())
