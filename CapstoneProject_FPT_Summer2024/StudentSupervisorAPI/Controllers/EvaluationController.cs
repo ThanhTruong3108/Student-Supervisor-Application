@@ -103,46 +103,19 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("ranking/year/{schoolId}/{year}")]
-        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByYear(int schoolId, short year)
+        [HttpGet("GetEvaluationRankings")]
+        public async Task<IActionResult> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null)
         {
             try
             {
-                var rankingsResponse = await evaluationService.GetRankingsByYear(schoolId, year);
-                return Ok(rankingsResponse);
+                var rankings = await evaluationService.GetEvaluationRankings(schoolId, year, month, week);
+                return Ok(rankings);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
-        [HttpGet("ranking/month/{schoolId}/{year}/{month}")]
-        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByMonth(int schoolId, short year, int month)
-        {
-            try
-            {
-                var rankingsResponse = await evaluationService.GetRankingsByMonth(schoolId, year, month);
-                return Ok(rankingsResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("ranking/week/{schoolId}/{year}/{month}/{week}")]
-        public async Task<ActionResult<DataResponse<List<EvaluationRanking>>>> GetRankingsByWeek(int schoolId, short year, int month, int week)
-        {
-            try
-            {
-                var rankingsResponse = await evaluationService.GetRankingsByWeek(schoolId, year, month, week);
-                return Ok(rankingsResponse);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

@@ -252,58 +252,31 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<EvaluationRanking>>> GetRankingsByYear(int schoolId, short year)
+        public async Task<List<EvaluationRanking>> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null)
         {
-            var response = new DataResponse<List<EvaluationRanking>>();
-            try
-            {
-                var rankings = await _unitOfWork.Evaluation.GetEvaluationRankingsByYear(schoolId, year);
-                response.Data = _mapper.Map<List<EvaluationRanking>>(rankings);
-                response.Message = "Xếp hạng theo năm";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Lỗi khi xếp hạng theo năm.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
+            // Gọi hàm GetEvaluationRankings từ repository để lấy dữ liệu
+            var evaluations = await _unitOfWork.Evaluation.GetEvaluationRankings(schoolId, year, month, week);
+
+            // Tính toán thứ hạng
+            return CalculateRank(evaluations);
         }
 
-        public async Task<DataResponse<List<EvaluationRanking>>> GetRankingsByMonth(int schoolId, short year, int month)
+        private List<EvaluationRanking> CalculateRank(List<EvaluationRanking> rankings)
         {
-            var response = new DataResponse<List<EvaluationRanking>>();
-            try
-            {
-                var rankings = await _unitOfWork.Evaluation.GetEvaluationRankingsByMonth(schoolId, year, month);
-                response.Data = _mapper.Map<List<EvaluationRanking>>(rankings);
-                response.Message = "Xếp hạng theo tháng";
-                response.Success = true;
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Lỗi khi xếp hạng theo tháng.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
-        }
+            int rank = 1;
+            int previousPoints = -1;
 
-        public async Task<DataResponse<List<EvaluationRanking>>> GetRankingsByWeek(int schoolId, short year, int month, int week)
-        {
-            var response = new DataResponse<List<EvaluationRanking>>();
-            try
+            foreach (var ranking in rankings)
             {
-                var rankings = await _unitOfWork.Evaluation.GetEvaluationRankingsByWeek(schoolId, year, month, week);
-                response.Data = _mapper.Map<List<EvaluationRanking>>(rankings);
-                response.Message = "Xếp hạng theo tuần";
-                response.Success = true;
+                if (ranking.TotalPoints != previousPoints)
+                {
+                    rank = rankings.IndexOf(ranking) + 1;
+                    previousPoints = ranking.TotalPoints;
+                }
+                ranking.Rank = rank;
             }
-            catch (Exception ex)
-            {
-                response.Message = "Lỗi khi xếp hạng theo tuần.\n" + ex.Message;
-                response.Success = false;
-            }
-            return response;
+
+            return rankings;
         }
     }
 }
