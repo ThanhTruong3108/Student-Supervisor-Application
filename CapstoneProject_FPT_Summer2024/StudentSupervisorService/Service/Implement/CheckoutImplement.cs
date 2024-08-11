@@ -73,7 +73,7 @@ namespace StudentSupervisorService.Service.Implement
                 };
                 await _orderService.CreateOrder(orderCreateRequest);
 
-                response.Data = createPayment;
+                response.Data = createPayment.checkoutUrl;
                 response.Message = "success";
                 response.Success = true;
             } catch (Exception ex)
@@ -147,7 +147,7 @@ namespace StudentSupervisorService.Service.Implement
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
                     response.Data = updated;
-                    response.Message = "Xác nhận hóa đơn (Order) thành công!";
+                    response.Message = "Thanh toán thành công";
                     response.Success = true;
                 }
                 // người dùng hủy thanh toán
@@ -167,7 +167,7 @@ namespace StudentSupervisorService.Service.Implement
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
                     response.Data = updated;
-                    response.Message = "Xác nhận hóa đơn (Order) thành công!";
+                    response.Message = "Đã hủy thanh toán";
                     response.Success = true;
                 }
 
