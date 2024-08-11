@@ -11,7 +11,7 @@ VALUES
 -- Chèn 1 bản ghi mẫu vào bảng Admin
 INSERT INTO [SchoolRules].[dbo].[Admin] ([Name], [Email], [Password], [Phone], [RoleID], [Status])
 VALUES
-    ('Admin', 'admin@gmail.com', 'password123', '8438522344', 1, 'ACTIVE');
+    ('Admin', 'admin@gmail.com', '+WTDfF6F6PThEBMzbqo/Lw==;ArcVHs1WgZM7a2sEyFMTeLCfxazpU8GEq+lAA6bAZzE=', '8438522344', 1, 'ACTIVE');
 
 
 -- Chèn 2 bản ghi mẫu vào bảng HighSchool
@@ -1697,8 +1697,7 @@ VALUES
 (1, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 78, 'INACTIVE'),
 (1, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 85, 'INACTIVE'),
 (1, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 66, 'INACTIVE'),
-(1, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 50, 'INACTIVE'),
-(1, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 80, 'INACTIVE'),
+(1, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 70, 'INACTIVE'),
 
 -- Class 2 Evaluations
 (2, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 78, 'INACTIVE'),
@@ -1709,7 +1708,6 @@ VALUES
 (2, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 64, 'INACTIVE'),
 (2, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 52, 'INACTIVE'),
 (2, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 90, 'INACTIVE'),
-(2, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 90, 'INACTIVE'),
 
 -- Class 3 Evaluations
 (3, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 40, 'INACTIVE'),
@@ -1719,8 +1717,7 @@ VALUES
 (3, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 72, 'INACTIVE'),
 (3, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 66, 'INACTIVE'),
 (3, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 50, 'INACTIVE'),
-(3, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 58, 'INACTIVE'),
-(3, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 80, 'INACTIVE'),
+(3, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 68, 'INACTIVE'),
 
 -- Class 4 Evaluations
 (4, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 85, 'INACTIVE'),
@@ -1730,8 +1727,7 @@ VALUES
 (4, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 78, 'INACTIVE'),
 (4, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 90, 'INACTIVE'),
 (4, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 82, 'INACTIVE'),
-(4, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 76, 'INACTIVE'),
-(4, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 86, 'INACTIVE'),
+(4, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 86, 'INACTIVE'),
 
 -- Class 5 Evaluations
 (5, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 55, 'INACTIVE'),
@@ -1742,7 +1738,6 @@ VALUES
 (5, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 80, 'INACTIVE'),
 (5, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 66, 'INACTIVE'),
 (5, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 94, 'INACTIVE'),
-(5, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 78, 'INACTIVE'),
 
 -- Class 6 Evaluations
 (6, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 45, 'INACTIVE'),
@@ -1752,8 +1747,7 @@ VALUES
 (6, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 88, 'INACTIVE'),
 (6, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 80, 'INACTIVE'),
 (6, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 78, 'INACTIVE'),
-(6, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 70, 'INACTIVE'),
-(6, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 85, 'INACTIVE'),
+(6, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 85, 'INACTIVE'),
 
 -- Class 7 Evaluations
 (7, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 77, 'INACTIVE'),
@@ -1763,8 +1757,7 @@ VALUES
 (7, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 83, 'INACTIVE'),
 (7, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 70, 'INACTIVE'),
 (7, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 82, 'INACTIVE'),
-(7, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 70, 'INACTIVE'),
-(7, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 96, 'INACTIVE'),
+(7, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 96, 'INACTIVE'),
 
 -- Class 8 Evaluations
 (8, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 84, 'INACTIVE'),
@@ -1774,8 +1767,7 @@ VALUES
 (8, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 82, 'INACTIVE'),
 (8, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 68, 'INACTIVE'),
 (8, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 80, 'INACTIVE'),
-(8, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 72, 'INACTIVE'),
-(8, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 96, 'INACTIVE'),
+(8, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 78, 'INACTIVE'),
 
 -- Class 9 Evaluations
 (9, N'Điểm thi đua tuần 1 tháng 9', '2023-09-04', '2023-09-10', 95, 'INACTIVE'),
@@ -1785,5 +1777,4 @@ VALUES
 (9, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 77, 'INACTIVE'),
 (9, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 74, 'INACTIVE'),
 (9, N'Điểm thi đua tuần 3 tháng 10', '2023-10-16', '2023-10-22', 88, 'INACTIVE'),
-(9, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 96, 'INACTIVE'),
-(9, N'Điểm thi đua tuần 5 tháng 10', '2023-10-30', '2023-10-31', 100, 'INACTIVE');
+(9, N'Điểm thi đua tuần 4 tháng 10', '2023-10-23', '2023-10-29', 100, 'INACTIVE');
