@@ -73,7 +73,7 @@ namespace StudentSupervisorService.Service.Implement
                 };
                 await _orderService.CreateOrder(orderCreateRequest);
 
-                response.Data = createPayment.checkoutUrl;
+                response.Data = createPayment;
                 response.Message = "success";
                 response.Success = true;
             } catch (Exception ex)
