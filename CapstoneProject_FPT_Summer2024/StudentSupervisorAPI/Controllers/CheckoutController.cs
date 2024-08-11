@@ -11,7 +11,6 @@ using StudentSupervisorService.Models.Request.CheckoutRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.CheckoutResponse;
 using StudentSupervisorService.Models.Response.OrderResponse;
-using StudentSupervisorService.PayOSConfig;
 using StudentSupervisorService.Service;
 using System;
 
@@ -59,6 +58,7 @@ namespace StudentSupervisorAPI.Controllers
             try
             {
                 var orderResponse = await _checkoutService.VerifyTransaction(queryParams);
+                
                 return Ok(orderResponse);
             }
             catch (Exception ex)
