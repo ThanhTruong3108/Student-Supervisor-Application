@@ -44,6 +44,23 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(v => v.ViolationId == id);
         }
 
+        public async Task<List<Violation>> GetViolationsByClassId(int classId)
+        {
+            return await _context.Violations
+                .Include(s => s.Schedule)
+                .Include(i => i.ImageUrls)
+                .Include(c => c.Class)
+                    .ThenInclude(y => y.SchoolYear)
+                .Include(c => c.ViolationType)
+                    .ThenInclude(vr => vr.ViolationGroup)
+                .Include(c => c.User)
+                    .ThenInclude(vr => vr.School)
+                .Include(v => v.StudentInClass)
+                    .ThenInclude(vr => vr.Student)
+                .Where(v => v.ClassId == classId)
+                .ToListAsync();
+        }
+
         public async Task<Violation> GetViolationById(int id)
         {
             return _context.Violations

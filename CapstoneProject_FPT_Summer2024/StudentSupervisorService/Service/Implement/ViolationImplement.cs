@@ -68,6 +68,46 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByClassId(int classId, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByClassId(classId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không có vi phạm nào cho lớp này";
+                    response.Success = true;
+                    return response;
+                }
+
+                // Sắp xếp danh sách Violation theo yêu cầu
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.ViolationId).ToList();
+                }
+                else
+                {
+                    vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
+                }
+                response.Data = vioDTO;
+                response.Message = "Danh sách các vi phạm cho lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfViolation>> GetViolationById(int id)
         {
             var response = new DataResponse<ResponseOfViolation>();

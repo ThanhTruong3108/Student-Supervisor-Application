@@ -37,6 +37,20 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpGet("by-class/{classId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByClassId(int classId, string sortOrder = "asc")
+        {
+            try
+            {
+                var violations = await _service.GetViolationsByClassId(classId, sortOrder);
+                return Ok(violations);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> GetViolationById(int id)
         {

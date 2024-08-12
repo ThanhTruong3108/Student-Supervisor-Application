@@ -13,6 +13,7 @@ namespace Infrastructures.Interfaces
     {
         Task<List<Violation>> GetAllViolations();
         Task<Violation> GetByIdWithImages(int id);
+        Task<List<Violation>> GetViolationsByClassId(int classId);
         Task<Violation> GetViolationById(int id);
         Task<Violation> CreateViolation(Violation violationEntity);
         Task<Violation> UpdateViolation(Violation violationEntity);
