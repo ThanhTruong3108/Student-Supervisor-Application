@@ -437,5 +437,32 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySupervisorUserId(int userId)
+        {
+            var response = new DataResponse<List<DisciplineResponse>>();
+            try
+            {
+                var violations = await _unitOfWork.Discipline.GetDisciplinesBySupervisorUserId(userId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Message = "Không tìm thấy kỷ luật nào đối với UserId được chỉ định";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationDTOS = _mapper.Map<List<DisciplineResponse>>(violations);
+                    response.Data = violationDTOS;
+                    response.Message = "Đã tìm thấy kỷ luật";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

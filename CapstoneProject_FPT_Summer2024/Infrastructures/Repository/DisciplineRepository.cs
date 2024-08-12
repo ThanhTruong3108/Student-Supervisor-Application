@@ -104,5 +104,18 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        public async Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId)
+        {
+            return await _context.Disciplines
+                .Include(d => d.Violation)
+                    .ThenInclude(v => v.Class)
+                        .ThenInclude(y => y.SchoolYear)
+                .Include(d => d.Violation)
+                    .ThenInclude(v => v.StudentInClass)
+                        .ThenInclude(sic => sic.Student)
+                .Include(d => d.Pennalty)
+                .Where(v => v.Violation.Class.ClassGroup.Teacher.UserId == userId)
+                .ToListAsync();
+        }
     }
 }

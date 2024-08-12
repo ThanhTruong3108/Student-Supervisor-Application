@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -154,6 +155,20 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("supervisor/{userId}")]
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySupervisorUserId(int userId)
+        {
+            try
+            {
+                var disciplines = await disciplineService.GetDisciplinesBySupervisorUserId(userId);
+                return Ok(disciplines);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

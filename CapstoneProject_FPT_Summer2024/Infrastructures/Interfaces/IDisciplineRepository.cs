@@ -18,5 +18,6 @@ namespace Infrastructures.Interfaces
         Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId);
         Task<Discipline> GetDisciplineByViolationId(int violationId);
         Task<List<Discipline>> GetDisciplinesByUserId(int userId);
+        Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId);
     }
 }
