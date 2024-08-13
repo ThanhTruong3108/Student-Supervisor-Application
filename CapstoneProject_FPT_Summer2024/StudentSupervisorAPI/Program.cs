@@ -21,12 +21,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
-        builder =>
+        policy =>
         {
-            builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         });
 });
 
@@ -54,8 +51,13 @@ app.Services.UseScheduler(scheduler =>
     scheduler.Schedule<WeeklyScheduleImplement>().Weekly().Sunday().Zoned(vietNamTimeZone); // chạy vào mỗi chủ nhật hàng tuần
 });
 
-app.UseCors();
+app.UseCors(x => x
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .SetIsOriginAllowed(origin => true) // allow any origin 
+          .AllowCredentials());
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
