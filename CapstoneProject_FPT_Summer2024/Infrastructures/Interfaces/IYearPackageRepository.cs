@@ -17,5 +17,6 @@ namespace Infrastructures.Interfaces
         Task<YearPackage> CreateYearPackage(YearPackage entity);
         Task<YearPackage> GetValidYearPackageBySchoolYearId(int schoolYearId);
         Task<List<YearPackage>> GetListValidYearPackageBySchoolYearId(int schoolYearId);
+        Task<YearPackage> GetValidYearPackageBySchoolYearIdAndPackageId(int schoolYearId, int packageId);
     }
 }

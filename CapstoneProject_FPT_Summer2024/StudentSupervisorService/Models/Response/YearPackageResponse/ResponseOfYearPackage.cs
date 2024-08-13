@@ -10,7 +10,6 @@ namespace StudentSupervisorService.Models.Response.YearPackageResponse
     {
         public int YearPackageId { get; set; }
         public int SchoolYearId { get; set; }
-        public string? Code { get; set; }
         public string SchoolName { get; set; }
         public short Year { get; set; }
         public int PackageId { get; set; }

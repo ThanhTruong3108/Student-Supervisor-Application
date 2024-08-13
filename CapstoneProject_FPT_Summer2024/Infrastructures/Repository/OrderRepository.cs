@@ -20,8 +20,23 @@ namespace Infrastructures.Repository
             return await _context.Orders
                 .Include(s => s.Package)
                 .Include(c => c.User)
+                    .ThenInclude(c => c.School)
+                .Where(x => x.Status.Equals(OrderStatusEnum.PAID.ToString()))
                 .ToListAsync();
         }
+
+        //get PAID order by userId (for SchoolAdmin)
+        public async Task<List<Order>> GetPaidOrdersByUserId(int userId)
+        {
+            return await _context.Orders
+                .Include(s => s.Package)
+                .Include(c => c.User)
+                    .ThenInclude(c => c.School)
+                .Where(x => x.UserId == userId 
+                       && x.Status.Equals(OrderStatusEnum.PAID.ToString()))
+                .ToListAsync();
+        }
+
         public async Task<Order> GetOrderById(int orderId)
         {
             return await _context.Orders

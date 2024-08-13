@@ -14,6 +14,7 @@ namespace Infrastructures.Interfaces
         Task<Order> GetOrderById(int orderId);
         Task<Order> GetOrderByOrderCode(int orderCode);
         Task<List<Order>> GetOrdersByUserId(int userId);
+        Task<List<Order>> GetPaidOrdersByUserId(int userId);
         Task<int> GetSchoolIdByOrderCode(int orderCode);
         Task<List<Order>> GetPendingOrdersOver1Day();
         Task<List<Order>> SearchOrders(int? userId, int? packageId, int? orderCode, string? description, int? total, int? amountPaid, int? amountRemaining, string? counterAccountBankName, string? counterAccountNumber, string? counterAccountName, DateTime? date, string? status);
