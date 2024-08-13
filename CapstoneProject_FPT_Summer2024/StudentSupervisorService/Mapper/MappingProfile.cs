@@ -171,6 +171,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
                 .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.Name))
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(src => src.Supervisor.User.Name))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Class.SchoolYear.Year))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 
             CreateMap<RequestOfStuSupervisorCreateViolation, Violation>()
