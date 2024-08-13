@@ -19,6 +19,7 @@ namespace Infrastructures.Repository
         {
             return await _context.StudentInClasses
                 .Include(v => v.Class)
+                    .ThenInclude(s => s.SchoolYear)
                 .Include(s => s.Student)
                 .ToListAsync();
         }
@@ -27,6 +28,7 @@ namespace Infrastructures.Repository
         {
             return await _context.StudentInClasses
                 .Include(v => v.Class)
+                    .ThenInclude(s => s.SchoolYear)
                 .Include(s => s.Student)
                 .FirstOrDefaultAsync(x => x.StudentInClassId == id);
         }
@@ -104,7 +106,8 @@ namespace Infrastructures.Repository
         {
             return await _context.StudentInClasses
                 .Include(v => v.Class)
-                .Include(v => v.Student)
+                    .ThenInclude(s => s.SchoolYear)
+                .Include(s => s.Student)
                 .Where(v => v.Student.SchoolId == schoolId)
                 .ToListAsync();
         }

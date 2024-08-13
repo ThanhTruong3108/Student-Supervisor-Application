@@ -80,6 +80,7 @@ namespace StudentSupervisorService.Mapper
                 .ForMember(re => re.Sex, act => act.MapFrom(src => src.Student.Sex))
                 .ForMember(re => re.Birthday, act => act.MapFrom(src => src.Student.Birthday))
                 .ForMember(re => re.Address, act => act.MapFrom(src => src.Student.Address))
+                .ForMember(re => re.Year, act => act.MapFrom(src => src.Class.SchoolYear.Year))
                 .ForMember(re => re.Phone, act => act.MapFrom(src => src.Student.Phone));
 
 
