@@ -90,7 +90,8 @@ namespace StudentSupervisorService.Mapper
             CreateMap<OrderUpdateRequest, OrderResponse>();
             CreateMap<OrderResponse, OrderUpdateRequest>();
             CreateMap<Order, OrderResponse>()
-                .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name));
+                .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name))
+                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.User.School.Name));
 
             CreateMap<SchoolYear, ResponseOfSchoolYear>()
                .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.School.Name));
@@ -204,7 +205,6 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<YearPackage, ResponseOfYearPackage>()
               .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.SchoolYear.School.Name))
-              .ForMember(re => re.Code, act => act.MapFrom(src => src.SchoolYear.School.Code))
               .ForMember(re => re.Year, act => act.MapFrom(src => src.SchoolYear.Year))
               .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name));
 

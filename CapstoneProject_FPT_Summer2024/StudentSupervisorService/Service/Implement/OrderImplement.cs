@@ -27,7 +27,7 @@ namespace StudentSupervisorService.Service.Implement
             _mapper = mapper;
         }
 
-        public async Task<DataResponse<List<OrderResponse>>> GetAllOrders(string sortOrder)
+        public async Task<DataResponse<List<OrderResponse>>> GetOrdersForAdmin(string sortOrder)
         {
             var response = new DataResponse<List<OrderResponse>>();
             try
@@ -35,16 +35,52 @@ namespace StudentSupervisorService.Service.Implement
                 var orderEntities = await _unitOfWork.Order.GetAllOrders();
                 if (orderEntities is null || !orderEntities.Any())
                 {
+                    response.Data = "Empty";
                     response.Message = "Danh sách hóa đơn (Orders) trống!";
                     response.Success = true;
                     return response;
                 }
 
                 orderEntities = sortOrder == "desc"
-                    ? orderEntities.OrderByDescending(r => r.Total).ToList()
-                    : orderEntities.OrderBy(r => r.Total).ToList();
+                    ? orderEntities.OrderByDescending(r => r.OrderId).ToList()
+                    : orderEntities.OrderBy(r => r.OrderId).ToList();
 
-                response.Data = _mapper.Map<List<OrderResponse>>(orderEntities);
+                var orderResponsesList = _mapper.Map<List<OrderResponse>>(orderEntities);
+                orderResponsesList.ForEach(x => x.TotalRevenue = orderEntities.Sum(x => x.Total));
+                response.Data = orderResponsesList;
+                response.Message = "Danh sách hóa đơn (Orders)";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
+
+        public async Task<DataResponse<List<OrderResponse>>> GetOrdersForSchoolAdmin(int userId, string sortOrder)
+        {
+            var response = new DataResponse<List<OrderResponse>>();
+            try
+            {
+                var orderEntities = await _unitOfWork.Order.GetPaidOrdersByUserId(userId);
+                if (orderEntities is null || !orderEntities.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Danh sách hóa đơn (Orders) trống!";
+                    response.Success = true;
+                    return response;
+                }
+
+                orderEntities = sortOrder == "desc"
+                    ? orderEntities.OrderByDescending(r => r.OrderId).ToList()
+                    : orderEntities.OrderBy(r => r.OrderId).ToList();
+
+                var orderResponsesList = _mapper.Map<List<OrderResponse>>(orderEntities);
+                orderResponsesList.ForEach(x => x.TotalRevenue = orderEntities.Sum(x => x.Total));
+                response.Data = orderResponsesList;
                 response.Message = "Danh sách hóa đơn (Orders)";
                 response.Success = true;
             }

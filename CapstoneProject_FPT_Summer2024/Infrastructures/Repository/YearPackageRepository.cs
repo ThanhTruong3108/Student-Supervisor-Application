@@ -56,6 +56,16 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync();
         }
 
+        // get YearPackage with VALID Status by SchoolYearId and PackageId
+        public async Task<YearPackage> GetValidYearPackageBySchoolYearIdAndPackageId(int schoolYearId, int packageId)
+        {
+            return await _context.YearPackages
+                .Where(v => v.SchoolYearId == schoolYearId 
+                       && v.PackageId == packageId 
+                       && v.Status.Equals(YearPackageStatusEnums.VALID.ToString()))
+                .FirstOrDefaultAsync();
+        }
+
         // Get List YearPackage with VALID Status By SchoolYearId
         public async Task<List<YearPackage>> GetListValidYearPackageBySchoolYearId(int schoolYearId)
         {

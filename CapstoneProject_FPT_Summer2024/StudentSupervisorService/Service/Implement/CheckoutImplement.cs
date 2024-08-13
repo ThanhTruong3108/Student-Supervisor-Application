@@ -65,8 +65,8 @@ namespace StudentSupervisorService.Service.Implement
                     OrderCode = orderCode,
                     Description = "Thanh toán cho " + existingPackage.Name,
                     Total = existingPackage.Price,
-                    AmountPaid = null,
-                    AmountRemaining = null,
+                    AmountPaid = 0,
+                    AmountRemaining = existingPackage.Price,
                     CounterAccountBankName = null,
                     CounterAccountNumber = null,
                     CounterAccountName = null
@@ -137,13 +137,18 @@ namespace StudentSupervisorService.Service.Implement
                         return response;
                     }
                     // nếu có => thêm 1 Package vào YearPackage của HighSchool
-                    await _unitOfWork.YearPackage.CreateYearPackage(
-                        new YearPackage
-                        {
-                            SchoolYearId = schoolYear.SchoolYearId,
-                            PackageId = currentOrder.PackageId,
-                            Status = YearPackageStatusEnums.VALID.ToString()
-                        });
+                    // xử lý trường hợp PayOS gọi lại return_url 2 lần
+                    if (await _unitOfWork.YearPackage.GetValidYearPackageBySchoolYearIdAndPackageId(schoolYear.SchoolYearId, currentOrder.PackageId) == null)
+                    {
+                        await _unitOfWork.YearPackage.CreateYearPackage(
+                            new YearPackage
+                            {
+                                SchoolYearId = schoolYear.SchoolYearId,
+                                PackageId = currentOrder.PackageId,
+                                Status = YearPackageStatusEnums.VALID.ToString()
+                            }
+                        );
+                    }
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
                     response.Data = updated;

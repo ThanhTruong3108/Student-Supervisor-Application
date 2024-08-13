@@ -12,7 +12,8 @@ namespace StudentSupervisorService.Service
 {
     public interface OrderService
     {
-        Task<DataResponse<List<OrderResponse>>> GetAllOrders(string sortOrder);
+        Task<DataResponse<List<OrderResponse>>> GetOrdersForAdmin(string sortOrder);
+        Task<DataResponse<List<OrderResponse>>> GetOrdersForSchoolAdmin(int userId, string sortOrder);
         Task<DataResponse<OrderResponse>> GetOrderById(int orderId);
         Task<DataResponse<OrderResponse>> GetOrderByOrderCode(int orderCode);
         Task<DataResponse<List<OrderResponse>>> GetOrdersByUserId(int userId);
