@@ -539,6 +539,7 @@ namespace Infrastructures.Repository
                                 }).ToList()
                 })
                 .OrderByDescending(cvc => cvc.StudentCount)
+                .Take(5)
                 .ToListAsync();
 
             return violations;

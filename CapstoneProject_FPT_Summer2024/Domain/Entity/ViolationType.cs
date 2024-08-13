@@ -11,6 +11,8 @@ public partial class ViolationType
 
     public string Name { get; set; } = null!;
 
+    public bool IsSupervisorOnly { get; set; }
+
     public string? Description { get; set; }
 
     public string? Status { get; set; }
