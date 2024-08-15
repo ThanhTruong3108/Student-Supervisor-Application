@@ -141,7 +141,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> DeleteViolation(int id)
         {
@@ -172,7 +172,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("{id}/reject")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> RejectViolation(int id)
         {
@@ -187,6 +187,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("{id}/complete")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CompleteViolation(int id)
         {

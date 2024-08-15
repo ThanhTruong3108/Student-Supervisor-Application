@@ -63,6 +63,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> UpdateDiscipline(int id, DisciplineUpdateRequest request)
         {
@@ -105,6 +106,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/executing")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> ExecutingDiscipline(int id)
         {
@@ -118,6 +120,8 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/done")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> DoneDiscipline(int id)
         {
@@ -132,6 +136,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/complain")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> ComplainDiscipline(int id)
         {
