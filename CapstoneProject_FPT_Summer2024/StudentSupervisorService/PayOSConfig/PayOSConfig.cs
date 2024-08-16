@@ -5,8 +5,8 @@ namespace StudentSupervisorService.PayOSConfig
 {
     public class PayOSConfig
     {
-        public readonly string CANCEL_API_URL = "/api/checkout/verify";
-        public readonly string RETURN_API_URL = "/api/checkout/verify";
+        public readonly string CANCEL_API_URL = "/payment/success";
+        public readonly string RETURN_API_URL = "/payment/failure";
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public PayOSConfig(IHttpContextAccessor httpContextAccessor)

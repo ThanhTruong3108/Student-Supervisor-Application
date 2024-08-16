@@ -175,7 +175,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Cập nhật thành công.\n" + ex.Message;
+                response.Message = "Cập nhật thất bại.\n" + ex.Message;
                 response.Success = false;
             }
 
