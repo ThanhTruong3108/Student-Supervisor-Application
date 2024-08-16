@@ -14,6 +14,7 @@ namespace Infrastructures.Repository
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
+                    .ThenInclude(v => v.SchoolYear)
                 .Include(p => p.Supervisor)
                     .ThenInclude(c => c.User)
                 .Include(p => p.User)
@@ -24,6 +25,7 @@ namespace Infrastructures.Repository
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
+                    .ThenInclude(v => v.SchoolYear)
                 .Include(p => p.Supervisor)
                     .ThenInclude(c => c.User)
                 .Include(p => p.User)
@@ -64,6 +66,7 @@ namespace Infrastructures.Repository
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
+                    .ThenInclude(v => v.SchoolYear)
                 .Include(p => p.Supervisor)
                     .ThenInclude(c => c.User)
                 .Include(p => p.User)
@@ -75,6 +78,7 @@ namespace Infrastructures.Repository
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
+                    .ThenInclude(v => v.SchoolYear)
                 .Include(p => p.Supervisor)
                     .ThenInclude(c => c.User)
                 .Include(p => p.User)
@@ -86,6 +90,7 @@ namespace Infrastructures.Repository
         {
             return await _context.PatrolSchedules
                 .Include(v => v.Class)
+                    .ThenInclude(v => v.SchoolYear)
                 .Include(p => p.Supervisor)
                     .ThenInclude(c => c.User)
                 .Include(p => p.User)

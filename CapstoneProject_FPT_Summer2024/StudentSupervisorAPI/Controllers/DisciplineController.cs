@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using StudentSupervisorService.Models.Request.DisciplineRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.DisciplineResponse;
+using StudentSupervisorService.Models.Response.ViolationResponse;
 using StudentSupervisorService.Service;
 
 namespace StudentSupervisorAPI.Controllers
@@ -62,6 +63,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> UpdateDiscipline(int id, DisciplineUpdateRequest request)
         {
@@ -104,6 +106,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/executing")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> ExecutingDiscipline(int id)
         {
@@ -117,6 +120,8 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/done")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> DoneDiscipline(int id)
         {
@@ -131,6 +136,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "TEACHER")]
         [HttpPut("{id}/complain")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> ComplainDiscipline(int id)
         {
@@ -154,6 +160,20 @@ namespace StudentSupervisorAPI.Controllers
             catch (Exception ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet("supervisor/{userId}")]
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySupervisorUserId(int userId)
+        {
+            try
+            {
+                var disciplines = await disciplineService.GetDisciplinesBySupervisorUserId(userId);
+                return Ok(disciplines);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

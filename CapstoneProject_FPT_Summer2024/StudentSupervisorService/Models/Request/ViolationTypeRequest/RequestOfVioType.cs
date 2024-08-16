@@ -15,6 +15,7 @@ namespace StudentSupervisorService.Models.Request.ViolationTypeRequest
 
         [Required(ErrorMessage = "The VioTypeName field is required.")]
         public string VioTypeName { get; set; } = null!;
+        public bool IsSupervisorOnly { get; set; }
 
         [Required(ErrorMessage = "The Description field is required.")]
         public string? Description { get; set; }

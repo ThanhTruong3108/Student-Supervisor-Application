@@ -32,12 +32,12 @@ namespace Domain.Enums.Status
 
     public enum DisciplineStatusEnums
     {
-        PENDING,
-        EXECUTING,
-        DONE,
-        COMPLAIN,
-        FINALIZED,
-        INACTIVE,
+        PENDING,    // Chờ xử lý
+        EXECUTING,  // Đang diễn ra
+        DONE,       // Đã hoàn thành
+        COMPLAIN,   // Đang khiếu nại
+        FINALIZED,  // Đã thống nhất
+        INACTIVE,   // Đã xóa
     }
 
     public enum EvaluationStatusEnums
@@ -54,12 +54,12 @@ namespace Domain.Enums.Status
 
     public enum ViolationStatusEnums
     {
-        PENDING, //Sao đỏ tạo
-        APPROVED, // Giám thị duyệt
-        REJECTED, // Giám thị từ chối
-        DISCUSSING, // GVCN phản đối
-        COMPLETED, // GVCN chấp nhận
-        INACTIVE, // Violation bị xóa
+        PENDING, //Sao đỏ tạo == Chờ xử lý
+        APPROVED, // Giám thị duyệt == Đã duyệt
+        REJECTED, // Giám thị từ chối == Từ chối
+        DISCUSSING, // GVCN phản đối == Phản đối
+        COMPLETED, // GVCN chấp nhận == Chấp nhận
+        INACTIVE, // Violation bị xóa == Đã xóa
     }
 
     public enum ViolationTypeStatusEnums

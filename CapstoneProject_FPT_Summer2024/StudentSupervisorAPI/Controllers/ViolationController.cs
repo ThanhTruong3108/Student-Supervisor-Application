@@ -37,6 +37,20 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpGet("by-class/{classId}")]
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByClassId(int classId, string sortOrder = "asc")
+        {
+            try
+            {
+                var violations = await _service.GetViolationsByClassId(classId, sortOrder);
+                return Ok(violations);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> GetViolationById(int id)
         {
@@ -127,7 +141,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> DeleteViolation(int id)
         {
@@ -158,7 +172,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("{id}/reject")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> RejectViolation(int id)
         {
@@ -173,6 +187,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "SUPERVISOR")]
         [HttpPut("{id}/complete")]
         public async Task<ActionResult<DataResponse<ResponseOfViolation>>> CompleteViolation(int id)
         {

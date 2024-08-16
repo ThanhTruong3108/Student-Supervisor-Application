@@ -55,5 +55,12 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        public async Task<List<ViolationType>> GetViolationTypesByGroupForStudentSupervisor(int violationGroupId)
+        {
+            return await _context.ViolationTypes
+                .Include(v => v.ViolationGroup)
+                .Where(v => v.ViolationGroup.ViolationGroupId == violationGroupId && v.IsSupervisorOnly && v.Status == ViolationTypeStatusEnums.ACTIVE.ToString())
+                .ToListAsync();
+        }
     }
 }

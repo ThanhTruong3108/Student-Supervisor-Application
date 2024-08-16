@@ -8,6 +8,7 @@ namespace StudentSupervisorService.Service
     public interface ViolationService
     {
         Task<DataResponse<List<ResponseOfViolation>>> GetAllViolations(string sortOrder);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByClassId(int classId, string sortOrder);
         Task<DataResponse<ResponseOfViolation>> GetViolationById(int id);
         Task<DataResponse<ResponseOfViolation>> CreateViolationForStudentSupervisor(int userId, RequestOfStuSupervisorCreateViolation request);
         Task<DataResponse<ResponseOfViolation>> CreateViolationForSupervisor(int userId, RequestOfSupervisorCreateViolation request);

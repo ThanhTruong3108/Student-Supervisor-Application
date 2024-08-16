@@ -251,7 +251,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (discipline == null)
                 {
                     response.Data = "Empty";
-                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Message = "Không thể tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
@@ -260,7 +260,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (discipline.Status == DisciplineStatusEnums.EXECUTING.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Kỷ luật đã ở trạng thái EXECUTING";
+                    response.Message = "Kỷ luật đã ở trạng thái Đang diễn ra";
                     response.Success = false;
                     return response;
                 }
@@ -269,7 +269,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Trạng thái kỷ luật không phải là PENDING, không thể chuyển thành EXECUTING !!";
+                    response.Message = "Trạng thái kỷ luật không phải là Chờ xử lý, không thể chuyển thành Đang diễn ra";
                     response.Success = false;
                     return response;
                 }
@@ -280,11 +280,11 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<DisciplineResponse>(discipline);
                 response.Success = true;
-                response.Message = "Executing kỷ luật thành công";
+                response.Message = "Kỷ luật đã được diễn ra";
             }
             catch (Exception ex)
             {
-                response.Message = "Executing kỷ luật thất bại.\n" + ex.Message
+                response.Message = "Đang diễn ra kỷ luật thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -300,7 +300,7 @@ namespace StudentSupervisorService.Service.Implement
                 var discipline = await _unitOfWork.Discipline.GetDisciplineById(disciplineId);
                 if (discipline == null)
                 {
-                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Message = "Không thể tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
@@ -308,7 +308,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Check if the status is already DONE
                 if (discipline.Status == DisciplineStatusEnums.DONE.ToString())
                 {
-                    response.Message = "Kỷ luật đã ở trạng thái DONE";
+                    response.Message = "Kỷ luật đã ở trạng thái Hoàn thành";
                     response.Success = false;
                     return response;
                 }
@@ -316,7 +316,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Check if the status is FINALIZED or EXECUTING
                 if (discipline.Status != DisciplineStatusEnums.EXECUTING.ToString() && discipline.Status != DisciplineStatusEnums.FINALIZED.ToString())
                 {
-                    response.Message = "Trạng thái kỷ luật không phải là EXECUTING hoặc FINALIZED, không thể chuyển thành DONE !!";
+                    response.Message = "Kỷ luật không phải là Đang diễn ra hoặc Đã thống nhất, không thể chuyển thành Đã hoàn thành";
                     response.Success = false;
                     return response;
                 }
@@ -327,7 +327,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<DisciplineResponse>(discipline);
                 response.Success = true;
-                response.Message = "kỷ luật đã được thực hiện xong.";
+                response.Message = "Kỷ luật đã được Hoàn thành xong";
             }
             catch (Exception ex)
             {
@@ -347,7 +347,7 @@ namespace StudentSupervisorService.Service.Implement
                 var discipline = await _unitOfWork.Discipline.GetDisciplineById(disciplineId);
                 if (discipline == null)
                 {
-                    response.Message = "Không thể tìm thấy Kỷ luật!!";
+                    response.Message = "Không thể tìm thấy Kỷ luật";
                     response.Success = false;
                     return response;
                 }
@@ -355,7 +355,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Kiểm tra trạng thái hiện tại
                 if (discipline.Status == DisciplineStatusEnums.COMPLAIN.ToString())
                 {
-                    response.Message = "Kỷ luật đã ở trạng thái COMPLAIN";
+                    response.Message = "Kỷ luật đã ở trạng thái Khiếu nại";
                     response.Success = false;
                     return response;
                 }
@@ -363,7 +363,7 @@ namespace StudentSupervisorService.Service.Implement
                 // Check if the status is EXECUTING
                 if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
                 {
-                    response.Message = "Trạng thái kỷ luật không phải là PENDING, không thể chuyển thành COMPLAIN !!";
+                    response.Message = "Trạng thái kỷ luật không phải là Chờ xử lý, không thể chuyển thành Đang khiếu nại";
                     response.Success = false;
                     return response;
                 }
@@ -385,12 +385,12 @@ namespace StudentSupervisorService.Service.Implement
                 _unitOfWork.Save();
 
                 response.Data = _mapper.Map<DisciplineResponse>(discipline);
-                response.Message = "Phàn nàn kỷ luật thành công";
+                response.Message = "Khiếu nại kỷ luật thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Phàn nàn kỷ luật thất bại.\n" + ex.Message
+                response.Message = "Khiếu nại kỷ luật thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -435,6 +435,33 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySupervisorUserId(int userId)
+        {
+            var response = new DataResponse<List<DisciplineResponse>>();
+            try
+            {
+                var violations = await _unitOfWork.Discipline.GetDisciplinesBySupervisorUserId(userId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Message = "Không tìm thấy kỷ luật nào đối với UserId được chỉ định";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationDTOS = _mapper.Map<List<DisciplineResponse>>(violations);
+                    response.Data = violationDTOS;
+                    response.Message = "Đã tìm thấy kỷ luật";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
             return response;
         }
     }

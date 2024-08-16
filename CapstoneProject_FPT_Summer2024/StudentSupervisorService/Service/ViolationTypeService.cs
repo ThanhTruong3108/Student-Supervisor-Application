@@ -14,5 +14,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfVioType>>> GetViolationTypesBySchoolId(int schoolId);
         Task<DataResponse<List<ResponseOfVioType>>> GetActiveViolationTypesBySchoolId(int schoolId);
         Task<DataResponse<List<ResponseOfVioType>>> GetViolationTypesByViolationGroupId(int violationGroupId);
+        Task<DataResponse<List<ResponseOfVioType>>> GetViolationTypesByGroupForStudentSupervisor(int violationGroupId);
     }
 }

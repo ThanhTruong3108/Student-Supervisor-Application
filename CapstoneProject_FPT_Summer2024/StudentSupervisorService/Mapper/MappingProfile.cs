@@ -75,11 +75,13 @@ namespace StudentSupervisorService.Mapper
             CreateMap<Evaluation, EvaluationResponse>()
                 .ForMember(re => re.Year, act => act.MapFrom(src => src.Class.SchoolYear.Year));
             CreateMap<StudentInClass, StudentInClassResponse>()
+                .ForMember(re => re.Grade, act => act.MapFrom(src => src.Class.Grade))
                 .ForMember(re => re.StudentCode, act => act.MapFrom(src => src.Student.Code))
                 .ForMember(re => re.StudentName, act => act.MapFrom(src => src.Student.Name))
                 .ForMember(re => re.Sex, act => act.MapFrom(src => src.Student.Sex))
                 .ForMember(re => re.Birthday, act => act.MapFrom(src => src.Student.Birthday))
                 .ForMember(re => re.Address, act => act.MapFrom(src => src.Student.Address))
+                .ForMember(re => re.Year, act => act.MapFrom(src => src.Class.SchoolYear.Year))
                 .ForMember(re => re.Phone, act => act.MapFrom(src => src.Student.Phone));
 
 
@@ -170,6 +172,7 @@ namespace StudentSupervisorService.Mapper
             CreateMap<PatrolSchedule, PatrolScheduleResponse>()
                 .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.Class.Name))
                 .ForMember(dest => dest.SupervisorName, opt => opt.MapFrom(src => src.Supervisor.User.Name))
+                .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Class.SchoolYear.Year))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
 
             CreateMap<RequestOfStuSupervisorCreateViolation, Violation>()

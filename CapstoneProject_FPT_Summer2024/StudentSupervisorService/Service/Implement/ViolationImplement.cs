@@ -68,6 +68,46 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByClassId(int classId, string sortOrder)
+        {
+            var response = new DataResponse<List<ResponseOfViolation>>();
+
+            try
+            {
+                var violations = await _unitOfWork.Violation.GetViolationsByClassId(classId);
+                if (violations == null || !violations.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không có vi phạm nào cho lớp này";
+                    response.Success = true;
+                    return response;
+                }
+
+                // Sắp xếp danh sách Violation theo yêu cầu
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.ViolationId).ToList();
+                }
+                else
+                {
+                    vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
+                }
+                response.Data = vioDTO;
+                response.Message = "Danh sách các vi phạm cho lớp";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Data = "Empty";
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+
+            return response;
+        }
+
         public async Task<DataResponse<ResponseOfViolation>> GetViolationById(int id)
         {
             var response = new DataResponse<ResponseOfViolation>();
@@ -637,7 +677,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation.Status != ViolationStatusEnums.PENDING.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Chỉ những vi phạm đang chờ xử lý mới được xóa";
+                    response.Message = "Chỉ những vi phạm đang Chờ xử lý mới được xóa";
                     response.Success = false;
                     return response;
                 }
@@ -669,21 +709,21 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
                 if (violation == null)
                 {
-                    response.Message = "Không thể tìm thấy vi phạm!!";
+                    response.Message = "Không thể tìm thấy vi phạm";
                     response.Success = false;
                     return response;
                 }
 
                 if (violation.Status == ViolationStatusEnums.APPROVED.ToString())
                 {
-                    response.Message = "Vi phạm đã ở trạng thái Approved.";
+                    response.Message = "Vi phạm đã được Duyệt";
                     response.Success = false;
                     return response;
                 }
 
                 if (violation.Status != ViolationStatusEnums.PENDING.ToString())
                 {
-                    response.Message = "Chỉ những vi phạm có trạng thái PENDING mới có thể được chấp thuận.";
+                    response.Message = "Chỉ những vi phạm đang Chờ xử lý mới có thể được chấp thuận";
                     response.Success = false;
                     return response;
                 }
@@ -762,7 +802,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Đã phê duyệt vi phạm thành công.";
+                response.Message = "Đã phê duyệt vi phạm thành công";
             }
             catch (Exception ex)
             {
@@ -789,7 +829,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 if (violation.Status == ViolationStatusEnums.REJECTED.ToString())
                 {
-                    response.Message = "Vi phạm đã ở trạng thái Rejected.";
+                    response.Message = "Vi phạm đã bị Từ chối";
                     response.Success = false;
                     return response;
                 }
@@ -841,11 +881,11 @@ namespace StudentSupervisorService.Service.Implement
 
                     response.Data = _mapper.Map<ResponseOfViolation>(violation);
                     response.Success = true;
-                    response.Message = "Từ chối vi phạm thành công.";
+                    response.Message = "Từ chối vi phạm thành công";
                 }
                 else
                 {
-                    response.Message = "Trạng thái vi phạm đang không phải Discussing, Không thể rejected.";
+                    response.Message = "Trạng thái vi phạm đang không phải Phản đối, Không thể Từ chối";
                     response.Success = false;
                 }
             }
@@ -867,21 +907,21 @@ namespace StudentSupervisorService.Service.Implement
                 var violation = await _unitOfWork.Violation.GetViolationById(violationId);
                 if (violation == null)
                 {
-                    response.Message = "Không thể tìm thấy vi phạm!!";
+                    response.Message = "Không thể tìm thấy vi phạm";
                     response.Success = false;
                     return response;
                 }
 
                 if (violation.Status == ViolationStatusEnums.COMPLETED.ToString())
                 {
-                    response.Message = "Vi phạm đã ở trạng thái Completed.";
+                    response.Message = "Vi phạm đã được Chấp nhận";
                     response.Success = false;
                     return response;
                 }
 
                 if (violation.Status != ViolationStatusEnums.DISCUSSING.ToString())
                 {
-                    response.Message = "Chỉ những vi phạm có trạng thái DISCUSSING mới có thể đổi thành COMPLETED.";
+                    response.Message = "Chỉ những vi phạm có trạng thái Phản đối mới có thể được Chấp nhận";
                     response.Success = false;
                     return response;
                 }
@@ -906,7 +946,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 response.Data = _mapper.Map<ResponseOfViolation>(violation);
                 response.Success = true;
-                response.Message = "Complete thành công, Vi phạm đã được GVCN đồng ý";
+                response.Message = "Chấp nhận thành công, Vi phạm đã được GVCN đồng ý";
             }
             catch (Exception ex)
             {

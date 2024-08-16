@@ -235,6 +235,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 vioType.ViolationGroup.ViolationGroupId = request.ViolationGroupId;
                 vioType.Name = request.VioTypeName;
+                vioType.IsSupervisorOnly = request.IsSupervisorOnly;
                 vioType.Description = request.Description;
 
                 _unitOfWork.ViolationType.Update(vioType);
@@ -308,5 +309,31 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+        public async Task<DataResponse<List<ResponseOfVioType>>> GetViolationTypesByGroupForStudentSupervisor(int violationGroupId)
+        {
+            var response = new DataResponse<List<ResponseOfVioType>>();
+            try
+            {
+                var violationTypes = await _unitOfWork.ViolationType.GetViolationTypesByGroupForStudentSupervisor(violationGroupId);
+                if (violationTypes == null || !violationTypes.Any())
+                {
+                    response.Message = "Không tìm thấy Loại vi phạm nào cho ViolationGroupId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var violationTypeDTOs = _mapper.Map<List<ResponseOfVioType>>(violationTypes);
+                    response.Data = violationTypeDTOs;
+                    response.Message = "Đã tìm thấy các loại vi phạm dành cho Giám thị";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }
