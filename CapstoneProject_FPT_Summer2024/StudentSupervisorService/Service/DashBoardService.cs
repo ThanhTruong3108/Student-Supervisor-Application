@@ -20,8 +20,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCode(string studentCode);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByStudentCodeAndYear(string studentCode, short year);
         Task<DataResponse<Dictionary<int, int>>> GetViolationCountByYear(string studentCode);
-        Task<DataResponse<int>> CountViolationsByYear(int schoolId, short year);
-        Task<DataResponse<int>> CountViolationsByYearAndMonth(int schoolId, short year, int month);
-        Task<DataResponse<int>> CountViolationsByYearMonthAndWeek(int schoolId, short year, int month, int weekNumber);
+        Task<DataResponse<int>> CountViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
     }
 }

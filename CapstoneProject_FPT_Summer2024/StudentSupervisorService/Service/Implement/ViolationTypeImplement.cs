@@ -34,7 +34,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
                 if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
                 {
-                    response.Message = "Không thể tạo Loại vi phạm vì ViolationGroup không tồn tại hoặc đã bị vô hiệu hóa.";
+                    response.Message = "Nhóm vi phạm không tồn tại hoặc đã bị vô hiệu hóa.";
                     response.Success = false;
                     return response;
                 }
@@ -228,7 +228,7 @@ namespace StudentSupervisorService.Service.Implement
                 var violationGroup = _unitOfWork.ViolationGroup.GetById(request.ViolationGroupId);
                 if (violationGroup == null || violationGroup.Status == ViolationGroupStatusEnums.INACTIVE.ToString())
                 {
-                    response.Message = "Không thể cập nhật Loại vi phạm vì ViolationGroup không tồn tại hoặc đã bị vô hiệu hóa.";
+                    response.Message = "Nhóm vi phạm không tồn tại hoặc đã bị vô hiệu hóa";
                     response.Success = false;
                     return response;
                 }

@@ -16,6 +16,7 @@ namespace StudentSupervisorAPI.Controllers
         {
             _service = service;
         }
+
         [HttpGet("violations-by-month-and-week")]
         public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
         {
@@ -125,39 +126,15 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("count-violations-by-year")]
-        public async Task<IActionResult> CountViolationsByYear([FromQuery] int schoolId, [FromQuery] short year)
+        [HttpGet("count-violations")]
+        public async Task<IActionResult> CountViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.CountViolationsByYear(schoolId, year);
+            var response = await _service.CountViolations(schoolId, year, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
             }
             return BadRequest(response);
         }
-
-        [HttpGet("count-violations-by-year-month")]
-        public async Task<IActionResult> CountViolationsByYearAndMonth([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month)
-        {
-            var response = await _service.CountViolationsByYearAndMonth(schoolId, year, month);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-        [HttpGet("count-violations-by-year-month-week")]
-        public async Task<IActionResult> CountViolationsByYearMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int weekNumber)
-        {
-            var response = await _service.CountViolationsByYearMonthAndWeek(schoolId, year, month, weekNumber);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-
     }
 }

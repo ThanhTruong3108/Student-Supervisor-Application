@@ -668,7 +668,7 @@ namespace StudentSupervisorService.Service.Implement
                 if (violation.Status == ViolationStatusEnums.INACTIVE.ToString())
                 {
                     response.Data = "Empty";
-                    response.Message = "Vi phạm đã bị xóa.";
+                    response.Message = "Vi phạm đã bị xóa";
                     response.Success = false;
                     return response;
                 }
@@ -723,7 +723,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 if (violation.Status != ViolationStatusEnums.PENDING.ToString())
                 {
-                    response.Message = "Chỉ những vi phạm đang Chờ xử lý mới có thể được chấp thuận";
+                    response.Message = "Chỉ những vi phạm đang Chờ xử lý mới có thể được Duyệt";
                     response.Success = false;
                     return response;
                 }

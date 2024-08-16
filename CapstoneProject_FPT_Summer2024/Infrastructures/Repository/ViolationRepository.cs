@@ -658,68 +658,46 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<int> CountViolationsByYear(int schoolId, short year)
+        public async Task<int> CountViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return 0;
 
-            return await _context.Violations
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
-                .CountAsync();
-        }
+            DateTime startDate, endDate;
 
-        public async Task<int> CountViolationsByYearAndMonth(int schoolId, short year, int month)
-        {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
-
-            if (schoolYear == null)
-                return 0;
-
-            var monthStartDate = new DateTime(year, month, 1);
-            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
-
-            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            if (month.HasValue)
             {
-                throw new ArgumentException("Tháng này không thuộc năm học " + year);
+                startDate = new DateTime(year, month.Value, 1);
+                endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (startDate < schoolYear.StartDate || endDate > schoolYear.EndDate)
+                {
+                    throw new ArgumentException($"Tháng {month} không thuộc năm học {year}");
+                }
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!!!");
+
+                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7);
+                }
+            }
+            else
+            {
+                startDate = schoolYear.StartDate;
+                endDate = schoolYear.EndDate;
             }
 
-            return await _context.Violations
-                .Where(v => v.Date >= monthStartDate && v.Date <= monthEndDate && v.Status == "APPROVED")
-                .CountAsync();
-        }
-
-        public async Task<int> CountViolationsByYearMonthAndWeek(int schoolId, short year, int month, int weekNumber)
-        {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
-
-            if (schoolYear == null)
-                return 0;
-
-            var monthStartDate = new DateTime(year, month, 1);
-            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
-
-            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-            {
-                throw new ArgumentException("Tháng này không thuộc năm học " + year);
-            }
-
-            if (!IsValidWeekNumberInMonth(year, month, weekNumber))
-                throw new ArgumentException("Số tuần không hợp lệ!!!");
-
-            var startDate = GetStartOfWeekInMonth(schoolYear.StartDate.Year, month, weekNumber);
-            var endDate = startDate.AddDays(7);
-
-            // Ensure the dates are within the school year's timeframe
             startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
             endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             return await _context.Violations
-                .Where(v => v.Date >= startDate && v.Date < endDate && v.Status == "APPROVED")
+                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
                 .CountAsync();
         }
-
-
     }
 }
