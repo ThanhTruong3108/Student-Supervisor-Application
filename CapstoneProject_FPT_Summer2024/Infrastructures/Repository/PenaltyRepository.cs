@@ -84,5 +84,13 @@ namespace Infrastructures.Repository
                 .Where(u => u.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task<List<Penalty>> GetActivePenaltiesBySchoolId(int schoolId)
+        {
+            return await _context.Penalties
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId && u.Status == PenaltyStatusEnums.ACTIVE.ToString())
+                .ToListAsync();
+        }
     }
 }

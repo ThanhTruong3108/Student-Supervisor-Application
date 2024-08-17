@@ -116,5 +116,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("school/{schoolId}/active")]
+        public async Task<ActionResult<DataResponse<List<PenaltyResponse>>>> GetActivePelnaltiesBySchoolId(int schoolId)
+        {
+            try
+            {
+                var penalties = await penaltyService.GetActivePenaltiesBySchoolId(schoolId);
+                return Ok(penalties);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

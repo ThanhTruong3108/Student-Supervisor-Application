@@ -267,5 +267,34 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<PenaltyResponse>>> GetActivePenaltiesBySchoolId(int schoolId)
+        {
+            var response = new DataResponse<List<PenaltyResponse>>();
+
+            try
+            {
+                var penalties = await _unitOfWork.Penalty.GetActivePenaltiesBySchoolId(schoolId);
+                if (penalties == null || !penalties.Any())
+                {
+                    response.Message = "Không tìm thấy Hình phạt nào cho SchoolId được chỉ định!!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var penaltyDTOs = _mapper.Map<List<PenaltyResponse>>(penalties);
+                    response.Data = penaltyDTOs;
+                    response.Message = "Đã tìm thấy Hình phạt";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }
