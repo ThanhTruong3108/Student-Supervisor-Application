@@ -54,7 +54,7 @@ namespace StudentSupervisorService.Service.Implement
                     "Thanh toan don hang",
                     items,
                     "https://school-fe-admin-main.vercel.app/payment/success",
-                    "https://school-fe-admin-main.vercel.app/payment/failure");
+                    "https://www.youtube.com/watch?v=oBykLn64AUc");
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
                 
                 // tạo object OrderCreateRequest để insert Order xuống DB
