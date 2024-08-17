@@ -24,6 +24,7 @@ namespace StudentSupervisorService.Models.Response.StudentSupervisorResponse
         public string? Description { get; set; }
 
         public byte RoleId { get; set; }
+        public string Status { get; set; }
 
     }
 }
