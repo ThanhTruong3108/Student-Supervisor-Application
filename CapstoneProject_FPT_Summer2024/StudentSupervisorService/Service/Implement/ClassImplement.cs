@@ -330,5 +330,35 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ClassResponse>>> GetClassesBySupervisorId(int userId)
+        {
+            var response = new DataResponse<List<ClassResponse>>();
+
+            try
+            {
+                var classes = await _unitOfWork.Class.GetClassesBySupervisorId(userId);
+                if (classes == null || !classes.Any())
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không tìm thấy lớp nào cho UserId được chỉ định !!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var classGroupDTO = _mapper.Map<List<ClassResponse>>(classes);
+                    response.Data = classGroupDTO;
+                    response.Message = "Lớp đã được tìm thấy";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
     }
 }

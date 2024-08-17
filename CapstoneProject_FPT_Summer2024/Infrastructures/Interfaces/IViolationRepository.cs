@@ -25,12 +25,12 @@ namespace Infrastructures.Interfaces
         Task<Dictionary<int, int>> GetViolationCountByYear(int studentId);
         Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
 
-        Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int? month = null, int? weekNumber = null);
         Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className, int? month = null, int? weekNumber = null);
         Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
         Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null);
+        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
         Task<List<Violation>> GetViolationsByUserId(int userId);
         Task<Violation> GetViolationByDisciplineId(int disciplineId);
         Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId);

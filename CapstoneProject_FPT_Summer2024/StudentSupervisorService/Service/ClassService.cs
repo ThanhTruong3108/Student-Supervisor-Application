@@ -15,5 +15,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<ClassResponse>>> GetClassesBySchoolId(int schoolId);
         Task<DataResponse<ClassResponse>> GetClassByScheduleId(int scheduleId);
         Task<DataResponse<List<ClassResponse>>> GetClassesByUserId(int userId);
+        Task<DataResponse<List<ClassResponse>>> GetClassesBySupervisorId(int userId);
     }
 }

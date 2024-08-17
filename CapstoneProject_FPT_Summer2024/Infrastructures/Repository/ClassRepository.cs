@@ -107,5 +107,16 @@ namespace Infrastructures.Repository
                 .Where(c => c.Teacher != null && c.Teacher.UserId == userId)
                 .ToListAsync();
         }
+
+        public async Task<List<Class>> GetClassesBySupervisorId(int userId)
+        {
+            return await _context.Classes
+                .Include(s => s.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(t => t.Teacher)
+                .ThenInclude(u => u.User)
+            .Where(c => c.ClassGroup.Teacher.UserId == userId)
+            .ToListAsync();
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("violations-by-month-and-week")]
-        public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             var response = await _service.GetViolationsByMonthAndWeek(schoolId, year, month, weekNumber);
             if (response.Success)
@@ -51,7 +51,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("classes-most-violations")]
-        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             var response = await _service.GetClassesWithMostViolations(schoolId, year, month, weekNumber);
             if (response.Success)
@@ -74,7 +74,7 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("class-with-most-students-violations")]
-        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int month, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             var response = await _service.GetClassWithMostStudentViolations(schoolId, year, month, weekNumber);
             if (response.Success)

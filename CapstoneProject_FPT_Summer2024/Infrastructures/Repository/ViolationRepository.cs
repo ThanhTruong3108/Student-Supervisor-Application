@@ -205,36 +205,39 @@ namespace Infrastructures.Repository
         }
 
 
-        public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int month, int? weekNumber = null)
+        public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int? month = null, int? weekNumber = null)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            // Get the school year based on the provided year
+            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.SchoolId == schoolId && s.Year == year);
 
             if (schoolYear == null)
                 return new List<Violation>();
 
-            var monthStartDate = new DateTime(year, month, 1);
-            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+            DateTime startDate = schoolYear.StartDate;
+            DateTime endDate = schoolYear.EndDate;
 
-            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            // Adjust dates based on the month and weekNumber
+            if (month.HasValue)
             {
-                throw new ArgumentException("Tháng này không thuộc năm học " + year);
-            }
+                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-            DateTime startDate;
-            DateTime endDate;
+                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+                {
+                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
+                }
 
-            if (weekNumber.HasValue)
-            {
-                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
-                    throw new ArgumentException("Số tuần không hợp lệ!!!");
-
-                startDate = GetStartOfWeekInMonth(schoolYear.StartDate.Year, month, weekNumber.Value);
-                endDate = startDate.AddDays(7);
-            }
-            else
-            {
                 startDate = monthStartDate;
-                endDate = monthStartDate.AddMonths(1);
+                endDate = monthEndDate;
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!!!");
+
+                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7);
+                }
             }
 
             // Ensure the dates are within the school year's timeframe
@@ -379,41 +382,45 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int month, int? weekNumber = null)
+        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
-                return new List<ClassViolationSummary>();
-
-            var monthStartDate = new DateTime(year, month, 1);
-            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
-
-            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-            {
-                throw new ArgumentException("Tháng này không thuộc năm học " + year);
-            }
+                throw new ArgumentException("Năm học không tồn tại.");
 
             DateTime startDate;
             DateTime endDate;
 
-            if (weekNumber.HasValue)
+            if (month.HasValue)
             {
-                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
-                    throw new ArgumentException("Số tuần không hợp lệ!");
+                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                startDate = GetStartOfWeekInMonth(year, month, weekNumber.Value);
-                endDate = startDate.AddDays(7).AddSeconds(-1);
+                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+                {
+                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
+                }
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+                else
+                {
+                    startDate = monthStartDate;
+                    endDate = monthEndDate;
+                }
             }
             else
             {
-                startDate = monthStartDate;
-                endDate = monthEndDate;
+                startDate = schoolYear.StartDate;
+                endDate = schoolYear.EndDate;
             }
-
-            // Ensure the dates are within the school year's timeframe
-            startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
-            endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             return await _context.Violations
                 .Include(c => c.Class)
@@ -429,6 +436,7 @@ namespace Infrastructures.Repository
                 .Take(3)
                 .ToListAsync();
         }
+
 
         //lấy top5 học hinh vi phạm nhiều nhất
         public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
@@ -485,36 +493,44 @@ namespace Infrastructures.Repository
         }
 
         // lấy Lớp có nhiều học sinh vi phạm nhất
-        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int month, int? weekNumber = null)
+        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
         {
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ClassViolationDetail>();
 
-            var monthStartDate = new DateTime(year, month, 1);
-            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
-
-            if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-            {
-                throw new ArgumentException("Tháng này không thuộc năm học " + year);
-            }
-
             DateTime startDate;
             DateTime endDate;
 
-            if (weekNumber.HasValue)
+            if (month.HasValue)
             {
-                if (!IsValidWeekNumberInMonth(year, month, weekNumber.Value))
-                    throw new ArgumentException("Số tuần không hợp lệ!");
+                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                startDate = GetStartOfWeekInMonth(year, month, weekNumber.Value);
-                endDate = startDate.AddDays(7).AddSeconds(-1);
+                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+                {
+                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
+                }
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+                else
+                {
+                    startDate = monthStartDate;
+                    endDate = monthEndDate;
+                }
             }
             else
             {
-                startDate = monthStartDate;
-                endDate = monthEndDate;
+                startDate = schoolYear.StartDate;
+                endDate = schoolYear.EndDate;
             }
 
             // Ensure the dates are within the school year's timeframe
@@ -544,6 +560,7 @@ namespace Infrastructures.Repository
 
             return violations;
         }
+
 
         // lấy những vi phạm thuộc lớp mà Giáo viên đó chủ nhiệm
         public async Task<List<Violation>> GetViolationsByUserId(int userId)
