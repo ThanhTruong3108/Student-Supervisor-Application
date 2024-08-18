@@ -53,8 +53,8 @@ namespace StudentSupervisorService.Service.Implement
                     existingPackage.Price,
                     "Thanh toan don hang",
                     items,
-                    "https://school-fe-admin-main.vercel.app/payment/failure",
-                    "https://school-fe-admin-main.vercel.app/payment/success");
+                    _payOSConfig.GetCancelUrl(),
+                    _payOSConfig.GetReturnUrl());
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
                 
                 // tạo object OrderCreateRequest để insert Order xuống DB
@@ -151,7 +151,7 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
-                    response.Data = updated;
+                    response.Data = "https://school-fe-admin-main.vercel.app/payment/success";
                     response.Message = "Thanh toán thành công";
                     response.Success = true;
                 }
@@ -171,7 +171,7 @@ namespace StudentSupervisorService.Service.Implement
                     };
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
-                    response.Data = updated;
+                    response.Data = "https://school-fe-admin-main.vercel.app/payment/failure";
                     response.Message = "Đã hủy thanh toán";
                     response.Success = true;
                 }
