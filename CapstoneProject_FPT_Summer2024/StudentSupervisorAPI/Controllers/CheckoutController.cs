@@ -59,7 +59,7 @@ namespace StudentSupervisorAPI.Controllers
             {
                 var orderResponse = await _checkoutService.VerifyTransaction(queryParams);
                 
-                return Ok(orderResponse);
+                return Redirect(orderResponse.Data.ToString());
             }
             catch (Exception ex)
             {
