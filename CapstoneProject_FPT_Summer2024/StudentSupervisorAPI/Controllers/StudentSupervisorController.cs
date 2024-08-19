@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentSupervisorService.Models.Request.TeacherRequest;
-using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.StudentSupervisorResponse;
 using StudentSupervisorService.Models.Request.StudentSupervisorRequest;
 using Microsoft.AspNetCore.Authorization;
-using StudentSupervisorService.Models.Response.ViolationTypeResponse;
 
 namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/student-supervisors")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class StudentSupervisorController : ControllerBase
     {
         private StudentSupervisorServices _service;
