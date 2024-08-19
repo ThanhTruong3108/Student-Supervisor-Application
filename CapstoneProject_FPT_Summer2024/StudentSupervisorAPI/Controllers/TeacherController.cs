@@ -46,19 +46,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchTeachers(int? schoolId = null, int? userId = null, bool sex = true, string sortOrder = "asc")
-        {
-            try
-            {
-                var teacher = await _service.SearchTeachers(schoolId, userId, sex, sortOrder);
-                return Ok(teacher);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpPost]
         public async Task<ActionResult<TeacherResponse>> CreateTeacherAccount(RequestOfTeacher request)

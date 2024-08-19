@@ -31,42 +31,6 @@ namespace Infrastructures.Repository
                 .CountAsync();
         }
 
-        public async Task<List<Student>> SearchStudents(int? schoolId, string? code, string? name, bool? sex, DateTime? birthday, string? address, string? phone)
-        {
-            var query = _context.Students.AsQueryable();
-
-            if (schoolId != null)
-            {
-                query = query.Where(p => p.SchoolId == schoolId);
-            }
-            if (!string.IsNullOrEmpty(code))
-            {
-                query = query.Where(p => p.Code.Contains(code));
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-            if (sex != null)
-            {
-                query = query.Where(p => p.Sex.Equals(sex));
-            }
-            if (birthday != null)
-            {
-                query = query.Where(p => p.Birthday == birthday);
-            }
-            if (!string.IsNullOrEmpty(address))
-            {
-                query = query.Where(p => p.Address.Contains(address));
-            }
-            if (!string.IsNullOrEmpty(phone))
-            {
-                query = query.Where(p => p.Phone.Contains(phone));
-            }
-            return await query
-                .Include(s => s.School)
-                .ToListAsync();
-        }
         public async Task<Student> CreateStudent(Student studentEntity)
         {
             await _context.Students.AddAsync(studentEntity);

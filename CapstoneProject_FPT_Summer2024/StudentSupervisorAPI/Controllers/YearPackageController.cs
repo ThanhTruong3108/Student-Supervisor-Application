@@ -45,20 +45,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchYearPackages(int? schoolYearId = null, int? packageId = null, string sortOrder = "asc")
-        {
-            try
-            {
-                var yearPackages = await _service.SearchYearPackages(schoolYearId, packageId, sortOrder);
-                return Ok(yearPackages);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<ResponseOfYearPackage>>> CreateYearPackage(RequestOfYearPackage request)
         {

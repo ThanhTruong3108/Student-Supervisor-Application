@@ -19,6 +19,8 @@ namespace Infrastructures.Repository
             var stuSupervisors = await _context.StudentSupervisors
                 .Include(c => c.User)
                 .Include(s => s.StudentInClass)
+                    .ThenInclude(c => c.Class)
+                    .ThenInclude(c => c.SchoolYear)
                 .ToListAsync();
             return stuSupervisors;
         }
@@ -28,40 +30,28 @@ namespace Infrastructures.Repository
             return _context.StudentSupervisors
               .Include(c => c.User)
               .Include(s => s.StudentInClass)
+                    .ThenInclude(c => c.Class)
+                    .ThenInclude(c => c.SchoolYear)
               .FirstOrDefault(s => s.StudentSupervisorId == id);
         }
 
         public async Task<List<StudentSupervisor>> GetStudentSupervisorsBySchoolId(int schoolId)
         {
             return await _context.StudentSupervisors
-                .Include(v => v.StudentInClass)
+                .Include(s => s.StudentInClass)
+                    .ThenInclude(c => c.Class)
+                    .ThenInclude(c => c.SchoolYear)
                 .Include(v => v.User)
                 .Where(v => v.User.SchoolId == schoolId)
-                .ToListAsync();
-        }
-
-        public async Task<List<StudentSupervisor>> SearchStudentSupervisors(int? userId, int? studentInClassId)
-        {
-            var query = _context.StudentSupervisors.AsQueryable();
-
-            if (userId.HasValue)
-            {
-                query = query.Where(p => p.UserId == userId.Value);
-            }
-            if (studentInClassId.HasValue)
-            {
-                query = query.Where(p => p.StudentInClassId == studentInClassId.Value);
-            }
-
-            return await query
-                .Include(c => c.User)
-                .Include(s => s.StudentInClass)
                 .ToListAsync();
         }
 
         public async Task<StudentSupervisor> GetStudentSupervisorByUserId(int userId)
         {
             return await _context.StudentSupervisors
+                .Include(s => s.StudentInClass)
+                    .ThenInclude(c => c.Class)
+                    .ThenInclude(c => c.SchoolYear)
                 .Include(ss => ss.PatrolSchedules)
                 .FirstOrDefaultAsync(ss => ss.UserId == userId);
         }

@@ -77,26 +77,6 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId)
-        {
-            var query = _context.YearPackages.AsQueryable();
-
-            if (schoolYearId.HasValue)
-            {
-                query = query.Where(p => p.SchoolYearId == schoolYearId.Value);
-            }
-
-            if (packageId.HasValue)
-            {
-                query = query.Where(p => p.PackageId == packageId.Value);
-            }
-
-            return await query
-                .Include(s => s.SchoolYear)
-                .Include(s => s.Package)
-                .ToListAsync();
-        }
-
         public async Task<YearPackage> CreateYearPackage(YearPackage entity)
         {
             await _context.YearPackages.AddAsync(entity);

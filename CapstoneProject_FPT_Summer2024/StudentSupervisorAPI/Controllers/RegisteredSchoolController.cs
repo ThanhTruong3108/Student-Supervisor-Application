@@ -51,25 +51,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<RegisteredSchoolResponse>>>> SearchRegisteredSchools(
-                       int? schoolId,
-                       DateTime? registeredDate,
-                       string? description,
-                       RegisteredSchoolStatusEnums? status,
-                       string sortOrder)
-        {
-            try
-            {
-                var registeredSchoolsResponse = await registeredSchoolService.SearchRegisteredSchools(schoolId, registeredDate, description, status.ToString(), sortOrder);
-                return Ok(registeredSchoolsResponse);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<DataResponse<RegisteredSchoolResponse>>> CreateRegisteredSchool(RegisteredSchoolCreateRequest request)
         {

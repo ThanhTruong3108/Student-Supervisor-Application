@@ -12,7 +12,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfUser>> CreateSchoolAdmin(RequestOfUser request);
         Task<DataResponse<ResponseOfUser>> DeleteUser(int userId);
         Task<DataResponse<ResponseOfUser>> UpdateUser(int id, RequestOfUser request);
-        Task<DataResponse<List<ResponseOfUser>>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone, string sortOrder);
         Task<DataResponse<List<ResponseOfUser>>> GetUsersBySchoolId(int schoolId);
     }
 }

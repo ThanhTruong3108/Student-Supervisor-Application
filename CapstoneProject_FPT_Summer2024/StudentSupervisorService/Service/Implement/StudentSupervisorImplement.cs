@@ -225,46 +225,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentSupervisorResponse>>> SearchStudentSupervisors(int? userId, int? studentInClassId, string sortOrder)
-        {
-            var response = new DataResponse<List<StudentSupervisorResponse>>();
-
-            try
-            {
-                var stuSupervisors = await _unitOfWork.StudentSupervisor.SearchStudentSupervisors(userId, studentInClassId);
-                if (stuSupervisors is null || stuSupervisors.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Sao đỏ nào phù hợp với tiêu chí!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    var stuSupervisorDTO = _mapper.Map<List<StudentSupervisorResponse>>(stuSupervisors);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        stuSupervisorDTO = stuSupervisorDTO.OrderByDescending(p => p.StudentSupervisorId).ToList();
-                    }
-                    else
-                    {
-                        stuSupervisorDTO = stuSupervisorDTO.OrderBy(p => p.StudentSupervisorId).ToList();
-                    }
-
-                    response.Data = stuSupervisorDTO;
-                    response.Message = "Tìm thấy Sao đỏ";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<StudentSupervisorResponse>> UpdateStudentSupervisor(int id, StudentSupervisorRequest request)
         {
             var response = new DataResponse<StudentSupervisorResponse>();

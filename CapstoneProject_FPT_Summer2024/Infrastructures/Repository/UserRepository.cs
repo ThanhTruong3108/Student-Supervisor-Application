@@ -51,40 +51,6 @@ namespace Infrastructures.Repository
                                     && u.Role.RoleName.Equals(RoleEnum.SCHOOL_ADMIN.ToString()));
         }
 
-        public async Task<List<User>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone)
-        {
-            var query = _context.Users.AsQueryable();
-
-            if (schoolId.HasValue)
-            {
-                query = query.Where(p => p.SchoolId == schoolId.Value);
-            }
-
-            if (role.HasValue)
-            {
-                query = query.Where(p => p.RoleId == role.Value);
-            }
-
-            if (!string.IsNullOrEmpty(code))
-            {
-                query = query.Where(p => p.Code.Contains(code));
-            }
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-
-            if (!string.IsNullOrEmpty(phone))
-            {
-                query = query.Where(p => p.Phone.Contains(phone));
-            }
-
-            return await query
-                .Include(c => c.School)
-                .Include (c => c.Role)
-                .ToListAsync();
-        }
         public async Task<List<User>> GetUsersBySchoolId(int schoolId)
         {
             return await _context.Users

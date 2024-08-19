@@ -12,7 +12,6 @@ namespace Infrastructures.Interfaces
     {
         Task<List<YearPackage>> GetAllYearPackages();
         Task<YearPackage> GetYearPackageById(int id);
-        Task<List<YearPackage>> SearchYearPackages(int? schoolYearId, int? packageId);
         Task<List<YearPackage>> GetYearPackagesBySchoolId(int schoolId);
         Task<YearPackage> CreateYearPackage(YearPackage entity);
         Task<YearPackage> GetValidYearPackageBySchoolYearId(int schoolYearId);

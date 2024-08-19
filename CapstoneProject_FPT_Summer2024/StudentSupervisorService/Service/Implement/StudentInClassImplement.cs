@@ -80,42 +80,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentInClassResponse>>> SearchStudentInClass(int? classId, int? studentId, DateTime? enrollDate, bool? isSupervisor, DateTime? startDate, DateTime? endDate, int? numberOfViolation, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<StudentInClassResponse>>();
-
-            try
-            {
-                var studentInClassEntities = await _unitOfWork.StudentInClass.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status);
-                if (studentInClassEntities is null || studentInClassEntities.Count == 0)
-                {
-                    response.Message = "Không có StudentInClass nào phù hợp với tiêu chí tìm kiếm!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        studentInClassEntities = studentInClassEntities.OrderByDescending(r => r.StudentInClassId).ToList();
-                    }
-                    else
-                    {
-                        studentInClassEntities = studentInClassEntities.OrderBy(r => r.StudentInClassId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<StudentInClassResponse>>(studentInClassEntities);
-                    response.Message = "Danh sách StudentInClass";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
-
         public async Task<DataResponse<StudentInClassResponse>> CreateStudentInClass(StudentInClassCreateRequest request)
         {
             var response = new DataResponse<StudentInClassResponse>();

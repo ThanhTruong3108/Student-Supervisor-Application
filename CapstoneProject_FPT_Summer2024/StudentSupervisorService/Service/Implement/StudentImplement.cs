@@ -76,43 +76,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<StudentResponse>>> SearchStudents(int? schoolId, string? code, string? name, bool? sex, DateTime? birthday, string? address, string? phone, string sortOrder)
-        {
-            var response = new DataResponse<List<StudentResponse>>();
-
-            try
-            {
-                var studentEntities = await unitOfWork.Student.SearchStudents(schoolId, code, name, sex, birthday, address, phone);
-                if (studentEntities is null || studentEntities.Count == 0)
-                {
-                    response.Message = "Không có Học sinh nào phù hợp với tiêu chí tìm kiếm";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        studentEntities = studentEntities.OrderByDescending(r => r.StudentId).ToList();
-                    }
-                    else
-                    {
-                        studentEntities = studentEntities.OrderBy(r => r.StudentId).ToList();
-                    }
-                    response.Data = mapper.Map<List<StudentResponse>>(studentEntities);
-                    response.Message = "Danh sách học sinh";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<StudentResponse>> CreateStudent(StudentCreateRequest request)
         {
             var response = new DataResponse<StudentResponse>();

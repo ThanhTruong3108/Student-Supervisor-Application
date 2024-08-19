@@ -47,27 +47,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<DataResponse<List<StudentResponse>>>> SearchStudents(
-            int? schoolId,
-            string? code,
-            string? name,
-            bool? sex,
-            DateTime? birthday,
-            string? address,
-            string? phone,
-            string? sortOrder)
-        {
-            try
-            {
-                var studentsResponse = await studentService.SearchStudents(schoolId, code, name, sex, birthday, address, phone, sortOrder);
-                return Ok(studentsResponse);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
-        }
 
         [HttpPost]
         public async Task<ActionResult<DataResponse<StudentResponse>>> CreateStudent(StudentCreateRequest request)

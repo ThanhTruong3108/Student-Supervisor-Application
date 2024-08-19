@@ -172,46 +172,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfYearPackage>>> SearchYearPackages(int? schoolYearId, int? packageId,  string sortOrder)
-        {
-            var response = new DataResponse<List<ResponseOfYearPackage>>();
-
-            try
-            {
-                var yearPackages = await _unitOfWork.YearPackage.SearchYearPackages(schoolYearId, packageId);
-                if (yearPackages is null || yearPackages.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Gói năm nào phù hợp với tiêu chí";
-                    response.Success = true;
-                }
-                else
-                {
-                    var yearPackageDTO = _mapper.Map<List<ResponseOfYearPackage>>(yearPackages);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        yearPackageDTO = yearPackageDTO.OrderByDescending(p => p.YearPackageId).ToList();
-                    }
-                    else
-                    {
-                        yearPackageDTO = yearPackageDTO.OrderBy(p => p.YearPackageId).ToList();
-                    }
-
-                    response.Data = yearPackageDTO;
-                    response.Message = "Tìm thấy Gói năm";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ResponseOfYearPackage>> UpdateYearPackage(int id, RequestOfYearPackage request)
         {
             var response = new DataResponse<ResponseOfYearPackage>();

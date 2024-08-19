@@ -58,28 +58,6 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Teacher>> SearchTeachers(int? schoolId, int? userId, bool sex)
-        {
-            var query = _context.Teachers.AsQueryable();
-
-            if (schoolId.HasValue)
-            {
-                query = query.Where(p => p.SchoolId == schoolId.Value);
-            }
-
-            if (userId.HasValue)
-            {
-                query = query.Where(p => p.UserId == userId.Value);
-            }
-
-            query = query.Where(p => p.Sex == sex);
-
-            return await query
-                .Include(c => c.User)
-                .Include(c => c.School)
-                .ToListAsync();
-        }
-
         public async Task<List<Teacher>> GetAllTeachersWithRoleTeacher(int schoolId)
         {
             const byte teacherRoleId = 5; 

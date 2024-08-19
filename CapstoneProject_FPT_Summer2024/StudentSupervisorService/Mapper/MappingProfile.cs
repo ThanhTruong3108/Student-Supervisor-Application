@@ -112,6 +112,7 @@ namespace StudentSupervisorService.Mapper
                .ForMember(re => re.Phone, act => act.MapFrom(src => src.User.Phone))
                .ForMember(re => re.Password, act => act.MapFrom(src => src.User.Password))
                .ForMember(re => re.Address, act => act.MapFrom(src => src.User.Address))
+               .ForMember(re => re.Year, act => act.MapFrom(src => src.StudentInClass.Class.SchoolYear.Year))
                .ForMember(re => re.RoleId, act => act.MapFrom(src => src.User.RoleId))
                .ForMember(re => re.Status, act => act.MapFrom(src => src.User.Status));
 

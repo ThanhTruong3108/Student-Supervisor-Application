@@ -49,31 +49,6 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<RegisteredSchool>> SearchRegisteredSchools(int? schoolId, DateTime? registerdDate, string? description, string? status)
-        {
-            var query = _context.RegisteredSchools.AsQueryable();
-
-            if (schoolId != null)
-            {
-                query = query.Where(p => p.SchoolId == schoolId);
-            }
-            if (registerdDate != null)
-            {
-                query = query.Where(p => p.RegisteredDate == registerdDate);
-            }
-            if (!string.IsNullOrEmpty(description))
-            {
-                query = query.Where(p => p.Description.Contains(description));
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                query = query.Where(p => p.Status.Equals(status));
-            }
-            return await query
-                .Include(c => c.School)
-                .ToListAsync();
-        }
-
         public async Task<RegisteredSchool> CreateRegisteredSchool(RegisteredSchool registeredSchoolEntity)
         {
             await _context.RegisteredSchools.AddAsync(registeredSchoolEntity);

@@ -76,43 +76,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<PenaltyResponse>>> SearchPenalties(int? schoolId, string? name, string? description, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<PenaltyResponse>>();
-
-            try
-            {
-                var penaltyEntities = await _unitOfWork.Penalty.SearchPenalties(schoolId, name, description, status);
-                if (penaltyEntities is null || penaltyEntities.Count == 0)
-                {
-                    response.Message = "Không có Hình phạt nào phù hợp với tiêu chí tìm kiếm!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        penaltyEntities = penaltyEntities.OrderByDescending(r => r.PenaltyId).ToList();
-                    }
-                    else
-                    {
-                        penaltyEntities = penaltyEntities.OrderBy(r => r.PenaltyId).ToList();
-                    }
-                    response.Data = _mapper.Map<List<PenaltyResponse>>(penaltyEntities);
-                    response.Message = "Danh sách hình phạt";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<PenaltyResponse>> CreatePenalty(PenaltyCreateRequest penaltyCreateRequest)
         {
             var response = new DataResponse<PenaltyResponse>();

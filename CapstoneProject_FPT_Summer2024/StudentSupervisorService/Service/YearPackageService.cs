@@ -11,7 +11,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfYearPackage>> CreateYearPackage(RequestOfYearPackage request);
         Task<DataResponse<ResponseOfYearPackage>> DeleteYearPackage(int id);
         Task<DataResponse<ResponseOfYearPackage>> UpdateYearPackage(int id, RequestOfYearPackage request);
-        Task<DataResponse<List<ResponseOfYearPackage>>> SearchYearPackages(int? schoolYearId, int? packageId, string sortOrder);
         Task<DataResponse<List<ResponseOfYearPackage>>> GetYearPackagesBySchoolId(int schoolId);
     }
 }

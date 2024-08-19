@@ -46,19 +46,6 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchUsers(int? schoolId = null,int? role = null, string? code = null, string? name = null, string? phone = null, string sortOrder = "asc")
-        {
-            try
-            {
-                var users = await _service.SearchUsers(schoolId, role, code, name, phone, sortOrder);
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpPost("principal")]
         public async Task<ActionResult<DataResponse<ResponseOfUser>>> CreatePrincipal(RequestOfUser request)

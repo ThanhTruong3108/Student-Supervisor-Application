@@ -81,41 +81,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<RegisteredSchoolResponse>>> SearchRegisteredSchools(int? schoolId, DateTime? registerdDate, string? description, string? status, string sortOrder)
-        {
-            var response = new DataResponse<List<RegisteredSchoolResponse>>();
-
-            try
-            {
-                var registeredSchoolEntities = await _unitOfWork.RegisteredSchool.SearchRegisteredSchools(schoolId, registerdDate, description, status);
-                if (registeredSchoolEntities is null || registeredSchoolEntities.Count == 0)
-                {
-                    response.Message = "Không có Trường đã đăng ký nào phù hợp với tiêu chí tìm kiếm";
-                    response.Success = true;
-                }
-                else
-                {
-                    if (sortOrder == "desc")
-                    {
-                        registeredSchoolEntities = registeredSchoolEntities.OrderByDescending(r => r.RegisteredDate).ToList();
-                    }
-                    else
-                    {
-                        registeredSchoolEntities = registeredSchoolEntities.OrderBy(r => r.RegisteredDate).ToList();
-                    }
-                    response.Data = _mapper.Map<List<RegisteredSchoolResponse>>(registeredSchoolEntities);
-                    response.Message = "Danh sách Trường đã đăng ký";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
-                    + (ex.InnerException != null ? ex.InnerException.Message : "");
-                response.Success = false;
-            }
-            return response;
-        }
         public async Task<DataResponse<RegisteredSchoolResponse>> CreateRegisteredSchool(RegisteredSchoolCreateRequest request)
         {
             var response = new DataResponse<RegisteredSchoolResponse>();

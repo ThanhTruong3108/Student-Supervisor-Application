@@ -29,32 +29,6 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.PenaltyId == id);
         }
 
-        public async Task<List<Penalty>> SearchPenalties(int? schoolId, string? name, string? description, string? status)
-        {
-            var query = _context.Penalties.AsQueryable();
-
-            if (schoolId != null)
-            {
-                query = query.Where(p => p.SchoolId == schoolId);
-            }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => p.Name.Contains(name));
-            }
-            if (!string.IsNullOrEmpty(description))
-            {
-                query = query.Where(p => p.Description.Contains(description));
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                query = query.Where(p => p.Status.Equals(status));
-            }
-
-            return await query
-                .Include(c => c.School)
-                .ToListAsync();
-        }
-
         public async Task<Penalty> CreatePenalty(Penalty penaltyEntity)
         {
             await _context.Penalties.AddAsync(penaltyEntity);

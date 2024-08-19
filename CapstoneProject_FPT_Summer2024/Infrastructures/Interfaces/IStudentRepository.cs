@@ -14,7 +14,6 @@ namespace Infrastructures.Interfaces
         Task<Student> GetStudentById(int id);
         Task<Student> GetStudentByCode(string code);
         Task<int> GetNumberOfStudentsBySchoolId(int schoolId);
-        Task<List<Student>> SearchStudents(int? schoolId, string? code, string? name, bool? sex, DateTime? birthday, string? address, string? phone);
         Task<Student> CreateStudent(Student studentEntity);
         Task<Student> UpdateStudent(Student studentEntity);
         Task DeleteStudent(int id);

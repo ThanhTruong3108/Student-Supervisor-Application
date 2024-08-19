@@ -255,46 +255,6 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfUser>>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone, string sortOrder)
-        {
-            var response = new DataResponse<List<ResponseOfUser>>();
-
-            try
-            {
-                var users = await _unitOfWork.User.SearchUsers( schoolId,role, code, name, phone);
-                if (users is null || users.Count == 0)
-                {
-                    response.Message = "Không tìm thấy Tài khoản Người dùng nào phù hợp với tiêu chí!!";
-                    response.Success = true;
-                }
-                else
-                {
-                    var userDTO = _mapper.Map<List<ResponseOfUser>>(users);
-
-                    // Thực hiện sắp xếp
-                    if (sortOrder == "desc")
-                    {
-                        userDTO = userDTO.OrderByDescending(p => p.UserId).ToList();
-                    }
-                    else
-                    {
-                        userDTO = userDTO.OrderBy(p => p.UserId).ToList();
-                    }
-
-                    response.Data = userDTO;
-                    response.Message = "Tìm thấy tài khoản người dùng";
-                    response.Success = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
-                response.Success = false;
-            }
-
-            return response;
-        }
-
         public async Task<DataResponse<ResponseOfUser>> UpdateUser(int id, RequestOfUser request)
         {
             var response = new DataResponse<ResponseOfUser>();

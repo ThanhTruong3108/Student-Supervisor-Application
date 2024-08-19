@@ -17,7 +17,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<TeacherResponse>> CreateAccountSupervisor(RequestOfTeacher request);
         Task<DataResponse<TeacherResponse>> DeleteTeacher(int id);
         Task<DataResponse<TeacherResponse>> UpdateTeacher(int id, RequestOfTeacher request);
-        Task<DataResponse<List<TeacherResponse>>> SearchTeachers(int? schoolId, int? userId, bool sex, string sortOrder);
         Task<DataResponse<List<TeacherResponse>>> GetTeachersBySchoolId(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleTeacher(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleSupervisor(int schoolId);
