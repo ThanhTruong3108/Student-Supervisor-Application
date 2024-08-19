@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Role;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -74,5 +75,19 @@ namespace Infrastructures.Repository
                 .Where(t => t.User.RoleId == teacherRoleId && t.SchoolId == schoolId) 
                 .ToListAsync();
         }
+        public async Task<List<Teacher>> GetTeachersWithoutClass(int schoolId, short year)
+        {
+            var teachers = await _context.Teachers
+                .Include(c => c.User)
+                .Include(c => c.School)
+                .Include(t => t.Classes)
+                .Where(t => t.SchoolId == schoolId &&
+                    t.User.RoleId == (byte)RoleAccountEnum.TEACHER &&
+                    !t.Classes.Any(c => c.SchoolYear.Year == year))
+                .ToListAsync();
+
+            return teachers;
+        }
+
     }
 }

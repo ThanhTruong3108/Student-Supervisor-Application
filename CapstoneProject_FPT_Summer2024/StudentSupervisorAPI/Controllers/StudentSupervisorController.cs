@@ -12,7 +12,7 @@ namespace StudentSupervisorAPI.Controllers
 {
     [Route("api/student-supervisors")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class StudentSupervisorController : ControllerBase
     {
         private StudentSupervisorServices _service;
@@ -105,5 +105,20 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("active-stu-supervisors/{schoolId}")]
+        public async Task<ActionResult<DataResponse<List<StudentSupervisorResponse>>>> GetActiveStudentSupervisorsWithLessThanTwoSchedules(int schoolId)
+        {
+            try
+            {
+                var stuSupers = await _service.GetActiveStudentSupervisorsWithLessThanTwoSchedules(schoolId);
+                return Ok(stuSupers);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
     }
 }

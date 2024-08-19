@@ -152,5 +152,20 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("without-class/school/{schoolId}/year/{year}")]
+        public async Task<ActionResult<DataResponse<List<TeacherResponse>>>> GetTeachersWithoutClass(int schoolId, short year)
+        {
+            try
+            {
+                var teachers = await _service.GetTeachersWithoutClass(schoolId, year);
+                return Ok(teachers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

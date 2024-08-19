@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums.Status;
 using Infrastructures.Interfaces;
 using Infrastructures.Repository.GenericRepository;
 using Microsoft.EntityFrameworkCore;
@@ -55,5 +56,22 @@ namespace Infrastructures.Repository
                 .Include(ss => ss.PatrolSchedules)
                 .FirstOrDefaultAsync(ss => ss.UserId == userId);
         }
+
+        public async Task<List<StudentSupervisor>> GetActiveStudentSupervisorsWithLessThanTwoSchedules(int schoolId)
+        {
+            var supervisors = await _context.StudentSupervisors
+                .Include(s => s.StudentInClass)
+                    .ThenInclude(c => c.Class)
+                    .ThenInclude(c => c.SchoolYear)
+                .Include(ss => ss.User)
+                .Include(ss => ss.PatrolSchedules)
+                .Where(ss => ss.User.Status == UserStatusEnums.ACTIVE.ToString() &&
+                             ss.User.SchoolId == schoolId &&
+                             ss.PatrolSchedules.Count(ps => ps.Status == PatrolScheduleStatusEnums.ONGOING.ToString()) < 2)
+                .ToListAsync();
+
+            return supervisors;
+        }
+
     }
 }

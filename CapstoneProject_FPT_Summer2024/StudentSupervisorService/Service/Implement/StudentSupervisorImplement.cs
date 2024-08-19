@@ -287,5 +287,35 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<StudentSupervisorResponse>>> GetActiveStudentSupervisorsWithLessThanTwoSchedules(int schoolId)
+        {
+            var response = new DataResponse<List<StudentSupervisorResponse>>();
+
+            try
+            {
+                var supervisors = await _unitOfWork.StudentSupervisor.GetActiveStudentSupervisorsWithLessThanTwoSchedules(schoolId);
+                if (supervisors == null || !supervisors.Any())
+                {
+                    response.Message = "Không tìm thấy Sao đỏ nào chưa đủ 2 lịch trực trong trường này!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var supervisorDTOs = _mapper.Map<List<StudentSupervisorResponse>>(supervisors);
+                    response.Data = supervisorDTOs;
+                    response.Message = "Danh sách Sao đỏ chưa đủ 2 lịch trực trong trường";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
     }
 }

@@ -20,5 +20,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<TeacherResponse>>> GetTeachersBySchoolId(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleTeacher(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleSupervisor(int schoolId);
+        Task<DataResponse<List<TeacherResponse>>> GetTeachersWithoutClass(int schoolId, short year);
     }
 }

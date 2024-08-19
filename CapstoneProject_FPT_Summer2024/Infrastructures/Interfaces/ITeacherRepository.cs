@@ -17,5 +17,6 @@ namespace Infrastructures.Interfaces
         Task<List<Teacher>> GetTeachersBySchoolId(int schoolId);
         Task<List<Teacher>> GetAllTeachersWithRoleTeacher(int schoolId);
         Task<List<Teacher>> GetAllTeachersWithRoleSupervisor(int schoolId);
+        Task<List<Teacher>> GetTeachersWithoutClass(int schoolId, short year);
     }
 }

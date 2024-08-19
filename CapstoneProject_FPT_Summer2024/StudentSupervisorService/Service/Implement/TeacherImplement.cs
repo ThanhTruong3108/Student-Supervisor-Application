@@ -386,5 +386,35 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<TeacherResponse>>> GetTeachersWithoutClass(int schoolId, short year)
+        {
+            var response = new DataResponse<List<TeacherResponse>>();
+
+            try
+            {
+                var teachers = await _unitOfWork.Teacher.GetTeachersWithoutClass(schoolId, year);
+                if (teachers == null || !teachers.Any())
+                {
+                    response.Message = "Không tìm thấy Giáo viên nào chưa thuộc lớp trong năm học và trường được chỉ định!";
+                    response.Success = false;
+                }
+                else
+                {
+                    var teacherDTOs = _mapper.Map<List<TeacherResponse>>(teachers);
+                    response.Data = teacherDTOs;
+                    response.Message = "Tìm thấy Giáo viên";
+                    response.Success = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Success = false;
+            }
+
+            return response;
+        }
+
     }
 }
