@@ -48,6 +48,29 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<DataResponse<List<StudentInClassResponse>>>> SearchStudentInClasses(
+               int? classId,
+               int? studentId,
+               DateTime? enrollDate,
+               bool? isSupervisor,
+               DateTime? startDate,
+               DateTime? endDate,
+               int? numberOfViolation,
+               StudentInClassStatusEnums? status,
+               string sortOrder)
+        {
+            try
+            {
+                var studentInClassesResponse = await studentInClassService.SearchStudentInClass(classId, studentId, enrollDate, isSupervisor, startDate, endDate, numberOfViolation, status.ToString(), sortOrder);
+                return Ok(studentInClassesResponse);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<DataResponse<StudentInClassResponse>>> CreateStudentInClass(StudentInClassCreateRequest request)
         {
