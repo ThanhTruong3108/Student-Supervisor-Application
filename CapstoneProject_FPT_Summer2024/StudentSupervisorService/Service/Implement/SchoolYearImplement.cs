@@ -35,6 +35,15 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                // if request.Year is > DateTime.Now.Year + 1, throw exception
+                if (request.Year > DateTime.Now.Year + 1)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Chỉ được tạo niên khóa trước 1 năm";
+                    response.Success = false;
+                    return response;
+                }
                 var createSchoolYear = _mapper.Map<SchoolYear>(request);
                 createSchoolYear.Status = SchoolYearStatusEnums.ONGOING.ToString();
 
