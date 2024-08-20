@@ -1259,8 +1259,15 @@ VALUES
 -- Chèn 2 bản ghi mẫu vào bảng Package
 INSERT INTO [SchoolRules].[dbo].[Package] ([Name], [Description], [Price], [Status])
 VALUES
-(N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 2500000, 'ACTIVE'),
-(N'Gói Vip', N'Gói Vip với giới hạn học sinh và vi phạm cao hơn gói thường, phù hợp cho các trường có quy mô lớn và có khả năng mở rộng trong tương lai', 4000000, 'ACTIVE');
+(N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 2000, 'ACTIVE');
+
+-- Chèn 2 bản ghi mẫu vào bảng Order
+INSERT INTO [SchoolRules].[dbo].[Order] ([UserID], [PackageID], [OrderCode], [Description], [Total], [AmountPaid], [AmountRemaining], [CounterAccountBankName], [CounterAccountNumber], [CounterAccountName], [Date], [Status])
+VALUES
+(1, 1, '996807', 'Thanh toán cho Gói Thường', 2000, 2000, 0, NULL, NULL, NULL, '2023-09-02', 'PAID'),
+(1, 1, '743501', 'Thanh toán cho Gói Thường', 2000, 2000, 0, NULL, NULL, NULL, '2024-08-06', 'PAID'),
+(31, 1, '598406', 'Thanh toán cho Gói Thường', 2000, 2000, 0, NULL, NULL, NULL, '2024-09-02', 'PAID'),
+(31, 1, '282534', 'Thanh toán cho Gói Thường', 2000, 2000, 0, NULL, NULL, NULL, '2024-08-02', 'PAID');
 
 
 -- Chèn 3 bản ghi mẫu vào bảng RegisteredSchool
@@ -1278,18 +1285,14 @@ INSERT INTO [SchoolRules].[dbo].[YearPackage] ([SchoolYearID], [PackageID], [Sta
 VALUES
     -- Dữ liệu cho năm học 2023
     (1, 1, 'EXPIRED'),
-    (1, 1, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
-    (2, 1, 'VALID'),
     (2, 1, 'VALID'),
 
     -- Dữ liệu cho năm học 2023
     (3, 1, 'EXPIRED'),
-    (3, 1, 'EXPIRED'),
 
     -- Dữ liệu cho năm học 2024
-    (4, 1, 'VALID'),
     (4, 1, 'VALID');
 
 
