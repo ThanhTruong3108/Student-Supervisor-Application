@@ -29,11 +29,36 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<StudentSupervisorResponse>();
             try
             {
-                // Check if the phone number already exists
+                // Kiểm tra xem số điện thoại đã tồn tại chưa
                 var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
                 if (isExist != null)
                 {
                     throw new Exception("Số điện thoại đã được sử dụng !!");
+                }
+
+                // Kiểm tra thông tin học sinh và lớp học tương ứng
+                var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
+                if (studentInClass == null)
+                {
+                    throw new Exception("Học sinh không tồn tại trong lớp.");
+                }
+
+                // Kiểm tra xem lớp này đã có bao nhiêu Sao đỏ
+                var supervisorsInClass = _unitOfWork.StudentSupervisor.Find(s => s.StudentInClass.ClassId == studentInClass.ClassId);
+
+                var supervisorCount = supervisorsInClass.Count();
+
+                if (supervisorCount >= 2)
+                {
+                    throw new Exception("Lớp này đã có 2 Sao đỏ");
+                }
+
+                // Kiểm tra xem học sinh này đã là Sao đỏ chưa
+                var existingSupervisor = _unitOfWork.StudentSupervisor.SingleOrDefault(s => s.StudentInClassId == request.StudentInClassId);
+
+                if (existingSupervisor != null)
+                {
+                    throw new Exception("Học sinh này đã là sao đỏ");
                 }
 
                 // Mã hóa mật khẩu
@@ -48,7 +73,7 @@ namespace StudentSupervisorService.Service.Implement
                         SchoolId = request.SchoolId,
                         Code = request.Code,
                         Name = request.SupervisorName,
-                        // Prepend "84" if not already present
+                        // Thêm tiền tố "84" nếu không có
                         Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
                         Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                         Address = request.Address,
@@ -59,13 +84,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 _unitOfWork.StudentSupervisor.Add(studentSupervisor);
 
-                // Cập nhật Supervisor cho StudentInClass tương ứng
-                var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
-                if (studentInClass != null)
-                {
-                    studentInClass.IsSupervisor = true;
-                    _unitOfWork.StudentInClass.Update(studentInClass);
-                }
+                // Cập nhật IsSupervisor cho StudentInClass tương ứng
+                studentInClass.IsSupervisor = true;
+                _unitOfWork.StudentInClass.Update(studentInClass);
 
                 _unitOfWork.Save();
 
@@ -75,7 +96,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo thất bại.\n" + ex.Message
+                response.Message = "Tạo thất bại. " + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
