@@ -85,6 +85,7 @@ namespace StudentSupervisorService.Service.Implement
                 {
                     SchoolId = request.SchoolId,
                     TeacherId = request.TeacherId,
+                    Name = request.Name,
                     Status = ClassGroupStatusEnums.ACTIVE.ToString()
                 };
 
@@ -126,6 +127,7 @@ namespace StudentSupervisorService.Service.Implement
 
                 existingClassGroup.SchoolId = request.SchoolId ?? existingClassGroup.SchoolId;
                 existingClassGroup.TeacherId = request.TeacherId ?? existingClassGroup.TeacherId;
+                existingClassGroup.Name = request.Name ?? existingClassGroup.Name;
 
                 await _unitOfWork.ClassGroup.UpdateClassGroup(existingClassGroup);
 

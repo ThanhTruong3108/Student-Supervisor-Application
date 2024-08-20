@@ -321,6 +321,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                discipline.EndDate = DateTime.Now;
                 discipline.Status = DisciplineStatusEnums.DONE.ToString();
                 _unitOfWork.Discipline.Update(discipline);
                 _unitOfWork.Save();

@@ -10,6 +10,7 @@ namespace StudentSupervisorService.Models.Request.ClassGroupRequest
     {
         public int SchoolId { get; set; }
         public int TeacherId { get; set; }
+        public string Name { get; set; }
 
     }
 
@@ -18,5 +19,6 @@ namespace StudentSupervisorService.Models.Request.ClassGroupRequest
         public int ClassGroupID { get; set; }
         public int? SchoolId { get; set; }
         public int? TeacherId { get; set; }
+        public string Name { get; set; }
     }
 }
