@@ -215,6 +215,16 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Ko cho tạo violation nếu quá 1 giờ so với thời gian trong lịch trực
+                var isOver1Hour = await _validationService.IsViolationCreatedOver1HourFromTimeInPatrolSchedule(request.ScheduleId);
+                if (isOver1Hour)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không thể tạo vi phạm sau 1 giờ từ lúc bắt đầu lịch trực";
+                    response.Success = false;
+                    return response;
+                }
+
                 // Validate Chỉ Sao đỏ được phân công trong lịch trực mới có quyền ghi nhận vi phạm cho lịch trực đó
                 var studentSupervisor = await _unitOfWork.StudentSupervisor.GetStudentSupervisorByUserId(userId);
                 if (studentSupervisor == null || !studentSupervisor.PatrolSchedules.Any(s => s.ScheduleId == request.ScheduleId))

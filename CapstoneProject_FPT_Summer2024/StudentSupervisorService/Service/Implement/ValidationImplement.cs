@@ -71,5 +71,35 @@ namespace StudentSupervisorService.Service.Implement
             }
             return result;
         }
+
+        public async Task<bool> IsViolationCreatedOver1HourFromTimeInPatrolSchedule(int patrolScheduleId)
+        {
+            bool result = false;
+            try
+            {
+                var existedPatrolSchedule = await _unitOfWork.PatrolSchedule.GetPatrolScheduleById(patrolScheduleId);
+                if (existedPatrolSchedule is null)
+                {
+                    await Console.Out.WriteLineAsync("Không tồn tại PatrolSchedule");
+                    return result;
+                }
+                // lấy Time của PatrolSchedule + 1h
+                var timeAdd1Hour = existedPatrolSchedule.Time.Value.Add(TimeSpan.FromHours(1));
+                if (DateTime.Now.TimeOfDay > timeAdd1Hour)
+                {
+                    result = true;
+                    return result;
+                } else
+                {
+                    result = false;
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync(e.Message);
+            }
+            return result;
+        }
     }
 }
