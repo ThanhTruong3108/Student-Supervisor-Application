@@ -21,5 +21,8 @@ namespace StudentSupervisorService.Service
         // => kiếm trong yearpackage bằng schoolyearid xem có package nào VALID ko
 
         Task<bool> IsHighSchoolDuplicated(int registeredId, string? code, string? name);
+
+        // chỉ được tạo Violation trong vòng 1 tiếng tính từ Time trong PatrolSchedule
+        Task<bool> IsViolationCreatedOver1HourFromTimeInPatrolSchedule(int patrolScheduleId);
     }
 }
