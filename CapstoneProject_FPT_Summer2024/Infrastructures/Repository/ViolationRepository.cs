@@ -623,7 +623,7 @@ namespace Infrastructures.Repository
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
                 .Include(s => s.Schedule)
-                .Where(v => v.UserId == userId)
+                .Where(v => v.UserId == userId && v.Status == ViolationStatusEnums.PENDING.ToString())
                 .ToListAsync();
         }
 
