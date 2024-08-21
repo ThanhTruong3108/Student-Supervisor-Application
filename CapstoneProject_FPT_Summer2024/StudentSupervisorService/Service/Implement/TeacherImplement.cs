@@ -32,7 +32,9 @@ namespace StudentSupervisorService.Service.Implement
                 var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
                 if (isExist != null)
                 {
-                    throw new Exception("Số điện thoại đã được sử dụng !!");
+                    response.Message = "Số điện thoại đã được sử dụng!";
+                    response.Success = false;
+                    return response;
                 }
 
                 var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
@@ -71,7 +73,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Message = "Tạo thất bại.\n" + ex.Message
+                response.Message = "Tạo thất bại." + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
@@ -86,7 +88,9 @@ namespace StudentSupervisorService.Service.Implement
                 var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
                 if (isExist != null)
                 {
-                    throw new Exception("Số điện thoại đã được sử dụng !!");
+                    response.Message = "Số điện thoại đã được sử dụng!";
+                    response.Success = false;
+                    return response;
                 }
 
                 var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();

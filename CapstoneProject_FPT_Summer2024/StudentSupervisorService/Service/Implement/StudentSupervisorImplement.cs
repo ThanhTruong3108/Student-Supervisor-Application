@@ -33,14 +33,18 @@ namespace StudentSupervisorService.Service.Implement
                 var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
                 if (isExist != null)
                 {
-                    throw new Exception("Số điện thoại đã được sử dụng !!");
+                    response.Message = ("Số điện thoại đã được sử dụng !!");
+                    response.Success = false;
+                    return response;
                 }
 
                 // Kiểm tra thông tin học sinh và lớp học tương ứng
                 var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
                 if (studentInClass == null)
                 {
-                    throw new Exception("Học sinh không tồn tại trong lớp.");
+                    response.Message = ("Học sinh không tồn tại trong lớp.");
+                    response.Success = false;
+                    return response;
                 }
 
                 // Kiểm tra xem lớp này đã có bao nhiêu Sao đỏ
@@ -50,7 +54,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 if (supervisorCount >= 2)
                 {
-                    throw new Exception("Lớp này đã có 2 Sao đỏ");
+                    response.Message = ("Lớp này đã có 2 Sao đỏ");
+                    response.Success = false;
+                    return response;
                 }
 
                 // Kiểm tra xem học sinh này đã là Sao đỏ chưa
@@ -58,7 +64,9 @@ namespace StudentSupervisorService.Service.Implement
 
                 if (existingSupervisor != null)
                 {
-                    throw new Exception("Học sinh này đã là sao đỏ");
+                    response.Message = ("Học sinh này đã là sao đỏ");
+                    response.Success = false;
+                    return response;
                 }
 
                 // Mã hóa mật khẩu
