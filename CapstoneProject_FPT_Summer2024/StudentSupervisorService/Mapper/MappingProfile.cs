@@ -210,6 +210,7 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<YearPackage, ResponseOfYearPackage>()
               .ForMember(re => re.SchoolName, act => act.MapFrom(src => src.SchoolYear.School.Name))
+              .ForMember(re => re.Code, act => act.MapFrom(src => src.SchoolYear.School.Code))
               .ForMember(re => re.Year, act => act.MapFrom(src => src.SchoolYear.Year))
               .ForMember(re => re.PackageName, act => act.MapFrom(src => src.Package.Name));
 
