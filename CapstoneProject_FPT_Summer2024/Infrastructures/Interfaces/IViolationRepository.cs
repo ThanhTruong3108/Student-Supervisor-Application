@@ -36,6 +36,7 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId);
         Task<List<Violation>> GetViolationsByUserRoleSupervisor(int userId);
         Task<List<Violation>> GetViolationsBySupervisorUserId(int userId);
-        Task<int> CountViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
+        Task<List<KeyValuePair<string, int>>> CountViolationsByDate(int schoolId, short year, int? month = null, int? weekNumber = null);
+        Task<List<KeyValuePair<string, int>>> GetMonthlyViolationCounts(int schoolId, short year);
     }
 }

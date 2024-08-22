@@ -675,20 +675,23 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<int> CountViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
+        public async Task<List<KeyValuePair<string, int>>> CountViolationsByDate(int schoolId, short year, int? month = null, int? weekNumber = null)
         {
+            // Tìm kiếm năm học tương ứng với year và schoolId
             var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
-                return 0;
+                return new List<KeyValuePair<string, int>>();
 
             DateTime startDate, endDate;
 
+            // Nếu người dùng cung cấp tháng
             if (month.HasValue)
             {
                 startDate = new DateTime(year, month.Value, 1);
                 endDate = startDate.AddMonths(1).AddDays(-1);
 
+                // Đảm bảo thời gian nằm trong niên khóa
                 if (startDate < schoolYear.StartDate || endDate > schoolYear.EndDate)
                 {
                     throw new ArgumentException($"Tháng {month} không thuộc năm học {year}");
@@ -700,7 +703,7 @@ namespace Infrastructures.Repository
                         throw new ArgumentException("Số tuần không hợp lệ!!!");
 
                     startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
-                    endDate = startDate.AddDays(7);
+                    endDate = startDate.AddDays(6);
                 }
             }
             else
@@ -709,12 +712,38 @@ namespace Infrastructures.Repository
                 endDate = schoolYear.EndDate;
             }
 
+            // Điều chỉnh startDate và endDate để đảm bảo nằm trong phạm vi của SchoolYear
             startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
             endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
-            return await _context.Violations
+            var violationsGroupedByDate = await _context.Violations
                 .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
-                .CountAsync();
+                .GroupBy(v => year) // Tất cả các vi phạm đều được nhóm vào năm học 2023
+                .Select(g => new KeyValuePair<string, int>(year.ToString(), g.Count()))
+                .ToListAsync();
+
+            return violationsGroupedByDate;
         }
+
+        public async Task<List<KeyValuePair<string, int>>> GetMonthlyViolationCounts(int schoolId, short year)
+        {
+            var schoolYear = await _context.SchoolYears
+                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+
+            if (schoolYear == null)
+                return new List<KeyValuePair<string, int>>();
+
+            var violationsGroupedByMonth = await _context.Violations
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .GroupBy(v => new { v.Date.Year, v.Date.Month })
+                .Select(g => new KeyValuePair<string, int>(
+                    new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMMM"),
+                    g.Count()
+                ))
+                .ToListAsync();
+
+            return violationsGroupedByMonth;
+        }
+
     }
 }

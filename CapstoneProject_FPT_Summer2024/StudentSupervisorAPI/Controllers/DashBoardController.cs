@@ -136,5 +136,54 @@ namespace StudentSupervisorAPI.Controllers
             }
             return BadRequest(response);
         }
+
+        [HttpGet("monthly-violations")]
+        public async Task<IActionResult> GetMonthlyViolations([FromQuery] int schoolId, [FromQuery] short year)
+        {
+            var response = await _service.GetMonthlyViolations(schoolId, year);
+
+            if (response.Success)
+            {
+                // Chuyển đổi kiểu dữ liệu từ object sang List<KeyValuePair<string, int>>
+                var monthlyViolations = response.Data as List<KeyValuePair<string, int>>;
+
+                if (monthlyViolations != null)
+                {
+                    var result = new
+                    {
+                        title = "Monthly Violation Counts",
+                        unit = "Violations",
+                        values = monthlyViolations
+                            .Select(v => new { name = v.Key, data = v.Value })
+                            .ToList()
+                    };
+
+                    // Trả về dữ liệu theo định dạng yêu cầu
+                    return Ok(new DataResponse<object>
+                    {
+                        Data = new
+                        {
+                            title = result.title,
+                            unit = result.unit,
+                            values = result.values
+                        },
+                        Success = response.Success,
+                        Message = response.Message
+                    });
+                }
+                else
+                {
+                    return BadRequest(new DataResponse<object>
+                    {
+                        Data = null,
+                        Success = false,
+                        Message = "Dữ liệu không hợp lệ."
+                    });
+                }
+            }
+
+            return BadRequest(response);
+        }
+
     }
 }
