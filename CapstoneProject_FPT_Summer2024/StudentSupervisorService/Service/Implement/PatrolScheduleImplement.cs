@@ -84,6 +84,26 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<PatrolScheduleResponse>();
             try
             {
+                TimeSpan? time = null;
+                if (!string.IsNullOrEmpty(request.Time))
+                {
+                    time = TimeSpan.Parse(request.Time);
+                }
+
+                // Kiểm tra xem Sao đỏ này đã có bao nhiêu lịch trực với trạng thái ONGOING
+                var ongoingSchedules = _unitOfWork.PatrolSchedule.Find(ps => ps.SupervisorId == request.SupervisorId
+                    && ps.Status == PatrolScheduleStatusEnums.ONGOING.ToString());
+
+                // Đếm số lượng lịch trực ONGOING
+                var supervisorOngoingCount = ongoingSchedules.Count();
+
+                if (supervisorOngoingCount >= 2)
+                {
+                    response.Message = "Sao đỏ này đã có 2 lịch trực ONGOING";
+                    response.Success = false;
+                    return response;
+                }
+
                 var pScheduleEntity = new PatrolSchedule
                 {
                     ClassId = request.ClassId,
@@ -91,7 +111,7 @@ namespace StudentSupervisorService.Service.Implement
                     SupervisorId = request.SupervisorId,
                     Name = request.Name,
                     Slot = request.Slot,
-                    Time = request.Time,
+                    Time = time,
                     From = request.From,
                     To = request.To,
                     Status = PatrolScheduleStatusEnums.ONGOING.ToString()
@@ -112,6 +132,7 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
+
         public async Task<DataResponse<PatrolScheduleResponse>> UpdatePatrolSchedule(PatrolScheduleUpdateRequest request)
         {
             var response = new DataResponse<PatrolScheduleResponse>();
@@ -126,7 +147,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                if (existingPatrolSchedule.Status == PatrolScheduleStatusEnums.FINISHED.ToString() 
+                if (existingPatrolSchedule.Status == PatrolScheduleStatusEnums.FINISHED.ToString()
                     || existingPatrolSchedule.Status == PatrolScheduleStatusEnums.INACTIVE.ToString())
                 {
                     response.Message = "Lịch trực đã kết thúc hoặc đã bị xóa, không thể cập nhật";
@@ -139,10 +160,24 @@ namespace StudentSupervisorService.Service.Implement
                 existingPatrolSchedule.Supervisor.StudentSupervisorId = request.SupervisorId ?? existingPatrolSchedule.SupervisorId;
                 existingPatrolSchedule.Name = request.Name ?? existingPatrolSchedule.Name;
                 existingPatrolSchedule.Slot = request.Slot ?? existingPatrolSchedule.Slot;
-                existingPatrolSchedule.Time = request.Time ?? existingPatrolSchedule.Time;
+
+                if (!string.IsNullOrEmpty(request.Time))
+                {
+                    if (TimeSpan.TryParse(request.Time, out TimeSpan parsedTime))
+                    {
+                        existingPatrolSchedule.Time = parsedTime;
+                    }
+                    else
+                    {
+                        response.Message = "Thời gian không hợp lệ";
+                        response.Success = false;
+                        return response;
+                    }
+                }
+
                 existingPatrolSchedule.From = request.From ?? existingPatrolSchedule.From;
                 existingPatrolSchedule.To = request.To ?? existingPatrolSchedule.To;
-                existingPatrolSchedule.Status = request.Status.ToString() ?? existingPatrolSchedule.Status;
+                //existingPatrolSchedule.Status = request.Status.ToString() ?? existingPatrolSchedule.Status;
 
                 await _unitOfWork.PatrolSchedule.UpdatePatrolSchedule(existingPatrolSchedule);
 
@@ -159,6 +194,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
+
 
         public async Task<DataResponse<PatrolScheduleResponse>> DeletePatrolSchedule(int id)
         {

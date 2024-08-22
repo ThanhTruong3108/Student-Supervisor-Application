@@ -15,7 +15,8 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
         public int SupervisorId { get; set; }
         public string? Name { get; set; }
         public int? Slot { get; set; }
-        public TimeSpan? Time { get; set; }
+        [Required(ErrorMessage = "The Time field is required")]
+        public string? Time { get; set; }
         [Required(ErrorMessage = "The From field is required")]
         public DateTime From { get; set; }
         [Required(ErrorMessage = "The To field is required")]
@@ -30,9 +31,9 @@ namespace StudentSupervisorService.Models.Request.PatrolScheduleRequest
         public int? SupervisorId { get; set; }
         public string? Name { get; set; }
         public int? Slot { get; set; }
-        public TimeSpan? Time { get; set; }
+        public string? Time { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
-        public PatrolScheduleStatusEnums? Status { get; set; }
+        //public PatrolScheduleStatusEnums? Status { get; set; }
     }
 }
