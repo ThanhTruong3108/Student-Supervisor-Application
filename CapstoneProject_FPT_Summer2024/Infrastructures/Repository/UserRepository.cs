@@ -51,6 +51,18 @@ namespace Infrastructures.Repository
                                     && u.Role.RoleName.Equals(RoleEnum.SCHOOL_ADMIN.ToString()));
         }
 
+        // lấy các ACTIVE user có role là STUDENT_SUPERVISOR theo schoolId
+        public async Task<List<User>> GetActiveStudentSupervisorBySchoolId(int schoolId)
+        {
+            return await _context.Users
+                .Include(c => c.Role)
+                .Include(c => c.School)
+                .Where(u => u.SchoolId == schoolId
+                            && u.Status.Equals(UserStatusEnums.ACTIVE.ToString())
+                            && u.Role.RoleName.Equals(RoleEnum.STUDENT_SUPERVISPOR.ToString()))
+                .ToListAsync();
+        }
+
         public async Task<List<User>> SearchUsers(int? schoolId, int? role, string? code, string? name, string? phone)
         {
             var query = _context.Users.AsQueryable();
@@ -92,6 +104,13 @@ namespace Infrastructures.Repository
                 .Include(c => c.Role)
                 .Where(u => u.SchoolId == schoolId)
                 .ToListAsync();
+        }
+
+        // update nhiều User
+        public async Task UpdateMultipleUsers(List<User> users)
+        {
+            _context.Users.UpdateRange(users);
+            await _context.SaveChangesAsync();
         }
     }
 }
