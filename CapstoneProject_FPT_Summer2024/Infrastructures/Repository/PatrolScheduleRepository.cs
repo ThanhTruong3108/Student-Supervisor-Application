@@ -97,5 +97,22 @@ namespace Infrastructures.Repository
                 .Where(v => v.Class.ClassGroup.Teacher.UserId == userId)
                 .ToListAsync();
         }
+
+        // lấy các ONGOING PatrolSchedule mà EndDate + 1 ngày < DateTime.Now
+        public async Task<List<PatrolSchedule>> GetOngoingPatrolSchedulesOver1Day()
+        {
+            DateTime oneDayAgo = DateTime.Now.AddDays(-1);
+            return await _context.PatrolSchedules
+                .Where(x => x.Status == PatrolScheduleStatusEnums.ONGOING.ToString()
+                       && x.To < oneDayAgo)
+                .ToListAsync();
+        }
+
+        // update nhiều PatrolSchedule
+        public async Task UpdateMultiplePatrolSchedules(List<PatrolSchedule> patrolSchedules)
+        {
+            _context.PatrolSchedules.UpdateRange(patrolSchedules);
+            await _context.SaveChangesAsync();
+        }
     }
 }

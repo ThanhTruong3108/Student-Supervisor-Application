@@ -500,11 +500,14 @@ namespace StudentSupervisorService.Service.Implement
                     // xóa hình ảnh cũ
                     foreach (var imageUrl in violation.ImageUrls)
                     {
-                        var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
-                        if (deleteResult.StatusCode != HttpStatusCode.OK)
+                        if (imageUrl.PublicId != null)
                         {
-                            await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
-                            throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                            var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
+                            if (deleteResult.StatusCode != HttpStatusCode.OK)
+                            {
+                                await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
+                                throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                            }
                         }
                     }
                     // xóa ảnh cũ của violation
@@ -593,11 +596,14 @@ namespace StudentSupervisorService.Service.Implement
                     // xóa hình ảnh cũ
                     foreach (var imageUrl in violation.ImageUrls)
                     {
-                        var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
-                        if (deleteResult.StatusCode != HttpStatusCode.OK)
+                        if (imageUrl.PublicId != null)
                         {
-                            await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
-                            throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                            var deleteResult = await _imageUrlService.DeleteImage(imageUrl.PublicId);
+                            if (deleteResult.StatusCode != HttpStatusCode.OK)
+                            {
+                                await Console.Out.WriteLineAsync("Lỗi khi xóa hình ảnh ở UpdateViolation");
+                                throw new Exception($"Failed to delete image with public ID {imageUrl.Name}");
+                            }
                         }
                     }
                     // xóa ảnh cũ của violation
