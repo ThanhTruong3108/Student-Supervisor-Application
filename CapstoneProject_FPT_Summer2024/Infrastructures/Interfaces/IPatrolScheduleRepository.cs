@@ -18,5 +18,7 @@ namespace Infrastructures.Interfaces
         Task<List<PatrolSchedule>> GetPatrolSchedulesBySchoolId(int schoolId);
         Task<List<PatrolSchedule>> GetPatrolSchedulesByUserId(int userId);
         Task<List<PatrolSchedule>> GetPatrolSchedulesBySupervisorUserId(int userId);
+        Task<List<PatrolSchedule>> GetOngoingPatrolSchedulesOver1Day();
+        Task UpdateMultiplePatrolSchedules(List<PatrolSchedule> patrolSchedules);
     }
 }

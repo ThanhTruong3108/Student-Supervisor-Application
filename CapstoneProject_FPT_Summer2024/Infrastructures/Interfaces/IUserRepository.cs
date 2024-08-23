@@ -16,5 +16,7 @@ namespace Infrastructures.Interfaces
         Task<User> GetActiveSchoolAdminBySchoolId(int schoolId);
         Task<User> GetAccountByPhone(string phone);
         Task<List<User>> GetUsersBySchoolId(int schoolId);
+        Task<List<User>> GetActiveStudentSupervisorBySchoolId(int schoolId);
+        Task UpdateMultipleUsers(List<User> users);
     }
 }

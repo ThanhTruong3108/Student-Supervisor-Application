@@ -31,6 +31,12 @@ namespace StudentSupervisorService.Service.Implement
 
             var deleteClassIfOverSchoolYearResult = await DeleteClassIfOverSchoolYear();
             await Console.Out.WriteLineAsync(deleteClassIfOverSchoolYearResult ? "DeleteClassIfOverSchoolYear success" : "DeleteClassIfOverSchoolYear failed");
+
+            var finishPatrolScheduleResult = await FinishPatrolSchedule();
+            await Console.Out.WriteLineAsync(finishPatrolScheduleResult ? "FinishPatrolSchedule success" : "FinishPatrolSchedule failed");
+
+            var deleteStudentSupervisorIfOverSchoolYearResult = await DeleteStudentSupervisorIfOverSchoolYear();
+            await Console.Out.WriteLineAsync(deleteStudentSupervisorIfOverSchoolYearResult ? "DeleteStudentSupervisorIfOverSchoolYear success" : "DeleteStudentSupervisorIfOverSchoolYear failed");
         }
 
         // Xóa các order đang PENDING quá 1 ngày chưa thanh toán
@@ -127,6 +133,62 @@ namespace StudentSupervisorService.Service.Implement
             {
                 await Console.Out.WriteLineAsync("Error in DeleteClassIfOverSchoolYear: " + e.Message);
                 return false;
+            }
+            return result;
+        }
+
+        // FINSHED các PatrolSchedule khi hết ngày
+        private async Task<bool> FinishPatrolSchedule()
+        {
+            try
+            {
+                var patrolSchedules = await _unitOfWork.PatrolSchedule.GetOngoingPatrolSchedulesOver1Day();
+                await Console.Out.WriteLineAsync("patrolSchedules COUNT: " + patrolSchedules.Count);
+                if (patrolSchedules != null)
+                {
+                    foreach (var patrolSchedule in patrolSchedules)
+                    {
+                        patrolSchedule.Status = PatrolScheduleStatusEnums.FINISHED.ToString();
+                    }
+                    await _unitOfWork.PatrolSchedule.UpdateMultiplePatrolSchedules(patrolSchedules);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync("Error in FinishPatrolSchedule: " + e.Message);
+                return false;
+            }
+        }
+
+        // Xóa các acc Sao Đỏ trong trường khi hết năm học
+        private async Task<bool> DeleteStudentSupervisorIfOverSchoolYear()
+        {
+            var result = false;
+            try
+            {
+                var schoolYears = await _unitOfWork.SchoolYear.GetOngoingSchoolYearsOver1Day();
+
+                await Console.Out.WriteLineAsync("schoolYears COUNT: " + schoolYears.Count);
+                if (schoolYears != null)
+                {
+                    foreach (var schoolYear in schoolYears)
+                    {
+                        var studentSupervisors = await _unitOfWork.User.GetActiveStudentSupervisorBySchoolId(schoolYear.SchoolId);
+                        foreach (var studentSupervisor in studentSupervisors)
+                        {
+                            studentSupervisor.Status = UserStatusEnums.INACTIVE.ToString();
+                        }
+                        await _unitOfWork.User.UpdateMultipleUsers(studentSupervisors);
+                    }
+                    result = true;
+                }
+                result = false;
+            }
+            catch (Exception e)
+            {
+                await Console.Out.WriteLineAsync("Error in DeleteRedUserIfOverSchoolYear: " + e.Message);
             }
             return result;
         }
