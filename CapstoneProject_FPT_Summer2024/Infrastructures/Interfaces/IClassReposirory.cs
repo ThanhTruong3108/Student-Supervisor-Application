@@ -21,5 +21,6 @@ namespace Infrastructures.Interfaces
         Task<Class> GetClassByScheduleId(int scheduleId);
         Task<List<Class>> GetClassesByUserId(int userId);
         Task<List<Class>> GetClassesBySupervisorId(int userId);
+        Task<List<Class>> GetClassesByTeacherAndYear(int userId, short year);
     }
 }

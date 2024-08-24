@@ -360,5 +360,31 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
+        public async Task<DataResponse<List<ClassResponse>>> GetClassesBySupervisorAndYear(int userId, short year)
+        {
+            var response = new DataResponse<List<ClassResponse>>();
+            try
+            {
+                var classEntities = await _unitOfWork.Class.GetClassesByTeacherAndYear(userId, year);
+                if (classEntities is null || !classEntities.Any())
+                {
+                    response.Message = "Không có lớp học nào được tìm thấy cho giáo viên này trong năm học này!";
+                    response.Success = true;
+                    return response;
+                }
+
+                response.Data = _mapper.Map<List<ClassResponse>>(classEntities);
+                response.Message = "Danh sách các lớp học";
+                response.Success = true;
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
+        }
     }
 }

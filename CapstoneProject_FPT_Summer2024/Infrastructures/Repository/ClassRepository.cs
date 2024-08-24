@@ -107,7 +107,7 @@ namespace Infrastructures.Repository
                 .Where(c => c.Teacher != null && c.Teacher.UserId == userId)
                 .ToListAsync();
         }
-
+        
         public async Task<List<Class>> GetClassesBySupervisorId(int userId)
         {
             return await _context.Classes
@@ -117,6 +117,17 @@ namespace Infrastructures.Repository
                 .ThenInclude(u => u.User)
             .Where(c => c.ClassGroup.Teacher.UserId == userId)
             .ToListAsync();
+        }
+        // Lấy những lớp GT đó quản lý theo từng năm
+        public async Task<List<Class>> GetClassesByTeacherAndYear(int userId, short year)
+        {
+            return await _context.Classes
+                .Include(c => c.SchoolYear)
+                .Include(c => c.ClassGroup)
+                .Include(c => c.Teacher)
+                    .ThenInclude(t => t.User)
+                .Where(c => c.ClassGroup.Teacher.UserId == userId && c.SchoolYear.Year == year)
+                .ToListAsync();
         }
     }
 }

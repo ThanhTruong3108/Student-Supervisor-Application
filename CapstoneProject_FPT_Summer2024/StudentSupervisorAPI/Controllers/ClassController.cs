@@ -137,5 +137,19 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("by-supervisor")]
+        public async Task<ActionResult<DataResponse<List<ClassResponse>>>> GetClassesByTeacherAndYear(int userId, short year)
+        {
+            try
+            {
+                var classesResponse = await classService.GetClassesBySupervisorAndYear(userId, year);
+                return Ok(classesResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
