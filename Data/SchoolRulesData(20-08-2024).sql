@@ -392,13 +392,13 @@ VALUES
 	(1, 3, 8, 'OBT001', 12, '12A1', 100, 'INACTIVE'),
 	(1, 3, 9, 'OBT002', 12, '12A2', 100, 'INACTIVE'),
 	(1, 3, 10, 'OBT003', 12, '12A3', 100, 'INACTIVE'),
-	(2, 1, 10, 'TBT004', 10, '10A1', 100, 'ACTIVE'),
-	(2, 1, 9, 'TBT005', 10, '10A2', 100, 'ACTIVE'),
+	(2, 1, 10, 'TBT004', 10, '10A1', 90, 'ACTIVE'),
+	(2, 1, 9, 'TBT005', 10, '10A2', 95, 'ACTIVE'),
 	(2, 1, 8, 'TBT006', 10, '10A3', 100, 'ACTIVE'),
 	(2, 2, 7, 'EBT004', 11, '11A1', 100, 'ACTIVE'),
-	(2, 2, 6, 'EBT005', 11, '11A2', 100, 'ACTIVE'),
+	(2, 2, 6, 'EBT005', 11, '11A2', 95, 'ACTIVE'),
 	(2, 2, 5, 'EBT006', 11, '11A3', 100, 'ACTIVE'),
-	(2, 3, 4, 'OBT004', 12, '12A1', 100, 'ACTIVE'),
+	(2, 3, 4, 'OBT004', 12, '12A1', 90, 'ACTIVE'),
 	(2, 3, 3, 'OBT005', 12, '12A2', 100, 'ACTIVE'),
 	(2, 3, 2, 'OBT006', 12, '12A3', 100, 'ACTIVE'),
 
@@ -700,20 +700,20 @@ VALUES
 (1, N'Bỏ tiết/trốn tiết', 0, N'Không tuân thủ quy định về sự hiện diện', 'ACTIVE'),
 (1, N'Nghỉ buổi lao động có phép/không phép', 1, N'Không tuân thủ quy định về sự hiện diện', 'ACTIVE'),
 -- Vi phạm nề nếp
-(2, N'Đi lại trên hành lang, ngoài sân trong giờ học', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Đi lại trên hành lang, ngoài sân trong giờ học', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Gây ồn ào, mất trật tự', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Leo rào, trèo tường', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Đi vệ sinh sai nơi quy định', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Để xe sai quy định', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Đưa người lạ mặt vào trường', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Đưa người lạ mặt vào trường', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Mang điện thoại, tư trang quý vào trường', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Vi phạm luật giao thông', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Vi phạm luật giao thông', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Uống rượu, hút thuốc, sử dụng chất kích thích gây nghiện', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 (2, N'Cờ bạc', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Không mang đủ sách vở, dụng cụ học tập', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Không chú ý nghe giảng', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Nói chuyện, làm việc riêng trong giờ học', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
-(2, N'Tự ý ra khỏi lớp trong giờ học', 1, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Không mang đủ sách vở, dụng cụ học tập', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Không chú ý nghe giảng', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Nói chuyện, làm việc riêng trong giờ học', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
+(2, N'Tự ý ra khỏi lớp trong giờ học', 0, N'Không tuân thủ quy định về trật tự, nề nếp', 'ACTIVE'),
 -- Vi phạm học tập - thi cử
 (3, N'Không chép bài đầy đủ', 1, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử', 'ACTIVE'),
 (3, N'Không làm bài tập về nhà', 1, N'Gian lận hoặc không trung thực trong quá trình học tập và thi cử', 'ACTIVE'),
@@ -834,32 +834,32 @@ VALUES
     (9, 62, 9, N'Lịch tuần tra lớp 12A3', 1, '7:00:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 10A1 năm học 2024
-    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2024
-    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2024
-    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2024
-    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2024
-    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2024
-    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '7:00:00', '2024-08-01', '2024-08-31', 'ONGOING'),
+    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '10:30:00', '2024-08-01', '2024-08-31', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2024
-    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2024
-    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2024
-    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '7:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
 
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2023
@@ -979,18 +979,18 @@ VALUES
 (33, 21, 64, 210, 42, N'Vắng mặt trong giờ thể dục', N'Không tham gia giờ thể dục mà không có lý do chính đáng', '2024-01-30', '2024-01-30', NULL, 'APPROVED'),
 
 -- Class 10 Violations
-(22, 10, 6, 91, 19, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học', '2024-08-28 10:30:00', '2024-08-28', NULL, 'PENDING'),
+(22, 10, 6, 91, 19, N'Xả rác bừa bãi', N'Học sinh xả rác bừa bãi', '2024-08-28 10:30:00', '2024-08-28', NULL, 'PENDING'),
 (22, 10, 24, 96, 19,  N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp', '2024-08-28 11:00:00', '2024-08-28', NULL, 'PENDING'),
 (22, 10, 4, 100, 19, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường', '2024-08-28 09:00:00', '2024-08-28', NULL, 'PENDING'),
 
-(3, 14, 2, 92, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
-(3, 14, 2, 94, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
+(3, 10, 2, 92, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
+(3, 10, 2, 94, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
 
 -- Class 11 Violations
 (23, 11, 35, 102, 21, N'Mang đồ ăn vào trong lớp', N'Học sinh mang đồ ăn vào trong lớp', '2024-08-28 09:00:00', '2024-08-28', NULL, 'PENDING'),
 (23, 11, 2, 105, 21, N'Đi học trễ', N'Học sinh đi học trễ.', '2024-08-27 08:45:00', '2024-08-28', NULL, 'PENDING'),
 
-(3, 14, 2, 108, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
+(3, 11, 2, 108, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
 
 -- Class 12 Violations
 (24, 12, 29, 113, 23, N'Gây sự, đánh nhau', N'Học sinh gây sự, đánh nhau', '2024-08-28 10:00:00', '2024-08-28', NULL, 'PENDING'),
@@ -1002,7 +1002,7 @@ VALUES
 (25, 13, 8, 124, 25, N'Đi vệ sinh sai nơi quy định', N'Học sinh đi vệ sinh sai nơi quy định', '2024-08-28', '2024-08-28', NULL, 'PENDING'),
 
 -- Class 14 Violations
-(26, 14, 6, 131, 27, N'Nói chuyện riêng', N'Học sinh nói chuyện trong giờ học', '2024-08-28 10:30:00', '2024-08-28', NULL, 'PENDING'),
+(26, 14, 6, 131, 27, N'Xả rác bừa bãi', N'Học sinh xả rác bừa bãi', '2024-08-28 10:30:00', '2024-08-28', NULL, 'PENDING'),
 (26, 14, 24, 139, 27,  N'Ngôn ngữ không phù hợp', N'Học sinh sử dụng ngôn ngữ không phù hợp', '2024-08-28 11:00:00', '2024-08-28', NULL, 'PENDING'),
 (26, 14, 4, 136, 27, N'Không tuân theo lịch sinh hoạt chung', N'Học sinh không tuân theo lịch sinh hoạt chung của nhà trường', '2024-08-28 09:00:00', '2024-08-28', NULL, 'PENDING'),
 (26, 14, 2, 137, 27, N'Đi học trễ', N'Học sinh đi học trễ.', '2024-08-28 08:45:00', '2024-08-28', NULL, 'PENDING'),
@@ -1018,8 +1018,8 @@ VALUES
 (28, 16, 43, 159, 31, N'Mặc không đúng quy định', N'Học sinh không tuân thủ quy định về trang phục', '2024-08-28 08:00:00', '2024-08-28', NULL, 'PENDING'),
 (28, 16, 45, 160, 31, N'Phụ kiện không phù hợp', N'Học sinh đeo phụ kiện không được phép bởi nhà trường', '2024-08-28 08:15:00', '2024-08-28', NULL, 'PENDING'),
 
-(62, 14, 2, 155, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
-(62, 14, 2, 157, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
+(62, 16, 2, 155, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
+(62, 16, 2, 157, NULL, N'Nghỉ học có phép/không phép', N'Học sinh nghỉ học không phép', '2024-08-28', '2024-08-28', NULL, 'APPROVED'),
 
 -- Class 17 Violations
 (29, 17, 24, 162, 33, N'Vô lễ với thầy cô giáo', N'Học sinh vô lễ với thầy cô giáo', '2024-08-28 10:00:00', '2024-08-28', NULL, 'PENDING'),
@@ -1273,11 +1273,8 @@ VALUES
 -- Chèn 3 bản ghi mẫu vào bảng RegisteredSchool
 INSERT INTO [SchoolRules].[dbo].[RegisteredSchool] ([SchoolID], [RegisteredDate], [Description], [Status])
 VALUES
-(1, '2023-08-30', N'Trường đã đăng ký tham gia hệ thống quản lý vi phạm', 'ACTIVE'),
-(1, '2023-09-01', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống', 'ACTIVE'),
-(1, '2024-01-05', N'Trường đang trong giai đoạn thử nghiệm các tính năng mới', 'ACTIVE'),
-
-(2, '2023-09-01', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống', 'ACTIVE');
+(1, '2023-08-30', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống', 'ACTIVE'),
+(2, '2023-08-30', N'Trường đã hoàn tất quy trình đăng ký và bắt đầu sử dụng hệ thống', 'ACTIVE');
 
 
 -- Chèn 16 bản ghi mẫu vào bảng YearPackage
@@ -1348,7 +1345,7 @@ VALUES
     (40, NULL, 'http://example.com/images/violation40.jpg', N'Ảnh vi phạm Đạo văn', N'Ảnh minh họa vi phạm Đạo văn của học sinh.'),
 
 	-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    (71, NULL, 'https://th.bing.com/th/id/R.307706c37076cfc34108bf5a60c14c0c?rik=NtHsk3VfSJt1zw&pid=ImgRaw&r=0', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh'),
+    (71, NULL, 'https://baotayninh.vn/image/fckeditor/upload/2017/20170712/images/Rac_thai_IMG_4250.jpg', N'Ảnh vi phạm xả rác bừa bãi', N'Ảnh minh họa vi phạm xả rác bừa bãi của học sinh'),
     (72, NULL, 'https://th.bing.com/th/id/OIP.tYZUpnJhu5zgOI3goZOIoQHaDt?rs=1&pid=ImgDetMain', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp của học sinh'),
     (73, NULL, 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-nen-que-huong-tuoi-tho-tron-hoc.jpeg', N'Ảnh vi phạm Không tuân theo lịch sinh hoạt chung', N'Ảnh minh họa vi phạm Không tuân theo lịch sinh hoạt chung'),
     (74, NULL, 'http://example.com/images/violation34.jpg', N'Ảnh vi phạm Nghỉ học không phép', N'Ảnh minh họa vi phạm Nghỉ học không phép của học sinh'),
@@ -1362,7 +1359,7 @@ VALUES
 
     (82, NULL, 'https://th.bing.com/th/id/OIP.MSfp9M0UCCpN3EO6BOZACwHaEK?rs=1&pid=ImgDetMain', N'Ảnh vi phạm Nói tục, chửi thề', N'Ảnh minh họa vi phạm Nói tục, chửi thề'),
     (83, NULL, 'https://th.bing.com/th/id/OIP.fwHFkRYU4VGc9eUBwGubjwHaEo?rs=1&pid=ImgDetMain', N'Ảnh vi phạm Đi vệ sinh sai nơi quy định', N'Ảnh minh họa vi phạm Đi vệ sinh sai nơi quy định của học sinh.'),
-    (84, NULL, 'https://th.bing.com/th/id/R.307706c37076cfc34108bf5a60c14c0c?rik=NtHsk3VfSJt1zw&pid=ImgRaw&r=0', N'Ảnh vi phạm Nói chuyện riêng', N'Ảnh minh họa vi phạm Nói chuyện riêng của học sinh.'),
+    (84, NULL, 'https://baotayninh.vn/image/fckeditor/upload/2017/20170712/images/Rac_thai_IMG_4250.jpg', N'Ảnh vi phạm xả rác bừa bãi', N'Ảnh minh họa vi phạm xả rác bừa bãi của học sinh.'),
     (85, NULL, 'https://toplist.vn/images/800px/bai-van-nghi-luan-ve-hien-tuong-noi-tuc-chui-the-trong-gioi-tre-hien-nay-so-2-603307.jpg', N'Ảnh vi phạm Ngôn ngữ không phù hợp', N'Ảnh minh họa vi phạm Ngôn ngữ không phù hợp'),
     (86, NULL, 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/hinh-nen-que-huong-tuoi-tho-tron-hoc.jpeg', N'Ảnh vi phạm Không tuân theo lịch sinh hoạt chung', N'Ảnh minh họa vi phạm Không tuân theo lịch sinh hoạt chung của học sinh.'),
     (87, NULL, 'https://th.bing.com/th/id/R.7f17728311689a8368d3edcec251676a?rik=iOuPsBM3UvCWyw&riu=http%3a%2f%2fmedia.doisongphapluat.com%2f688%2f2020%2f1%2f20%2ftreo-tuong-vao-truong-nhung-ha-canh-nham-cho-nam-sinh-nhan-cai-ket-do-khoc-do-cuoi.jpg&ehk=h64KFOL57cnRKblDEll2I6lXdQmuOfsQMnaM4oOc2UE%3d&risl=&pid=ImgRaw&r=0', N'Ảnh vi phạm Đi học trễ', N'Ảnh minh họa vi phạm Đi học trễ của học sinh.'),
