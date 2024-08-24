@@ -45,6 +45,31 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                // phải tạo SchoolYear trước khi mua Package
+                // lấy schoolId từ userId
+                var schoolId = (await _unitOfWork.User.GetUserById((int)userIdFromJWT)).SchoolId;
+
+                var anySchoolYear = await _unitOfWork.SchoolYear.GetOngoingSchoolYearBySchoolIdAndYear((int)schoolId, DateTime.Now.Year);
+
+                // nếu chưa tạo SchoolYear năm nay thì trả về thông báo lỗi
+                if (anySchoolYear == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Không có Niên khóa năm " + DateTime.Now.Year + ", vui lòng tạo niên khóa trước";
+                    response.Success = false;
+                    return response;
+                }
+
+                // nếu SchoolYear đã thanh toán gói Package này rồi thì không cho thanh toán nữa
+                if (await _unitOfWork.YearPackage.GetValidYearPackageBySchoolYearIdAndPackageId(anySchoolYear.SchoolYearId, request.PackageID) != null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Niên khóa năm " + DateTime.Now.Year + " đã thanh toán " + existingPackage.Name + " rồi";
+                    response.Success = false;
+                    return response;
+                }
+
                 // tạo thông tin thanh toán
                 int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
                 List<ItemData> items = new List<ItemData> { new ItemData(existingPackage.Name, 1, existingPackage.Price) };

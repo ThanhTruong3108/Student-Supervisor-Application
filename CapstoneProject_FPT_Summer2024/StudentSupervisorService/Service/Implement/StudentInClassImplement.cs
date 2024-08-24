@@ -184,7 +184,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
                 // Student trùng mã Code trước đó => ko cho update
-                var existedStudentByCode = await _unitOfWork.Student.GetStudentByCode(request.Code);
+                var existedStudentByCode = _unitOfWork.Student.Find(h => h.Code == request.Code && h.StudentId != request.StudentId).FirstOrDefault();
                 if (existedStudentByCode != null)
                 {
                     response.Data = "Empty";
