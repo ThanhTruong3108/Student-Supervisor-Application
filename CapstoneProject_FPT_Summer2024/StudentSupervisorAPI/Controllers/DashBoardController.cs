@@ -151,7 +151,7 @@ namespace StudentSupervisorAPI.Controllers
                 {
                     var result = new
                     {
-                        title = "Monthly Violation Counts",
+                        title = "Số lượng vi phạm hàng tháng",
                         unit = "Violations",
                         values = monthlyViolations
                             .Select(v => new { name = v.Key, data = v.Value })

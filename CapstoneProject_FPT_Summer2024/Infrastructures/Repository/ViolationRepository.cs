@@ -736,14 +736,51 @@ namespace Infrastructures.Repository
             var violationsGroupedByMonth = await _context.Violations
                 .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
                 .GroupBy(v => new { v.Date.Year, v.Date.Month })
-                .Select(g => new KeyValuePair<string, int>(
-                    new DateTime(g.Key.Year, g.Key.Month, 1).ToString("MMMM"),
-                    g.Count()
-                ))
+                .Select(g => new
+                {
+                    Month = g.Key.Month,
+                    Year = g.Key.Year,
+                    Count = g.Count()
+                })
                 .ToListAsync();
 
-            return violationsGroupedByMonth;
+            var result = new List<KeyValuePair<string, int>>();
+
+            var currentDate = schoolYear.StartDate;
+            while (currentDate <= schoolYear.EndDate)
+            {
+                var monthName = GetVietnameseMonthName(currentDate.Month);
+                var monthYear = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+                var monthData = violationsGroupedByMonth
+                    .FirstOrDefault(v => v.Year == monthYear.Year && v.Month == monthYear.Month);
+
+                result.Add(new KeyValuePair<string, int>(monthName, monthData?.Count ?? 0));
+
+                currentDate = currentDate.AddMonths(1);
+            }
+
+            return result;
         }
 
+        private string GetVietnameseMonthName(int month)
+        {
+            return month switch
+            {
+                1 => "Tháng 1",
+                2 => "Tháng 2",
+                3 => "Tháng 3",
+                4 => "Tháng 4",
+                5 => "Tháng 5",
+                6 => "Tháng 6",
+                7 => "Tháng 7",
+                8 => "Tháng 8",
+                9 => "Tháng 9",
+                10 => "Tháng 10",
+                11 => "Tháng 11",
+                12 => "Tháng 12",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
     }
 }
