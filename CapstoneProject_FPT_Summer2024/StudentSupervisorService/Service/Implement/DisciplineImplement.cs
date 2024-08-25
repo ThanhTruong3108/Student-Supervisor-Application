@@ -274,6 +274,15 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Check if the PenaltyId is not null
+                if (discipline.PennaltyId == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Kỷ luật không có hình phạt, không thể chuyển thành Đang diễn ra";
+                    response.Success = false;
+                    return response;
+                }
+
                 discipline.Status = DisciplineStatusEnums.EXECUTING.ToString();
                 _unitOfWork.Discipline.Update(discipline);
                 _unitOfWork.Save(); 
@@ -365,6 +374,15 @@ namespace StudentSupervisorService.Service.Implement
                 if (discipline.Status != DisciplineStatusEnums.PENDING.ToString())
                 {
                     response.Message = "Trạng thái kỷ luật không phải là Chờ xử lý, không thể chuyển thành Đang khiếu nại";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Check if the PenaltyId is not null
+                if (discipline.PennaltyId == null)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Kỷ luật không có hình phạt, không thể Khiếu nại";
                     response.Success = false;
                     return response;
                 }
