@@ -29,7 +29,9 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<TeacherResponse>();
             try
             {
-                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                var normalizedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                var isExist = _unitOfWork.User.Find(u => u.Phone == normalizedPhone).FirstOrDefault();
                 if (isExist != null)
                 {
                     response.Message = "Số điện thoại đã được sử dụng!";
@@ -56,8 +58,7 @@ namespace StudentSupervisorService.Service.Implement
                     SchoolId = request.SchoolId,
                     Code = request.Code,
                     Name = request.TeacherName,
-                    // Prepend "84" if not already present
-                    Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
+                    Phone = normalizedPhone, // Sử dụng số điện thoại đã được chuẩn hóa
                     Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                     Address = request.Address,
                     RoleId = (byte)RoleAccountEnum.SUPERVISOR,
@@ -85,7 +86,11 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<TeacherResponse>();
             try
             {
-                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                // Chuẩn hóa số điện thoại (thêm "84" vào đầu nếu chưa có)
+                var normalizedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                // Kiểm tra trùng lặp số điện thoại
+                var isExist = _unitOfWork.User.Find(u => u.Phone == normalizedPhone).FirstOrDefault();
                 if (isExist != null)
                 {
                     response.Message = "Số điện thoại đã được sử dụng!";
@@ -93,7 +98,8 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
+                // Kiểm tra trùng lặp mã tài khoản
+                var isExistCode =  _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
                 if (isExistCode != null)
                 {
                     response.Message = "Mã tài khoản đã được sử dụng!!";
@@ -107,28 +113,31 @@ namespace StudentSupervisorService.Service.Implement
                 // Mã hóa mật khẩu
                 var hashedPassword = _passwordHasher.HashPassword(request.Password);
 
+                // Tạo đối tượng User
                 teacher.User = new User
                 {
                     SchoolId = request.SchoolId,
                     Code = request.Code,
                     Name = request.TeacherName,
-                    // Prepend "84" if not already present
-                    Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
+                    Phone = normalizedPhone, // Lưu số điện thoại đã được chuẩn hóa
                     Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                     Address = request.Address,
                     RoleId = (byte)RoleAccountEnum.TEACHER,
                     Status = UserStatusEnums.ACTIVE.ToString()
                 };
 
+                // Thêm đối tượng Teacher vào cơ sở dữ liệu
                 _unitOfWork.Teacher.Add(teacher);
                 _unitOfWork.Save();
 
+                // Ánh xạ dữ liệu phản hồi
                 response.Data = _mapper.Map<TeacherResponse>(teacher);
                 response.Message = "Tạo thành công";
                 response.Success = true;
             }
             catch (Exception ex)
             {
+                // Xử lý ngoại lệ và phản hồi lỗi
                 response.Message = "Tạo thất bại.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;

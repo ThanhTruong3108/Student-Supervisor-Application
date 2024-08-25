@@ -29,7 +29,9 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                var formattedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(formattedPhone);
                 if (isExistPhone != null)
                 {
                     throw new Exception("Số điện thoại đã được sử dụng!!");
@@ -44,11 +46,7 @@ namespace StudentSupervisorService.Service.Implement
                 var newPrincipal = _mapper.Map<User>(request);
                 newPrincipal.RoleId = (byte)RoleAccountEnum.PRINCIPAL;
                 newPrincipal.Status = UserStatusEnums.ACTIVE.ToString();
-
-                // Prepend "84" if not already present
-                newPrincipal.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
-
-                // Hash the password before saving it
+                newPrincipal.Phone = formattedPhone;
                 newPrincipal.Password = _passwordHasher.HashPassword(request.Password);
 
                 _unitOfWork.User.Add(newPrincipal);
@@ -76,7 +74,6 @@ namespace StudentSupervisorService.Service.Implement
 
             try
             {
-                // nếu trường đó đã có 1 acc SchoolAdmin ACTIVE thì ko cho tạo
                 if (request.SchoolId.HasValue)
                 {
                     var existedSchoolAdmin = await _unitOfWork.User.GetActiveSchoolAdminBySchoolId(request.SchoolId.Value);
@@ -86,7 +83,9 @@ namespace StudentSupervisorService.Service.Implement
                     }
                 }
 
-                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                var formattedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
+                var isExistPhone = await _unitOfWork.User.GetAccountByPhone(formattedPhone);
                 if (isExistPhone != null)
                 {
                     throw new Exception("Số điện thoại đã được sử dụng!!");
@@ -101,11 +100,7 @@ namespace StudentSupervisorService.Service.Implement
                 var newSchoolAdmin = _mapper.Map<User>(request);
                 newSchoolAdmin.RoleId = (byte)RoleAccountEnum.SCHOOL_ADMIN;
                 newSchoolAdmin.Status = UserStatusEnums.ACTIVE.ToString();
-
-                // Prepend "84" if not already present
-                newSchoolAdmin.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
-
-                // Hash the password before saving it
+                newSchoolAdmin.Phone = formattedPhone;
                 newSchoolAdmin.Password = _passwordHasher.HashPassword(request.Password);
 
                 _unitOfWork.User.Add(newSchoolAdmin);
@@ -276,6 +271,9 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
+                // Prepend "84" if not already present
+                var formattedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
                 var isExistCode = _unitOfWork.User.Find(u => u.Code == request.Code && u.UserId != id).FirstOrDefault();
                 if (isExistCode != null)
                 {
@@ -284,7 +282,7 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-                var isExistPhone = _unitOfWork.User.Find(u => u.Phone == request.Phone && u.UserId != id).FirstOrDefault();
+                var isExistPhone = _unitOfWork.User.Find(u => u.Phone == formattedPhone && u.UserId != id).FirstOrDefault();
                 if (isExistPhone != null)
                 {
                     response.Message = "Số điện thoại đã được sử dụng";
@@ -292,15 +290,12 @@ namespace StudentSupervisorService.Service.Implement
                     return response;
                 }
 
-
                 user.SchoolId = request.SchoolId;
                 user.Code = request.Code;
                 user.Name = request.Name;
-                // Prepend "84" if not already present
-                user.Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+                user.Phone = formattedPhone;
                 user.Address = request.Address;
 
-                // Mã hóa mật khẩu nếu có yêu cầu cập nhật mật khẩu mới
                 if (!string.IsNullOrWhiteSpace(request.Password))
                 {
                     user.Password = _passwordHasher.HashPassword(request.Password);
@@ -321,5 +316,6 @@ namespace StudentSupervisorService.Service.Implement
 
             return response;
         }
+
     }
 }

@@ -29,11 +29,22 @@ namespace StudentSupervisorService.Service.Implement
             var response = new DataResponse<StudentSupervisorResponse>();
             try
             {
+                // Chuẩn hóa số điện thoại (thêm "84" vào đầu nếu chưa có)
+                var normalizedPhone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone;
+
                 // Kiểm tra xem số điện thoại đã tồn tại chưa
-                var isExist = await _unitOfWork.User.GetAccountByPhone(request.Phone);
+                var isExist = _unitOfWork.User.Find(u => u.Phone == normalizedPhone).FirstOrDefault();
                 if (isExist != null)
                 {
-                    response.Message = ("Số điện thoại đã được sử dụng !!");
+                    response.Message = "Số điện thoại đã được sử dụng !!";
+                    response.Success = false;
+                    return response;
+                }
+
+                var isExistCode = _unitOfWork.User.Find(s => s.Code == request.Code).FirstOrDefault();
+                if (isExistCode != null)
+                {
+                    response.Message = "Mã tài khoản đã được sử dụng!!";
                     response.Success = false;
                     return response;
                 }
@@ -42,29 +53,27 @@ namespace StudentSupervisorService.Service.Implement
                 var studentInClass = _unitOfWork.StudentInClass.GetById(request.StudentInClassId);
                 if (studentInClass == null)
                 {
-                    response.Message = ("Học sinh không tồn tại trong lớp.");
+                    response.Message = "Học sinh không tồn tại trong lớp.";
                     response.Success = false;
                     return response;
                 }
 
                 // Kiểm tra xem lớp này đã có bao nhiêu Sao đỏ
                 var supervisorsInClass = _unitOfWork.StudentSupervisor.Find(s => s.StudentInClass.ClassId == studentInClass.ClassId);
-
                 var supervisorCount = supervisorsInClass.Count();
 
                 if (supervisorCount >= 2)
                 {
-                    response.Message = ("Lớp này đã có 2 Sao đỏ");
+                    response.Message = "Lớp này đã có 2 Sao đỏ";
                     response.Success = false;
                     return response;
                 }
 
                 // Kiểm tra xem học sinh này đã là Sao đỏ chưa
                 var existingSupervisor = _unitOfWork.StudentSupervisor.SingleOrDefault(s => s.StudentInClassId == request.StudentInClassId);
-
                 if (existingSupervisor != null)
                 {
-                    response.Message = ("Học sinh này đã là sao đỏ");
+                    response.Message = "Học sinh này đã là sao đỏ";
                     response.Success = false;
                     return response;
                 }
@@ -81,8 +90,7 @@ namespace StudentSupervisorService.Service.Implement
                         SchoolId = request.SchoolId,
                         Code = request.Code,
                         Name = request.SupervisorName,
-                        // Thêm tiền tố "84" nếu không có
-                        Phone = request.Phone.StartsWith("84") ? request.Phone : "84" + request.Phone,
+                        Phone = normalizedPhone, // Lưu số điện thoại đã được chuẩn hóa
                         Password = hashedPassword, // Sử dụng mật khẩu đã mã hóa
                         Address = request.Address,
                         RoleId = (byte)RoleAccountEnum.STUDENT_SUPERVISOR,
