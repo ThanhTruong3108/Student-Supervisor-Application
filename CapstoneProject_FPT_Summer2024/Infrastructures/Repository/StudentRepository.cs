@@ -68,6 +68,13 @@ namespace Infrastructures.Repository
                 .FirstOrDefault(x => x.Code == code);
         }
 
+        public async Task<Student> GetStudentByCodeAndSchoolId(string code, int schoolId)
+        {
+            return _context.Students
+                .Include(s => s.School)
+                .FirstOrDefault(x => x.Code == code && x.SchoolId == schoolId);
+        }
+
         public async Task<List<Student>> GetStudentsBySchoolId(int schoolId)
         {
             return await _context.Students

@@ -13,6 +13,7 @@ namespace Infrastructures.Interfaces
         Task<List<Student>> GetAllStudents();
         Task<Student> GetStudentById(int id);
         Task<Student> GetStudentByCode(string code);
+        Task<Student> GetStudentByCodeAndSchoolId(string code, int schoolId);
         Task<int> GetNumberOfStudentsBySchoolId(int schoolId);
         Task<Student> CreateStudent(Student studentEntity);
         Task<Student> UpdateStudent(Student studentEntity);
