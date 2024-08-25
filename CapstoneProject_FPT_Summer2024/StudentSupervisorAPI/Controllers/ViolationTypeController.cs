@@ -130,7 +130,7 @@ namespace StudentSupervisorAPI.Controllers
             }
         }
 
-        [HttpGet("api/violation-types/by-group-for-student-supervisor/{violationGroupId}")]
+        [HttpGet("by-group-for-student-supervisor/{violationGroupId}")]
         public async Task<IActionResult> GetViolationTypesByGroupForStudentSupervisor(int violationGroupId)
         {
             var response = await _service.GetViolationTypesByGroupForStudentSupervisor(violationGroupId);
