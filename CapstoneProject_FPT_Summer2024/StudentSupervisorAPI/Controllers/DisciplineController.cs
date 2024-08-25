@@ -140,12 +140,15 @@ namespace StudentSupervisorAPI.Controllers
         [HttpPut("{id}/complain")]
         public async Task<ActionResult<DataResponse<DisciplineResponse>>> ComplainDiscipline(int id)
         {
-            var result = await disciplineService.ComplainDiscipline(id);
-            if (result.Success)
+            try
             {
-                return Ok(result);
+                var discipline = await disciplineService.ComplainDiscipline(id);
+                return Ok(discipline);
             }
-            return BadRequest(result);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
