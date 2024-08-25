@@ -46,6 +46,7 @@ namespace Infrastructures.Repository
         {
             return _context.Teachers
                 .Include(c => c.User)
+                .Include(t => t.ClassGroups)
                 .Include(c => c.School)
                 .FirstOrDefault(i => i.UserId == id);
         }

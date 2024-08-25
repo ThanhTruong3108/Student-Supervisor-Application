@@ -20,7 +20,7 @@ namespace StudentSupervisorService.Models.Request.TeacherRequest
         [Required(ErrorMessage = "The TeacherName field is required.")]
         public string TeacherName { get; set; }
 
-        [RegularExpression(@"^84[0-9]{8,9}$|^[0-9]{8,9}$", ErrorMessage = "Số điện thoại phải có 8 hoặc 9 chữ số, với mã quốc gia '84' ở phía trước.")]
+        [RegularExpression(@"^[0-9]{9}$", ErrorMessage = "Số điện thoại phải có đúng 9 chữ số")]
         [Required(ErrorMessage = "The Phone field is required.")]
         public string Phone { get; set; }
 

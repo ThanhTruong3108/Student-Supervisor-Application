@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entity;
+using Domain.Enums.Role;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
 using StudentSupervisorService.Models.Request.PatrolScheduleRequest;
@@ -100,6 +101,37 @@ namespace StudentSupervisorService.Service.Implement
                 if (supervisorOngoingCount >= 2)
                 {
                     response.Message = "Sao đỏ này đã có 2 lịch trực ONGOING";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Sử dụng phương thức GetTeacherByUserId để lấy Teacher kèm theo User
+                var teacher = await _unitOfWork.Teacher.GetTeacherByUserId(request.UserId);
+
+                // Kiểm tra nếu Teacher không tồn tại hoặc RoleId không phải SUPERVISOR
+                if (teacher == null || teacher.User.RoleId != (byte)RoleAccountEnum.SUPERVISOR)
+                {
+                    response.Message = "Người dùng không phải là Giám thị hoặc không tồn tại";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Lấy tất cả nhóm lớp mà Giám thị quản lý
+                var managedClassGroupIds = teacher.ClassGroups.Select(cg => cg.ClassGroupId).ToList();
+
+                // Kiểm tra lớp học có thuộc nhóm lớp mà Giám thị quản lý không
+                var classEntity = await _unitOfWork.Class.GetClassById(request.ClassId);
+                if (classEntity == null)
+                {
+                    response.Message = "Lớp học không tồn tại";
+                    response.Success = false;
+                    return response;
+                }
+
+                // Kiểm tra xem lớp học có thuộc nhóm lớp mà Giám thị quản lý không
+                if (!managedClassGroupIds.Contains(classEntity.ClassGroupId))
+                {
+                    response.Message = "Lớp học không thuộc nhóm lớp mà Giám thị quản lý";
                     response.Success = false;
                     return response;
                 }
