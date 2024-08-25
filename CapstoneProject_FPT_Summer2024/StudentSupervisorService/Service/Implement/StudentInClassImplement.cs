@@ -124,14 +124,14 @@ namespace StudentSupervisorService.Service.Implement
                 // 
 
                 // Student trùng mã Code trước đó => ko cho create
-                var existedStudentByCode = await _unitOfWork.Student.GetStudentByCode(request.Code);
-                if (existedStudentByCode != null)
-                {
-                    response.Data = "Empty";
-                    response.Message = "Mã Code học sinh đã tồn tại";
-                    response.Success = false;
-                    return response;
-                }
+                //var existedStudentByCode = await _unitOfWork.Student.GetStudentByCode(request.Code);
+                //if (existedStudentByCode != null)
+                //{
+                //    response.Data = "Empty";
+                //    response.Message = "Mã Code học sinh đã tồn tại";
+                //    response.Success = false;
+                //    return response;
+                //}
                 // tạo Student trước
                 var createdStudent = await _unitOfWork.Student.CreateStudent(new Student
                 {
