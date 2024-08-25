@@ -12,7 +12,8 @@ namespace StudentSupervisorService.Models.Request.ViolationConfigRequest
     public class RequestOfViolationConfig
     {
 
-        [Required(ErrorMessage = "The MinusPoints field is required.")]
+        [Required(ErrorMessage = "The MinusPoints field is required")]
+        [Range(1, 30, ErrorMessage = "Điểm trừ phải là số dương từ 1 đến 30")]
         public int? MinusPoints { get; set; }
 
         [Required(ErrorMessage = "The Description field is required.")]
