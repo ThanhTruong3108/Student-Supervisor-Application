@@ -176,7 +176,7 @@ namespace StudentSupervisorService.Service.Implement
                     }
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
-                    response.Data = "https://school-fe-admin-main.vercel.app/payment/success";
+                    response.Data = "https://fe-student-supervisor.vercel.app/payment/success";
                     response.Message = "Thanh toán thành công";
                     response.Success = true;
                 }
@@ -196,7 +196,7 @@ namespace StudentSupervisorService.Service.Implement
                     };
 
                     var updated = await _orderService.UpdateOrder(orderUpdateRequest);
-                    response.Data = "https://school-fe-admin-main.vercel.app/payment/failure";
+                    response.Data = "https://fe-student-supervisor.vercel.app/payment/failure";
                     response.Message = "Đã hủy thanh toán";
                     response.Success = true;
                 }
