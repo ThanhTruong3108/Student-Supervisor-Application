@@ -63,18 +63,69 @@ namespace Infrastructures.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId)
+        public async Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Disciplines
+            var query = _context.Disciplines
                 .Include(d => d.Violation)
-                    .ThenInclude(c => c.Class)
+                    .ThenInclude(v => v.Class)
                         .ThenInclude(y => y.SchoolYear)
-                .Include(v => v.Violation)
-                    .ThenInclude(c => c.StudentInClass)
-                    .ThenInclude(c => c.Student)
-                .Include(v => v.Pennalty)
-                .Where(v => v.Pennalty.SchoolId == schoolId)
-                .ToListAsync();
+                .Include(d => d.Violation)
+                    .ThenInclude(v => v.StudentInClass)
+                        .ThenInclude(s => s.Student)
+                .Include(d => d.Pennalty)
+                .Where(d => d.Pennalty.SchoolId == schoolId)
+                .AsQueryable();
+
+            if (year.HasValue)
+            {
+                query = query.Where(d => d.Violation.Class.SchoolYear.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(d => d.Violation.Date >= semester.StartDate && d.Violation.Date <= semester.EndDate);
+                }
+            }
+
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(d => d.Violation.Date >= startDate && d.Violation.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
+        }
+
+        private bool IsValidWeekNumberInMonth(int year, int month, int weekNumber)
+        {
+            // Logic để kiểm tra số tuần hợp lệ trong tháng
+            return weekNumber > 0 && weekNumber <= 5; // Giả định tháng có tối đa 5 tuần
+        }
+
+        private DateTime GetStartOfWeekInMonth(int year, int month, int weekNumber)
+        {
+            // Logic để lấy ngày bắt đầu của tuần trong tháng
+            var firstDayOfMonth = new DateTime(year, month, 1);
+            var startOfWeek = firstDayOfMonth.AddDays((weekNumber - 1) * 7);
+
+            return startOfWeek;
         }
 
         public async Task<Discipline> GetDisciplineByViolationId(int violationId)
@@ -90,23 +141,62 @@ namespace Infrastructures.Repository
                 .FirstOrDefaultAsync(x => x.ViolationId == violationId);
         }
 
-        public async Task<List<Discipline>> GetDisciplinesByUserId(int userId)
+        public async Task<List<Discipline>> GetDisciplinesByUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Disciplines
+            var query = _context.Disciplines
                 .Include(d => d.Violation)
                     .ThenInclude(v => v.Class)
                         .ThenInclude(y => y.SchoolYear)
                 .Include(d => d.Violation)
                     .ThenInclude(v => v.StudentInClass)
-                        .ThenInclude(sic => sic.Student) 
+                        .ThenInclude(sic => sic.Student)
                 .Include(d => d.Pennalty)
                 .Where(d => d.Violation.Class.Teacher.UserId == userId)
-                .ToListAsync();
+                .AsQueryable();
+
+            // Filter theo niên khóa
+            if (year.HasValue)
+            {
+                query = query.Where(d => d.Violation.Class.SchoolYear.Year == year.Value);
+            }
+
+            // Filter theo kỳ
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(d => d.Violation.Date >= semester.StartDate && d.Violation.Date <= semester.EndDate);
+                }
+            }
+
+            // Filter theo tháng và tuần
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(d => d.Violation.Date >= startDate && d.Violation.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId)
+        public async Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Disciplines
+            var query = _context.Disciplines
                 .Include(d => d.Violation)
                     .ThenInclude(v => v.Class)
                         .ThenInclude(y => y.SchoolYear)
@@ -115,7 +205,46 @@ namespace Infrastructures.Repository
                         .ThenInclude(sic => sic.Student)
                 .Include(d => d.Pennalty)
                 .Where(v => v.Violation.Class.ClassGroup.Teacher.UserId == userId)
-                .ToListAsync();
+                .AsQueryable();
+
+            // Filter theo niên khóa
+            if (year.HasValue)
+            {
+                query = query.Where(d => d.Violation.Class.SchoolYear.Year == year.Value);
+            }
+
+            // Filter theo kỳ
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(d => d.Violation.Date >= semester.StartDate && d.Violation.Date <= semester.EndDate);
+                }
+            }
+
+            // Filter theo tháng và tuần
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(d => d.Violation.Date >= startDate && d.Violation.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

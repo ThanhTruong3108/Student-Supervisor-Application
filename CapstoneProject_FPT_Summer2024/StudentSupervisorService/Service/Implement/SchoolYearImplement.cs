@@ -44,8 +44,54 @@ namespace StudentSupervisorService.Service.Implement
                     response.Success = false;
                     return response;
                 }
+
+                // Validate ngày bắt đầu và kết thúc của Học kỳ 1 và Học kỳ 2
+                if (request.Semester1StartDate >= request.Semester1EndDate)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Ngày bắt đầu của Học kỳ 1 phải trước ngày kết thúc.";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (request.Semester2StartDate >= request.Semester2EndDate)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Ngày bắt đầu của Học kỳ 2 phải trước ngày kết thúc.";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (request.Semester1EndDate >= request.Semester2StartDate)
+                {
+                    response.Data = "Empty";
+                    response.Message = "Ngày kết thúc của Học kỳ 1 phải trước ngày bắt đầu của Học kỳ 2.";
+                    response.Success = false;
+                    return response;
+                }
+
                 var createSchoolYear = _mapper.Map<SchoolYear>(request);
                 createSchoolYear.Status = SchoolYearStatusEnums.ONGOING.ToString();
+
+                // Tạo hai học kỳ mới
+                var semester1 = new Semester
+                {
+                    Name = "Học kỳ 1",
+                    StartDate = request.Semester1StartDate,
+                    EndDate = request.Semester1EndDate,
+                    SchoolYear = createSchoolYear
+                };
+
+                var semester2 = new Semester
+                {
+                    Name = "Học kỳ 2",
+                    StartDate = request.Semester2StartDate,
+                    EndDate = request.Semester2EndDate,
+                    SchoolYear = createSchoolYear
+                };
+
+                createSchoolYear.Semesters.Add(semester1);
+                createSchoolYear.Semesters.Add(semester2);
 
                 _unitOfWork.SchoolYear.Add(createSchoolYear);
                 _unitOfWork.Save();

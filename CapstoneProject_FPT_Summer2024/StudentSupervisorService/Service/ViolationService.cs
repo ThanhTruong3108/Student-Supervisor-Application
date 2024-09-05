@@ -18,11 +18,11 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<ResponseOfViolation>> CompleteViolation(int violationId);
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForStudentSupervisor(int id, RequestOfUpdateViolationForStudentSupervisor request);
         Task<DataResponse<ResponseOfViolation>> UpdateViolationForSupervisor(int id, RequestOfUpdateViolationForSupervisor request);
-        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId);
-        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
         Task<DataResponse<ResponseOfViolation>> GetViolationByDisciplineId(int disciplineId);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserRoleStudentSupervisor(int userId, string sortOrder);
         Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserRoleSupervisor(int userId, string sortOrder);
-        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySupervisorUserId(int userId);
+        Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySupervisorUserId(int userId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
     }
 }

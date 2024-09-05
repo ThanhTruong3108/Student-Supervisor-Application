@@ -93,11 +93,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("school/{schoolId}")]
-        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySchoolId(int schoolId)
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySchoolId(int schoolId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var disciplines = await disciplineService.GetDisciplinesBySchoolId(schoolId);
+                var disciplines = await disciplineService.GetDisciplinesBySchoolId(schoolId, sortOrder, year, semesterName, month, weekNumber);
                 return Ok(disciplines);
             }
             catch (Exception ex)
@@ -153,11 +153,11 @@ namespace StudentSupervisorAPI.Controllers
 
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesByUserId(int userId, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesByUserId(int userId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var disciplines = await disciplineService.GetDisciplinesByUserId(userId, sortOrder);
+                var disciplines = await disciplineService.GetDisciplinesByUserId(userId, sortOrder, year, semesterName, month, weekNumber);
                 return Ok(disciplines);
             }
             catch (Exception ex)
@@ -167,11 +167,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("supervisor/{userId}")]
-        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySupervisorUserId(int userId)
+        public async Task<ActionResult<DataResponse<List<DisciplineResponse>>>> GetDisciplinesBySupervisorUserId(int userId, [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var disciplines = await disciplineService.GetDisciplinesBySupervisorUserId(userId);
+                var disciplines = await disciplineService.GetDisciplinesBySupervisorUserId(userId, year, semesterName, month, weekNumber);
                 return Ok(disciplines);
             }
             catch (Exception ex)

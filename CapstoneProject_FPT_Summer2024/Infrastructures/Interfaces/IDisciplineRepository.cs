@@ -15,9 +15,9 @@ namespace Infrastructures.Interfaces
         Task<Discipline> CreateDiscipline(Discipline disciplineEntity);
         Task<Discipline> UpdateDiscipline(Discipline disciplineEntity);
         Task DeleteDiscipline(int id);
-        Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId);
+        Task<List<Discipline>> GetDisciplinesBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
         Task<Discipline> GetDisciplineByViolationId(int violationId);
-        Task<List<Discipline>> GetDisciplinesByUserId(int userId);
-        Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId);
+        Task<List<Discipline>> GetDisciplinesByUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<List<Discipline>> GetDisciplinesBySupervisorUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
     }
 }

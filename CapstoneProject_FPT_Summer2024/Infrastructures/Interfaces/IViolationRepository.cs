@@ -23,19 +23,19 @@ namespace Infrastructures.Interfaces
         Task<List<Violation>> GetViolationsByStudentId(int studentId);
         Task<List<Violation>> GetViolationsByStudentIdAndYear(int studentId, int schoolYearId);
         Task<Dictionary<int, int>> GetViolationCountByYear(int studentId);
-        Task<List<Violation>> GetViolationsBySchoolId(int schoolId);
+        Task<List<Violation>> GetViolationsBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
 
-        Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className, int? month = null, int? weekNumber = null);
-        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int? month = null, int? weekNumber = null);
-        Task<List<Violation>> GetViolationsByUserId(int userId);
+        Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null);
+
+        Task<List<Violation>> GetViolationsByUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
         Task<Violation> GetViolationByDisciplineId(int disciplineId);
         Task<List<Violation>> GetViolationsByUserRoleStudentSupervisor(int userId);
         Task<List<Violation>> GetViolationsByUserRoleSupervisor(int userId);
-        Task<List<Violation>> GetViolationsBySupervisorUserId(int userId);
+        Task<List<Violation>> GetViolationsBySupervisorUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
+
         Task<List<KeyValuePair<string, int>>> CountViolationsByDate(int schoolId, short year, int? month = null, int? weekNumber = null);
         Task<List<KeyValuePair<string, int>>> GetMonthlyViolationCounts(int schoolId, short year);
     }

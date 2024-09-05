@@ -16,7 +16,7 @@ namespace Infrastructures.Interfaces
         Task<Evaluation> CreateEvaluation(Evaluation evaluationEntity);
         Task<Evaluation> UpdateEvaluation(Evaluation evaluationEntity);
         Task<List<Evaluation>> GetEvaluationsByClassIdAndDateRange(int classId, DateTime from, DateTime to);
-        Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId);
-        Task<List<EvaluationRanking>> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null);
+        Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<List<EvaluationRanking>> GetEvaluationRankings(int schoolId, short year, string? semesterName = null, int? month = null, int? week = null);
     }
 }

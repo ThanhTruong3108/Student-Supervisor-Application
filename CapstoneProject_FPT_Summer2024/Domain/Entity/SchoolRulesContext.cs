@@ -44,6 +44,8 @@ public partial class SchoolRulesContext : DbContext
 
     public virtual DbSet<SchoolYear> SchoolYears { get; set; }
 
+    public virtual DbSet<Semester> Semesters { get; set; }
+
     public virtual DbSet<Student> Students { get; set; }
 
     public virtual DbSet<StudentInClass> StudentInClasses { get; set; }
@@ -346,6 +348,22 @@ public partial class SchoolRulesContext : DbContext
                 .HasForeignKey(d => d.SchoolId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SchoolYear_HighSchool");
+        });
+
+        modelBuilder.Entity<Semester>(entity =>
+        {
+            entity.ToTable("Semester");
+
+            entity.Property(e => e.SemesterId).HasColumnName("SemesterID");
+            entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.SchoolYearId).HasColumnName("SchoolYearID");
+            entity.Property(e => e.StartDate).HasColumnType("date");
+
+            entity.HasOne(d => d.SchoolYear).WithMany(p => p.Semesters)
+                .HasForeignKey(d => d.SchoolYearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Semester_SchoolYear");
         });
 
         modelBuilder.Entity<Student>(entity =>

@@ -187,9 +187,9 @@ namespace Infrastructures.Repository
                 .ToDictionaryAsync(g => g.SchoolYearId, g => g.Count);
         }
 
-        public async Task<List<Violation>> GetViolationsBySchoolId(int schoolId)
+        public async Task<List<Violation>> GetViolationsBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Violations
+            var query = _context.Violations
                 .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
@@ -200,176 +200,105 @@ namespace Infrastructures.Repository
                     .ThenInclude(vr => vr.School)
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
-                .Where(ed => ed.User.SchoolId == schoolId)
-                .ToListAsync();
-        }
+                .Where(v => v.User.SchoolId == schoolId)
+                .AsQueryable();
 
-
-        public async Task<List<Violation>> GetViolationsByMonthAndWeek(int schoolId, short year, int? month = null, int? weekNumber = null)
-        {
-            // Get the school year based on the provided year
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.SchoolId == schoolId && s.Year == year);
-
-            if (schoolYear == null)
-                return new List<Violation>();
-
-            DateTime startDate = schoolYear.StartDate;
-            DateTime endDate = schoolYear.EndDate;
-
-            // Adjust dates based on the month and weekNumber
-            if (month.HasValue)
+            if (year.HasValue)
             {
-                var monthStartDate = new DateTime(year, month.Value, 1);
-                var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+                query = query.Where(v => v.Class.SchoolYear.Year == year.Value);
+            }
 
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
                 {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
-
-                startDate = monthStartDate;
-                endDate = monthEndDate;
-
-                if (weekNumber.HasValue)
-                {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
-                        throw new ArgumentException("Số tuần không hợp lệ!!!");
-
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
-                    endDate = startDate.AddDays(7);
+                    query = query.Where(v => v.Date >= semester.StartDate && v.Date <= semester.EndDate);
                 }
             }
 
-            // Ensure the dates are within the school year's timeframe
-            startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
-            endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
 
-            return await _context.Violations
-                .Include(s => s.Schedule)
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                    .ThenInclude(y => y.SchoolYear)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.User)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Date >= startDate && v.Date < endDate && v.Status == "APPROVED")
-                .ToListAsync();
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(v => v.Date >= startDate && v.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
 
-        private DateTime GetStartOfWeekInMonth(int year, int month, int weekNumber)
+        public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            var startOfMonth = new DateTime(year, month, 1);
-            return startOfMonth.AddDays((weekNumber - 1) * 7);
-        }
-
-        private bool IsValidWeekNumberInMonth(int year, int month, int weekNumber)
-        {
-            var startOfMonth = new DateTime(year, month, 1);
-            var daysInMonth = DateTime.DaysInMonth(year, month);
-            var maxWeeksInMonth = (int)Math.Ceiling(daysInMonth / 7.0);
-            return weekNumber >= 1 && weekNumber <= maxWeeksInMonth;
-        }
-
-        public async Task<List<Violation>> GetViolationsByYearAndClassName(int schoolId, short year, string className, int? month = null, int? weekNumber = null)
-        {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears
+                .Include(sy => sy.Semesters)
+                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
-                return new List<Violation>();
+                throw new ArgumentException($"Niên khóa {year} không tồn tại cho trường {schoolId}.");
 
             DateTime startDate = schoolYear.StartDate;
             DateTime endDate = schoolYear.EndDate;
 
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = schoolYear.Semesters.FirstOrDefault(s => s.Name.Equals(semesterName, StringComparison.OrdinalIgnoreCase));
+                if (semester == null)
+                    throw new ArgumentException($"Học kỳ '{semesterName}' không tồn tại trong niên khóa này.");
+
+                startDate = semester.StartDate;
+                endDate = semester.EndDate;
+            }
+
             if (month.HasValue)
             {
-                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthStartDate = new DateTime(startDate.Year, month.Value, 1);
                 var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-                {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
+                // Đảm bảo monthStartDate và monthEndDate nằm trong phạm vi học kỳ hoặc năm học
+                if (monthStartDate < startDate)
+                    monthStartDate = startDate;
+                if (monthEndDate > endDate)
+                    monthEndDate = endDate;
+
+                if (monthStartDate > monthEndDate)
+                    throw new ArgumentException("Tháng này không thuộc niên khóa hoặc học kỳ.");
 
                 if (weekNumber.HasValue)
                 {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
-                        throw new ArgumentException("Số tuần không hợp lệ!!!");
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
 
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
                     endDate = startDate.AddDays(7).AddSeconds(-1);
+
+                    // Đảm bảo startDate và endDate nằm trong phạm vi tháng
+                    if (startDate < monthStartDate)
+                        startDate = monthStartDate;
+                    if (endDate > monthEndDate)
+                        endDate = monthEndDate;
                 }
                 else
                 {
                     startDate = monthStartDate;
                     endDate = monthEndDate;
                 }
-
-                startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
-                endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
             }
 
             return await _context.Violations
-                .Include(s => s.Schedule)
-                .Include(i => i.ImageUrls)
-                .Include(c => c.Class)
-                    .ThenInclude(y => y.SchoolYear)
-                .Include(c => c.ViolationType)
-                    .ThenInclude(vr => vr.ViolationGroup)
-                .Include(c => c.User)
-                    .ThenInclude(vr => vr.School)
-                .Include(v => v.StudentInClass)
-                    .ThenInclude(vr => vr.Student)
-                .Where(v => v.Class.SchoolYearId == schoolYear.SchoolYearId
-                    && v.Class.Name == className
-                    && v.Date >= startDate
-                    && v.Date <= endDate
-                    && v.Status == "APPROVED")
-                .ToListAsync();
-        }
-
-        public async Task<List<ViolationTypeSummary>> GetTopFrequentViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
-        {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
-
-            if (schoolYear == null)
-                return new List<ViolationTypeSummary>();
-
-            DateTime startDate = schoolYear.StartDate;
-            DateTime endDate = schoolYear.EndDate;
-
-            if (month.HasValue)
-            {
-                var monthStartDate = new DateTime(year, month.Value, 1);
-                var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
-
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-                {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
-
-                if (weekNumber.HasValue)
-                {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
-                        throw new ArgumentException("Số tuần không hợp lệ!!!");
-
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
-                    endDate = startDate.AddDays(7).AddSeconds(-1);
-                }
-                else
-                {
-                    startDate = monthStartDate;
-                    endDate = monthEndDate;
-                }
-
-                startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
-                endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
-            }
-
-            return await _context.Violations
-                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
+                .Where(v => v.Class.SchoolYear.SchoolId == schoolId && v.Date >= startDate && v.Date <= endDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => v.ViolationTypeId)
                 .Select(g => new ViolationTypeSummary
                 {
@@ -382,33 +311,69 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
+        private bool IsValidWeekNumberInMonth(int year, int month, int weekNumber)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            // Logic để kiểm tra số tuần hợp lệ trong tháng
+            return weekNumber > 0 && weekNumber <= 5; // Giả định tháng có tối đa 5 tuần
+        }
+
+        private DateTime GetStartOfWeekInMonth(int year, int month, int weekNumber)
+        {
+            // Logic để lấy ngày bắt đầu của tuần trong tháng
+            var firstDayOfMonth = new DateTime(year, month, 1);
+            var startOfWeek = firstDayOfMonth.AddDays((weekNumber - 1) * 7);
+
+            return startOfWeek;
+        }
+
+        // Lấy những lớp có học sinh vi phạm nhiều
+        public async Task<List<ClassViolationSummary>> GetClassesWithMostViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null)
+        {
+            var schoolYear = await _context.SchoolYears
+                .Include(sy => sy.Semesters)
+                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
-                throw new ArgumentException("Năm học không tồn tại.");
+                throw new ArgumentException($"Niên khóa {year} không tồn tại cho trường {schoolId}.");
 
-            DateTime startDate;
-            DateTime endDate;
+            DateTime startDate = schoolYear.StartDate;
+            DateTime endDate = schoolYear.EndDate;
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = schoolYear.Semesters.FirstOrDefault(s => s.Name.Equals(semesterName, StringComparison.OrdinalIgnoreCase));
+                if (semester == null)
+                    throw new ArgumentException($"Học kỳ '{semesterName}' không tồn tại trong niên khóa này.");
+
+                startDate = semester.StartDate;
+                endDate = semester.EndDate;
+            }
 
             if (month.HasValue)
             {
-                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthStartDate = new DateTime(startDate.Year, month.Value, 1);
                 var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-                {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
+                if (monthStartDate < startDate)
+                    monthStartDate = startDate;
+                if (monthEndDate > endDate)
+                    monthEndDate = endDate;
+
+                if (monthStartDate > monthEndDate)
+                    throw new ArgumentException("Tháng này không thuộc niên khóa hoặc học kỳ.");
 
                 if (weekNumber.HasValue)
                 {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
                         throw new ArgumentException("Số tuần không hợp lệ!");
 
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
                     endDate = startDate.AddDays(7).AddSeconds(-1);
+
+                    if (startDate < monthStartDate)
+                        startDate = monthStartDate;
+                    if (endDate > monthEndDate)
+                        endDate = monthEndDate;
                 }
                 else
                 {
@@ -416,15 +381,10 @@ namespace Infrastructures.Repository
                     endDate = monthEndDate;
                 }
             }
-            else
-            {
-                startDate = schoolYear.StartDate;
-                endDate = schoolYear.EndDate;
-            }
 
             return await _context.Violations
                 .Include(c => c.Class)
-                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
+                .Where(v => v.Class.SchoolYear.SchoolId == schoolId && v.Date >= startDate && v.Date <= endDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => v.ClassId)
                 .Select(g => new ClassViolationSummary
                 {
@@ -437,11 +397,12 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-
-        //lấy top5 học hinh vi phạm nhiều nhất
-        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
+        //lấy top 5 học hinh vi phạm nhiều nhất
+        public async Task<List<StudentViolationCount>> GetTop5StudentsWithMostViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears
+                .Include(sy => sy.Semesters)
+                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<StudentViolationCount>();
@@ -449,36 +410,48 @@ namespace Infrastructures.Repository
             DateTime startDate = schoolYear.StartDate;
             DateTime endDate = schoolYear.EndDate;
 
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = schoolYear.Semesters.FirstOrDefault(s => s.Name.Equals(semesterName, StringComparison.OrdinalIgnoreCase));
+                if (semester == null)
+                    throw new ArgumentException($"Học kỳ '{semesterName}' không tồn tại trong niên khóa này.");
+
+                startDate = semester.StartDate;
+                endDate = semester.EndDate;
+            }
+
             if (month.HasValue)
             {
-                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthStartDate = new DateTime(startDate.Year, month.Value, 1);
                 var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-                {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
+                if (monthStartDate < startDate)
+                    monthStartDate = startDate;
+                if (monthEndDate > endDate)
+                    monthEndDate = endDate;
 
                 if (weekNumber.HasValue)
                 {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
-                        throw new ArgumentException("Số tuần không hợp lệ!!!");
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
 
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
                     endDate = startDate.AddDays(7).AddSeconds(-1);
+
+                    if (startDate < monthStartDate)
+                        startDate = monthStartDate;
+                    if (endDate > monthEndDate)
+                        endDate = monthEndDate;
                 }
                 else
                 {
                     startDate = monthStartDate;
                     endDate = monthEndDate;
                 }
-
-                startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
-                endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
             }
 
             return await _context.Violations
-                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
+                .Where(v => v.Class.SchoolYear.SchoolId == schoolId && v.Date >= startDate && v.Date <= endDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => v.StudentInClass.Student)
                 .Select(g => new StudentViolationCount
                 {
@@ -493,33 +466,50 @@ namespace Infrastructures.Repository
         }
 
         // lấy Lớp có nhiều học sinh vi phạm nhất
-        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, int? month = null, int? weekNumber = null)
+        public async Task<List<ClassViolationDetail>> GetClassWithMostStudentViolations(int schoolId, short year, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            var schoolYear = await _context.SchoolYears.FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
+            var schoolYear = await _context.SchoolYears
+                .Include(sy => sy.Semesters)
+                .FirstOrDefaultAsync(s => s.Year == year && s.SchoolId == schoolId);
 
             if (schoolYear == null)
                 return new List<ClassViolationDetail>();
 
-            DateTime startDate;
-            DateTime endDate;
+            DateTime startDate = schoolYear.StartDate;
+            DateTime endDate = schoolYear.EndDate;
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = schoolYear.Semesters.FirstOrDefault(s => s.Name.Equals(semesterName, StringComparison.OrdinalIgnoreCase));
+                if (semester == null)
+                    throw new ArgumentException($"Học kỳ '{semesterName}' không tồn tại trong niên khóa này.");
+
+                startDate = semester.StartDate;
+                endDate = semester.EndDate;
+            }
 
             if (month.HasValue)
             {
-                var monthStartDate = new DateTime(year, month.Value, 1);
+                var monthStartDate = new DateTime(startDate.Year, month.Value, 1);
                 var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
 
-                if (monthStartDate < schoolYear.StartDate || monthEndDate > schoolYear.EndDate)
-                {
-                    throw new ArgumentException("Tháng này không thuộc năm học " + year);
-                }
+                if (monthStartDate < startDate)
+                    monthStartDate = startDate;
+                if (monthEndDate > endDate)
+                    monthEndDate = endDate;
 
                 if (weekNumber.HasValue)
                 {
-                    if (!IsValidWeekNumberInMonth(year, month.Value, weekNumber.Value))
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
                         throw new ArgumentException("Số tuần không hợp lệ!");
 
-                    startDate = GetStartOfWeekInMonth(year, month.Value, weekNumber.Value);
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
                     endDate = startDate.AddDays(7).AddSeconds(-1);
+
+                    if (startDate < monthStartDate)
+                        startDate = monthStartDate;
+                    if (endDate > monthEndDate)
+                        endDate = monthEndDate;
                 }
                 else
                 {
@@ -527,18 +517,13 @@ namespace Infrastructures.Repository
                     endDate = monthEndDate;
                 }
             }
-            else
-            {
-                startDate = schoolYear.StartDate;
-                endDate = schoolYear.EndDate;
-            }
 
-            // Ensure the dates are within the school year's timeframe
+            // Đảm bảo các ngày nằm trong khung thời gian của năm học
             startDate = startDate < schoolYear.StartDate ? schoolYear.StartDate : startDate;
             endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             var violations = await _context.Violations
-                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
+                .Where(v => v.Class.SchoolYear.SchoolId == schoolId && v.Date >= startDate && v.Date <= endDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => v.Class)
                 .Select(g => new ClassViolationDetail
                 {
@@ -561,11 +546,10 @@ namespace Infrastructures.Repository
             return violations;
         }
 
-
         // lấy những vi phạm thuộc lớp mà Giáo viên đó chủ nhiệm
-        public async Task<List<Violation>> GetViolationsByUserId(int userId)
+        public async Task<List<Violation>> GetViolationsByUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Violations
+            var query = _context.Violations
                 .Include(s => s.Schedule)
                 .Include(i => i.ImageUrls)
                 .Include(c => c.Class)
@@ -577,7 +561,43 @@ namespace Infrastructures.Repository
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
                 .Where(v => v.Class.Teacher.UserId == userId)
-                .ToListAsync();
+                .AsQueryable();
+
+            if (year.HasValue)
+            {
+                query = query.Where(v => v.Class.SchoolYear.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(v => v.Date >= semester.StartDate && v.Date <= semester.EndDate);
+                }
+            }
+
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(v => v.Date >= startDate && v.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Violation> GetViolationByDisciplineId(int disciplineId)
@@ -656,9 +676,9 @@ namespace Infrastructures.Repository
         }
 
         // lấy những vi phạm thuộc những lớp mà giám thị đó quản lý
-        public async Task<List<Violation>> GetViolationsBySupervisorUserId(int userId)
+        public async Task<List<Violation>> GetViolationsBySupervisorUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Violations
+            var query = _context.Violations
                 .Include(s => s.Schedule)
                 .Include(v => v.Class)
                     .ThenInclude(c => c.ClassGroup)
@@ -672,7 +692,43 @@ namespace Infrastructures.Repository
                 .Include(v => v.StudentInClass)
                     .ThenInclude(vr => vr.Student)
                 .Where(v => v.Class.ClassGroup.Teacher.UserId == userId)
-                .ToListAsync();
+                .AsQueryable();
+
+            if (year.HasValue)
+            {
+                query = query.Where(v => v.Class.SchoolYear.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(v => v.Date >= semester.StartDate && v.Date <= semester.EndDate);
+                }
+            }
+
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(v => v.Date >= startDate && v.Date <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<List<KeyValuePair<string, int>>> CountViolationsByDate(int schoolId, short year, int? month = null, int? weekNumber = null)
@@ -717,7 +773,7 @@ namespace Infrastructures.Repository
             endDate = endDate > schoolYear.EndDate ? schoolYear.EndDate : endDate;
 
             var violationsGroupedByDate = await _context.Violations
-                .Where(v => v.Date >= startDate && v.Date <= endDate && v.Status == "APPROVED")
+                .Where(v => v.Date >= startDate && v.Date <= endDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => year) // Tất cả các vi phạm đều được nhóm vào năm học 2023
                 .Select(g => new KeyValuePair<string, int>(year.ToString(), g.Count()))
                 .ToListAsync();
@@ -734,7 +790,7 @@ namespace Infrastructures.Repository
                 return new List<KeyValuePair<string, int>>();
 
             var violationsGroupedByMonth = await _context.Violations
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && v.Status == "APPROVED")
+                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => new { v.Date.Year, v.Date.Month })
                 .Select(g => new
                 {

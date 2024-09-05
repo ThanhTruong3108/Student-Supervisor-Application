@@ -55,19 +55,71 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
-        public async Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId)
+        public async Task<List<Evaluation>> GetEvaluationsBySchoolId(int schoolId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
-            return await _context.Evaluations
+            var query = _context.Evaluations
                 .Include(v => v.Class)
                     .ThenInclude(s => s.SchoolYear)
                     .ThenInclude(s => s.School)
                 .Where(v => v.Class.SchoolYear.SchoolId == schoolId)
-                .ToListAsync();
+                .AsQueryable();
+
+            if (year.HasValue)
+            {
+                query = query.Where(v => v.Class.SchoolYear.Year == year.Value);
+            }
+
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = _context.Semesters
+                    .Where(s => s.SchoolYear.Year == year && s.Name.ToLower() == semesterName.ToLower())
+                    .FirstOrDefault();
+
+                if (semester != null)
+                {
+                    query = query.Where(v => v.From >= semester.StartDate && v.To <= semester.EndDate);
+                }
+            }
+
+            if (month.HasValue)
+            {
+                var startDate = new DateTime(year ?? DateTime.Now.Year, month.Value, 1);
+                var endDate = startDate.AddMonths(1).AddDays(-1);
+
+                if (weekNumber.HasValue)
+                {
+                    if (!IsValidWeekNumberInMonth(startDate.Year, month.Value, weekNumber.Value))
+                        throw new ArgumentException("Số tuần không hợp lệ!");
+
+                    startDate = GetStartOfWeekInMonth(startDate.Year, month.Value, weekNumber.Value);
+                    endDate = startDate.AddDays(7).AddSeconds(-1);
+                }
+
+                query = query.Where(v => v.From >= startDate && v.To <= endDate);
+            }
+
+            return await query.ToListAsync();
         }
 
-        public async Task<List<EvaluationRanking>> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null)
+        private bool IsValidWeekNumberInMonth(int year, int month, int weekNumber)
+        {
+            // Logic để kiểm tra số tuần hợp lệ trong tháng
+            return weekNumber > 0 && weekNumber <= 4; // Giả định tháng có tối đa 5 tuần
+        }
+
+        private DateTime GetStartOfWeekInMonth(int year, int month, int weekNumber)
+        {
+            // Logic để lấy ngày bắt đầu của tuần trong tháng
+            var firstDayOfMonth = new DateTime(year, month, 1);
+            var startOfWeek = firstDayOfMonth.AddDays((weekNumber - 1) * 7);
+
+            return startOfWeek;
+        }
+
+        public async Task<List<EvaluationRanking>> GetEvaluationRankings(int schoolId, short year, string? semesterName = null, int? month = null, int? week = null)
         {
             var schoolYear = await _context.SchoolYears
+                .Include(sy => sy.Semesters)
                 .FirstOrDefaultAsync(sy => sy.SchoolId == schoolId && sy.Year == year);
 
             if (schoolYear == null)
@@ -76,14 +128,23 @@ namespace Infrastructures.Repository
             IQueryable<Evaluation> evaluationsQuery = _context.Evaluations
                 .Where(e => e.Class.SchoolYear.SchoolId == schoolId && e.Class.SchoolYear.Year == year);
 
+            if (!string.IsNullOrEmpty(semesterName))
+            {
+                var semester = schoolYear.Semesters
+                    .FirstOrDefault(s => s.Name.Equals(semesterName, StringComparison.OrdinalIgnoreCase));
+
+                if (semester == null)
+                    throw new Exception($"Học kỳ '{semesterName}' không tồn tại trong niên khóa {year}.");
+
+                evaluationsQuery = evaluationsQuery.Where(e => e.From >= semester.StartDate && e.From <= semester.EndDate);
+            }
+
             if (month.HasValue)
             {
-                // lọc theo tháng
                 evaluationsQuery = evaluationsQuery.Where(e => e.From.Month == month.Value);
 
                 if (week.HasValue)
                 {
-                    // lọc theo tuần trong tháng
                     var startDate = new DateTime(year, month.Value, 1);
                     var firstDayOfWeek = startDate.AddDays((week.Value - 1) * 7);
                     var endDate = firstDayOfWeek.AddDays(6);

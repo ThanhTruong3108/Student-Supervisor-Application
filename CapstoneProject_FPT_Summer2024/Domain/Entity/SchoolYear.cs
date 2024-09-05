@@ -22,4 +22,6 @@ public partial class SchoolYear
     public virtual HighSchool School { get; set; } = null!;
 
     public virtual ICollection<YearPackage> YearPackages { get; set; } = new List<YearPackage>();
+
+    public virtual ICollection<Semester> Semesters { get; set; } = new List<Semester>();
 }

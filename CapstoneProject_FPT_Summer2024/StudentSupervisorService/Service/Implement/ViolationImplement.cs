@@ -973,44 +973,54 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySchoolId(int schoolId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsBySchoolId(schoolId);
+                var violations = await _unitOfWork.Violation.GetViolationsBySchoolId(schoolId, year, semesterName, month, weekNumber);
                 if (violations == null || !violations.Any())
                 {
-                    response.Message = "Không tìm thấy vi phạm nào đối với SchoolId được chỉ định";
-                    response.Success = false;
+                    response.Data = new List<ResponseOfViolation>();
+                    response.Message = "Danh sách vi phạm trống";
+                    response.Success = true;
+                    return response;
+                }
+
+                var vioDTO = _mapper.Map<List<ResponseOfViolation>>(violations);
+                if (sortOrder == "desc")
+                {
+                    vioDTO = vioDTO.OrderByDescending(r => r.ViolationId).ToList();
                 }
                 else
                 {
-                    var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
-                    response.Data = violationDTOS;
-                    response.Message = "Đã tìm thấy vi phạm";
-                    response.Success = true;
+                    vioDTO = vioDTO.OrderBy(r => r.ViolationId).ToList();
                 }
+
+                response.Data = vioDTO;
+                response.Message = "Đã tìm thấy vi phạm";
+                response.Success = true;
             }
             catch (Exception ex)
             {
-                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message;
+                response.Data = new List<ResponseOfViolation>();
+                response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
             }
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsByUserId(int userId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
 
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsByUserId(userId);
-                if (violations is null || !violations.Any())
+                var violations = await _unitOfWork.Violation.GetViolationsByUserId(userId, year, semesterName, month, weekNumber);
+                if (violations == null || !violations.Any())
                 {
-                    response.Data = "Empty";
+                    response.Data = new List<ResponseOfViolation>();
                     response.Message = "Danh sách vi phạm trống";
                     response.Success = true;
                     return response;
@@ -1032,7 +1042,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Data = "Empty";
+                response.Data = new List<ResponseOfViolation>();
                 response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -1151,24 +1161,34 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySupervisorUserId(int userId)
+        public async Task<DataResponse<List<ResponseOfViolation>>> GetViolationsBySupervisorUserId(int userId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<ResponseOfViolation>>();
             try
             {
-                var violations = await _unitOfWork.Violation.GetViolationsBySupervisorUserId(userId);
+                var violations = await _unitOfWork.Violation.GetViolationsBySupervisorUserId(userId, year, semesterName, month, weekNumber);
                 if (violations == null || !violations.Any())
                 {
-                    response.Message = "Không tìm thấy vi phạm nào đối với UserId được chỉ định";
+                    response.Data = new List<ResponseOfViolation>();
+                    response.Message = "Danh sách vi phạm trống";
                     response.Success = false;
+                    return response;
+                }
+
+                var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
+
+                if (sortOrder == "desc")
+                {
+                    violationDTOS = violationDTOS.OrderByDescending(r => r.ViolationId).ToList();
                 }
                 else
                 {
-                    var violationDTOS = _mapper.Map<List<ResponseOfViolation>>(violations);
-                    response.Data = violationDTOS;
-                    response.Message = "Đã tìm thấy vi phạm";
-                    response.Success = true;
+                    violationDTOS = violationDTOS.OrderBy(r => r.ViolationId).ToList();
                 }
+
+                response.Data = violationDTOS;
+                response.Message = "Đã tìm thấy vi phạm";
+                response.Success = true;
             }
             catch (Exception ex)
             {

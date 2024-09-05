@@ -18,7 +18,7 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<EvaluationResponse>> CreateEvaluation(EvaluationCreateRequest request);
         Task<DataResponse<EvaluationResponse>> UpdateEvaluation(EvaluationUpdateRequest request);
         Task<DataResponse<EvaluationResponse>> DeleteEvaluation(int id);
-        Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId);
-        Task<DataResponse<List<EvaluationRanking>>> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null);
+        Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null);
+        Task<DataResponse<List<EvaluationRanking>>> GetEvaluationRankings(int schoolId, short year, string? semesterName = null, int? month = null, int? week = null);
     }
 }

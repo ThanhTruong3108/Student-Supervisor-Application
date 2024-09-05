@@ -17,32 +17,10 @@ namespace StudentSupervisorAPI.Controllers
             _service = service;
         }
 
-        [HttpGet("violations-by-month-and-week")]
-        public async Task<IActionResult> GetViolationsByMonthAndWeek([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
-        {
-            var response = await _service.GetViolationsByMonthAndWeek(schoolId, year, month, weekNumber);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
-        [HttpGet("violations-by-year-and-classname")]
-        public async Task<IActionResult> GetViolationsByYearAndClassName([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string className, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
-        {
-            var response = await _service.GetViolationsByYearAndClassName(schoolId, year, className, month, weekNumber);
-            if (response.Success)
-            {
-                return Ok(response);
-            }
-            return BadRequest(response);
-        }
-
         [HttpGet("top-5-frequent-violations")]
-        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetTopFrequentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetTopFrequentViolations(schoolId, year, month, weekNumber);
+            var response = await _service.GetTopFrequentViolations(schoolId, year, semesterName, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -51,9 +29,9 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("classes-most-violations")]
-        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetClassesWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetClassesWithMostViolations(schoolId, year, month, weekNumber);
+            var response = await _service.GetClassesWithMostViolations(schoolId, year, semesterName, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -63,9 +41,9 @@ namespace StudentSupervisorAPI.Controllers
 
 
         [HttpGet("top-5-students-most-violations")]
-        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetTop5StudentsWithMostViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetTop5StudentsWithMostViolations(schoolId, year, month, weekNumber);
+            var response = await _service.GetTop5StudentsWithMostViolations(schoolId, year, semesterName, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -73,10 +51,11 @@ namespace StudentSupervisorAPI.Controllers
             return BadRequest(response);
         }
 
+
         [HttpGet("class-with-most-students-violations")]
-        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
+        public async Task<IActionResult> GetClassWithMostStudentViolations([FromQuery] int schoolId, [FromQuery] short year, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
-            var response = await _service.GetClassWithMostStudentViolations(schoolId, year, month, weekNumber);
+            var response = await _service.GetClassWithMostStudentViolations(schoolId, year, semesterName, month, weekNumber);
             if (response.Success)
             {
                 return Ok(response);
@@ -184,6 +163,5 @@ namespace StudentSupervisorAPI.Controllers
 
             return BadRequest(response);
         }
-
     }
 }

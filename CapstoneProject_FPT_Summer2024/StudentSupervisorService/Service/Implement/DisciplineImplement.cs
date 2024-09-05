@@ -214,20 +214,29 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySchoolId(int schoolId)
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySchoolId(int schoolId, string sortOrder = "asc", short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<DisciplineResponse>>();
             try
             {
-                var disciplines = await _unitOfWork.Discipline.GetDisciplinesBySchoolId(schoolId);
+                var disciplines = await _unitOfWork.Discipline.GetDisciplinesBySchoolId(schoolId, year, semesterName, month, weekNumber);
                 if (disciplines == null || !disciplines.Any())
                 {
-                    response.Message = "Không tìm thấy Kỷ luật nào cho SchoolId được chỉ định";
+                    response.Message = "Danh sách Kỷ luật trống";
                     response.Success = false;
                 }
                 else
                 {
                     var disciplineDTOs = _mapper.Map<List<DisciplineResponse>>(disciplines);
+                    if (sortOrder == "desc")
+                    {
+                        disciplineDTOs = disciplineDTOs.OrderByDescending(d => d.DisciplineId).ToList();
+                    }
+                    else
+                    {
+                        disciplineDTOs = disciplineDTOs.OrderBy(d => d.DisciplineId).ToList();
+                    }
+
                     response.Data = disciplineDTOs;
                     response.Message = "Kỷ luật được tìm thấy";
                     response.Success = true;
@@ -417,16 +426,16 @@ namespace StudentSupervisorService.Service.Implement
         }
 
 
-        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesByUserId(int userId, string sortOrder)
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesByUserId(int userId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<DisciplineResponse>>();
 
             try
             {
-                var disciplines = await _unitOfWork.Discipline.GetDisciplinesByUserId(userId);
+                var disciplines = await _unitOfWork.Discipline.GetDisciplinesByUserId(userId, year, semesterName, month, weekNumber);
                 if (disciplines is null || !disciplines.Any())
                 {
-                    response.Data = "Empty";
+                    response.Data = new List<DisciplineResponse>();
                     response.Message = "Danh sách Kỷ luật trống";
                     response.Success = true;
                     return response;
@@ -448,7 +457,7 @@ namespace StudentSupervisorService.Service.Implement
             }
             catch (Exception ex)
             {
-                response.Data = "Empty";
+                response.Data = new List<DisciplineResponse>();
                 response.Message = "Oops! Đã có lỗi xảy ra.\n" + ex.Message
                     + (ex.InnerException != null ? ex.InnerException.Message : "");
                 response.Success = false;
@@ -457,15 +466,15 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySupervisorUserId(int userId)
+        public async Task<DataResponse<List<DisciplineResponse>>> GetDisciplinesBySupervisorUserId(int userId, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<DisciplineResponse>>();
             try
             {
-                var violations = await _unitOfWork.Discipline.GetDisciplinesBySupervisorUserId(userId);
+                var violations = await _unitOfWork.Discipline.GetDisciplinesBySupervisorUserId(userId, year, semesterName, month, weekNumber);
                 if (violations == null || !violations.Any())
                 {
-                    response.Message = "Không tìm thấy kỷ luật nào đối với UserId được chỉ định";
+                    response.Message = "Danh sách Kỷ luật trống";
                     response.Success = false;
                 }
                 else

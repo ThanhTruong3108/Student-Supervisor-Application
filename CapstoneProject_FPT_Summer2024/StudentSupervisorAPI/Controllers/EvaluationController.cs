@@ -90,11 +90,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("school/{schoolId}")]
-        public async Task<ActionResult<DataResponse<List<EvaluationResponse>>>> GetEvaluationsBySchoolId(int schoolId)
+        public async Task<ActionResult<DataResponse<List<EvaluationResponse>>>> GetEvaluationsBySchoolId(int schoolId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var evaluations = await evaluationService.GetEvaluationsBySchoolId(schoolId);
+                var evaluations = await evaluationService.GetEvaluationsBySchoolId(schoolId, sortOrder, year, semesterName, month, weekNumber);
                 return Ok(evaluations);
             }
             catch (Exception ex)
@@ -104,11 +104,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("GetEvaluationRankings")]
-        public async Task<IActionResult> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null)
+        public async Task<IActionResult> GetEvaluationRankings(int schoolId, short year, string? semesterName = null, int? month = null, int? week = null)
         {
             try
             {
-                var rankings = await evaluationService.GetEvaluationRankings(schoolId, year, month, week);
+                var rankings = await evaluationService.GetEvaluationRankings(schoolId, year, semesterName, month, week);
                 return Ok(rankings);
             }
             catch (Exception ex)
@@ -116,6 +116,5 @@ namespace StudentSupervisorAPI.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
     }
 }

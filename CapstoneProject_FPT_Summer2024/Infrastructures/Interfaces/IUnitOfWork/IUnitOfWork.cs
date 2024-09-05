@@ -21,6 +21,7 @@ namespace Infrastructures.Interfaces.IUnitOfWork
         IRegisteredSchoolRepository RegisteredSchool { get; }
         IHighSchoolRepository HighSchool { get; }
         ISchoolYearRepository SchoolYear { get; }
+        ISemesterRepository Semester { get; }
         IOrderRepository Order { get; }
         IStudentInClassRepository StudentInClass { get; }
         IStudentRepository Student {  get; }

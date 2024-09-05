@@ -225,21 +225,31 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId)
+        public async Task<DataResponse<List<EvaluationResponse>>> GetEvaluationsBySchoolId(int schoolId, string sortOrder, short? year = null, string? semesterName = null, int? month = null, int? weekNumber = null)
         {
             var response = new DataResponse<List<EvaluationResponse>>();
             try
             {
-                var evaluations = await _unitOfWork.Evaluation.GetEvaluationsBySchoolId(schoolId);
+                var evaluations = await _unitOfWork.Evaluation.GetEvaluationsBySchoolId(schoolId, year, semesterName, month, weekNumber);
                 if (evaluations == null || !evaluations.Any())
                 {
-                    response.Message = "Không tìm thấy bảng Đánh giá nào cho SchoolId được chỉ định!!";
+                    response.Message = "Danh sách đánh giá trống";
                     response.Success = false;
                 }
                 else
                 {
-                    var evaluationDTOS = _mapper.Map<List<EvaluationResponse>>(evaluations);
-                    response.Data = evaluationDTOS;
+                    var evaluationDTOs = _mapper.Map<List<EvaluationResponse>>(evaluations);
+
+                    if (sortOrder == "desc")
+                    {
+                        evaluationDTOs = evaluationDTOs.OrderByDescending(r => r.EvaluationId).ToList();
+                    }
+                    else
+                    {
+                        evaluationDTOs = evaluationDTOs.OrderBy(r => r.EvaluationId).ToList();
+                    }
+
+                    response.Data = evaluationDTOs;
                     response.Message = "Bảng Đánh giá được tìm thấy";
                     response.Success = true;
                 }
@@ -252,22 +262,20 @@ namespace StudentSupervisorService.Service.Implement
             return response;
         }
 
-        public async Task<DataResponse<List<EvaluationRanking>>> GetEvaluationRankings(int schoolId, short year, int? month = null, int? week = null)
+        public async Task<DataResponse<List<EvaluationRanking>>> GetEvaluationRankings(int schoolId, short year, string? semesterName = null, int? month = null, int? week = null)
         {
             var response = new DataResponse<List<EvaluationRanking>>();
             try
             {
-                // Gọi hàm GetEvaluationRankings từ repository để lấy dữ liệu
-                var evaluations = await _unitOfWork.Evaluation.GetEvaluationRankings(schoolId, year, month, week);
+                var evaluations = await _unitOfWork.Evaluation.GetEvaluationRankings(schoolId, year, semesterName, month, week);
 
                 if (evaluations == null || !evaluations.Any())
                 {
-                    response.Message = "Không tìm thấy bảng xếp hạng đánh giá nào cho các tham số được chỉ định!";
+                    response.Message = "Không tìm thấy bảng xếp hạng đánh giá nào !!";
                     response.Success = false;
                 }
                 else
                 {
-                    // Tính toán thứ hạng
                     var rankedEvaluations = CalculateRank(evaluations);
                     response.Data = rankedEvaluations;
                     response.Message = "Bảng xếp hạng đánh giá được tìm thấy";
@@ -281,7 +289,6 @@ namespace StudentSupervisorService.Service.Implement
             }
             return response;
         }
-
 
         private List<EvaluationRanking> CalculateRank(List<EvaluationRanking> rankings)
         {

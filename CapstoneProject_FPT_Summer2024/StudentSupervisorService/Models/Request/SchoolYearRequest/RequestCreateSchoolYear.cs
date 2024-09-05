@@ -21,6 +21,18 @@ namespace StudentSupervisorService.Models.Request.SchoolYearRequest
 
         [Required(ErrorMessage = "The EndDate field is required.")]
         public DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "The Semester1StartDate field is required.")]
+        public DateTime Semester1StartDate { get; set; }
+
+        [Required(ErrorMessage = "The Semester1EndDate field is required.")]
+        public DateTime Semester1EndDate { get; set; }
+
+        [Required(ErrorMessage = "The Semester2StartDate field is required.")]
+        public DateTime Semester2StartDate { get; set; }
+
+        [Required(ErrorMessage = "The Semester2EndDate field is required.")]
+        public DateTime Semester2EndDate { get; set; }
     }
 
     public class YearMustMatchAttribute : ValidationAttribute

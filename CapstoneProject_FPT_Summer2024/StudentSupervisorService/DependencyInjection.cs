@@ -88,6 +88,9 @@ namespace StudentSupervisorService
             services.AddTransient<ISchoolYearRepository, SchoolYearRepository>();
             services.AddTransient<SchoolYearService, SchoolYearImplement>();
 
+            services.AddTransient<ISemesterRepository, SemesterRepository>();
+            services.AddTransient<SemesterService, SemesterImplement>();
+
             services.AddTransient<IStudentRepository, StudentRepository>();
             services.AddTransient<StudentService, StudentImplement>();
 

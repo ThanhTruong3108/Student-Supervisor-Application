@@ -203,11 +203,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("school/{schoolId}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySchoolId(int schoolId)
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySchoolId(int schoolId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var violations = await _service.GetViolationsBySchoolId(schoolId);
+                var violations = await _service.GetViolationsBySchoolId(schoolId, sortOrder, year, semesterName, month, weekNumber);
                 return Ok(violations);
             }
             catch (Exception ex)
@@ -217,12 +217,12 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("user/{userId}/teachers")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserId(int userId, string sortOrder = "asc")
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsByUserId(int userId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var violations = await _service.GetViolationsByUserId(userId, sortOrder);
-                return Ok(violations);
+                var violation = await _service.GetViolationsByUserId(userId, sortOrder, year, semesterName, month, weekNumber);
+                return Ok(violation);
             }
             catch (Exception ex)
             {
@@ -273,11 +273,11 @@ namespace StudentSupervisorAPI.Controllers
         }
 
         [HttpGet("supervisor/{userId}")]
-        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySupervisorUserId(int userId)
+        public async Task<ActionResult<DataResponse<List<ResponseOfViolation>>>> GetViolationsBySupervisorUserId(int userId, string sortOrder = "asc", [FromQuery] short? year = null, [FromQuery] string? semesterName = null, [FromQuery] int? month = null, [FromQuery] int? weekNumber = null)
         {
             try
             {
-                var violations = await _service.GetViolationsBySupervisorUserId(userId);
+                var violations = await _service.GetViolationsBySupervisorUserId(userId, sortOrder, year, semesterName, month, weekNumber);
                 return Ok(violations);
             }
             catch (Exception ex)
