@@ -2,9 +2,13 @@
 using Domain.Entity;
 using Domain.Enums.Status;
 using Infrastructures.Interfaces.IUnitOfWork;
+using Infrastructures.Repository.UnitOfWork;
+using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
 using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
+using System.Security.Cryptography;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -13,13 +17,103 @@ namespace StudentSupervisorService.Service.Implement
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ValidationService _validationService;
 
-        public StudentInClassImplement(IUnitOfWork unitOfWork, IMapper mapper, ValidationService validationService)
+        public StudentInClassImplement(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _validationService = validationService;
+        }
+
+        public async Task<DataResponse<string>> ImportStudentsFromExcel(int userId, IFormFile file)
+        {
+            var response = new DataResponse<string>();
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không tồn tại hoặc rỗng";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    // lấy user từ userId của JWT
+                    var user = await _unitOfWork.User.GetUserById(userId);
+                    var classList = await _unitOfWork.Class.GetActiveClassesBySchoolId((int)user.SchoolId);
+                    using (var stream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(stream);
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                            int rowCount = worksheet.Dimension.Rows;
+                            List<StudentInClass> studentsInClass = new List<StudentInClass>();
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+                                // đã tồn tại Student theo Code hoặc Phone 
+                                var code = worksheet.Cells[row, 1].Value.ToString().Trim();
+                                var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
+                                var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
+                                var className = worksheet.Cells[row, 7].Value.ToString().Trim();
+                                var existedStudent = _unitOfWork.Student.Find(s => s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)).FirstOrDefault();
+                                if (existedStudent != null && existedStudent.SchoolId == (int)user.SchoolId)
+                                {
+                                    continue;
+                                }
+                                
+                                if (!classList.Any(c => c.Name.Equals(className)))
+                                {
+                                    continue;
+                                }
+
+                                studentsInClass.Add(new StudentInClass
+                                {
+                                    ClassId = classList.FirstOrDefault(c => c.Name.Equals(className)).ClassId,
+                                    Student = new Student
+                                    {
+                                        SchoolId = (int)user.SchoolId,
+                                        Code = code,
+                                        Name = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                                        Sex = worksheet.Cells[row, 3].Value.ToString().Equals("Nam"),
+                                        Birthday = Convert.ToDateTime(worksheet.Cells[row, 4].Value),
+                                        Address = worksheet.Cells[row, 5].Value.ToString().Trim(),
+                                        Phone = phone
+                                    },
+                                    EnrollDate = Convert.ToDateTime(worksheet.Cells[row, 8].Value),
+                                    // if worksheet.Cells[row, 9].Value = 'YES' => true, else false
+                                    IsSupervisor = worksheet.Cells[row, 9].Value.ToString().Equals("YES"),
+                                    StartDate = Convert.ToDateTime(worksheet.Cells[row, 10].Value),
+                                    EndDate = Convert.ToDateTime(worksheet.Cells[row, 11].Value),
+                                    NumberOfViolation = 0,
+                                    Status = StudentInClassStatusEnums.ENROLLED.ToString()
+                                });
+                            }
+                            await _unitOfWork.StudentInClass.ImportStudentInClassFromExcel(studentsInClass);
+
+                            response.Data = "Empty";
+                            response.Message = "Import thành công";
+                            response.Success = true;
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không đúng định dạng";
+                    response.Success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Import thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<List<StudentInClassResponse>>> GetAllStudentInClass(string sortOrder)

@@ -82,5 +82,11 @@ namespace Infrastructures.Repository
                 .Where(u => u.SchoolId == schoolId)
                 .ToListAsync();
         }
+
+        public async Task ImportExcel(List<Student> students)
+        {
+            await _context.Students.AddRangeAsync(students);
+            await _context.SaveChangesAsync();
+        }
     }
 }

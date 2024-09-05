@@ -1,4 +1,5 @@
-﻿using StudentSupervisorService.Models.Request.StudentRequest;
+﻿using Microsoft.AspNetCore.Http;
+using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentResponse;
 
@@ -13,5 +14,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<StudentResponse>> UpdateStudent(StudentUpdateRequest studentUpdateRequest);
         Task<DataResponse<StudentResponse>> DeleteStudent(int studentId);
         Task<DataResponse<List<StudentResponse>>> GetStudentsBySchoolId(int schoolId);
+        Task<DataResponse<string>> ImportStudentsFromExcel(int userId, IFormFile file);
     }
 }

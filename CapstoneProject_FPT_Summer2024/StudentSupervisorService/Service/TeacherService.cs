@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
+using Microsoft.AspNetCore.Http;
 
 namespace StudentSupervisorService.Service
 {
@@ -21,5 +22,6 @@ namespace StudentSupervisorService.Service
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleTeacher(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetAllTeachersWithRoleSupervisor(int schoolId);
         Task<DataResponse<List<TeacherResponse>>> GetTeachersWithoutClass(int schoolId, short year);
+        Task<DataResponse<string>> ImportTeachersFromExcel(int userId, IFormFile file);
     }
 }

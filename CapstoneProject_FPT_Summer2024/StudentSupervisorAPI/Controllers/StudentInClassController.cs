@@ -1,7 +1,9 @@
 ﻿using Domain.Enums.Status;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentSupervisorService.Authentication;
 using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
@@ -15,9 +17,42 @@ namespace StudentSupervisorAPI.Controllers
     public class StudentInClassController : ControllerBase
     {
         private readonly StudentInClassService studentInClassService;
-        public StudentInClassController(StudentInClassService studentInClassService)
+        private IAuthentication _authenService;
+        public StudentInClassController(StudentInClassService studentInClassService, IAuthentication authentication)
         {
             this.studentInClassService = studentInClassService;
+            _authenService = authentication;
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "SCHOOL_ADMIN")]
+        [HttpPost("import-students")]
+        // kiểm tra file có phải là file excel không với định dạng .xlsx và .xls
+        [RequestFormLimits(MultipartBodyLengthLimit = 209715200)]
+        [RequestSizeLimit(209715200)]
+        public async Task<IActionResult> ImportStudentsFromExcel(IFormFile file)
+        {
+            try
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    // Lấy userId từ JWT
+                    var userId = _authenService.GetUserIdFromContext(HttpContext);
+                    if (userId == null)
+                    {
+                        return Unauthorized("Không lấy được UserID từ JWT");
+                    }
+                    var result = await studentInClassService.ImportStudentsFromExcel((int)userId, file);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("File không đúng định dạng");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]

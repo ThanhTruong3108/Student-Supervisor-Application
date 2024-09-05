@@ -1,6 +1,7 @@
 ﻿using StudentSupervisorService.Models.Request.StudentInClassRequest;
 using StudentSupervisorService.Models.Response.StudentInClassResponse;
 using StudentSupervisorService.Models.Response;
+using Microsoft.AspNetCore.Http;
 
 namespace StudentSupervisorService.Service
 {
@@ -23,5 +24,6 @@ namespace StudentSupervisorService.Service
             string sortOrder);
         Task<DataResponse<List<StudentInClassResponse>>> GetStudentInClassesBySchoolId(int schoolId);
         Task<DataResponse<StudentInClassResponse>> ChangeStudentToAnotherClass(int studentInClassId, int newClassId);
+        Task<DataResponse<string>> ImportStudentsFromExcel(int userId, IFormFile file);
     }
 }
