@@ -39,6 +39,12 @@ namespace Infrastructures.Repository
             return studentInClassEntity;
         }
 
+        public async Task ImportStudentInClassFromExcel(List<StudentInClass> studentsInClass)
+        {
+            await _context.StudentInClasses.AddRangeAsync(studentsInClass);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<StudentInClass> UpdateStudentInClass(StudentInClass studentInClassEntity)
         {
             _context.StudentInClasses.Update(studentInClassEntity);

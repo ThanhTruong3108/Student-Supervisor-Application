@@ -4,6 +4,8 @@ using StudentSupervisorService.Service;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Models.Request.TeacherRequest;
 using Microsoft.AspNetCore.Authorization;
+using StudentSupervisorService.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace StudentSupervisorAPI.Controllers
 {
@@ -13,9 +15,39 @@ namespace StudentSupervisorAPI.Controllers
     public class TeacherController : ControllerBase
     {
         private TeacherService _service;
-        public TeacherController(TeacherService service)
+        private IAuthentication _authenService;
+        public TeacherController(TeacherService service, IAuthentication authentication)
         {
             _service = service;
+            _authenService = authentication;
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "SCHOOL_ADMIN")]
+        [HttpPost("import-teachers")]
+        public async Task<IActionResult> ImportTeachersFromExcel(IFormFile file)
+        {
+            try
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    // Lấy userId từ JWT
+                    var userId = _authenService.GetUserIdFromContext(HttpContext);
+                    if (userId == null)
+                    {
+                        return Unauthorized("Không lấy được UserID từ JWT");
+                    }
+                    var result = await _service.ImportTeachersFromExcel((int)userId, file);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("File không đúng định dạng");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]

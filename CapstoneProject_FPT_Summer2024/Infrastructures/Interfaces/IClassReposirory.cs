@@ -13,6 +13,7 @@ namespace Infrastructures.Interfaces
         Task<List<Class>> GetAllClasses();
         Task<List<Class>> GetAllActiveClasses();
         Task<List<Class>> GetActiveClassesBySchoolYearId();
+        Task<List<Class>> GetActiveClassesBySchoolId(int schoolId);
         Task<Class> GetClassById(int id);
         Task<Class> CreateClass(Class classEntity);
         Task<Class> UpdateClass(Class classEntity);

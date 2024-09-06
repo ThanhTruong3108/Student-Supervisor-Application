@@ -3,7 +3,9 @@ using Azure.Core;
 using Domain.Entity;
 using Infrastructures.Interfaces.IUnitOfWork;
 using Infrastructures.Repository.UnitOfWork;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using StudentSupervisorService.Models.Request.StudentRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.StudentResponse;
@@ -215,6 +217,77 @@ namespace StudentSupervisorService.Service.Implement
                 response.Success = false;
             }
 
+            return response;
+        }
+
+        public async Task<DataResponse<string>> ImportStudentsFromExcel(int userId, IFormFile file)
+        {
+            var response = new DataResponse<string>();
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không tồn tại hoặc rỗng";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    // lấy user từ userId của JWT
+                    var user = await unitOfWork.User.GetUserById(userId);
+                    using (var stream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(stream);
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                            int rowCount = worksheet.Dimension.Rows;
+                            List<Student> students = new List<Student>();
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+                                // đã tồn tại Student theo Code hoặc Phone 
+                                var code = worksheet.Cells[row, 1].Value.ToString().Trim();
+                                var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
+                                var existedStudent = unitOfWork.Student.Find(s => s.Code.Equals(code) || s.Phone.Equals(phone)).FirstOrDefault();
+                                if (existedStudent != null && existedStudent.SchoolId == (int)user.SchoolId)
+                                {
+                                    continue;
+                                }
+                                students.Add(new Student
+                                {
+                                    SchoolId = (int)user.SchoolId,
+                                    Code = worksheet.Cells[row, 1].Value.ToString().Trim(),
+                                    Name = worksheet.Cells[row, 2].Value.ToString().Trim(),
+                                    Sex = Convert.ToBoolean(worksheet.Cells[row, 3].Value),
+                                    Birthday = Convert.ToDateTime(worksheet.Cells[row, 4].Value),
+                                    Address = worksheet.Cells[row, 5].Value.ToString().Trim(),
+                                    Phone = worksheet.Cells[row, 6].Value.ToString().Trim()
+                                });
+                            }
+                            await unitOfWork.Student.ImportExcel(students);
+                            response.Data = "Empty";
+                            response.Message = "Import thành công";
+                            response.Success = true;
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không đúng định dạng";
+                    response.Success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Import thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
             return response;
         }
     }

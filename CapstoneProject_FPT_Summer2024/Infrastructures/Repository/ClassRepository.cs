@@ -53,6 +53,16 @@ namespace Infrastructures.Repository
                 .ToListAsync();
         }
 
+        // lấy các lớp ACTIVE theo SchoolId
+        public async Task<List<Class>> GetActiveClassesBySchoolId(int schoolId)
+        {
+            return await _context.Classes
+                .Include(s => s.SchoolYear)
+                .Where(c => c.Status.Equals(ClassStatusEnums.ACTIVE.ToString()) 
+                       && c.SchoolYear.SchoolId == schoolId)
+                .ToListAsync();
+        }
+
         public async Task<Class> CreateClass(Class classEntity)
         {
             await _context.Classes.AddAsync(classEntity);

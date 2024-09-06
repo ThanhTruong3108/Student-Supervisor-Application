@@ -8,6 +8,11 @@ using StudentSupervisorService.Models.Request.TeacherRequest;
 using StudentSupervisorService.Models.Response;
 using StudentSupervisorService.Models.Response.TeacherResponse;
 using StudentSupervisorService.Authentication;
+using Microsoft.AspNetCore.Http;
+using Infrastructures.Repository.UnitOfWork;
+using OfficeOpenXml;
+using Azure.Core;
+using System.Globalization;
 
 
 namespace StudentSupervisorService.Service.Implement
@@ -22,6 +27,90 @@ namespace StudentSupervisorService.Service.Implement
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
+        }
+
+        public async Task<DataResponse<string>> ImportTeachersFromExcel(int userId, IFormFile file)
+        {
+            var response = new DataResponse<string>();
+            try
+            {
+                if (file == null || file.Length == 0)
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không tồn tại hoặc rỗng";
+                    response.Success = false;
+                    return response;
+                }
+
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    // lấy user từ userId của JWT
+                    var user = await _unitOfWork.User.GetUserById(userId);
+
+                    using (var stream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(stream);
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                            int rowCount = worksheet.Dimension.Rows;
+                            List<Teacher> teachers = new List<Teacher>();
+
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+                                // đã tồn tại Teacher theo Code hoặc Phone 
+                                var code = worksheet.Cells[row, 1].Value.ToString().Trim();
+                                var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
+                                var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
+                                var existedUser = _unitOfWork.User.Find(s => s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)).FirstOrDefault();
+                                if (existedUser != null && existedUser.SchoolId == (int)user.SchoolId)
+                                {
+                                    continue;
+                                }
+                                
+                                teachers.Add(new Teacher
+                                {
+                                    SchoolId = (int)user.SchoolId,
+                                    Sex = worksheet.Cells[row, 3].Value.ToString().Equals("Nam"), // cột Sex
+                                    User = new User
+                                    {
+                                        SchoolId = (int)user.SchoolId,
+                                        Code = code, // cột Code
+                                        Phone = normalizedPhone, // cột Phone đã chuẩn hóa
+                                        Name = worksheet.Cells[row, 2].Value.ToString().Trim(), // cột Name
+                                        Password = _passwordHasher.HashPassword(worksheet.Cells[row, 4].Value.ToString().Trim()), // cột Password đã mã hóa
+                                        Address = worksheet.Cells[row, 5].Value.ToString().Trim(), // cột Address
+                                        RoleId = (byte)RoleAccountEnum.TEACHER,
+                                        Status = UserStatusEnums.ACTIVE.ToString()
+                                    }
+                                });
+                            }
+
+                            _unitOfWork.Teacher.AddRange(teachers);
+                            _unitOfWork.Save();
+
+                            response.Data = "Empty";
+                            response.Message = "Import thành công";
+                            response.Success = true;
+                            return response;
+                        }
+                    }
+                }
+                else
+                {
+                    response.Data = "Empty";
+                    response.Message = "File không đúng định dạng";
+                    response.Success = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Message = "Import thất bại.\n" + ex.Message
+                    + (ex.InnerException != null ? ex.InnerException.Message : "");
+                response.Success = false;
+            }
+            return response;
         }
 
         public async Task<DataResponse<TeacherResponse>> CreateAccountSupervisor(RequestOfTeacher request)

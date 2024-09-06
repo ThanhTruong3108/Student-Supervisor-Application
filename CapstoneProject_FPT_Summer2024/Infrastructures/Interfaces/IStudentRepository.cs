@@ -19,5 +19,6 @@ namespace Infrastructures.Interfaces
         Task<Student> UpdateStudent(Student studentEntity);
         Task DeleteStudent(int id);
         Task<List<Student>> GetStudentsBySchoolId(int schoolId);
+        Task ImportExcel(List<Student> students);
     }
 }
