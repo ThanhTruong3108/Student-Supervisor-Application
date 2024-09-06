@@ -172,11 +172,29 @@ VALUES
 INSERT INTO [SchoolRules].[dbo].[SchoolYear] ([SchoolID], [Year], [StartDate], [EndDate], [Status])
 VALUES 
     (1, 2023, '2023-09-01', '2024-06-30', 'FINISHED'),
-    (1, 2024, '2024-08-05', '2025-05-29', 'ONGOING'),
+    (1, 2024, '2024-08-01', '2025-05-31', 'ONGOING'),
 
     (2, 2023, '2023-09-01', '2024-06-30', 'FINISHED'),
     (2, 2024, '2024-08-01', '2025-05-31', 'ONGOING');
 
+-- Chèn dữ liệu mẫu vào bảng Semester
+INSERT INTO [SchoolRules].[dbo].[Semester] ([SchoolYearID], [Name], [StartDate], [EndDate])
+VALUES 
+    -- Cho SchoolYearID = 1 (Năm học 2023-2024)
+    (1, N'Học kỳ 1', '2023-09-01', '2023-12-31'),
+    (1, N'Học kỳ 2', '2024-01-01', '2024-06-30'),
+
+    -- Cho SchoolYearID = 2 (Năm học 2024-2025)
+    (2, N'Học kỳ 1', '2024-08-01', '2024-12-31'),
+    (2, N'Học kỳ 2', '2025-01-01', '2025-05-31'),
+
+    -- Cho SchoolYearID = 3 (Năm học 2023-2024, Trường 2)
+    (3, N'Học kỳ 1', '2023-09-01', '2023-12-31'),
+    (3, N'Học kỳ 2', '2024-01-01', '2024-06-30'),
+
+    -- Cho SchoolYearID = 4 (Năm học 2024-2025, Trường 2)
+    (4, N'Học kỳ 1', '2024-08-01', '2024-12-31'),
+    (4, N'Học kỳ 2', '2025-01-01', '2025-05-31');
 
 -- Chèn 3 bản ghi mẫu vào bảng ClassGroup
 INSERT INTO [SchoolRules].[dbo].[ClassGroup] ([SchoolID], [TeacherID], [Name], [Status])
@@ -834,32 +852,32 @@ VALUES
     (9, 62, 9, N'Lịch tuần tra lớp 12A3', 1, '7:00:00', '2023-09-16', '2023-09-30', 'FINISHED'),
 
     -- Lịch tuần tra cho lớp 10A1 năm học 2024
-    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (10, 3, 10, N'Lịch tuần tra lớp 10A1', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A2 năm học 2024
-    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (11, 3, 11, N'Lịch tuần tra lớp 10A2', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 10A3 năm học 2024
-    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (12, 3, 12, N'Lịch tuần tra lớp 10A3', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 11A1 năm học 2024
-    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (13, 61, 13, N'Lịch tuần tra lớp 11A1', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A2 năm học 2024
-    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (14, 61, 14, N'Lịch tuần tra lớp 11A2', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 11A3 năm học 2024
-    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 1, '10:30:00', '2024-08-01', '2024-08-31', 'ONGOING'),
+    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (15, 61, 15, N'Lịch tuần tra lớp 11A3', 4, '14:00:00', '2024-08-01', '2024-08-31', 'ONGOING'),
 	-- Lịch tuần tra cho lớp 12A1 năm học 2024
-    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (16, 62, 16, N'Lịch tuần tra lớp 12A1', 4, '7:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A2 năm học 2024
-    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (17, 62, 17, N'Lịch tuần tra lớp 12A2', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
     -- Lịch tuần tra cho lớp 12A3 năm học 2024
-    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '10:30:00', '2024-08-01', '2024-08-15', 'FINISHED'),
-    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 1, '10:30:00', '2024-08-15', '2024-08-31', 'ONGOING'),
+    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 4, '14:00:00', '2024-08-01', '2024-08-15', 'FINISHED'),
+    (18, 62, 18, N'Lịch tuần tra lớp 12A3', 4, '14:00:00', '2024-08-15', '2024-08-31', 'ONGOING'),
 
 
 	-- Lịch tuần tra cho lớp 10A1 năm học 2023
@@ -1259,7 +1277,7 @@ VALUES
 -- Chèn 2 bản ghi mẫu vào bảng Package
 INSERT INTO [SchoolRules].[dbo].[Package] ([Name], [Description], [Price], [Status])
 VALUES
-(N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 2000, 'ACTIVE');
+(N'Gói Thường', N'Gói thường phù hợp cho các trường quy mô vừa và nhỏ, số lượng vi phạm và học sinh nằm ở mức tiêu chuẩn, nếu quy mô nhà trường có thể mở rộng trong tương lai hãy cân nhắc đăng ký gói Vip', 10000, 'ACTIVE');
 
 -- Chèn 2 bản ghi mẫu vào bảng Order
 INSERT INTO [SchoolRules].[dbo].[Order] ([UserID], [PackageID], [OrderCode], [Description], [Total], [AmountPaid], [AmountRemaining], [CounterAccountBankName], [CounterAccountNumber], [CounterAccountName], [Date], [Status])
