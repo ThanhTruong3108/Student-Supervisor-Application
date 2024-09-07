@@ -11,5 +11,7 @@ namespace Infrastructures.Interfaces
     public interface ISemesterRepository : IGenericRepository<Semester>
     {
         Task<List<Semester>> GetSemestersBySchoolId(int schoolId);
+        Task<Semester> GetSemesterById(int id);
+        Task<List<Semester>> GetSemestersBySchoolYearId(int schoolYearId);
     }
 }

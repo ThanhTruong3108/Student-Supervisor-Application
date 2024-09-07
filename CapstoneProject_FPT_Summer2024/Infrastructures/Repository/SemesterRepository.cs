@@ -21,5 +21,18 @@ namespace Infrastructures.Repository
                 .Where(s => s.SchoolYear.SchoolId == schoolId)
                 .ToListAsync();
         }
+        public async Task<Semester> GetSemesterById(int id)
+        {
+            return _context.Semesters
+               .Include(c => c.SchoolYear)
+               .FirstOrDefault(s => s.SemesterId == id);
+        }
+
+        public async Task<List<Semester>> GetSemestersBySchoolYearId(int schoolYearId)
+        {
+            return await _context.Semesters
+                .Where(s => s.SchoolYearId == schoolYearId)
+                .ToListAsync();
+        }
     }
 }

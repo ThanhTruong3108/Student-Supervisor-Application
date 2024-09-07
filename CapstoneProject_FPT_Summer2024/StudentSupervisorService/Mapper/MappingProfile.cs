@@ -40,6 +40,7 @@ using StudentSupervisorService.Models.Response.AdminResponse;
 using StudentSupervisorService.Models.Response.OrderResponse;
 using StudentSupervisorService.Models.Request.OrderRequest;
 using StudentSupervisorService.Models.Response.SemesterResponse;
+using StudentSupervisorService.Models.Request.SemesterRequest;
 
 namespace StudentSupervisorService.Mapper
 {
@@ -103,6 +104,8 @@ namespace StudentSupervisorService.Mapper
 
             CreateMap<Semester, ResponseOfSemester>()
               .ForMember(re => re.Year, act => act.MapFrom(src => src.SchoolYear.Year));
+
+            CreateMap<RequestOfSemester, Semester>();
 
             CreateMap<Package, ResponseOfPackage>();
 
