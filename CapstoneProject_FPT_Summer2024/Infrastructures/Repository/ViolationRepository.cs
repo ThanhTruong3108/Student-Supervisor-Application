@@ -790,7 +790,7 @@ namespace Infrastructures.Repository
                 return new List<KeyValuePair<string, int>>();
 
             var violationsGroupedByMonth = await _context.Violations
-                .Where(v => v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
+                .Where(v => v.Class.SchoolYear.SchoolId == schoolId && v.Date >= schoolYear.StartDate && v.Date <= schoolYear.EndDate && (v.Status == "APPROVED" || v.Status == "COMPLETED"))
                 .GroupBy(v => new { v.Date.Year, v.Date.Month })
                 .Select(g => new
                 {
