@@ -1453,6 +1453,28 @@ VALUES
 (9, N'Điểm thi đua tuần 1 tháng 10', '2023-10-02', '2023-10-08', 77, 'INACTIVE'),
 (9, N'Điểm thi đua tuần 2 tháng 10', '2023-10-09', '2023-10-15', 74, 'INACTIVE'),
 
+-- Week 1, January 2024
+    (1, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 90, 'ACTIVE'),
+    (2, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 80, 'ACTIVE'),
+    (3, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 85, 'ACTIVE'),
+    (4, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 95, 'ACTIVE'),
+    (5, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 65, 'ACTIVE'),
+    (6, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 55, 'ACTIVE'),
+    (7, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 100, 'ACTIVE'),
+    (8, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 40, 'ACTIVE'),
+    (9, N'Điểm thi đua tuần 1 tháng 2', '2024-01-01', '2024-01-07', 75, 'ACTIVE'),
+
+-- Week 1, Febuary 2024
+    (1, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 100, 'ACTIVE'),
+    (2, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 95, 'ACTIVE'),
+    (3, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 65, 'ACTIVE'),
+    (4, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 75, 'ACTIVE'),
+    (5, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 85, 'ACTIVE'),
+    (6, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 50, 'ACTIVE'),
+    (7, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 60, 'ACTIVE'),
+    (8, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 55, 'ACTIVE'),
+    (9, N'Điểm thi đua tuần 1 tháng 2', '2024-02-05', '2024-02-11', 70, 'ACTIVE'),
+
 (10, N'Điểm thi đua tuần 1 tháng 8', '2024-08-05', '2024-08-11', 96, 'ACTIVE'),
 (11, N'Điểm thi đua tuần 1 tháng 8', '2024-08-05', '2024-08-11', 70, 'ACTIVE'),
 (12, N'Điểm thi đua tuần 1 tháng 8', '2024-08-05', '2024-08-11', 84, 'ACTIVE'),
