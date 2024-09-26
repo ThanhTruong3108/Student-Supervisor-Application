@@ -63,9 +63,17 @@ namespace StudentSupervisorService.Service.Implement
                                 var code = worksheet.Cells[row, 1].Value.ToString().Trim();
                                 var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
                                 var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
+
+                                // nếu đã tồn tại Teacher theo Code hoặc Phone trong teachers List => bỏ qua
+                                if (teachers.Any(t => t.User.Code.Equals(code) || t.User.Phone.Equals(normalizedPhone)))
+                                {
+                                    continue;
+                                }
+
+                                // nếu đã tồn tại Teacher theo Code hoặc Phone thuộc 1 Schoold trong DB => bỏ qua
                                 var existedUser = _unitOfWork.User
-                                                            .Find(s => (s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)) && s.SchoolId == user.SchoolId)
-                                                            .FirstOrDefault();
+                                    .Find(s => (s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)) && s.SchoolId == user.SchoolId)
+                                    .FirstOrDefault();
                                 if (existedUser != null)
                                 {
                                     continue;

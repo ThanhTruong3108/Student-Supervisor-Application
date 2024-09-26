@@ -58,6 +58,14 @@ namespace StudentSupervisorService.Service.Implement
                                 var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
                                 var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
                                 var className = worksheet.Cells[row, 7].Value.ToString().Trim();
+
+                                // nếu đã tồn tại Student theo Code hoặc Phone trong studentsInClass => ko cho import
+                                if (studentsInClass.Any(s => s.Student.Code.Equals(code) || s.Student.Phone.Equals(normalizedPhone)))
+                                {
+                                    continue;
+                                }
+
+                                // nếu đã tồn tại Student theo Code hoặc Phone trong DB => ko cho import
                                 var existedStudent = _unitOfWork.Student
                                     .Find(s => (s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)) && s.SchoolId == user.SchoolId)
                                     .FirstOrDefault();
