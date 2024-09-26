@@ -58,12 +58,15 @@ namespace StudentSupervisorService.Service.Implement
                                 var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
                                 var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
                                 var className = worksheet.Cells[row, 7].Value.ToString().Trim();
-                                var existedStudent = _unitOfWork.Student.Find(s => s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)).FirstOrDefault();
-                                if (existedStudent != null && existedStudent.SchoolId == (int)user.SchoolId)
+                                var existedStudent = _unitOfWork.Student
+                                    .Find(s => (s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)) && s.SchoolId == user.SchoolId)
+                                    .FirstOrDefault();
+
+                                if (existedStudent != null)
                                 {
                                     continue;
                                 }
-                                
+
                                 if (!classList.Any(c => c.Name.Equals(className)))
                                 {
                                     continue;
@@ -80,7 +83,7 @@ namespace StudentSupervisorService.Service.Implement
                                         Sex = worksheet.Cells[row, 3].Value.ToString().Equals("Nam"),
                                         Birthday = Convert.ToDateTime(worksheet.Cells[row, 4].Value),
                                         Address = worksheet.Cells[row, 5].Value.ToString().Trim(),
-                                        Phone = phone
+                                        Phone = normalizedPhone
                                     },
                                     EnrollDate = Convert.ToDateTime(worksheet.Cells[row, 8].Value),
                                     // if worksheet.Cells[row, 9].Value = 'YES' => true, else false

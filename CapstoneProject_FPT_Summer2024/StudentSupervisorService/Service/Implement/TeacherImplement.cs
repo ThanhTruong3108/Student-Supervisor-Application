@@ -63,8 +63,10 @@ namespace StudentSupervisorService.Service.Implement
                                 var code = worksheet.Cells[row, 1].Value.ToString().Trim();
                                 var phone = worksheet.Cells[row, 6].Value.ToString().Trim();
                                 var normalizedPhone = phone.StartsWith("84") ? phone : "84" + phone;
-                                var existedUser = _unitOfWork.User.Find(s => s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)).FirstOrDefault();
-                                if (existedUser != null && existedUser.SchoolId == (int)user.SchoolId)
+                                var existedUser = _unitOfWork.User
+                                                            .Find(s => (s.Code.Equals(code) || s.Phone.Equals(normalizedPhone)) && s.SchoolId == user.SchoolId)
+                                                            .FirstOrDefault();
+                                if (existedUser != null)
                                 {
                                     continue;
                                 }
@@ -72,7 +74,7 @@ namespace StudentSupervisorService.Service.Implement
                                 teachers.Add(new Teacher
                                 {
                                     SchoolId = (int)user.SchoolId,
-                                    Sex = worksheet.Cells[row, 3].Value.ToString().Equals("Nam"), // cột Sex
+                                    Sex = !worksheet.Cells[row, 3].Value.ToString().Trim().Equals("Nam"), // cột Sex
                                     User = new User
                                     {
                                         SchoolId = (int)user.SchoolId,
