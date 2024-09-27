@@ -105,7 +105,7 @@ namespace StudentSupervisorService.Service.Implement
                             await _unitOfWork.StudentInClass.ImportStudentInClassFromExcel(studentsInClass);
 
                             response.Data = "Empty";
-                            response.Message = "Import thành công";
+                            response.Message = "Import thành công " + studentsInClass.Count + " học sinh";
                             response.Success = true;
                             return response;
                         }

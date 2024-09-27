@@ -101,7 +101,7 @@ namespace StudentSupervisorService.Service.Implement
                             _unitOfWork.Save();
 
                             response.Data = "Empty";
-                            response.Message = "Import thành công";
+                            response.Message = "Import thành công " + teachers.Count + " giáo viên";
                             response.Success = true;
                             return response;
                         }
